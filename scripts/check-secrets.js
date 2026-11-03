@@ -15,8 +15,11 @@ console.log('🔍 Scanning for secrets...');
 let found = false;
 patterns.forEach(pattern => {
   try {
-    // Search only git-tracked files, excluding the script itself
-    const cmd = `git grep -nE "${pattern}" -- '*.ts' '*.tsx' '*.js' '*.json' '*.md' ':!scripts/check-secrets.js' 2>${devNull}`;
+    // Search only git-tracked files, excluding the script itself and the
+    // generated HEF curriculum. HEF lessons intentionally contain known fake
+    // credentials (e.g. AKIAIOSFODNN7EXAMPLE) as teaching examples; the source
+    // is a private, reviewed repository, not user input.
+    const cmd = `git grep -nE "${pattern}" -- '*.ts' '*.tsx' '*.js' '*.json' '*.md' ':!scripts/check-secrets.js' ':!content/hef/**' 2>${devNull}`;
     const output = execSync(cmd).toString();
     if (output) {
       console.error(`❌ Potential secret found with pattern ${pattern}:`);
