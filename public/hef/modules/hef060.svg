@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" role="img" aria-label="HEF-060 Networks : Une requête traverse nom, routeur et réseau avant de revenir.">
+<title>HEF-060 — Networks</title>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0a7ea4"/><stop offset="1" stop-color="#6bd3f5"/></linearGradient>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#fff"/></marker>
+<filter id="o" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-opacity="0.25"/></filter>
+</defs>
+<rect width="800" height="300" rx="22" fill="url(#bg)"/>
+<circle cx="740" cy="30" r="110" fill="#fff" opacity="0.08"/><circle cx="60" cy="300" r="90" fill="#fff" opacity="0.08"/>
+<text x="36" y="52" font-family="sans-serif" font-size="14" font-weight="700" fill="#fff" opacity="0.8" letter-spacing="2">HEF-060</text>
+<text x="36" y="88" font-family="sans-serif" font-size="30" font-weight="800" fill="#fff">Networks</text>
+<text x="36" y="114" font-family="sans-serif" font-size="14" fill="#fff" opacity="0.9">Comment les machines se parlent</text>
+<g filter="url(#o)"><circle cx="470" cy="190" r="22" fill="#fff"/><text x="470" y="194" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="800" fill="#24292f">toi</text><circle cx="580" cy="130" r="22" fill="#ffd33d"/><text x="580" y="134" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="800" fill="#24292f">DNS</text><circle cx="640" cy="210" r="22" fill="#fff"/><text x="640" y="214" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="800" fill="#24292f">routeur</text><circle cx="750" cy="150" r="26" fill="#fff"/><text x="750" y="154" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="800" fill="#24292f">serveur</text><path d="M490 180 L556 138" stroke="#fff" stroke-width="3" fill="none" marker-end="url(#a)"/><path d="M600 140 L628 196" stroke="#fff" stroke-width="3" fill="none" marker-end="url(#a)" stroke-dasharray="6 5"/><path d="M662 204 L722 162" stroke="#fff" stroke-width="3" fill="none" marker-end="url(#a)"/><path d="M470 190 Q560 280 750 150" stroke="#fff" stroke-width="2" fill="none" stroke-dasharray="3 5" opacity="0.6"/><text x="440" y="118" font-family="sans-serif" font-size="12" fill="#fff">1. quelle adresse ?</text><text x="660" y="250" font-family="sans-serif" font-size="12" fill="#fff">2. paquets · 3. réponse</text></g>
+<text x="36" y="276" font-family="sans-serif" font-size="13" fill="#fff" opacity="0.92">Une requête traverse nom, routeur et réseau avant de revenir.</text>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" role="img" aria-label="HEF-000 Engineering Mindset : Cadrer, décomposer, tester une hypothèse, mesurer, documenter.">
+<title>HEF-000 — Engineering Mindset</title>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6e40c9"/><stop offset="1" stop-color="#b392f0"/></linearGradient>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#fff"/></marker>
+<filter id="o" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-opacity="0.25"/></filter>
+</defs>
+<rect width="800" height="300" rx="22" fill="url(#bg)"/>
+<circle cx="740" cy="30" r="110" fill="#fff" opacity="0.08"/><circle cx="60" cy="300" r="90" fill="#fff" opacity="0.08"/>
+<text x="36" y="52" font-family="sans-serif" font-size="14" font-weight="700" fill="#fff" opacity="0.8" letter-spacing="2">HEF-000</text>
+<text x="36" y="88" font-family="sans-serif" font-size="30" font-weight="800" fill="#fff">Engineering Mindset</text>
+<text x="36" y="114" font-family="sans-serif" font-size="14" fill="#fff" opacity="0.9">Penser comme un ingénieur</text>
+<g filter="url(#o)"><circle cx="600" cy="130" r="62" fill="#fff"/><path d="M600 84 a30 30 0 0 1 14 56 v16 h-28 v-16 a30 30 0 0 1 14 -56z" fill="#ffd33d"/><rect x="588" y="160" width="24" height="8" rx="3" fill="#6e40c9"/><rect x="592" y="172" width="16" height="6" rx="3" fill="#6e40c9"/><circle cx="690" cy="190" r="34" fill="none" stroke="#fff" stroke-width="8"/><path d="M714 214 L744 244" stroke="#fff" stroke-width="10" stroke-linecap="round"/><path d="M675 190 l10 10 l16 -20" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="430" y="180" width="110" height="36" rx="10" fill="#ffffff"/><text x="485.0" y="202.55" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="700" fill="#24292f">Problème</text><path d="M540 198 L580 190" stroke="#fff" stroke-width="3" fill="none" marker-end="url(#a)"/><rect x="430" y="226" width="110" height="36" rx="10" fill="#ffd33d"/><text x="485.0" y="248.55" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="700" fill="#24292f">Hypothèse</text></g>
+<text x="36" y="276" font-family="sans-serif" font-size="13" fill="#fff" opacity="0.92">Cadrer, décomposer, tester une hypothèse, mesurer, documenter.</text>
+</svg>

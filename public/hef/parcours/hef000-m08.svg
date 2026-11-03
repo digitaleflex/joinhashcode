@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 120" role="img" aria-label="HEF-000 : tu es à la mission 8 sur 9 — Apprendre à apprendre">
+<title>HEF-000 — mission 8/9</title>
+<rect width="760" height="120" rx="14" fill="#f6f8fa" stroke="#d0d7de"/>
+<text x="20" y="28" font-family="sans-serif" font-size="14" font-weight="700" fill="#24292f">HEF-000 · Mentalité d&#x27;ingénieur</text>
+<text x="740" y="28" text-anchor="end" font-family="sans-serif" font-size="13" fill="#57606a">mission 8 / 9</text>
+<line x1="50" y1="62" x2="710" y2="62" stroke="#d0d7de" stroke-width="4"/>
+<line x1="50" y1="62" x2="627.5" y2="62" stroke="#1a7f37" stroke-width="4"/>
+<circle cx="50" cy="62" r="11" fill="#1a7f37"/><path d="M45 62 l4 4 l7 -8" fill="none" stroke="#fff" stroke-width="2.5"/>
+<circle cx="132" cy="62" r="11" fill="#1a7f37"/><path d="M128 62 l4 4 l7 -8" fill="none" stroke="#fff" stroke-width="2.5"/>
+<circle cx="215" cy="62" r="11" fill="#1a7f37"/><path d="M210 62 l4 4 l7 -8" fill="none" stroke="#fff" stroke-width="2.5"/>
+<circle cx="298" cy="62" r="11" fill="#1a7f37"/><path d="M292 62 l4 4 l7 -8" fill="none" stroke="#fff" stroke-width="2.5"/>
+<circle cx="380" cy="62" r="11" fill="#1a7f37"/><path d="M375 62 l4 4 l7 -8" fill="none" stroke="#fff" stroke-width="2.5"/>
+<circle cx="462" cy="62" r="11" fill="#1a7f37"/><path d="M458 62 l4 4 l7 -8" fill="none" stroke="#fff" stroke-width="2.5"/>
+<circle cx="545" cy="62" r="11" fill="#1a7f37"/><path d="M540 62 l4 4 l7 -8" fill="none" stroke="#fff" stroke-width="2.5"/>
+<circle cx="628" cy="62" r="16" fill="#0969da" stroke="#b6e3ff" stroke-width="5"/><text x="628" y="67" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="800" fill="#fff">8</text>
+<circle cx="710" cy="62" r="11" fill="#fff" stroke="#8c959f" stroke-width="2"/><text x="710" y="66" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#57606a">9</text>
+<text x="380.0" y="104" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="#0969da">Apprendre à apprendre</text></svg>

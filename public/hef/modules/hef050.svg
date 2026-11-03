@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" role="img" aria-label="HEF-050 Operating Systems : Le système répartit le temps du processeur, la mémoire et les fichiers.">
+<title>HEF-050 — Operating Systems</title>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0550ae"/><stop offset="1" stop-color="#4493f8"/></linearGradient>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#fff"/></marker>
+<filter id="o" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-opacity="0.25"/></filter>
+</defs>
+<rect width="800" height="300" rx="22" fill="url(#bg)"/>
+<circle cx="740" cy="30" r="110" fill="#fff" opacity="0.08"/><circle cx="60" cy="300" r="90" fill="#fff" opacity="0.08"/>
+<text x="36" y="52" font-family="sans-serif" font-size="14" font-weight="700" fill="#fff" opacity="0.8" letter-spacing="2">HEF-050</text>
+<text x="36" y="88" font-family="sans-serif" font-size="30" font-weight="800" fill="#fff">Operating Systems</text>
+<text x="36" y="114" font-family="sans-serif" font-size="14" fill="#fff" opacity="0.9">Le chef d&#x27;orchestre de la machine</text>
+<g filter="url(#o)"><rect x="450" y="100" width="300" height="34" rx="10" fill="#ffffff"/><text x="600.0" y="121.55" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="700" fill="#24292f">Applications</text><rect x="450" y="144" width="300" height="40" rx="10" fill="#ffd33d"/><text x="600.0" y="168.55" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="700" fill="#24292f">Système d&#x27;exploitation</text><rect x="450" y="194" width="300" height="34" rx="10" fill="#ffffff"/><text x="600.0" y="215.55" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="700" fill="#24292f">Matériel</text><text x="600" y="252" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#fff">processus · mémoire · fichiers</text></g>
+<text x="36" y="276" font-family="sans-serif" font-size="13" fill="#fff" opacity="0.92">Le système répartit le temps du processeur, la mémoire et les fichiers.</text>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" role="img" aria-label="HEF-070 Databases : Tables, requêtes et transactions : ACID pour ne rien perdre.">
+<title>HEF-070 — Databases</title>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8250df"/><stop offset="1" stop-color="#c297ff"/></linearGradient>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#fff"/></marker>
+<filter id="o" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-opacity="0.25"/></filter>
+</defs>
+<rect width="800" height="300" rx="22" fill="url(#bg)"/>
+<circle cx="740" cy="30" r="110" fill="#fff" opacity="0.08"/><circle cx="60" cy="300" r="90" fill="#fff" opacity="0.08"/>
+<text x="36" y="52" font-family="sans-serif" font-size="14" font-weight="700" fill="#fff" opacity="0.8" letter-spacing="2">HEF-070</text>
+<text x="36" y="88" font-family="sans-serif" font-size="30" font-weight="800" fill="#fff">Databases</text>
+<text x="36" y="114" font-family="sans-serif" font-size="14" fill="#fff" opacity="0.9">Garder la vérité, durablement</text>
+<g filter="url(#o)"><ellipse cx="520" cy="210" rx="50" ry="14" fill="#e8dcff"/><rect x="470" y="170" width="100" height="40" fill="#fff"/><ellipse cx="520" cy="170" rx="50" ry="14" fill="#fff"/><ellipse cx="520" cy="170" rx="50" ry="14" fill="none" stroke="#d8c9ff" stroke-width="2"/><ellipse cx="520" cy="160" rx="50" ry="14" fill="#e8dcff"/><rect x="470" y="120" width="100" height="40" fill="#fff"/><ellipse cx="520" cy="120" rx="50" ry="14" fill="#fff"/><ellipse cx="520" cy="120" rx="50" ry="14" fill="none" stroke="#d8c9ff" stroke-width="2"/><rect x="620" y="120" width="130" height="28" rx="10" fill="#ffd33d"/><text x="685.0" y="138.2" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#24292f">SELECT … FROM</text><rect x="620" y="160" width="130" height="28" rx="10" fill="#fff"/><text x="685.0" y="178.2" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#24292f">INSERT / UPDATE</text><rect x="620" y="200" width="130" height="28" rx="10" fill="#aff5b4"/><text x="685.0" y="218.2" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#24292f">COMMIT ✔</text><path d="M612 134 L574 140" stroke="#fff" stroke-width="3" fill="none" marker-end="url(#a)"/></g>
+<text x="36" y="276" font-family="sans-serif" font-size="13" fill="#fff" opacity="0.92">Tables, requêtes et transactions : ACID pour ne rien perdre.</text>
+</svg>

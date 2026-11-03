@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" role="img" aria-label="HEF-100 Security : Modéliser les menaces, limiter les droits, vérifier toutes les entrées.">
+<title>HEF-100 — Security</title>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#cf222e"/><stop offset="1" stop-color="#ff8182"/></linearGradient>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#fff"/></marker>
+<filter id="o" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-opacity="0.25"/></filter>
+</defs>
+<rect width="800" height="300" rx="22" fill="url(#bg)"/>
+<circle cx="740" cy="30" r="110" fill="#fff" opacity="0.08"/><circle cx="60" cy="300" r="90" fill="#fff" opacity="0.08"/>
+<text x="36" y="52" font-family="sans-serif" font-size="14" font-weight="700" fill="#fff" opacity="0.8" letter-spacing="2">HEF-100</text>
+<text x="36" y="88" font-family="sans-serif" font-size="30" font-weight="800" fill="#fff">Security</text>
+<text x="36" y="114" font-family="sans-serif" font-size="14" fill="#fff" opacity="0.9">Protéger sans paranoïa</text>
+<g filter="url(#o)"><path d="M600 80 L680 108 V170 Q680 226 600 258 Q520 226 520 170 V108Z" fill="#fff"/><path d="M600 96 L666 118 V170 Q666 214 600 242 Q534 214 534 170 V118Z" fill="#cf222e" opacity="0.12"/><rect x="574" y="156" width="52" height="40" rx="8" fill="#cf222e"/><path d="M584 156 v-14 a16 16 0 0 1 32 0 v14" fill="none" stroke="#cf222e" stroke-width="7"/><circle cx="600" cy="176" r="6" fill="#fff"/><text x="730" y="130" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#fff">menaces</text><path d="M730 140 L690 160" stroke="#fff" stroke-width="3" fill="none" marker-end="url(#a)" stroke-dasharray="6 5"/><path d="M740 190 L696 190" stroke="#fff" stroke-width="3" fill="none" marker-end="url(#a)" stroke-dasharray="6 5"/></g>
+<text x="36" y="276" font-family="sans-serif" font-size="13" fill="#fff" opacity="0.92">Modéliser les menaces, limiter les droits, vérifier toutes les entrées.</text>
+</svg>

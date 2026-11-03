@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" role="img" aria-label="HEF-120 DevOps : Une boucle continue : intégrer, tester, déployer, observer, recommencer.">
+<title>HEF-120 — DevOps</title>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0e7490"/><stop offset="1" stop-color="#67e8f9"/></linearGradient>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#fff"/></marker>
+<filter id="o" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-opacity="0.25"/></filter>
+</defs>
+<rect width="800" height="300" rx="22" fill="url(#bg)"/>
+<circle cx="740" cy="30" r="110" fill="#fff" opacity="0.08"/><circle cx="60" cy="300" r="90" fill="#fff" opacity="0.08"/>
+<text x="36" y="52" font-family="sans-serif" font-size="14" font-weight="700" fill="#fff" opacity="0.8" letter-spacing="2">HEF-120</text>
+<text x="36" y="88" font-family="sans-serif" font-size="30" font-weight="800" fill="#fff">DevOps</text>
+<text x="36" y="114" font-family="sans-serif" font-size="14" fill="#fff" opacity="0.9">Livrer souvent, sans peur</text>
+<g filter="url(#o)"><path d="M520 190 C520 130 600 130 640 190 C680 250 760 250 760 190 C760 130 680 130 640 190 C600 250 520 250 520 190Z" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/><text x="552" y="132" font-family="sans-serif" font-size="13" font-weight="800" fill="#fff">coder</text><text x="690" y="132" font-family="sans-serif" font-size="13" font-weight="800" fill="#fff">tester</text><text x="552" y="262" font-family="sans-serif" font-size="13" font-weight="800" fill="#fff">observer</text><text x="690" y="262" font-family="sans-serif" font-size="13" font-weight="800" fill="#fff">déployer</text></g>
+<text x="36" y="276" font-family="sans-serif" font-size="13" fill="#fff" opacity="0.92">Une boucle continue : intégrer, tester, déployer, observer, recommencer.</text>
+</svg>

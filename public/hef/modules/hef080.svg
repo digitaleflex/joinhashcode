@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" role="img" aria-label="HEF-080 Software Engineering : Conception en couches, tests, revues : on construit pour maintenir.">
+<title>HEF-080 — Software Engineering</title>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#bf3989"/><stop offset="1" stop-color="#ff80c8"/></linearGradient>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#fff"/></marker>
+<filter id="o" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-opacity="0.25"/></filter>
+</defs>
+<rect width="800" height="300" rx="22" fill="url(#bg)"/>
+<circle cx="740" cy="30" r="110" fill="#fff" opacity="0.08"/><circle cx="60" cy="300" r="90" fill="#fff" opacity="0.08"/>
+<text x="36" y="52" font-family="sans-serif" font-size="14" font-weight="700" fill="#fff" opacity="0.8" letter-spacing="2">HEF-080</text>
+<text x="36" y="88" font-family="sans-serif" font-size="30" font-weight="800" fill="#fff">Software Engineering</text>
+<text x="36" y="114" font-family="sans-serif" font-size="14" fill="#fff" opacity="0.9">Construire du logiciel qui dure</text>
+<g filter="url(#o)"><rect x="450" y="210" width="76" height="40" rx="10" fill="#aff5b4"/><text x="488.0" y="234.2" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#24292f">tests</text><rect x="532" y="210" width="76" height="40" rx="10" fill="#fff"/><text x="570.0" y="234.2" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#24292f">API</text><rect x="614" y="210" width="76" height="40" rx="10" fill="#fff"/><text x="652.0" y="234.2" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#24292f">données</text><rect x="450" y="166" width="76" height="40" rx="10" fill="#ffd33d"/><text x="488.0" y="190.2" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#24292f">service</text><rect x="532" y="166" width="76" height="40" rx="10" fill="#fff"/><text x="570.0" y="190.2" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#24292f">UI</text><rect x="450" y="122" width="76" height="40" rx="10" fill="#a5d6ff"/><text x="488.0" y="146.2" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#24292f">revue</text><g transform="translate(700 100)"><circle r="26" fill="none" stroke="#fff" stroke-width="10" stroke-dasharray="8 6"/><circle r="8" fill="#fff"/></g></g>
+<text x="36" y="276" font-family="sans-serif" font-size="13" fill="#fff" opacity="0.92">Conception en couches, tests, revues : on construit pour maintenir.</text>
+</svg>
