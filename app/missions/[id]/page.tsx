@@ -19,6 +19,7 @@ import { SuggestedPartners } from "@/components/missions/suggested-partners"
 import { SubmissionGuide } from "@/components/missions/submission-guide"
 import { getAteliersForMission } from "@/lib/ateliers"
 import { getStepMissionDef } from "@/lib/mission-engine"
+import { getMissionStatusMeta } from "@/lib/mission-status"
 import {
   Tooltip,
   TooltipContent,
@@ -131,6 +132,7 @@ export default async function MissionBriefingPage({
   const isNeedsRevision = submission?.status === "NEEDS_REVISION"
   const isInReview = submission?.status === "IN_REVIEW"
   const isOnboarding = mission.isOnboarding || getStepMissionDef(mission.slug) !== null
+  const missionStatus = getMissionStatusMeta(submission?.status)
 
   const briefingContent = mission.fullBriefing || mission.description
 
@@ -157,7 +159,7 @@ export default async function MissionBriefingPage({
               className="inline-flex items-center gap-2 text-xs font-mono text-muted-foreground hover:text-primary transition-colors mb-10 group"
             >
               <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
-              RETOUR AUX MISSIONS
+              RETOUR AUX LABS
             </Link>
 
             {/* ── Hero Header ── */}
@@ -172,7 +174,7 @@ export default async function MissionBriefingPage({
                 <div className="space-y-4 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-xs font-mono text-primary/50 uppercase">
-                      MISSION // {mission.slug.toUpperCase().replace(/-/g, "_")}
+                      LAB // {mission.slug.toUpperCase().replace(/-/g, "_")}
                     </span>
                   </div>
 
@@ -187,19 +189,9 @@ export default async function MissionBriefingPage({
                     <Badge variant="outline" className="text-muted-foreground border-border/60 font-mono text-xs rounded-md px-2 py-0.5">
                       NIV. {mission.difficulty}
                     </Badge>
-                    {isCompleted && (
-                      <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 font-mono text-xs rounded-md px-2 py-0.5">
-                        ✓ VALIDÉE
-                      </Badge>
-                    )}
-                    {isPending && (
-                      <Badge className="bg-amber-500/10 text-amber-400 border-amber-500/20 font-mono text-xs rounded-md px-2 py-0.5">
-                        ● EN REVUE
-                      </Badge>
-                    )}
-                    {isNeedsRevision && (
-                      <Badge className="bg-amber-500/10 text-amber-400 border-amber-500/20 font-mono text-xs rounded-md px-2 py-0.5">
-                        ↻ RÉVISION REQUISE
+                    {missionStatus.key !== "not_started" && (
+                      <Badge className={`font-mono text-xs rounded-md px-2 py-0.5 border ${missionStatus.className}`}>
+                        {missionStatus.label}
                       </Badge>
                     )}
                   </div>
@@ -286,6 +278,60 @@ export default async function MissionBriefingPage({
               </div>
             </div>
 
+            {!isOnboarding && (
+              <div
+                className={
+                  missionStatus.key === "completed"
+                    ? "mb-10 rounded-2xl border border-emerald-400/25 bg-emerald-400/[0.05] p-5"
+                    : missionStatus.key === "action_required"
+                      ? "mb-10 rounded-2xl border border-orange-400/25 bg-orange-400/[0.05] p-5"
+                      : missionStatus.key === "in_progress"
+                        ? "mb-10 rounded-2xl border border-sky-400/25 bg-sky-400/[0.05] p-5"
+                        : missionStatus.key === "rejected"
+                          ? "mb-10 rounded-2xl border border-red-400/25 bg-red-400/[0.05] p-5"
+                          : "mb-10 rounded-2xl border border-primary/20 bg-primary/[0.05] p-5"
+                }
+              >
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+                  Prochaine étape
+                </p>
+                <p className="mt-2 text-sm font-bold text-white">
+                  {missionStatus.key === "completed"
+                    ? "Lab validé — capitalise sur cette preuve."
+                    : missionStatus.key === "action_required"
+                      ? "Des corrections sont demandées."
+                      : missionStatus.key === "in_progress"
+                        ? "Ton Lab est en relecture."
+                        : missionStatus.key === "rejected"
+                          ? "Ce Lab n'a pas été retenu."
+                          : "Prêt à commencer ce Lab ?"}
+                </p>
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                  {missionStatus.key === "completed"
+                    ? "Retrouve-le dans ton portfolio et choisis un nouveau Lab pour progresser."
+                    : missionStatus.key === "action_required"
+                      ? "Lis le retour du reviewer, corrige les points signalés puis resoumets ton livrable."
+                      : missionStatus.key === "in_progress"
+                        ? "Un reviewer vérifie ta soumission. Tu peux préparer le prochain Lab en attendant."
+                        : missionStatus.key === "rejected"
+                          ? "Tu peux consulter le retour et proposer une nouvelle version si le Lab reste ouvert."
+                          : "Lis le briefing, prépare les livrables demandés, puis soumets ton travail pour validation."}
+                </p>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  {missionStatus.key === "completed" ? (
+                    <>
+                      <Link href="/missions" className="text-xs font-bold text-primary hover:underline">Choisir un autre Lab →</Link>
+                      <Link href="/dossier" className="text-xs font-bold text-muted-foreground hover:text-white">Voir mon portfolio →</Link>
+                    </>
+                  ) : missionStatus.key === "in_progress" ? (
+                    <Link href="/missions" className="text-xs font-bold text-primary hover:underline">Retour aux Labs →</Link>
+                  ) : (
+                    <a href="#submission" className="text-xs font-bold text-primary hover:underline">Aller à la soumission →</a>
+                  )}
+                </div>
+              </div>
+            )}
+
             {/* ── Body ── */}
             {isOnboarding ? (
                       <OnboardingWorkflow missionSlug={mission.slug || mission.id} userName={dbUser.name} userClass={dbUser.class} />
@@ -354,13 +400,13 @@ export default async function MissionBriefingPage({
               <div className="space-y-6 lg:sticky lg:top-6 lg:self-start">
 
                 {/* Submission / Status card */}
-                <div className="rounded-2xl border border-border/40 bg-card/30 overflow-hidden">
+                <div id="submission" className="rounded-2xl border border-border/40 bg-card/30 overflow-hidden scroll-mt-24">
                   <div className="px-5 py-4 border-b border-border/30">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Award className="w-4 h-4 text-primary" />
                         <span className="text-xs font-mono uppercase text-muted-foreground">
-                          Statut de la mission
+                          Statut du Lab
                         </span>
                       </div>
                       {!isCompleted && <SubmissionGuide />}
@@ -376,7 +422,7 @@ export default async function MissionBriefingPage({
                           <CheckCircle2 className="w-7 h-7 text-emerald-500" />
                         </div>
                         <div>
-                          <h3 className="font-bold text-emerald-400 font-mono text-sm uppercase tracking-wide">Mission validée</h3>
+                          <h3 className="font-bold text-emerald-400 font-mono text-sm uppercase tracking-wide">Lab validé</h3>
                           {submission?.qualityLevel && submission.qualityLevel !== "STANDARD" && (
                             <p className="text-xs text-emerald-400/60 mt-1 font-mono">
                               {submission.qualityLevel === "EXEMPLARY" ? "⭐ Travail exemplaire" : "✦ Très bon travail"}
