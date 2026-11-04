@@ -269,6 +269,17 @@ export const auth = betterAuth({
              logError("Auth Redis Del", err);
            }
         },
+        // Required by Better Auth to consume single-use values (OTP, magic
+        // links) atomically. Without it, /sign-in/email-otp throws
+        // "secondaryStorage.getAndDelete is not a function" → HTTP 500.
+        getAndDelete: async (key: string) => {
+           try {
+             return (await r.getdel(key)) ?? null;
+           } catch (err) {
+             logError("Auth Redis GetAndDelete", err);
+             return null;
+           }
+        },
         // Required by Better Auth's secondary-storage rate limiting.
         // Without it every auth request throws
         // "Secondary-storage rate limiting requires SecondaryStorage.increment."
