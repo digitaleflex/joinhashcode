@@ -201,11 +201,11 @@ export default async function LessonPage({
           )}
         </article>
 
-        {content.mission ? (
+        {content.mission && content.mission.category === "CODE" ? (
           <PythonRunner initialCode={initialCode} />
-        ) : (
+        ) : !content.mission ? (
           <div className="mt-10">{workspace}</div>
-        )}
+        ) : null}
 
         <nav className="mt-12 flex flex-col gap-3 border-t border-border pt-8 sm:flex-row sm:items-stretch sm:justify-between">
           {previous ? (
