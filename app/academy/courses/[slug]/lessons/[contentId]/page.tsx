@@ -104,7 +104,7 @@ export default async function LessonPage({
             <Clock className="h-3.5 w-3.5" aria-hidden />
             {index + 1} / {flat.length}
           </span>
-          {content.url?.endsWith(".pptx") && (
+          {content.url?.endsWith(".pdf") && (
             <a
               href={content.url}
               download
