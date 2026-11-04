@@ -53,7 +53,7 @@ HEF-NNN-Nom/
 | `05-Project/README.md` | `Mission` type PROJECT + `MissionSubmission` | Rattacher au `Pillar.project` |
 | `06-Resources/*` | `Resource` (glossaire, fiche) | 1 ressource par module |
 | `07-Evidence/*` | `Content` + futur `Evidence` | Voir décision §7.3 |
-| `08-Slides/*.pptx` | Stockage objet + `Content.url` (PDF) | Convertir en PDF, ne pas servir le PPTX |
+| `08-Slides/*.pptx` | `public/hef/slides-pdf/` + `Content.url` (PDF) | Convertir avec `scripts/hef/slides-to-pdf.sh` |
 | `playground/` | Route `/academy/playground` (statique, iframe) | Copier `playground/` dans `public/` |
 | `tools/check_repo.py` | Job CI « content gate » | Exécuter à chaque sync |
 
@@ -93,7 +93,8 @@ Principes :
 - **Import déterministe** : même version ⇒ même JSON ⇒ même base (upserts par `slug`/`code`).
 - **Assets séparés** : SVG dans `public/hef/` (0,4 Mo), PPTX convertis en PDF et poussés vers un stockage objet (S3/R2) ou `uploads_data`. Les vidéos ne sont jamais copiées dans le repo app.
 - **Rendu Markdown sécurisé** (`react-markdown` + sanitize), TOC, blocs de code, images relatives résolues via le manifest.
-- **CI** : `check_repo.py` sur le repo HEF + `parse.ts --check` + import à blanc sur PostgreSQL éphémère + tests de mapping.
+- **CI** : `check_repo.py` sur le repo HEF + `pnpm hef:validate` + import à blanc sur PostgreSQL éphémère + tests de mapping.
+- **Slides** : `scripts/hef/slides-to-pdf.sh <source>` convertit les PPTX en PDF (LibreOffice requis) avant le parsing.
 
 ## 6. Plan par phases
 
