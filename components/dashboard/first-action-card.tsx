@@ -1,7 +1,9 @@
 "use client";
 
+import * as React from "react";
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, Clock, PlayCircle, Sparkles, Trophy } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { ArrowRight, CheckCircle2, Clock, Loader2, PlayCircle, Sparkles, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { FirstAction } from "@/lib/first-action";
@@ -37,6 +39,12 @@ function completedSteps(status: FirstActionStatus): number {
   return 1;
 }
 
+const DOMAIN_CHOICES = [
+  { value: "web", label: "Développement web" },
+  { value: "cybersecurity", label: "Cybersécurité" },
+  { value: "ai", label: "IA appliquée" },
+] as const;
+
 export function FirstActionCard({
   action,
   status = "not_started",
@@ -44,9 +52,38 @@ export function FirstActionCard({
   action: FirstAction;
   status?: FirstActionStatus;
 }) {
+  const router = useRouter();
+  const [choosing, setChoosing] = React.useState<string | null>(null);
+  const [choiceError, setChoiceError] = React.useState<string | null>(null);
   const meta = STATUS_META[status];
   const done = completedSteps(status);
   const isReady = action.status === "ready";
+
+  const chooseDomain = async (domain: string) => {
+    setChoosing(domain);
+    setChoiceError(null);
+    try {
+      const res = await fetch("/api/specialization", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          primaryDomain: domain,
+          tools: [],
+          learningTools: [],
+          certifications: [],
+        }),
+      });
+      if (!res.ok) {
+        const payload = (await res.json().catch(() => null)) as { message?: string } | null;
+        throw new Error(payload?.message ?? "Impossible d'enregistrer ton domaine.");
+      }
+      router.refresh();
+    } catch (error) {
+      setChoiceError(error instanceof Error ? error.message : "Impossible d'enregistrer ton domaine.");
+    } finally {
+      setChoosing(null);
+    }
+  };
 
   const recordEvent = (event: "started" | "completed") => {
     fetch("/api/me/first-action", {
@@ -160,25 +197,57 @@ export function FirstActionCard({
         </div>
       </div>
 
-      <div className="relative mt-6 flex flex-wrap items-center gap-3">
-        <Button className="btn-primary-glow h-11 rounded-xl px-5" asChild>
+      {action.domain === "unknown" && status === "not_started" ? (
+        <div className="relative mt-6 space-y-3">
+          <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
+            Choisis ton domaine pour débloquer ta première action
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {DOMAIN_CHOICES.map((domain) => (
+              <Button
+                key={domain.value}
+                type="button"
+                variant="outline"
+                disabled={Boolean(choosing)}
+                onClick={() => chooseDomain(domain.value)}
+                className="h-10 rounded-xl px-4"
+              >
+                {choosing === domain.value ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden />
+                ) : null}
+                {domain.label}
+              </Button>
+            ))}
+          </div>
+          {choiceError && <p className="text-xs font-medium text-red-400">{choiceError}</p>}
+        </div>
+      ) : (
+        <div className="relative mt-6 flex flex-wrap items-center gap-3">
+          <Button className="btn-primary-glow h-11 rounded-xl px-5" asChild>
+            <Link
+              href={primaryHref}
+              onClick={() => {
+                if (status === "not_started" && isReady) recordEvent("started");
+              }}
+            >
+              {primaryLabel}
+              <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+            </Link>
+          </Button>
           <Link
-            href={primaryHref}
-            onClick={() => {
-              if (status === "not_started" && isReady) recordEvent("started");
-            }}
+            href="/ateliers"
+            className="text-xs font-semibold text-zinc-400 transition-colors hover:text-primary"
           >
-            {primaryLabel}
-            <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+            Voir tous les ateliers
           </Link>
-        </Button>
-        <Link
-          href="/ateliers"
-          className="text-xs font-semibold text-zinc-400 transition-colors hover:text-primary"
-        >
-          Voir tous les ateliers
-        </Link>
-      </div>
+          <Link
+            href="/contact"
+            className="text-xs font-semibold text-zinc-500 transition-colors hover:text-primary"
+          >
+            Besoin d&apos;aide ?
+          </Link>
+        </div>
+      )}
     </section>
   );
 }
