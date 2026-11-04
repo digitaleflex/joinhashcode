@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { EnrollButton } from "@/components/academy/enroll-button";
 import { getSessionSafe } from "@/lib/get-session-safe";
 import { isEnrolled } from "@/app/actions/academy/course";
+import { cn } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -49,6 +50,21 @@ export async function generateMetadata({ params }: CoursePageProps): Promise<Met
     const session = await getSessionSafe();
     const isAuthenticated = Boolean(session);
     const enrolled = await isEnrolled(course.id);
+
+    const contentIds = course.sections.flatMap((section) => section.contents.map((item) => item.id));
+    const completedProgress = session
+        ? await prisma.progress.findMany({
+              where: {
+                  userId: session.user.id,
+                  contentId: { in: contentIds },
+                  isCompleted: true,
+              },
+              select: { contentId: true },
+          })
+        : [];
+    const completedSet = new Set(completedProgress.map((item) => item.contentId));
+    const completedCount = completedSet.size;
+    const progressPercent = contentIds.length > 0 ? Math.round((completedCount / contentIds.length) * 100) : 0;
  
      return (
         <div className="max-w-7xl mx-auto px-6 py-12">
@@ -106,7 +122,23 @@ export async function generateMetadata({ params }: CoursePageProps): Promise<Met
                         </div>
                     </div>
 
-                    <h2 className="text-2xl font-black text-foreground mb-6">Programme</h2>
+                    <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+                        <h2 className="text-2xl font-black text-foreground">Programme</h2>
+                        {isAuthenticated && (
+                            <div className="min-w-48">
+                                <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+                                    <span>Progression</span>
+                                    <span>{completedCount}/{contentIds.length}</span>
+                                </div>
+                                <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-white/10">
+                                    <div
+                                        className="h-full rounded-full bg-primary transition-all duration-500"
+                                        style={{ width: `${progressPercent}%` }}
+                                    />
+                                </div>
+                            </div>
+                        )}
+                    </div>
                     <div className="space-y-4">
                         {course.sections.map((section, idx) => (
                             <div key={section.id} className="p-6 border border-border rounded-3xl bg-card hover:shadow-lg transition-shadow">
@@ -133,7 +165,14 @@ export async function generateMetadata({ params }: CoursePageProps): Promise<Met
                                                     href={`/academy/courses/${course.slug}/lessons/${item.id}`}
                                                     className="group flex items-center justify-between gap-3 rounded-xl px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-primary/5 hover:text-foreground"
                                                 >
-                                                    <span className="truncate">{item.title}</span>
+                                                    <span className="flex min-w-0 items-center gap-2">
+                                                        {completedSet.has(item.id) ? (
+                                                            <Check className="size-3.5 shrink-0 text-emerald-400" aria-hidden />
+                                                        ) : null}
+                                                        <span className={cn("truncate", completedSet.has(item.id) && "text-zinc-500")}>
+                                                            {item.title}
+                                                        </span>
+                                                    </span>
                                                     <ArrowRight className="size-3.5 shrink-0 text-primary/60 transition-transform group-hover:translate-x-0.5" aria-hidden />
                                                 </Link>
                                             </li>
