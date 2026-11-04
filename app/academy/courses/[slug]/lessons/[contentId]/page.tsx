@@ -45,6 +45,7 @@ export default async function LessonPage({
           category: true,
           deliverables: true,
           acceptanceCriteria: true,
+          labTests: true,
         },
       },
       quiz: {
@@ -107,6 +108,10 @@ export default async function LessonPage({
   const initialCode = pythonBlock
     ? `${pythonBlock}\n`
     : "# Écris ton code ici, puis clique sur Exécuter.\n"
+
+  const labTests = Array.isArray(content.mission?.labTests)
+    ? (content.mission?.labTests as Array<[string, string]>)
+    : []
 
   const index = flat.findIndex((item) => item.id === content.id)
   const previous = index > 0 ? flat[index - 1] : null
@@ -202,7 +207,11 @@ export default async function LessonPage({
         </article>
 
         {content.mission && content.mission.category === "CODE" ? (
-          <PythonRunner initialCode={initialCode} />
+          <PythonRunner
+            initialCode={initialCode}
+            tests={labTests}
+            contentId={content.id}
+          />
         ) : !content.mission ? (
           <div className="mt-10">{workspace}</div>
         ) : null}
