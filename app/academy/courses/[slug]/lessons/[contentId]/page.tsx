@@ -111,7 +111,7 @@ export default async function LessonPage({
               className="inline-flex items-center gap-1.5 font-semibold text-primary hover:underline"
             >
               <FileText className="h-3.5 w-3.5" aria-hidden />
-              Télécharger les slides
+              Télécharger les slides (PDF)
             </a>
           )}
         </div>
@@ -124,8 +124,8 @@ export default async function LessonPage({
               </p>
               <p className="mt-1 text-sm font-semibold text-foreground">
                 {content.mission.category === "PROJECT"
-                  ? "Ce projet se soumet avec un livrable."
-                  : "Ce lab se soumet avec un lien de dépôt."}
+                  ? "Ce projet se soumet avec un livrable, puis est relu par un reviewer."
+                  : "Ce lab se soumet avec un lien de dépôt, puis est relu par un reviewer."}
               </p>
             </div>
             <Link

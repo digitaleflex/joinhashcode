@@ -128,7 +128,7 @@ async function parseChapters(dir, code) {
       order: index + 1,
       durationMinutes: meta.durationMinutes,
       badge: meta.badge,
-      slidesUrl: `/hef/slides/${code}/${name.replace(/\.md$/, "")}.pptx`,
+      slidesUrl: `/hef/slides-pdf/${code}/${name.replace(/\.md$/, "")}.pdf`,
       body: `![${title}](/hef/parcours/${code.toLowerCase().replace("-", "")}-m${String(index + 1).padStart(2, "0")}.svg)\n\n${rewriteAssets(stripTitle(body))}`,
     });
   }
