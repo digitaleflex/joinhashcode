@@ -220,7 +220,9 @@ export default async function LessonPage({
 
           <aside className="order-1 space-y-4 lg:order-2 lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:self-start lg:overflow-y-auto">
             {workspace}
-            <LessonToc headings={headings} />
+            <div className="hidden lg:block">
+              <LessonToc headings={headings} />
+            </div>
           </aside>
         </div>
 
