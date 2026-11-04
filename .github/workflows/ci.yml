@@ -106,6 +106,9 @@ jobs:
       - name: End-to-end tests for the public vitrine
         run: pnpm exec playwright test --config=playwright.public.config.ts
 
+      - name: End-to-end tests for auth OTP
+        run: pnpm exec playwright test --config=playwright.auth.config.ts
+
       - name: Upload Playwright diagnostics
         if: failure()
         continue-on-error: true # Do not fail CI when GitHub artifact storage quota is exhausted.
