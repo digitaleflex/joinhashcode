@@ -28,9 +28,11 @@ import { getAccountDeletedEmailContent } from "./email-templates/account-deleted
 import { getAdminCoreMissionPendingEmailContent } from "./email-templates/admin-core-mission-pending";
 import { getOrientationEmailContent } from "./email-templates/orientation";
 
-const resend = process.env.RESEND_API_KEY
-  ? new Resend(process.env.RESEND_API_KEY)
-  : null;
+const resendApiKey = process.env.RESEND_API_KEY;
+// CI placeholders never send real email: treat them as a mock.
+const isMockResendKey =
+  !resendApiKey || resendApiKey === "test" || resendApiKey.startsWith("re_ci_");
+const resend = isMockResendKey ? null : new Resend(resendApiKey);
 
 const EMAIL_WARNING_THROTTLE_MS = 300_000;
 let lastWarningTime = 0;

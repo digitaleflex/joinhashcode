@@ -39,7 +39,7 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,
     env: {
-      RESEND_API_KEY: "",
+      RESEND_API_KEY: "re_ci_placeholder_not_a_real_key",
     },
     stdout: "pipe",
     stderr: "pipe",
