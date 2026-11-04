@@ -40,10 +40,12 @@ export function PythonRunner({
   initialCode,
   tests,
   contentId,
+  isAuthenticated = false,
 }: {
   initialCode: string;
   tests?: Array<[string, string]>;
   contentId?: string;
+  isAuthenticated?: boolean;
 }) {
   const [code, setCode] = React.useState(initialCode);
   const [result, setResult] = React.useState<ExecutionResult | null>(null);
@@ -222,14 +224,16 @@ export function PythonRunner({
       });
       setTestResult(data);
       const allPassed = data.ok && data.resultats.length > 0 && data.resultats.every((item) => item.ok);
-      if (allPassed) {
-        setAutoValidated(true);
-        if (contentId) {
-          fetch("/api/academy/progress", {
+      if (allPassed && isAuthenticated && contentId) {
+        try {
+          const res = await fetch("/api/academy/progress", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ contentId, isCompleted: true }),
-          }).catch(() => undefined);
+          });
+          setAutoValidated(res.ok);
+        } catch {
+          setAutoValidated(false);
         }
       }
     } finally {
@@ -349,7 +353,9 @@ export function PythonRunner({
             {autoValidated
               ? "Tous les tests passent — lab validé automatiquement."
               : testResult.ok
-                ? "Tests réussis."
+                ? isAuthenticated
+                  ? "Tests réussis."
+                  : "Tests réussis — connecte-toi pour enregistrer la validation."
                 : `${testResult.resultats.filter((item) => item.ok).length}/${testResult.resultats.length} tests réussis.`}
           </p>
           {testResult.erreur && (

@@ -211,6 +211,7 @@ export default async function LessonPage({
             initialCode={initialCode}
             tests={labTests}
             contentId={content.id}
+            isAuthenticated={Boolean(session)}
           />
         ) : !content.mission ? (
           <div className="mt-10">{workspace}</div>
