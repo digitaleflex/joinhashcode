@@ -1,0 +1,102 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+
+  // Documentation projet chargée en plus d'AGENTS.md.
+  "instructions": [
+    "PRODUCT_VISION.md",
+    "DOCS/DECISIONS.md",
+    "DOCS/CI.md",
+    "DOCS/MIGRATIONS.md",
+    "DOCS/HEF_INTEGRATION.md"
+  ],
+
+  // Accès nommés au curriculum source et à la documentation.
+  "references": {
+    "hef": {
+      "repository": "letriplenesty-ai/hashcode-engineering-foundations",
+      "branch": "main",
+      "description": "Curriculum source HEF : 17 modules, 169 missions, labs et projets"
+    },
+    "docs": {
+      "path": "./DOCS",
+      "description": "Décisions produit, CI, migrations et intégration HEF"
+    }
+  },
+
+  // Évite de watcher les gros artefacts générés.
+  "watcher": {
+    "ignore": [
+      "node_modules/**",
+      ".next/**",
+      "coverage/**",
+      "playwright-report/**",
+      "test-results/**",
+      "public/hef/slides-pdf/**",
+      "public/uploads/**"
+    ]
+  },
+
+  // Limite la taille des sorties pour ne pas saturer le contexte.
+  "tool_output": {
+    "max_lines": 4000,
+    "max_bytes": 100000
+  },
+
+  "experimental": {
+    "todo": true
+  },
+
+  // Règles ordonnées : la dernière règle qui matche gagne.
+  "permissions": [
+    { "action": "shell", "resource": "*", "effect": "ask" },
+
+    { "action": "shell", "resource": "git status *", "effect": "allow" },
+    { "action": "shell", "resource": "git diff *", "effect": "allow" },
+    { "action": "shell", "resource": "git log *", "effect": "allow" },
+    { "action": "shell", "resource": "git show *", "effect": "allow" },
+    { "action": "shell", "resource": "git branch *", "effect": "allow" },
+    { "action": "shell", "resource": "git add *", "effect": "allow" },
+    { "action": "shell", "resource": "git commit *", "effect": "allow" },
+
+    { "action": "shell", "resource": "npm run *", "effect": "allow" },
+    { "action": "shell", "resource": "pnpm *", "effect": "allow" },
+    { "action": "shell", "resource": "npx prisma *", "effect": "allow" },
+    { "action": "shell", "resource": "npx vitest *", "effect": "allow" },
+    { "action": "shell", "resource": "npx eslint *", "effect": "allow" },
+    { "action": "shell", "resource": "npx tsc *", "effect": "allow" },
+    { "action": "shell", "resource": "npx tsx *", "effect": "allow" },
+    { "action": "shell", "resource": "node scripts/*", "effect": "allow" },
+
+    { "action": "shell", "resource": "rg *", "effect": "allow" },
+    { "action": "shell", "resource": "grep *", "effect": "allow" },
+    { "action": "shell", "resource": "find *", "effect": "allow" },
+    { "action": "shell", "resource": "ls *", "effect": "allow" },
+    { "action": "shell", "resource": "cat *", "effect": "allow" },
+    { "action": "shell", "resource": "sed *", "effect": "allow" },
+    { "action": "shell", "resource": "head *", "effect": "allow" },
+    { "action": "shell", "resource": "tail *", "effect": "allow" },
+    { "action": "shell", "resource": "wc *", "effect": "allow" },
+    { "action": "shell", "resource": "jq *", "effect": "allow" },
+
+    { "action": "shell", "resource": "docker ps *", "effect": "allow" },
+    { "action": "shell", "resource": "docker logs *", "effect": "allow" },
+    { "action": "shell", "resource": "docker inspect *", "effect": "allow" },
+    { "action": "shell", "resource": "docker exec db psql *", "effect": "allow" },
+    { "action": "shell", "resource": "curl *", "effect": "allow" },
+
+    { "action": "shell", "resource": "git push *", "effect": "ask" },
+    { "action": "shell", "resource": "./deploy.sh *", "effect": "ask" },
+    { "action": "shell", "resource": "docker compose *", "effect": "ask" },
+
+    { "action": "shell", "resource": "rm -rf *", "effect": "deny" },
+    { "action": "shell", "resource": "sudo *", "effect": "deny" },
+    { "action": "shell", "resource": "npx prisma migrate reset *", "effect": "deny" },
+    { "action": "shell", "resource": "npx prisma db push --force-reset *", "effect": "deny" },
+
+    { "action": "read", "resource": "*.env", "effect": "ask" },
+    { "action": "read", "resource": "*.env.*", "effect": "ask" },
+    { "action": "read", "resource": "*.env.example", "effect": "allow" },
+    { "action": "edit", "resource": ".env*", "effect": "deny" },
+    { "action": "edit", "resource": "prisma/migrations/*", "effect": "ask" }
+  ]
+}
