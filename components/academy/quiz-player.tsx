@@ -34,10 +34,12 @@ export function QuizPlayer({
   quizId,
   questions,
   initialPassScore = 60,
+  contentId,
 }: {
   quizId: string;
   questions: QuizQuestion[];
   initialPassScore?: number;
+  contentId?: string;
 }) {
   const [answers, setAnswers] = React.useState<Record<string, string>>({});
   const [submitting, setSubmitting] = React.useState(false);
@@ -61,7 +63,15 @@ export function QuizPlayer({
         const payload = (await response.json().catch(() => null)) as { message?: string } | null;
         throw new Error(payload?.message ?? "Impossible de valider le quiz.");
       }
-      setResult((await response.json()) as QuizResult);
+      const payload = (await response.json()) as QuizResult;
+      setResult(payload);
+      if (payload.passed && contentId) {
+        fetch("/api/academy/progress", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ contentId, isCompleted: true }),
+        }).catch(() => undefined);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Impossible de valider le quiz.");
     } finally {

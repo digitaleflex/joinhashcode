@@ -915,6 +915,8 @@ model Progress {
   user        User     @relation(fields: [userId], references: [id])
   content     Content  @relation(fields: [contentId], references: [id])
   isCompleted Boolean  @default(false)
+  note        String?  @db.Text
+  checklist   Json?
   updatedAt   DateTime @updatedAt
 
   @@unique([userId, contentId])

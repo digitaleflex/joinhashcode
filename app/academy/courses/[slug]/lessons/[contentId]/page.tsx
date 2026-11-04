@@ -2,8 +2,10 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { ArrowLeft, ArrowRight, Clock, FileText } from "lucide-react"
 import { prisma } from "@/lib/prisma"
+import { getSessionSafe } from "@/lib/get-session-safe"
 import { MarkdownContent } from "@/components/academy/markdown-content"
 import { QuizPlayer } from "@/components/academy/quiz-player"
+import { LessonWorkspace } from "@/components/academy/lesson-workspace"
 
 export const dynamic = "force-dynamic"
 
@@ -35,7 +37,15 @@ export default async function LessonPage({
           course: { select: { id: true, slug: true, title: true, isPublished: true } },
         },
       },
-      mission: { select: { slug: true, title: true, category: true } },
+      mission: {
+        select: {
+          slug: true,
+          title: true,
+          category: true,
+          deliverables: true,
+          acceptanceCriteria: true,
+        },
+      },
       quiz: {
         include: {
           questions: {
@@ -64,6 +74,33 @@ export default async function LessonPage({
     },
     orderBy: [{ section: { order: "asc" } }, { order: "asc" }],
   })
+
+  const session = await getSessionSafe()
+  const progress = session
+    ? await prisma.progress.findUnique({
+        where: {
+          userId_contentId: { userId: session.user.id, contentId: content.id },
+        },
+        select: { isCompleted: true, note: true, checklist: true },
+      })
+    : null
+
+  const missionDeliverables = content.mission?.deliverables ?? []
+  const missionCriteria = Array.isArray(content.mission?.acceptanceCriteria)
+    ? (content.mission?.acceptanceCriteria as string[])
+    : []
+  const checklistGroups = content.mission
+    ? [
+        ...(missionDeliverables.length > 0
+          ? [{ title: "Livrables à produire", items: missionDeliverables }]
+          : []),
+        ...(missionCriteria.length > 0
+          ? [{ title: "Critères de validation", items: missionCriteria }]
+          : []),
+      ]
+    : []
+
+  const checklist = (progress?.checklist as Record<string, boolean> | null) ?? {}
 
   const index = flat.findIndex((item) => item.id === content.id)
   const previous = index > 0 ? flat[index - 1] : null
@@ -142,6 +179,7 @@ export default async function LessonPage({
           {content.type === "QUIZ" && content.quiz ? (
             <QuizPlayer
               quizId={content.quiz.id}
+              contentId={content.id}
               initialPassScore={content.quiz.passScore}
               questions={content.quiz.questions.map((question) => ({
                 id: question.id,
@@ -160,6 +198,20 @@ export default async function LessonPage({
             </p>
           )}
         </article>
+
+        <LessonWorkspace
+          contentId={content.id}
+          initialCompleted={progress?.isCompleted ?? false}
+          initialNote={progress?.note ?? ""}
+          initialChecklist={checklist}
+          checklistGroups={checklistGroups}
+          mission={
+            content.mission
+              ? { slug: content.mission.slug, category: content.mission.category }
+              : null
+          }
+          isAuthenticated={Boolean(session)}
+        />
 
         <nav className="mt-12 flex flex-col gap-3 border-t border-border pt-8 sm:flex-row sm:items-stretch sm:justify-between">
           {previous ? (
