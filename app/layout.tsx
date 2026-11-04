@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next"
 import { Syne, Outfit, IBM_Plex_Mono } from "next/font/google"
 import "./globals.css"
+import "highlight.js/styles/atom-one-dark.css"
 import NextTopLoader from 'nextjs-toploader'
 
 const syne = Syne({

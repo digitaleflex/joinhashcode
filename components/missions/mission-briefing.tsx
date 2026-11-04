@@ -5,6 +5,7 @@ import ReactMarkdown, { type Components } from "react-markdown"
 import remarkGfm from "remark-gfm"
 import rehypeRaw from "rehype-raw"
 import rehypeSanitize, { defaultSchema } from "rehype-sanitize"
+import rehypeHighlight from "rehype-highlight"
 import { TableOfContents, extractTocItems, generateId } from "./table-of-contents"
 import { ScrollProgress } from "./scroll-progress"
 
@@ -204,7 +205,7 @@ export function MissionBriefing({ content, showToc = true, showProgress = true }
         >
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
-            rehypePlugins={[rehypeRaw, [rehypeSanitize, sanitizeSchema]]}
+            rehypePlugins={[rehypeRaw, [rehypeSanitize, sanitizeSchema], rehypeHighlight]}
             components={components}
           >
             {content}
