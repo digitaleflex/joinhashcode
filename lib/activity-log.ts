@@ -77,6 +77,7 @@ export type ActivityAction =
   | "ADMIN_MENTOR_MATCH_UPDATED"
   | "ADMIN_MENTOR_MATCH_DELETED"
   | "ADMIN_MENTOR_NOTIFICATION_SENT"
+  | "ADMIN_OPS_REMINDER"
 
 interface LogOptions {
   userId?: string | null

@@ -27,6 +27,7 @@ import { getAdminAccountDeletedEmailContent } from "./email-templates/admin-acco
 import { getAccountDeletedEmailContent } from "./email-templates/account-deleted";
 import { getAdminCoreMissionPendingEmailContent } from "./email-templates/admin-core-mission-pending";
 import { getOrientationEmailContent } from "./email-templates/orientation";
+import { getOpsReminderEmailContent, type OpsReminderStep } from "./email-templates/ops-reminder";
 
 const resendApiKey = process.env.RESEND_API_KEY;
 // CI placeholders never send real email: treat them as a mock.
@@ -152,6 +153,23 @@ export const emailService = {
   async sendDailyReminder({ email, name }: { email: string; name: string }) {
     if (!resend) return { success: true, mocked: true };
     const { subject, html, text } = getDailyReminderEmailContent({ name });
+    return this._send({ to: email, subject, html, text });
+  },
+
+  async sendOpsReminder({
+    email,
+    name,
+    step,
+  }: {
+    email: string;
+    name: string;
+    step: OpsReminderStep;
+  }) {
+    if (!resend) {
+      warnEmailMissing("sendOpsReminder");
+      return { success: true, mocked: true };
+    }
+    const { subject, html, text } = getOpsReminderEmailContent({ name, step });
     return this._send({ to: email, subject, html, text });
   },
 

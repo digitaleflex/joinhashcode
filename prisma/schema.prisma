@@ -161,6 +161,7 @@ model User {
   banReason            String?
   banExpires           DateTime?
   deactivatedAt        DateTime? @map("deactivated_at")
+  lastOpsReminderAt    DateTime?
   talentVisible        Boolean   @default(false)
   builderScore         Int       @default(0)
   creatorScore         Int       @default(0)
