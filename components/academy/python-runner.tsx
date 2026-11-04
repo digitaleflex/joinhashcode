@@ -2,6 +2,10 @@
 
 import * as React from "react";
 import { Loader2, Play, RotateCcw, Terminal } from "lucide-react";
+import CodeMirror from "@uiw/react-codemirror";
+import { python } from "@codemirror/lang-python";
+import { oneDark } from "@codemirror/theme-one-dark";
+import { keymap } from "@codemirror/view";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -25,14 +29,32 @@ export function PythonRunner({ initialCode }: { initialCode: string }) {
   const [status, setStatus] = React.useState<"loading" | "ready" | "error">("loading");
   const [running, setRunning] = React.useState(false);
 
+  const runRef = React.useRef<() => void>(() => undefined);
+  const extensions = React.useMemo(
+    () => [
+      python(),
+      keymap.of([
+        {
+          key: "Mod-Enter",
+          run: () => {
+            runRef.current();
+            return true;
+          },
+        },
+      ]),
+    ],
+    [],
+  );
   const workerRef = React.useRef<Worker | null>(null);
   const readyRef = React.useRef<Promise<void> | null>(null);
   const pendingRef = React.useRef<Map<number, { resolve: (value: ExecutionResult) => void; reject: (reason: unknown) => void }>>(new Map());
   const idRef = React.useRef(0);
 
-  React.useEffect(() => {
+  const spawnWorker = React.useCallback(() => {
+    workerRef.current?.terminate();
     const worker = new Worker("/playground/worker.js");
     workerRef.current = worker;
+    setStatus("loading");
 
     readyRef.current = new Promise<void>((resolve, reject) => {
       worker.onmessage = (event: MessageEvent) => {
@@ -58,12 +80,15 @@ export function PythonRunner({ initialCode }: { initialCode: string }) {
     });
 
     readyRef.current.catch(() => undefined);
+  }, []);
 
+  React.useEffect(() => {
+    spawnWorker();
     return () => {
-      worker.terminate();
+      workerRef.current?.terminate();
       workerRef.current = null;
     };
-  }, []);
+  }, [spawnWorker]);
 
   const run = async () => {
     if (!workerRef.current || !readyRef.current) return;
@@ -75,12 +100,16 @@ export function PythonRunner({ initialCode }: { initialCode: string }) {
       const data = await new Promise<ExecutionResult>((resolve, reject) => {
         const timeout = window.setTimeout(() => {
           pendingRef.current.delete(id);
+          // A runaway loop keeps the worker busy forever: terminate it and
+          // start a fresh one so the next run is not blocked.
+          workerRef.current?.terminate();
+          spawnWorker();
           resolve({
             ok: false,
             sortie: "",
             erreur: {
               type: "Timeout",
-              message: "L'exécution a dépassé 6 secondes.",
+              message: "L'exécution a dépassé 6 secondes. Le moteur a été redémarré.",
               titre: "Boucle infinie ou calcul trop long",
               conseil: "Vérifie tes boucles et ajoute une condition d'arrêt.",
             },
@@ -115,6 +144,12 @@ export function PythonRunner({ initialCode }: { initialCode: string }) {
     }
   };
 
+  React.useEffect(() => {
+    runRef.current = () => {
+      void run();
+    };
+  });
+
   return (
     <section className="mt-10 rounded-3xl border border-border bg-card p-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -148,31 +183,25 @@ export function PythonRunner({ initialCode }: { initialCode: string }) {
         </span>
       </div>
 
-      <textarea
-        value={code}
-        onChange={(event) => setCode(event.target.value)}
-        onKeyDown={(event) => {
-          if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
-            event.preventDefault();
-            void run();
-          }
-          if (event.key === "Tab") {
-            event.preventDefault();
-            const target = event.currentTarget;
-            const start = target.selectionStart;
-            const end = target.selectionEnd;
-            const next = `${code.slice(0, start)}    ${code.slice(end)}`;
-            setCode(next);
-            window.requestAnimationFrame(() => {
-              target.selectionStart = target.selectionEnd = start + 4;
-            });
-          }
-        }}
-        spellCheck={false}
-        rows={14}
-        aria-label="Éditeur Python"
-        className="mt-4 w-full rounded-2xl border border-white/10 bg-[#0b0b0d] p-4 font-mono text-[13px] leading-6 text-zinc-200 outline-none transition-colors focus:border-primary/50"
-      />
+      <div className="mt-4 overflow-hidden rounded-2xl border border-white/10">
+        <CodeMirror
+          value={code}
+          height="340px"
+          theme={oneDark}
+          extensions={extensions}
+          onChange={(value) => setCode(value)}
+          basicSetup={{
+            lineNumbers: true,
+            highlightActiveLine: true,
+            autocompletion: true,
+            bracketMatching: true,
+            closeBrackets: true,
+            foldGutter: false,
+          }}
+          aria-label="Éditeur Python"
+          className="text-[13px]"
+        />
+      </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-3">
         <Button
