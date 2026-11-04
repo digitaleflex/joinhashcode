@@ -41,8 +41,11 @@ export function LessonWorkspace({
   const doneItems = Object.values(checklist).filter(Boolean).length;
   const ratio = totalItems > 0 ? Math.round((doneItems / totalItems) * 100) : completed ? 100 : 0;
 
-  const save = async (payload: Record<string, unknown>, kind: "complete" | "note" | "checklist") => {
-    if (!isAuthenticated) return;
+  const save = async (
+    payload: Record<string, unknown>,
+    kind: "complete" | "note" | "checklist",
+  ): Promise<boolean> => {
+    if (!isAuthenticated) return false;
     setSaving(kind);
     setError(null);
     try {
@@ -52,28 +55,35 @@ export function LessonWorkspace({
         body: JSON.stringify({ contentId, ...payload }),
       });
       if (!res.ok) throw new Error("Impossible d'enregistrer.");
+      return true;
     } catch (err) {
       setError(err instanceof Error ? err.message : "Impossible d'enregistrer.");
+      return false;
     } finally {
       setSaving(null);
     }
   };
 
-  const toggleCompleted = () => {
+  const toggleCompleted = async () => {
+    const previous = completed;
     const next = !completed;
     setCompleted(next);
-    void save({ isCompleted: next }, "complete");
+    const ok = await save({ isCompleted: next }, "complete");
+    if (!ok) setCompleted(previous);
   };
 
-  const toggleItem = (key: string) => {
+  const toggleItem = async (key: string) => {
+    const previous = checklist;
     const next = { ...checklist, [key]: !checklist[key] };
     setChecklist(next);
-    void save({ checklist: next }, "checklist");
+    const ok = await save({ checklist: next }, "checklist");
+    if (!ok) setChecklist(previous);
   };
 
-  const saveNote = () => {
-    setSavedNote(note);
-    void save({ note }, "note");
+  const saveNote = async () => {
+    const value = note;
+    const ok = await save({ note: value }, "note");
+    if (ok) setSavedNote(value);
   };
 
   return (
@@ -128,6 +138,7 @@ export function LessonWorkspace({
                           <button
                             type="button"
                             onClick={() => toggleItem(key)}
+                            aria-pressed={checked}
                             className="flex w-full items-start gap-2.5 text-left text-sm leading-relaxed text-zinc-300"
                           >
                             {checked ? (
@@ -180,6 +191,7 @@ export function LessonWorkspace({
             <Button
               type="button"
               onClick={toggleCompleted}
+              aria-pressed={completed}
               disabled={saving === "complete"}
               variant={completed ? "default" : "outline"}
               className="h-10 rounded-xl px-4"

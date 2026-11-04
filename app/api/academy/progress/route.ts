@@ -44,7 +44,11 @@ export async function POST(req: Request) {
   if (typeof body.isCompleted === "boolean") data.isCompleted = body.isCompleted;
   if (typeof body.note === "string") data.note = body.note.slice(0, 5000);
   if (body.checklist && typeof body.checklist === "object") {
-    data.checklist = body.checklist;
+    // Bound the payload: at most 200 boolean keys, 100 chars each.
+    const entries = Object.entries(body.checklist)
+      .slice(0, 200)
+      .map(([key, value]) => [key.slice(0, 100), Boolean(value)] as const);
+    data.checklist = Object.fromEntries(entries);
   }
 
   const progress = await prisma.progress.upsert({
