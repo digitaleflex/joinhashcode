@@ -1,28 +1,16 @@
 ---
 description: Audite les migrations Prisma et la rejouabilité sur base vierge
 mode: subagent
-permissions:
-  - action: edit
-    resource: "*"
-    effect: deny
-  - action: shell
-    resource: "npx prisma *"
-    effect: allow
-  - action: shell
-    resource: "docker exec db psql *"
-    effect: allow
-  - action: shell
-    resource: "npx vitest *"
-    effect: allow
-  - action: shell
-    resource: "npm run test *"
-    effect: allow
-  - action: shell
-    resource: "npx prisma migrate reset *"
-    effect: deny
-  - action: shell
-    resource: "npx prisma db push --force-reset *"
-    effect: deny
+permission:
+  edit: deny
+  bash:
+    "*": deny
+    "npx prisma *": allow
+    "docker exec db psql *": allow
+    "npx vitest *": allow
+    "npm run test *": allow
+    "npx prisma migrate reset *": deny
+    "npx prisma db push --force-reset *": deny
 ---
 
 Tu audites les migrations PostgreSQL/Prisma de JoinHashCode.

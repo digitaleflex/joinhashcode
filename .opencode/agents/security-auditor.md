@@ -1,19 +1,15 @@
 ---
 description: Audit sécurité read-only — auth, permissions, secrets, rate limiting, CSP
 mode: subagent
-permissions:
-  - action: edit
-    resource: "*"
-    effect: deny
-  - action: shell
-    resource: "npm audit *"
-    effect: allow
-  - action: shell
-    resource: "pnpm audit *"
-    effect: allow
-  - action: shell
-    resource: "node scripts/check-secrets.js"
-    effect: allow
+permission:
+  edit: deny
+  bash:
+    "*": deny
+    "npm audit *": allow
+    "pnpm audit *": allow
+    "node scripts/check-secrets.js": allow
+    "git status *": allow
+    "git diff *": allow
 ---
 
 Tu audites la sécurité de JoinHashCode sans modifier le code.

@@ -1,16 +1,19 @@
 ---
-description: Audit UI desktop/mobile (Playwright, responsive, navigation, contraste)
+description: Audit UI desktop/mobile (Playwright MCP, responsive, navigation, contraste)
 mode: subagent
-permissions:
-  - action: edit
-    resource: "*"
-    effect: deny
-  - action: shell
-    resource: "npx playwright *"
-    effect: allow
+permission:
+  edit: deny
+  bash:
+    "*": deny
+    "npx playwright *": allow
+  "playwright_*": allow
 ---
 
 Tu audites l'interface de JoinHashCode avec Playwright.
+
+Utilise en priorité les outils `playwright_*` (MCP) pour naviguer, redimensionner,
+prendre des captures et inspecter le DOM. `npx playwright` reste disponible en
+secours.
 
 Pour chaque page :
 1. Capture 390 px et 1440 px.

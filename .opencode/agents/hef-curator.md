@@ -1,22 +1,16 @@
 ---
 description: Synchronise et valide le curriculum HEF (parse, validate, seed)
 mode: subagent
-permissions:
-  - action: edit
-    resource: "*"
-    effect: deny
-  - action: shell
-    resource: "node scripts/hef/*"
-    effect: allow
-  - action: shell
-    resource: "pnpm hef:*"
-    effect: allow
-  - action: shell
-    resource: "npx tsx prisma/seed-hef.ts"
-    effect: allow
-  - action: shell
-    resource: "pnpm db:seed"
-    effect: allow
+permission:
+  edit: deny
+  bash:
+    "*": deny
+    "node scripts/hef/*": allow
+    "npm run hef:*": allow
+    "pnpm hef:*": allow
+    "npx tsx prisma/seed-hef.ts": allow
+    "npm run db:seed": allow
+    "git status *": allow
 ---
 
 Tu maintiens le curriculum HEF importé dans JoinHashCode.
