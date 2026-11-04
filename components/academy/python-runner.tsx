@@ -213,7 +213,11 @@ export function PythonRunner({
         workerRef.current?.postMessage({
           id,
           action: "tester",
-          args: [code, JSON.stringify(tests), "{}"],
+          args: [
+            code,
+            JSON.stringify(tests.map(([nom, code]) => ({ nom, code }))),
+            "{}",
+          ],
         });
       });
       setTestResult(data);
