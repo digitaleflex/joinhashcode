@@ -106,6 +106,22 @@ export default async function LessonPage({
   const previous = index > 0 ? flat[index - 1] : null
   const next = index >= 0 && index < flat.length - 1 ? flat[index + 1] : null
 
+  const workspace = (
+    <LessonWorkspace
+      contentId={content.id}
+      initialCompleted={progress?.isCompleted ?? false}
+      initialNote={progress?.note ?? ""}
+      initialChecklist={checklist}
+      checklistGroups={checklistGroups}
+      mission={
+        content.mission
+          ? { slug: content.mission.slug, category: content.mission.category }
+          : null
+      }
+      isAuthenticated={Boolean(session)}
+    />
+  )
+
   return (
     <main className="bg-background">
       <div className="mx-auto max-w-3xl px-6 py-16 sm:py-20">
@@ -153,27 +169,7 @@ export default async function LessonPage({
           )}
         </div>
 
-        {content.mission && (
-          <div className="mt-8 flex flex-col gap-3 rounded-2xl border border-primary/20 bg-primary/[0.05] p-5 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-primary">
-                Évaluation
-              </p>
-              <p className="mt-1 text-sm font-semibold text-foreground">
-                {content.mission.category === "PROJECT"
-                  ? "Ce projet se soumet avec un livrable, puis est relu par un reviewer."
-                  : "Ce lab se soumet avec un lien de dépôt, puis est relu par un reviewer."}
-              </p>
-            </div>
-            <Link
-              href={`/missions/${content.mission.slug}`}
-              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-bold text-primary-foreground transition-transform hover:-translate-y-0.5"
-            >
-              {content.mission.category === "PROJECT" ? "Soumettre mon projet" : "Ouvrir le lab"}
-              <ArrowRight className="h-4 w-4" aria-hidden />
-            </Link>
-          </div>
-        )}
+        {content.mission ? <div className="mt-8">{workspace}</div> : null}
 
         <article className="mt-10 border-t border-border pt-8">
           {content.type === "QUIZ" && content.quiz ? (
@@ -199,19 +195,7 @@ export default async function LessonPage({
           )}
         </article>
 
-        <LessonWorkspace
-          contentId={content.id}
-          initialCompleted={progress?.isCompleted ?? false}
-          initialNote={progress?.note ?? ""}
-          initialChecklist={checklist}
-          checklistGroups={checklistGroups}
-          mission={
-            content.mission
-              ? { slug: content.mission.slug, category: content.mission.category }
-              : null
-          }
-          isAuthenticated={Boolean(session)}
-        />
+        {!content.mission ? <div className="mt-10">{workspace}</div> : null}
 
         <nav className="mt-12 flex flex-col gap-3 border-t border-border pt-8 sm:flex-row sm:items-stretch sm:justify-between">
           {previous ? (
