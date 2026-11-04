@@ -46,57 +46,136 @@
     "todo": true
   },
 
+  // Serveurs MCP. Les outils sont désactivés globalement et activés
+  // uniquement dans les sous-agents concernés (voir .opencode/agents/).
+  "mcp": {
+    "playwright": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@playwright/mcp@latest",
+        "--headless",
+        "--isolated",
+        "--output-dir",
+        "/tmp/opencode/playwright-mcp",
+        "--console-level",
+        "error"
+      ],
+      "enabled": true,
+      "timeout": 180000
+    },
+    "github": {
+      "type": "remote",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "enabled": true,
+      "oauth": false,
+      "headers": {
+        "Authorization": "Bearer {file:~/.config/opencode/github-token}",
+        "X-MCP-Toolsets": "context,issues,pull_requests,actions",
+        "X-MCP-Readonly": "true"
+      },
+      "timeout": 60000
+    }
+  },
+
   // Règles ordonnées : la dernière règle qui matche gagne.
-  "permissions": [
-    { "action": "shell", "resource": "*", "effect": "ask" },
+  "permission": {
+    "read": {
+      "*": "allow",
+      "*.env": "ask",
+      "*.env.*": "ask",
+      "*.env.example": "allow",
+      "~/.config/opencode/github-token": "deny",
+      "~/.config/gh/hosts.yml": "deny"
+    },
+    "edit": {
+      "*": "allow",
+      ".env*": "deny",
+      "prisma/migrations/**": "ask"
+    },
+    "bash": {
+      "*": "ask",
 
-    { "action": "shell", "resource": "git status *", "effect": "allow" },
-    { "action": "shell", "resource": "git diff *", "effect": "allow" },
-    { "action": "shell", "resource": "git log *", "effect": "allow" },
-    { "action": "shell", "resource": "git show *", "effect": "allow" },
-    { "action": "shell", "resource": "git branch *", "effect": "allow" },
-    { "action": "shell", "resource": "git add *", "effect": "allow" },
-    { "action": "shell", "resource": "git commit *", "effect": "allow" },
+      "git status *": "allow",
+      "git diff *": "allow",
+      "git log *": "allow",
+      "git show *": "allow",
+      "git branch *": "allow",
+      "git remote -v": "allow",
+      "git add *": "allow",
+      "git commit *": "allow",
 
-    { "action": "shell", "resource": "npm run *", "effect": "allow" },
-    { "action": "shell", "resource": "pnpm *", "effect": "allow" },
-    { "action": "shell", "resource": "npx prisma *", "effect": "allow" },
-    { "action": "shell", "resource": "npx vitest *", "effect": "allow" },
-    { "action": "shell", "resource": "npx eslint *", "effect": "allow" },
-    { "action": "shell", "resource": "npx tsc *", "effect": "allow" },
-    { "action": "shell", "resource": "npx tsx *", "effect": "allow" },
-    { "action": "shell", "resource": "node scripts/*", "effect": "allow" },
+      "npm run *": "allow",
+      "pnpm *": "allow",
+      "npx prisma *": "allow",
+      "npx vitest *": "allow",
+      "npx eslint *": "allow",
+      "npx tsc *": "allow",
+      "npx tsx *": "allow",
+      "node scripts/*": "allow",
 
-    { "action": "shell", "resource": "rg *", "effect": "allow" },
-    { "action": "shell", "resource": "grep *", "effect": "allow" },
-    { "action": "shell", "resource": "find *", "effect": "allow" },
-    { "action": "shell", "resource": "ls *", "effect": "allow" },
-    { "action": "shell", "resource": "cat *", "effect": "allow" },
-    { "action": "shell", "resource": "sed *", "effect": "allow" },
-    { "action": "shell", "resource": "head *", "effect": "allow" },
-    { "action": "shell", "resource": "tail *", "effect": "allow" },
-    { "action": "shell", "resource": "wc *", "effect": "allow" },
-    { "action": "shell", "resource": "jq *", "effect": "allow" },
+      "rg *": "allow",
+      "grep *": "allow",
+      "find *": "allow",
+      "ls *": "allow",
+      "cat *": "allow",
+      "sed *": "allow",
+      "head *": "allow",
+      "tail *": "allow",
+      "wc *": "allow",
+      "jq *": "allow",
 
-    { "action": "shell", "resource": "docker ps *", "effect": "allow" },
-    { "action": "shell", "resource": "docker logs *", "effect": "allow" },
-    { "action": "shell", "resource": "docker inspect *", "effect": "allow" },
-    { "action": "shell", "resource": "docker exec db psql *", "effect": "allow" },
-    { "action": "shell", "resource": "curl *", "effect": "allow" },
+      "docker ps *": "allow",
+      "docker logs *": "allow",
+      "docker inspect *": "allow",
+      "docker exec db psql *": "allow",
+      "curl *": "allow",
 
-    { "action": "shell", "resource": "git push *", "effect": "ask" },
-    { "action": "shell", "resource": "./deploy.sh *", "effect": "ask" },
-    { "action": "shell", "resource": "docker compose *", "effect": "ask" },
+      "gh auth status *": "allow",
+      "gh issue list *": "allow",
+      "gh issue view *": "allow",
+      "gh pr list *": "allow",
+      "gh pr view *": "allow",
+      "gh pr diff *": "allow",
+      "gh run list *": "allow",
+      "gh run view *": "allow",
+      "gh run watch *": "allow",
 
-    { "action": "shell", "resource": "rm -rf *", "effect": "deny" },
-    { "action": "shell", "resource": "sudo *", "effect": "deny" },
-    { "action": "shell", "resource": "npx prisma migrate reset *", "effect": "deny" },
-    { "action": "shell", "resource": "npx prisma db push --force-reset *", "effect": "deny" },
+      "git push *": "ask",
+      "./deploy.sh *": "ask",
+      "docker compose *": "ask",
+      "gh issue create *": "ask",
+      "gh issue close *": "ask",
+      "gh pr create *": "ask",
+      "gh api *": "ask",
 
-    { "action": "read", "resource": "*.env", "effect": "ask" },
-    { "action": "read", "resource": "*.env.*", "effect": "ask" },
-    { "action": "read", "resource": "*.env.example", "effect": "allow" },
-    { "action": "edit", "resource": ".env*", "effect": "deny" },
-    { "action": "edit", "resource": "prisma/migrations/*", "effect": "ask" }
-  ]
+      "gh pr merge *": "deny",
+      "git reset --hard *": "deny",
+      "git clean *": "ask",
+      "rm -rf *": "deny",
+      "sudo *": "deny",
+      "npx prisma migrate reset *": "deny",
+      "pnpm prisma migrate reset *": "deny",
+      "prisma migrate reset *": "deny",
+      "npx prisma db push --force-reset *": "deny",
+      "pnpm prisma db push --force-reset *": "deny",
+      "npm exec prisma migrate reset *": "deny",
+      "pnpm dlx prisma migrate reset *": "deny",
+
+      // Le jeton GitHub ne doit jamais être lu par l'agent.
+      "*github-token*": "deny",
+      "*gh/hosts.yml*": "deny"
+    },
+    "external_directory": {
+      "*": "ask",
+      "/tmp/opencode/**": "allow",
+      "/tmp/hef/**": "allow",
+      "~/.local/share/opencode/repos/github.com/letriplenesty-ai/**": "allow"
+    },
+
+    // MCP : désactivés globalement, réactivés par sous-agent.
+    "github_*": "deny",
+    "playwright_*": "deny"
+  }
 }
