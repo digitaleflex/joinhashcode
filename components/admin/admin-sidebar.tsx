@@ -22,6 +22,7 @@ import {
   BarChart3,
   Route,
   UserRound,
+  GraduationCap,
 } from "lucide-react"
 
 import {
@@ -61,6 +62,12 @@ const navGroups = [
       { title: "Dashboard",   url: "/admin",                icon: LayoutDashboard },
       { title: "Talents",     url: "/admin/users",          icon: Users },
       { title: "Parcours",    url: "/admin/parcours",       icon: Route },
+    ],
+  },
+  {
+    label: "Academy",
+    items: [
+      { title: "Curriculum HEF", url: "/admin/hef", icon: GraduationCap },
     ],
   },
   {
