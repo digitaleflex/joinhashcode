@@ -1,9 +1,11 @@
 ---
-description: Audit UI desktop/mobile avec Playwright
+description: Audit UI desktop/mobile avec Playwright MCP
 agent: ui-auditor
 ---
 
 Audite l'UI de : $ARGUMENTS.
+
+Utilise les outils `playwright_*` (MCP).
 
 Pour chaque page :
 1. Capture en **390 px** et **1440 px**.

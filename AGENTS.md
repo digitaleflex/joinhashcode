@@ -271,6 +271,14 @@ Security docs: `https://github.com/digitaleflex/infra-docs` → `/security/`
 - Run `npm run test` when touching business logic: quiz scoring, cohesion math, mission XP, auth flow.
 - For API route changes, verify the route appears in the table above (or add it) and that the auth guard is correct.
 
+### OpenCode tooling
+
+- **GitHub (issues, PR, CI)** → sous-agent `github-ops` via `/gh` ou `/issue` (MCP GitHub en lecture seule). Les écritures passent par `gh` et demandent confirmation.
+- **Audit UI** → `ui-auditor` via `/ui-audit` (MCP Playwright, captures 390/1440).
+- **Gate complet** → `/verify` (lint, types, tests, build, HEF).
+- **Migrations** → `/migrate` (audit sur base vierge, jamais de reset).
+- Détails et permissions : `.opencode/README.md` et `opencode.jsonc`.
+
 ### Commit format
 
 ```

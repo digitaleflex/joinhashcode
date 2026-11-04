@@ -1,9 +1,10 @@
 ---
-description: Lire une issue et produire un plan d'exécution
-agent: plan
+description: Lire une issue GitHub et produire un plan d'exécution
+agent: github-ops
 ---
 
-Lis l'issue $ARGUMENTS et les documents de référence associés.
+Lis l'issue $ARGUMENTS du dépôt `digitaleflex/joinhashcode` via les outils
+`github_*` (lecture seule).
 
 Produis :
 1. Le périmètre exact (ce qui est inclus / exclu).
