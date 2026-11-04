@@ -6,6 +6,7 @@ import { getSessionSafe } from "@/lib/get-session-safe"
 import { MarkdownContent } from "@/components/academy/markdown-content"
 import { QuizPlayer } from "@/components/academy/quiz-player"
 import { LessonWorkspace } from "@/components/academy/lesson-workspace"
+import { PythonRunner } from "@/components/academy/python-runner"
 
 export const dynamic = "force-dynamic"
 
@@ -102,6 +103,11 @@ export default async function LessonPage({
 
   const checklist = (progress?.checklist as Record<string, boolean> | null) ?? {}
 
+  const pythonBlock = content.body?.match(/```python\n([\s\S]*?)```/i)?.[1]?.trim()
+  const initialCode = pythonBlock
+    ? `${pythonBlock}\n`
+    : "# Écris ton code ici, puis clique sur Exécuter.\n"
+
   const index = flat.findIndex((item) => item.id === content.id)
   const previous = index > 0 ? flat[index - 1] : null
   const next = index >= 0 && index < flat.length - 1 ? flat[index + 1] : null
@@ -195,7 +201,11 @@ export default async function LessonPage({
           )}
         </article>
 
-        {!content.mission ? <div className="mt-10">{workspace}</div> : null}
+        {content.mission ? (
+          <PythonRunner initialCode={initialCode} />
+        ) : (
+          <div className="mt-10">{workspace}</div>
+        )}
 
         <nav className="mt-12 flex flex-col gap-3 border-t border-border pt-8 sm:flex-row sm:items-stretch sm:justify-between">
           {previous ? (
