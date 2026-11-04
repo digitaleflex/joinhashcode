@@ -164,6 +164,20 @@ async function upsertContent(
   });
 }
 
+// Automated checks for the code labs whose contract is deterministic.
+// Labs without a test list keep the human review path only.
+const LAB_TESTS: Record<string, Array<[string, string]>> = {
+  "HEF-010": [
+    ["liste vide", "assert membres_actifs_consecutifs([]) == 0"],
+    ["un seul jour", "assert membres_actifs_consecutifs([5]) == 1"],
+    ["série simple", "assert membres_actifs_consecutifs([1, 2, 3, 7, 8]) == 3"],
+    ["désordre", "assert membres_actifs_consecutifs([9, 1, 2, 3, 4]) == 4"],
+    ["doublons", "assert membres_actifs_consecutifs([1, 1, 2, 2, 3]) == 3"],
+    ["aucune suite", "assert membres_actifs_consecutifs([10, 20, 30]) == 1"],
+    ["grande série", "assert membres_actifs_consecutifs(list(range(1000))) == 1000"],
+  ],
+};
+
 const MISSION_LEVEL_BY_PHASE: Record<number, string> = {
   1: "INIT",
   2: "CORE",
@@ -203,6 +217,9 @@ async function upsertHefMission(
       ? (item as HefContent).acceptanceCriteria ?? []
       : criteria.map((criterion) => `${criterion.label} — ${criterion.description}`),
     evaluationRubric: criteria as unknown as Prisma.InputJsonValue,
+    labTests: isLab && LAB_TESTS[module.code]
+      ? (LAB_TESTS[module.code] as unknown as Prisma.InputJsonValue)
+      : undefined,
     validationCriteria: (item as HefProject).validationCriteria ?? null,
     submissionMethod: isLab ? "GITHUB_LINK" : "DOCUMENT_LINK",
     targetProfiles: ["builder", "creator", "strategist", "catalyst"],

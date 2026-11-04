@@ -465,6 +465,7 @@ model Mission {
   resources          Json?
   tags               String[]           @default([])
   evaluationRubric   Json?               @map("evaluation_rubric")
+  labTests           Json?
   validationCriteria String?
   prerequisites      String?
   isWeeklyChallenge  Boolean             @default(false)
