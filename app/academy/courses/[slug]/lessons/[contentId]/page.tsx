@@ -7,6 +7,8 @@ import { MarkdownContent } from "@/components/academy/markdown-content"
 import { QuizPlayer } from "@/components/academy/quiz-player"
 import { LessonWorkspace } from "@/components/academy/lesson-workspace"
 import { PythonRunner } from "@/components/academy/python-runner"
+import { LessonToc } from "@/components/academy/lesson-toc"
+import { extractHeadings } from "@/lib/markdown-headings"
 
 export const dynamic = "force-dynamic"
 
@@ -113,6 +115,8 @@ export default async function LessonPage({
     ? (content.mission?.labTests as Array<[string, string]>)
     : []
 
+  const headings = extractHeadings(content.body ?? "")
+
   const index = flat.findIndex((item) => item.id === content.id)
   const previous = index > 0 ? flat[index - 1] : null
   const next = index >= 0 && index < flat.length - 1 ? flat[index + 1] : null
@@ -135,7 +139,7 @@ export default async function LessonPage({
 
   return (
     <main className="bg-background">
-      <div className="mx-auto max-w-3xl px-6 py-16 sm:py-20">
+      <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
         <Link
           href={`/academy/courses/${slug}`}
           className="inline-flex items-center gap-2 text-xs font-bold text-muted-foreground transition-colors hover:text-primary"
@@ -180,42 +184,45 @@ export default async function LessonPage({
           )}
         </div>
 
-        {content.mission ? <div className="mt-8">{workspace}</div> : null}
+        <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
+          <article className="order-2 min-w-0 border-t border-border pt-8 lg:order-1">
+            {content.type === "QUIZ" && content.quiz ? (
+              <QuizPlayer
+                quizId={content.quiz.id}
+                contentId={content.id}
+                initialPassScore={content.quiz.passScore}
+                questions={content.quiz.questions.map((question) => ({
+                  id: question.id,
+                  text: question.text,
+                  options: question.options.map((option) => ({
+                    id: option.id,
+                    text: option.text,
+                  })),
+                }))}
+              />
+            ) : content.body ? (
+              <MarkdownContent>{content.body}</MarkdownContent>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                Le contenu de cette leçon n&apos;est pas encore disponible.
+              </p>
+            )}
 
-        <article className="mt-10 border-t border-border pt-8">
-          {content.type === "QUIZ" && content.quiz ? (
-            <QuizPlayer
-              quizId={content.quiz.id}
-              contentId={content.id}
-              initialPassScore={content.quiz.passScore}
-              questions={content.quiz.questions.map((question) => ({
-                id: question.id,
-                text: question.text,
-                options: question.options.map((option) => ({
-                  id: option.id,
-                  text: option.text,
-                })),
-              }))}
-            />
-          ) : content.body ? (
-            <MarkdownContent>{content.body}</MarkdownContent>
-          ) : (
-            <p className="text-sm text-muted-foreground">
-              Le contenu de cette leçon n&apos;est pas encore disponible.
-            </p>
-          )}
-        </article>
+            {content.mission && content.mission.category === "CODE" ? (
+              <PythonRunner
+                initialCode={initialCode}
+                tests={labTests}
+                contentId={content.id}
+                isAuthenticated={Boolean(session)}
+              />
+            ) : null}
+          </article>
 
-        {content.mission && content.mission.category === "CODE" ? (
-          <PythonRunner
-            initialCode={initialCode}
-            tests={labTests}
-            contentId={content.id}
-            isAuthenticated={Boolean(session)}
-          />
-        ) : !content.mission ? (
-          <div className="mt-10">{workspace}</div>
-        ) : null}
+          <aside className="order-1 space-y-4 lg:order-2 lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:self-start lg:overflow-y-auto">
+            {workspace}
+            <LessonToc headings={headings} />
+          </aside>
+        </div>
 
         <nav className="mt-12 flex flex-col gap-3 border-t border-border pt-8 sm:flex-row sm:items-stretch sm:justify-between">
           {previous ? (

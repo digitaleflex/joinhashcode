@@ -4,6 +4,7 @@ import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
 import rehypeHighlight from "rehype-highlight";
+import { slugifyHeading, textOf } from "@/lib/markdown-headings";
 
 /**
  * HEF content is Markdown with a few trusted HTML blocks (`<details>` for
@@ -34,17 +35,29 @@ export function MarkdownContent({ children }: { children: string }) {
               {children}
             </h1>
           ),
-          h2: ({ children }) => (
-            <h2 className="mt-12 mb-4 border-t border-white/10 pt-8 text-xl font-black tracking-tight text-white">
-              {children}
-            </h2>
-          ),
-          h3: ({ children }) => (
-            <h3 className="mt-8 mb-2 flex items-center gap-2 text-base font-bold text-white">
-              <span className="h-3.5 w-1 rounded-full bg-primary/60" aria-hidden />
-              {children}
-            </h3>
-          ),
+          h2: ({ children }) => {
+            const id = slugifyHeading(textOf(children));
+            return (
+              <h2
+                id={id || undefined}
+                className="mt-12 mb-4 scroll-mt-24 border-t border-white/10 pt-8 text-xl font-black tracking-tight text-white"
+              >
+                {children}
+              </h2>
+            );
+          },
+          h3: ({ children }) => {
+            const id = slugifyHeading(textOf(children));
+            return (
+              <h3
+                id={id || undefined}
+                className="mt-8 mb-2 flex scroll-mt-24 items-center gap-2 text-base font-bold text-white"
+              >
+                <span className="h-3.5 w-1 rounded-full bg-primary/60" aria-hidden />
+                {children}
+              </h3>
+            );
+          },
           h4: ({ children }) => (
             <h4 className="mt-6 mb-2 text-sm font-bold text-white">{children}</h4>
           ),
