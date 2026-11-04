@@ -23,6 +23,7 @@ import {
   Route,
   UserRound,
   GraduationCap,
+  Mail,
 } from "lucide-react"
 
 import {
@@ -60,6 +61,7 @@ const navGroups = [
     label: "Pilotage",
     items: [
       { title: "Dashboard",   url: "/admin",                icon: LayoutDashboard },
+      { title: "Opérations",  url: "/admin/operations",     icon: Mail },
       { title: "Talents",     url: "/admin/users",          icon: Users },
       { title: "Parcours",    url: "/admin/parcours",       icon: Route },
     ],
