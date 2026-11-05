@@ -460,6 +460,7 @@ model Mission {
   deliverables       String[]
   fullBriefing       String?
   submissionMethod   String              @default("ANY_LINK")
+  submissionSchema   Json?
   acceptanceCriteria Json                @default("[]")
   evaluatorNotes     String?
   qualityIndicators  Json                @default("[]")
@@ -533,6 +534,7 @@ model MissionSubmission {
   user                   User            @relation("SubmissionOwner", fields: [userId], references: [id], onDelete: Cascade)
   reviewer               User?           @relation("SubmissionReviewer", fields: [reviewerId], references: [id])
   reviews                MissionReview[]
+  artifacts              MissionSubmissionArtifact[]
 
   @@unique([userId, missionId, cycleKey])
   @@index([status])
@@ -544,6 +546,29 @@ model MissionSubmission {
   @@index([userId, status])
   @@index([userId, createdAt(sort: Desc)])
   @@map("mission_submission")
+}
+
+model MissionSubmissionArtifact {
+  id           String            @id @default(cuid())
+  submissionId String
+  key          String
+  type         String
+  label        String
+  value        String?           @db.Text
+  fileUrl      String?
+  fileName     String?
+  mimeType     String?
+  size         Int?
+  metadata     Json?
+  status       String            @default("SUBMITTED")
+  reviewerNote String?
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+  submission   MissionSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+
+  @@unique([submissionId, key])
+  @@index([submissionId])
+  @@map("mission_submission_artifact")
 }
 
 model MissionReview {

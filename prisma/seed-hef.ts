@@ -16,6 +16,13 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const CONTENT_DIR = path.join(process.cwd(), "content", "hef", "v1", "modules");
+const CONTRACTS_FILE = path.join(
+  process.cwd(),
+  "content",
+  "hef",
+  "v1",
+  "lab-submission-contracts.json",
+);
 
 interface HefContent {
   slug: string;
@@ -80,6 +87,28 @@ interface HefModule {
 interface HefPayload {
   version: string;
   module: HefModule;
+}
+
+interface HefArtifactContract {
+  key: string;
+  label: string;
+  type: string;
+  required?: boolean;
+  accepts?: string[];
+  minItems?: number;
+  minLength?: number;
+  maxLength?: number;
+  autoCheck?: string;
+}
+
+interface HefLabContract {
+  category: string;
+  artifacts: HefArtifactContract[];
+}
+
+interface HefContractPayload {
+  version: string;
+  contracts: Record<string, HefLabContract>;
 }
 
 export interface HefCounts {
@@ -192,8 +221,12 @@ async function upsertHefMission(
   contentId: string,
   kind: "LAB" | "PROJECT",
   item: HefContent | HefProject,
+  contract?: HefLabContract,
 ): Promise<void> {
   const isLab = kind === "LAB";
+  if (isLab && !contract) {
+    throw new Error(`Contrat de soumission manquant pour ${module.code}`);
+  }
   const slug = isLab
     ? `${module.code.toLowerCase()}-${(item as HefContent).slug}`
     : `${module.code.toLowerCase()}-project`;
@@ -207,7 +240,7 @@ async function upsertHefMission(
         ? `Atelier pratique du module ${module.code} — ${module.title}.`
         : `Projet intégrateur du module ${module.code} — ${module.title}.`),
     fullBriefing: item.body,
-    category: isLab ? "CODE" : "GENERAL",
+    category: isLab ? contract!.category : "GENERAL",
     difficulty: module.phase,
     missionLevel: MISSION_LEVEL_BY_PHASE[module.phase] ?? "INIT",
     xp: isLab ? 100 : 300,
@@ -221,7 +254,10 @@ async function upsertHefMission(
       ? (LAB_TESTS[module.code] as unknown as Prisma.InputJsonValue)
       : undefined,
     validationCriteria: (item as HefProject).validationCriteria ?? null,
-    submissionMethod: isLab ? "GITHUB_LINK" : "DOCUMENT_LINK",
+    submissionMethod: isLab ? "MULTI_ARTIFACT" : "DOCUMENT_LINK",
+    submissionSchema: isLab
+      ? (contract!.artifacts as unknown as Prisma.InputJsonValue)
+      : undefined,
     targetProfiles: ["builder", "creator", "strategist", "catalyst"],
     tags: ["HEF", module.code, kind],
     resources: {
@@ -261,6 +297,11 @@ export async function seedHef(db: Db): Promise<HefCounts> {
     .filter((name) => name.endsWith(".json"))
     .sort();
   if (files.length === 0) return counts;
+
+  const contractPayload = JSON.parse(
+    await readFile(CONTRACTS_FILE, "utf8"),
+  ) as HefContractPayload;
+  const labContracts = contractPayload.contracts;
 
   const instructorId = await resolveInstructor(db);
 
@@ -346,7 +387,15 @@ export async function seedHef(db: Db): Promise<HefCounts> {
       for (const [index, lab] of module.labs.entries()) {
         const labContent = await upsertContent(db, labsSection.id, lab, index + 1);
         counts.contents += 1;
-        await upsertHefMission(db, module, course.id, labContent.id, "LAB", lab);
+        await upsertHefMission(
+          db,
+          module,
+          course.id,
+          labContent.id,
+          "LAB",
+          lab,
+          labContracts[module.code],
+        );
         counts.missions += 1;
       }
     }

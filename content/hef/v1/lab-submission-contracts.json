@@ -1,0 +1,174 @@
+{
+  "version": "v1",
+  "contracts": {
+    "HEF-000": {
+      "category": "CODE",
+      "artifacts": [
+        { "key": "code", "label": "serveur.py et script de mesures", "type": "REPO", "required": true, "accepts": ["github", "zip"] },
+        { "key": "measures", "label": "Tableau des mesures avant/après", "type": "TABLE", "required": true, "accepts": ["text", "file"] },
+        { "key": "journal", "label": "Journal de débogage", "type": "DOC", "required": true, "accepts": ["text", "file", "url"] },
+        { "key": "runbook", "label": "Mini-runbook de 5 lignes", "type": "TEXT", "required": true, "minLength": 80 },
+        { "key": "questions", "label": "Réponses aux 2 questions de réflexion", "type": "TEXT", "required": true, "minLength": 80 }
+      ]
+    },
+    "HEF-010": {
+      "category": "CODE",
+      "artifacts": [
+        { "key": "code", "label": "lab.py avec contrat, solutions et tests", "type": "REPO", "required": true, "accepts": ["github", "zip"], "autoCheck": "LAB_TESTS" },
+        { "key": "timings", "label": "Tableau des temps mesurés", "type": "TABLE", "required": true, "accepts": ["text", "file"] },
+        { "key": "verdict", "label": "Verdict argumenté (5 lignes)", "type": "TEXT", "required": true, "minLength": 80 },
+        { "key": "questions", "label": "Réponses aux 2 questions de réflexion", "type": "TEXT", "required": true, "minLength": 80 }
+      ]
+    },
+    "HEF-020": {
+      "category": "CODE",
+      "artifacts": [
+        { "key": "code", "label": "annuaire.py avec les trois classes", "type": "REPO", "required": true, "accepts": ["github", "zip"] },
+        { "key": "tests", "label": "Tests, dont le test aléatoire", "type": "LOG", "required": true, "accepts": ["text", "file", "url"] },
+        { "key": "bench", "label": "Tableau des temps", "type": "TABLE", "required": true, "accepts": ["text", "file"] },
+        { "key": "recommendation", "label": "Recommandation (10 lignes)", "type": "TEXT", "required": true, "minLength": 120 },
+        { "key": "questions", "label": "Réponses aux 2 questions de réflexion", "type": "TEXT", "required": true, "minLength": 80 }
+      ]
+    },
+    "HEF-030": {
+      "category": "CODE",
+      "artifacts": [
+        { "key": "code", "label": "bench.py", "type": "REPO", "required": true, "accepts": ["github", "zip"] },
+        { "key": "table", "label": "Tableau des temps et exposants", "type": "TABLE", "required": true, "accepts": ["text", "file"] },
+        { "key": "report", "label": "Rapport d'une page", "type": "DOC", "required": true, "accepts": ["text", "file", "url"] },
+        { "key": "questions", "label": "Réponses aux 2 questions de réflexion", "type": "TEXT", "required": true, "minLength": 80 }
+      ]
+    },
+    "HEF-040": {
+      "category": "CODE",
+      "artifacts": [
+        { "key": "code", "label": "machine.py et test_machine.py", "type": "REPO", "required": true, "accepts": ["github", "zip"] },
+        { "key": "trace", "label": "Trace commentée d'un programme", "type": "LOG", "required": true, "accepts": ["text", "file"] },
+        { "key": "cycles", "label": "Tableau de cycles et taux d'échecs", "type": "TABLE", "required": true, "accepts": ["text", "file"] },
+        { "key": "questions", "label": "Réponses aux 2 questions de réflexion", "type": "TEXT", "required": true, "minLength": 80 }
+      ]
+    },
+    "HEF-050": {
+      "category": "CODE",
+      "artifacts": [
+        { "key": "code", "label": "incidents.py avec tests", "type": "REPO", "required": true, "accepts": ["github", "zip"] },
+        { "key": "reports", "label": "Quatre rapports d'incident générés", "type": "DOC", "required": true, "minItems": 4, "accepts": ["text", "file", "url"] },
+        { "key": "reflection", "label": "Réflexion de 5 lignes", "type": "TEXT", "required": true, "minLength": 80 },
+        { "key": "questions", "label": "Réponses aux 2 questions de réflexion", "type": "TEXT", "required": true, "minLength": 80 }
+      ]
+    },
+    "HEF-060": {
+      "category": "CODE",
+      "artifacts": [
+        { "key": "code", "label": "annuaire.py et ses tests", "type": "REPO", "required": true, "accepts": ["github", "zip"] },
+        { "key": "diagnostics", "label": "Sorties du diagnostic pour chaque panne", "type": "LOG", "required": true, "accepts": ["text", "file"] },
+        { "key": "report", "label": "Rapport comparatif TCP / HTTP", "type": "DOC", "required": true, "accepts": ["text", "file", "url"] },
+        { "key": "questions", "label": "Réponses aux 2 questions de réflexion", "type": "TEXT", "required": true, "minLength": 80 }
+      ]
+    },
+    "HEF-070": {
+      "category": "CODE",
+      "artifacts": [
+        { "key": "code", "label": "schema.sql, donnees.py, requetes.py, tests.py", "type": "REPO", "required": true, "accepts": ["github", "zip"] },
+        { "key": "plans", "label": "Tableau des plans et temps avant/après index", "type": "TABLE", "required": true, "accepts": ["text", "file"] },
+        { "key": "report", "label": "Rapport d'une page", "type": "DOC", "required": true, "accepts": ["text", "file", "url"] },
+        { "key": "questions", "label": "Réponses aux 2 questions de réflexion", "type": "TEXT", "required": true, "minLength": 80 }
+      ]
+    },
+    "HEF-080": {
+      "category": "CODE",
+      "artifacts": [
+        { "key": "code", "label": "Code avant/après", "type": "REPO", "required": true, "accepts": ["github", "zip"] },
+        { "key": "journal", "label": "Journal de refactoring", "type": "DOC", "required": true, "accepts": ["text", "file", "url"] },
+        { "key": "tests", "label": "Tests de caractérisation et tests unitaires", "type": "LOG", "required": true, "accepts": ["text", "file", "url"] },
+        { "key": "audit", "label": "Rapport d'audit avant/après", "type": "DOC", "required": true, "accepts": ["text", "file", "url"] },
+        { "key": "adr_debt", "label": "ADR et registre de dette", "type": "DOC", "required": true, "accepts": ["text", "file", "url"] },
+        { "key": "questions", "label": "Réponses aux 2 questions de réflexion", "type": "TEXT", "required": true, "minLength": 80 }
+      ]
+    },
+    "HEF-090": {
+      "category": "CODE",
+      "artifacts": [
+        { "key": "code", "label": "mon_hashscript.py et ses tests", "type": "REPO", "required": true, "accepts": ["github", "zip"] },
+        { "key": "grammar", "label": "Grammaire EBNF", "type": "DOC", "required": true, "accepts": ["text", "file"] },
+        { "key": "diff_journal", "label": "Journal des différences avec la référence", "type": "DOC", "required": true, "accepts": ["text", "file", "url"] },
+        { "key": "adr", "label": "ADR pour la fonctionnalité ajoutée", "type": "DOC", "required": true, "accepts": ["text", "file", "url"] },
+        { "key": "questions", "label": "Réponses aux 2 questions de réflexion", "type": "TEXT", "required": true, "minLength": 80 }
+      ]
+    },
+    "HEF-100": {
+      "category": "CODE",
+      "artifacts": [
+        { "key": "code", "label": "appli_jouet.py (fragile et corrigée)", "type": "REPO", "required": true, "accepts": ["github", "zip"] },
+        { "key": "attacks", "label": "attaques.py et test_securite.py", "type": "CODE", "required": true, "accepts": ["file", "url"] },
+        { "key": "analyzer", "label": "Sortie de l'analyseur avant/après", "type": "LOG", "required": true, "accepts": ["text", "file"] },
+        { "key": "report", "label": "Rapport généré", "type": "DOC", "required": true, "accepts": ["text", "file", "url"] },
+        { "key": "questions", "label": "Réponses aux 2 questions de réflexion", "type": "TEXT", "required": true, "minLength": 80 }
+      ]
+    },
+    "HEF-110": {
+      "category": "CODE",
+      "artifacts": [
+        { "key": "matrix", "label": "Matrice de comportements", "type": "TABLE", "required": true, "accepts": ["text", "file"] },
+        { "key": "tests", "label": "Suite de tests", "type": "REPO", "required": true, "accepts": ["github", "zip"] },
+        { "key": "coverage", "label": "Scores de couverture et de mutation", "type": "TABLE", "required": true, "accepts": ["text", "file"] },
+        { "key": "junit", "label": "Rapport JUnit de la régression contrôlée", "type": "LOG", "required": true, "accepts": ["text", "file"] },
+        { "key": "questions", "label": "Réponses aux 2 questions de réflexion", "type": "TEXT", "required": true, "minLength": 80 }
+      ]
+    },
+    "HEF-120": {
+      "category": "CODE",
+      "artifacts": [
+        { "key": "repo", "label": "Dépôt et historique conventionnel", "type": "REPO", "required": true, "accepts": ["github"] },
+        { "key": "docker", "label": "Dockerfile et résultat de l'audit", "type": "CODE", "required": true, "accepts": ["text", "file", "url"] },
+        { "key": "pipeline", "label": "Schéma du pipeline et chemin critique", "type": "DIAGRAM", "required": true, "accepts": ["text", "file"] },
+        { "key": "logs", "label": "Journaux, SLI et décisions canary", "type": "LOG", "required": true, "accepts": ["text", "file", "url"] },
+        { "key": "dora", "label": "Indicateurs DORA calculés", "type": "TABLE", "required": true, "accepts": ["text", "file"] },
+        { "key": "questions", "label": "Réponses aux 2 questions de réflexion", "type": "TEXT", "required": true, "minLength": 80 }
+      ]
+    },
+    "HEF-130": {
+      "category": "CODE",
+      "artifacts": [
+        { "key": "code", "label": "Programme et banc de mesure", "type": "REPO", "required": true, "accepts": ["github", "zip"] },
+        { "key": "raw", "label": "Données brutes de chaque mesure", "type": "DATA", "required": true, "accepts": ["file", "url"] },
+        { "key": "profiles", "label": "Profils et plans d'exécution", "type": "LOG", "required": true, "accepts": ["text", "file", "url"] },
+        { "key": "before_after", "label": "Tableau avant/après avec incertitude", "type": "TABLE", "required": true, "accepts": ["text", "file"] },
+        { "key": "guardrails", "label": "Garde-fous et preuve de détection", "type": "CODE", "required": true, "accepts": ["text", "file", "url"] },
+        { "key": "questions", "label": "Réponses aux 2 questions de réflexion", "type": "TEXT", "required": true, "minLength": 80 }
+      ]
+    },
+    "HEF-140": {
+      "category": "CODE",
+      "artifacts": [
+        { "key": "code", "label": "Code du simulateur et des conceptions", "type": "REPO", "required": true, "accepts": ["github", "zip"] },
+        { "key": "bench", "label": "Sortie du banc d'essai", "type": "LOG", "required": true, "accepts": ["text", "file"] },
+        { "key": "faulty", "label": "Exécution fautive minimisée", "type": "LOG", "required": true, "accepts": ["text", "file"] },
+        { "key": "table_adr", "label": "Table menace → mécanisme → test et ADR", "type": "DOC", "required": true, "accepts": ["text", "file", "url"] },
+        { "key": "questions", "label": "Réponses aux 2 questions de réflexion", "type": "TEXT", "required": true, "minLength": 80 }
+      ]
+    },
+    "HEF-150": {
+      "category": "BUSINESS",
+      "artifacts": [
+        { "key": "code", "label": "Scripts lab/ (cadrage, découverte, expérience, MVP, analytics, décision)", "type": "REPO", "required": true, "accepts": ["github", "zip"] },
+        { "key": "framing", "label": "Cadrage et arbre de métriques", "type": "DOC", "required": true, "accepts": ["text", "file", "url"] },
+        { "key": "discovery", "label": "Synthèse d'entretiens et plan d'expérience", "type": "DOC", "required": true, "accepts": ["text", "file", "url"] },
+        { "key": "acceptance", "label": "Critères d'acceptation exécutés", "type": "LOG", "required": true, "accepts": ["text", "file"] },
+        { "key": "memo", "label": "Mémo de décision et prévisions chiffrées", "type": "DOC", "required": true, "accepts": ["text", "file", "url"] },
+        { "key": "questions", "label": "Réponses aux 2 questions de réflexion", "type": "TEXT", "required": true, "minLength": 80 }
+      ]
+    },
+    "HEF-160": {
+      "category": "GENERAL",
+      "artifacts": [
+        { "key": "code", "label": "Scripts lab/ (contexte, outils, agent, évaluation, vérification, sécurité, workflow)", "type": "REPO", "required": true, "accepts": ["github", "zip"] },
+        { "key": "journal", "label": "Journal d'outils chaîné et trace d'agent", "type": "LOG", "required": true, "accepts": ["text", "file", "url"] },
+        { "key": "evaluation", "label": "Rapport d'évaluation avec intervalles", "type": "DOC", "required": true, "accepts": ["text", "file", "url"] },
+        { "key": "verifier", "label": "Rapport du vérificateur sur les candidats", "type": "DOC", "required": true, "accepts": ["text", "file", "url"] },
+        { "key": "attacks", "label": "Tableau du banc d'attaques et fiches de provenance", "type": "TABLE", "required": true, "accepts": ["text", "file"] },
+        { "key": "questions", "label": "Réponses aux 2 questions de réflexion", "type": "TEXT", "required": true, "minLength": 80 }
+      ]
+    }
+  }
+}
