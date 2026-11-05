@@ -149,7 +149,6 @@
       "sharp": ">=0.35.5",
       "baseline-browser-mapping": ">=2.11.0",
       "smol-toml": ">=1.9.0",
-      "zod@4": "4.6.7",
       "vite": "6.4.5",
       "minimatch": ">=11.0.1"
     }
