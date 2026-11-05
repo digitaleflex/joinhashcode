@@ -137,6 +137,9 @@ export const squadManagementLimiter = makeLimiter(30, "1 h")
 // 10 admin broadcast/export ops per admin per hour
 export const adminOpsLimiter = makeLimiter(10, "1 h")
 
+// 20 unauthenticated requests per IP per minute (public POST endpoints)
+export const publicApiLimiter = makeLimiter(20, "1 m")
+
 export async function checkRateLimit(
   limiter: RateLimiter | null,
   identifier: string,

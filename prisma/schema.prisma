@@ -126,6 +126,12 @@ model User {
   emailVerified        Boolean
   emailStatus          String    @default("VALID")
   emailLastBounced     DateTime?
+  // Consentement et désabonnement des communications opérationnelles (#403/#406).
+  // `emailConsentAt` = date du consentement explicite à l'inscription.
+  // `emailOptOutAt`  = date du désabonnement ; présence = plus aucune relance.
+  emailConsentAt       DateTime? @map("email_consent_at")
+  emailOptOutAt        DateTime? @map("email_opt_out_at")
+  emailOptOutToken     String?   @unique @map("email_opt_out_token")
   image                String?
   createdAt            DateTime
   updatedAt            DateTime

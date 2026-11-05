@@ -10,6 +10,8 @@ export type ActivityAction =
   // Referral
   | "REFERRAL_REWARD_GRANTED"
   | "REFERRAL_COMPLETED"
+  // Email consent
+  | "EMAIL_OPT_OUT"
   // Onboarding funnel
   | "ONBOARDING_COMPLETED"
   | "QUIZ_COMPLETED"
