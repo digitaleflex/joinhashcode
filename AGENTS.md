@@ -54,7 +54,7 @@ The `User` model is the central data structure — it holds psychometric scores 
 logActivity({ userId, action: "QUIZ_COMPLETED", entity: "quiz_result", entityId, metadata: { ... }, request: req })
 ```
 
-Tracked actions: `ONBOARDING_COMPLETED`, `QUIZ_COMPLETED`, `POST_QUIZ_COMPLETED`, `SQUAD_CREATED`, `SQUAD_JOINED`, `SQUAD_UPDATED`, `CHECKIN_COMPLETED`, `MISSION_CLAIMED`, `MISSION_APPROVED`, `ADMIN_SUBMISSION_REVIEWED`. Add new actions to the `ActivityAction` union in `lib/activity-log.ts`.
+Tracked actions: `ONBOARDING_COMPLETED`, `QUIZ_COMPLETED`, `POST_QUIZ_COMPLETED`, `SQUAD_CREATED`, `SQUAD_JOINED`, `SQUAD_UPDATED`, `CHECKIN_COMPLETED`, `MISSION_CLAIMED`, `MISSION_APPROVED`, `ADMIN_SUBMISSION_REVIEWED`, `EMAIL_OPT_OUT`. Add new actions to the `ActivityAction` union in `lib/activity-log.ts`.
 
 > **After any schema change:** run `npx prisma db push` to apply the migration and regenerate the client. The `(prisma as any).activityLog` cast in `lib/activity-log.ts` can be removed once the client is regenerated.
 
@@ -110,6 +110,7 @@ REST endpoints under `app/api/`:
 | `feed/`                         | GET       | session         | Activity feed                                                         |
 | `feedback/`                     | POST      | session         | Submit beta feedback                                                  |
 | `contact/`                      | POST      | —               | Contact form                                                          |
+| `email/unsubscribe/`            | POST      | — (signé HMAC)  | Désabonnement des relances opérationnelles                            |
 | `status/`                       | GET       | —               | Health check                                                          |
 | `referral/`                     | POST      | session         | Referral tracking                                                     |
 | `reviewer/`                     | GET       | session         | Reviewer dashboard data                                               |
