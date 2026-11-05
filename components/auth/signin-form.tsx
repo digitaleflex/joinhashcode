@@ -11,32 +11,9 @@ import { toast } from "sonner"
 import Link from "next/link"
 import { Logo } from "@/components/brand/logo"
 import { OtpInput } from "@/components/auth/otp-input"
+import { describeAuthError } from "@/lib/auth-errors"
 
 const LAST_EMAIL_KEY = "hashcode:last-email"
-
-/** Turn Better Auth errors into explicit, non-leaky messages. */
-function describeAuthError(error: unknown, context: "send" | "verify" | "magic"): string {
-    const err = error as { status?: number; message?: string; code?: string } | undefined
-    const status = err?.status
-    const message = (err?.message ?? "").toLowerCase()
-
-    if (status === 429 || message.includes("too many") || message.includes("429")) {
-        return "Trop de tentatives. Réessaie dans une minute."
-    }
-    if (message.includes("expired")) {
-        return "Ce code a expiré. Demande-en un nouveau."
-    }
-    if (context === "verify" && (message.includes("invalid") || message.includes("incorrect"))) {
-        return "Code incorrect. Vérifie les 8 caractères reçus."
-    }
-    if (context === "magic") {
-        return "Le lien n'a pas pu être envoyé. Réessaie dans quelques instants."
-    }
-    if (context === "send") {
-        return "Le code n'a pas pu être envoyé. Vérifie ton adresse email et réessaie."
-    }
-    return "La vérification a échoué. Réessaie dans quelques instants."
-}
 
 /** Only allow same-origin relative paths — rejects // protocol-relative and path-traversal attempts */
 function getSafeCallbackUrl(fallback = "/quiz"): string {
