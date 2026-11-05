@@ -39,7 +39,7 @@ export const submissionSchema = z.object({
 export type SubmissionInput = z.infer<typeof submissionSchema>;
 
 export const reviewSchema = z.object({
-  criteria: z.record(z.boolean()),
+  criteria: z.record(z.string(), z.boolean()),
   feedback: z.string().min(20),
   forceApprove: z.boolean().optional().default(false),
 });

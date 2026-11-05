@@ -87,7 +87,7 @@ export async function POST(req: Request) {
     return NextResponse.json(content);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json(error.errors, { status: 400 });
+      return NextResponse.json(error.issues, { status: 400 });
     }
     console.error("[ADMIN_PROFILE_CONTENT_POST]", error);
     return NextResponse.json({ message: "Erreur interne" }, { status: 500 });

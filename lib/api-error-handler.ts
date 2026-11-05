@@ -24,11 +24,12 @@ export function handleApiError(error: unknown, contextMessage: string = "Erreur 
 
   // 3. Gestion des erreurs de validation Zod
   if (error instanceof ZodError) {
-    const firstError = Object.values(error.flatten().fieldErrors)[0]?.[0] 
-      || error.errors[0]?.message 
+    const fieldErrors = error.flatten().fieldErrors as Record<string, string[] | undefined>;
+    const firstError = Object.values(fieldErrors)[0]?.[0]
+      || (error.issues as Array<{ message?: string }>)[0]?.message
       || "Certaines données transmises sont invalides.";
     return NextResponse.json(
-      { message: firstError, errors: error.flatten().fieldErrors },
+      { message: firstError, errors: fieldErrors },
       { status: 400 }
     );
   }

@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     
     const validated = checkinSchema.safeParse(body);
     if (!validated.success) {
-      return NextResponse.json({ message: validated.error.errors[0].message }, { status: 400 });
+      return NextResponse.json({ message: validated.error.issues[0].message }, { status: 400 });
     }
 
     const { note, domain, energy, duration } = validated.data;

@@ -72,7 +72,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     return NextResponse.json(content);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json(error.errors, { status: 400 });
+      return NextResponse.json(error.issues, { status: 400 });
     }
     console.error("[ADMIN_PROFILE_CONTENT_PATCH]", error);
     return NextResponse.json({ message: "Erreur interne" }, { status: 500 });

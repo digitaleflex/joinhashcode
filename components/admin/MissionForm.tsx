@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
@@ -59,7 +59,7 @@ export function MissionForm({ initialData, onSuccess }: MissionFormProps) {
   const [acceptanceCriteria, setAcceptanceCriteria] = useState<string[]>((initialData?.acceptanceCriteria as string[]) || []);
 
   const form = useForm<MissionFormValues>({
-    resolver: zodResolver(missionSchema),
+    resolver: zodResolver(missionSchema) as Resolver<MissionFormValues>,
     defaultValues: (initialData as MissionFormValues) || {
       title: "",
       description: "",

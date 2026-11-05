@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
     const parsed = contactSchema.safeParse(body)
 
     if (!parsed.success) {
-      const firstError = parsed.error.errors[0]?.message ?? "Données invalides."
+      const firstError = parsed.error.issues[0]?.message ?? "Données invalides."
       return NextResponse.json({ error: firstError }, { status: 400 })
     }
 

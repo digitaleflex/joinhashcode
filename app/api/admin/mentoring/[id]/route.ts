@@ -59,7 +59,7 @@ export async function PUT(
     return NextResponse.json({ message: "Type invalide" }, { status: 400 });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json(error.errors, { status: 400 });
+      return NextResponse.json(error.issues, { status: 400 });
     }
     console.error("[ADMIN_MENTORING_PUT]", error);
     return NextResponse.json({ message: "Erreur interne" }, { status: 500 });
@@ -179,7 +179,7 @@ export async function PATCH(
     return NextResponse.json({ message: "Type invalide" }, { status: 400 });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json(error.errors, { status: 400 });
+      return NextResponse.json(error.issues, { status: 400 });
     }
     console.error("[ADMIN_MENTORING_PATCH]", error);
     return NextResponse.json({ message: "Erreur interne" }, { status: 500 });

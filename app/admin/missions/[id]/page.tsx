@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, use } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
+import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
@@ -145,7 +145,7 @@ export default function MissionDetailPage({ params }: { params: Promise<{ id: st
   const [advancedOpen, setAdvancedOpen] = useState(false);
 
   const form = useForm<MissionFormValues>({
-    resolver: zodResolver(missionSchema),
+    resolver: zodResolver(missionSchema) as Resolver<MissionFormValues>,
     defaultValues: {
       title: "",
       description: "",

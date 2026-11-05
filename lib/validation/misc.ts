@@ -80,7 +80,7 @@ export type AdminSquadTransferInput = z.infer<typeof adminSquadTransferSchema>;
 export const adminLogSchema = z.object({
   action: z.string().min(1).max(100),
   entityId: z.string().min(1).max(100).optional().nullable(),
-  metadata: z.record(z.unknown()).optional(),
+  metadata: z.record(z.string(), z.unknown()).optional(),
 });
 
 export type AdminLogInput = z.infer<typeof adminLogSchema>;

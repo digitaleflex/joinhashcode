@@ -165,7 +165,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ id: mission.id, slug: mission.slug, title: mission.title });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ message: "Données invalides", errors: error.errors }, { status: 400 });
+      return NextResponse.json({ message: "Données invalides", errors: error.issues }, { status: 400 });
     }
     console.error("[ADMIN_MISSION_IMPORT_POST]", error);
     return NextResponse.json({ message: "Erreur interne" }, { status: 500 });

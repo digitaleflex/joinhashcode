@@ -16,7 +16,7 @@ export const dynamic = "force-dynamic";
 
 const submitSchema = z.object({
   stepKey: z.string().optional(),
-  data: z.record(z.unknown()).optional(),
+  data: z.record(z.string(), z.unknown()).optional(),
 });
 
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {

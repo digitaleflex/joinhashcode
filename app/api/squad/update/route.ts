@@ -17,7 +17,7 @@ export async function PATCH(req: Request) {
     const body = await req.json();
     const parsed = updateSquadSchema.safeParse(body);
     if (!parsed.success) {
-      return NextResponse.json({ error: parsed.error.errors[0]?.message ?? "Données invalides." }, { status: 400 });
+      return NextResponse.json({ error: parsed.error.issues[0]?.message ?? "Données invalides." }, { status: 400 });
     }
 
     const { name, slug, isPrivate, requiredLevel, description, announcement, discordInviteUrl } = parsed.data;

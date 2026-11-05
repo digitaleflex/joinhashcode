@@ -18,7 +18,7 @@ import { reviewLimiterStrict, checkRateLimit } from "@/lib/ratelimit";
 import { triggerWebhooks } from "@/lib/webhooks";
 
 const reviewSchema = z.object({
-  criteria: z.record(z.boolean()),
+  criteria: z.record(z.string(), z.boolean()),
   feedback: z.string().min(20),
   forceApprove: z.boolean().optional().default(false),
 });

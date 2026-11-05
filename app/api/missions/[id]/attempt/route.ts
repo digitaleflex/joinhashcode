@@ -13,7 +13,7 @@ const MAX_AUTOSAVE_BYTES = 100_000; // 100 KB
 
 const autosaveSchema = z.object({
   stepKey: z.string().min(1),
-  data: z.record(z.unknown()),
+  data: z.record(z.string(), z.unknown()),
 }).refine(
   (val) => Buffer.byteLength(JSON.stringify(val.data), "utf-8") <= MAX_AUTOSAVE_BYTES,
   { message: `Payload trop volumineux (max ${MAX_AUTOSAVE_BYTES / 1000} KB)` },
