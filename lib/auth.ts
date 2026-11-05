@@ -10,6 +10,7 @@ import { redis } from "./ratelimit";
 import { invalidateUserCache } from "./user-cache";
 import { logError } from "./logger";
 import { provisionNewUser, type NewUser } from "./user-provisioning";
+import { recordAuthConsent, type AuthConsentDb } from "./auth-consent";
 
 const buildTrustedOrigins = () => {
   const origins = new Set<string>();
@@ -207,6 +208,12 @@ export const auth = betterAuth({
             } satisfies NewUser,
           );
 
+          await recordAuthConsent(prisma as unknown as AuthConsentDb, {
+            userId,
+            email: userEmail,
+            channel: "account_created",
+          });
+
           if (!provisioned) {
             logError(
               "Auth Hooks Provisioning",
@@ -254,13 +261,22 @@ export const auth = betterAuth({
               where: { id: userId },
               select: {
                 name: true,
+                email: true,
                 pseudo: true,
                 class: true,
                 referralCode: true,
               },
             });
 
-            if (!user || user.referralCode) return;
+            if (!user) return;
+
+            await recordAuthConsent(prisma as unknown as AuthConsentDb, {
+              userId,
+              email: user.email,
+              channel: "session_created",
+            });
+
+            if (user.referralCode) return;
 
             const provisioned = await provisionNewUser(
               prisma as unknown as Parameters<typeof provisionNewUser>[0],
