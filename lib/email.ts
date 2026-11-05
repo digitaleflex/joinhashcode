@@ -160,16 +160,22 @@ export const emailService = {
     email,
     name,
     step,
+    unsubscribeUrl,
   }: {
     email: string;
     name: string;
     step: OpsReminderStep;
+    unsubscribeUrl?: string;
   }) {
     if (!resend) {
       warnEmailMissing("sendOpsReminder");
       return { success: true, mocked: true };
     }
-    const { subject, html, text } = getOpsReminderEmailContent({ name, step });
+    const { subject, html, text } = getOpsReminderEmailContent({
+      name,
+      step,
+      unsubscribeUrl,
+    });
     return this._send({ to: email, subject, html, text });
   },
 

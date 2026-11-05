@@ -35,24 +35,37 @@ const STEPS: Record<
 export function getOpsReminderEmailContent({
   name,
   step,
+  unsubscribeUrl,
 }: {
   name: string;
   step: OpsReminderStep;
+  unsubscribeUrl?: string;
 }) {
   const firstName = (name || "").split(" ")[0] || "toi";
   const content = STEPS[step];
+  const unsubscribe = unsubscribeUrl
+    ? `<p style="margin-top:22px; font-size:12px; color:#77777f;">
+         Tu ne veux plus de relances d'activation ?
+         <a href="${escHtml(unsubscribeUrl)}" style="color:#77777f; text-decoration:underline;">Se désabonner</a>.
+       </p>`
+    : "";
   const html = generateEmailTemplate(
   `<h1>${escHtml(content.title)}, <span class="accent">${escHtml(firstName)}</span>.</h1>
    <p>${escHtml(content.body)}</p>
    <div class="btn-wrap">
      <a href="${APP_URL}${content.href}" class="btn">${escHtml(content.cta)} →</a>
-   </div>`,
+   </div>
+   ${unsubscribe}`,
     content.body,
   );
+
+  const text = unsubscribeUrl
+    ? `${stripHtml(content.body)}\n\nSe désabonner : ${unsubscribeUrl}`
+    : stripHtml(content.body);
 
   return {
     subject: `${firstName}, ${content.title.toLowerCase()}`,
     html,
-    text: stripHtml(content.body),
+    text,
   };
 }

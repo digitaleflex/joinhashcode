@@ -27,15 +27,16 @@ export default async function AdminOperationsPage() {
   const [totalValid, noOnboarding, noQuiz, noDomain, noFirstAction, users] =
     await Promise.all([
       prisma.user.count({
-        where: { banned: { not: true }, deactivatedAt: null, emailStatus: "VALID" },
+        where: { banned: { not: true }, deactivatedAt: null, emailOptOutAt: null, emailStatus: "VALID" },
       }),
       prisma.user.count({
-        where: { banned: { not: true }, deactivatedAt: null, currentSituation: null },
+        where: { banned: { not: true }, deactivatedAt: null, emailOptOutAt: null, currentSituation: null },
       }),
       prisma.user.count({
         where: {
           banned: { not: true },
           deactivatedAt: null,
+          emailOptOutAt: null,
           currentSituation: { not: null },
           class: null,
         },
@@ -44,6 +45,7 @@ export default async function AdminOperationsPage() {
         where: {
           banned: { not: true },
           deactivatedAt: null,
+          emailOptOutAt: null,
           class: { not: null },
           primaryDomain: null,
         },
@@ -52,6 +54,7 @@ export default async function AdminOperationsPage() {
         where: {
           banned: { not: true },
           deactivatedAt: null,
+          emailOptOutAt: null,
           primaryDomain: { not: null },
           firstActionStartedAt: null,
         },
@@ -60,6 +63,7 @@ export default async function AdminOperationsPage() {
         where: {
           banned: { not: true },
           deactivatedAt: null,
+          emailOptOutAt: null,
           emailStatus: "VALID",
           OR: [
             { currentSituation: null },
