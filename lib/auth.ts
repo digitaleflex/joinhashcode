@@ -239,6 +239,59 @@ export const auth = betterAuth({
         },
       },
     },
+    // Retry the profile initialisation on every sign-in. This repairs legacy
+    // accounts and the rare case where the create hook could not provision the
+    // profile (transient DB error, collision retries exhausted). The update is
+    // guarded by `referralCode: null`, so it stays idempotent.
+    session: {
+      create: {
+        after: async (session: Record<string, unknown>) => {
+          const userId = session.userId as string;
+          if (!userId) return;
+
+          try {
+            const user = await prisma.user.findUnique({
+              where: { id: userId },
+              select: {
+                name: true,
+                pseudo: true,
+                class: true,
+                referralCode: true,
+              },
+            });
+
+            if (!user || user.referralCode) return;
+
+            const provisioned = await provisionNewUser(
+              prisma as unknown as Parameters<typeof provisionNewUser>[0],
+              {
+                id: userId,
+                name: user.name,
+                pseudo: user.pseudo,
+                class: user.class,
+              } satisfies NewUser,
+            );
+
+            if (!provisioned) {
+              logError(
+                "Auth Hooks Session Provisioning",
+                `Échec de réparation du profil pour ${userId}`,
+              );
+            }
+
+            await invalidateUserCache(userId).catch((err) =>
+              logError(
+                "Auth Hooks Cache Invalidation",
+                `Échec pour ${userId} lors de la connexion : ${err}`,
+              ),
+            );
+          } catch (err) {
+            // Never block sign-in because profile repair failed.
+            logError("Auth Hooks Session Provisioning", err);
+          }
+        },
+      },
+    },
   },
   // Fix SEC-011: share rate-limit counters across replicas via Redis
   ...(redis ? (() => {
