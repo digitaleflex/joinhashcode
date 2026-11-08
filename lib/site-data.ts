@@ -38,6 +38,10 @@ const MISSION_PUBLIC_SELECT = {
   missionLevel: true,
   targetProfiles: true,
   isWeeklyChallenge: true,
+  deliverables: true,
+  course: {
+    select: { slug: true, title: true },
+  },
 } as const
 
 export async function getPublishedMissions() {
@@ -46,9 +50,51 @@ export async function getPublishedMissions() {
       where: { status: "PUBLISHED", deletedAt: null },
       select: MISSION_PUBLIC_SELECT,
       orderBy: [{ isWeeklyChallenge: "asc" }, { createdAt: "desc" }],
-      take: 50,
+      take: 100,
     })
   )
+}
+
+export interface CourseGroup<T> {
+  course: { slug: string; title: string } | null
+  missions: T[]
+}
+
+/**
+ * Regroupe des missions par cours d'appartenance (contexte d'abord, jamais
+ * de liste à plat). Les missions sans cours vont dans un groupe orphelin en
+ * fin de liste. Ordre des cours : slug croissant (hef-000, hef-010, …).
+ * Fonction pure → testée unitairement.
+ */
+export function groupMissionsByCourse<
+  T extends { course: { slug: string; title: string } | null },
+>(missions: T[]): CourseGroup<T>[] {
+  const groups = new Map<string, CourseGroup<T>>()
+  const orphans: T[] = []
+
+  for (const mission of missions) {
+    if (!mission.course) {
+      orphans.push(mission)
+      continue
+    }
+    const existing = groups.get(mission.course.slug)
+    if (existing) {
+      existing.missions.push(mission)
+    } else {
+      groups.set(mission.course.slug, {
+        course: { slug: mission.course.slug, title: mission.course.title },
+        missions: [mission],
+      })
+    }
+  }
+
+  const ordered = [...groups.values()].sort((a, b) =>
+    (a.course?.slug ?? "").localeCompare(b.course?.slug ?? ""),
+  )
+  if (orphans.length > 0) {
+    ordered.push({ course: null, missions: orphans })
+  }
+  return ordered
 }
 
 export async function getActiveAteliers() {
