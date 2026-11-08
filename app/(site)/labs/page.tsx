@@ -234,25 +234,24 @@ export default async function LabsPage({
                     {group.missions.length} lab{group.missions.length > 1 ? "s" : ""}
                   </span>
                 </span>
-                <span className="flex items-center gap-3">
-                  {group.course && (
-                    <Link
-                      href={`/academy/courses/${group.course.slug}`}
-                      onClick={(e) => e.stopPropagation()}
-                      className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
-                    >
-                      Voir le cours <ArrowRight className="h-3.5 w-3.5" aria-hidden />
-                    </Link>
-                  )}
-                  <span className="text-muted-foreground transition-transform group-open:rotate-180" aria-hidden>
-                    ⌄
-                  </span>
+                <span className="text-muted-foreground transition-transform group-open:rotate-180" aria-hidden>
+                  ⌄
                 </span>
               </summary>
-              <div className="grid gap-4 border-t border-border p-5 md:grid-cols-2">
-                {group.missions.map((m) => (
-                  <LabCard key={m.id} m={m} />
-                ))}
+              <div className="border-t border-border p-5">
+                {group.course && (
+                  <Link
+                    href={`/academy/courses/${group.course.slug}`}
+                    className="mb-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+                  >
+                    Voir le cours : {group.course.title} <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                  </Link>
+                )}
+                <div className="grid gap-4 md:grid-cols-2">
+                  {group.missions.map((m) => (
+                    <LabCard key={m.id} m={m} />
+                  ))}
+                </div>
               </div>
             </details>
           </section>
