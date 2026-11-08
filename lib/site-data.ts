@@ -97,6 +97,65 @@ export function groupMissionsByCourse<
   return ordered
 }
 
+export interface LevelGroup<T> {
+  level: string | null
+  label: string
+  missions: T[]
+}
+
+const LEVEL_ORDER = ["INIT", "CORE", "PRO"] as const
+
+const LEVEL_LABELS: Record<string, string> = {
+  INIT: "Initiation",
+  CORE: "Cœur du parcours",
+  PRO: "Niveau pro",
+}
+
+/**
+ * Regroupe des missions par niveau (INIT → CORE → PRO, sans niveau en fin).
+ * Fonction pure → testée unitairement.
+ */
+export function groupMissionsByLevel<T extends { missionLevel: string | null }>(
+  missions: T[],
+): LevelGroup<T>[] {
+  const groups = new Map<string | null, T[]>()
+  for (const mission of missions) {
+    const list = groups.get(mission.missionLevel)
+    if (list) {
+      list.push(mission)
+    } else {
+      groups.set(mission.missionLevel, [mission])
+    }
+  }
+
+  const ordered: LevelGroup<T>[] = []
+  for (const level of LEVEL_ORDER) {
+    const list = groups.get(level)
+    if (list && list.length > 0) {
+      ordered.push({ level, label: LEVEL_LABELS[level], missions: list })
+      groups.delete(level)
+    }
+  }
+  const rest = [...groups.entries()].sort(([a], [b]) => (a ?? "zzz").localeCompare(b ?? "zzz"))
+  for (const [level, list] of rest) {
+    ordered.push({ level, label: level ?? "Sans niveau", missions: list })
+  }
+  return ordered
+}
+
+/**
+ * Tri compacte : par cours puis par titre. Fonction pure → testée unitairement.
+ */
+export function sortMissionsForCompactView<
+  T extends { title: string; course: { slug: string; title: string } | null },
+>(missions: T[]): T[] {
+  return [...missions].sort(
+    (a, b) =>
+      (a.course?.slug ?? "zzz").localeCompare(b.course?.slug ?? "zzz") ||
+      a.title.localeCompare(b.title),
+  )
+}
+
 export async function getActiveAteliers() {
   return safe([], () =>
     prisma.atelier.findMany({
