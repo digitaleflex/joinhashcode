@@ -60,6 +60,11 @@ function isHttpUrl(value: string): boolean {
   }
 }
 
+function isValidFileUrl(value: string): boolean {
+  if (value.startsWith("/uploads/")) return true;
+  return isHttpUrl(value);
+}
+
 function countItems(value: string, metadata?: Record<string, unknown> | null): number {
   if (metadata && Array.isArray(metadata.items)) {
     return metadata.items.filter((item) => typeof item === "string" && item.trim().length > 0).length;
@@ -125,23 +130,31 @@ export function validateArtifactsAgainstSchema(
       continue;
     }
 
+    if (fileUrl && !isValidFileUrl(fileUrl)) {
+      errors.push(`${spec.label} : URL de fichier invalide (fichier joint ou lien http(s) attendu).`);
+    }
+
     if (spec.type === "REPO" || spec.type === "LINK") {
       if (value && !isHttpUrl(value)) {
         errors.push(`${spec.label} doit être une URL http(s) valide.`);
       }
     }
 
-    if (spec.type === "TEXT") {
-      if (spec.minLength && value.length < spec.minLength) {
-        errors.push(`${spec.label} doit contenir au moins ${spec.minLength} caractères.`);
+    // Les seuils portent sur le contenu collé : un fichier joint est opaque,
+    // on ne peut pas le compter — seule sa présence est exigée.
+    if (value.length > 0) {
+      if (spec.type === "TEXT") {
+        if (spec.minLength && value.length < spec.minLength) {
+          errors.push(`${spec.label} doit contenir au moins ${spec.minLength} caractères.`);
+        }
+        if (spec.maxLength && value.length > spec.maxLength) {
+          errors.push(`${spec.label} ne doit pas dépasser ${spec.maxLength} caractères.`);
+        }
       }
-      if (spec.maxLength && value.length > spec.maxLength) {
-        errors.push(`${spec.label} ne doit pas dépasser ${spec.maxLength} caractères.`);
-      }
-    }
 
-    if (spec.minItems && countItems(value, artifact.metadata) < spec.minItems) {
-      errors.push(`${spec.label} doit contenir au moins ${spec.minItems} éléments.`);
+      if (spec.minItems && countItems(value, artifact.metadata) < spec.minItems) {
+        errors.push(`${spec.label} doit contenir au moins ${spec.minItems} éléments.`);
+      }
     }
   }
 
