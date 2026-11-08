@@ -63,7 +63,7 @@ export const GET = withAdminAuth(async (req: Request) => {
           reviewerNote: true,
           createdAt: true,
         },
-        orderBy: { key: "asc" },
+        orderBy: { key: "asc" } as const,
       },
     }
 
