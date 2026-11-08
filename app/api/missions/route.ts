@@ -8,10 +8,18 @@ import { z } from "zod";
 import { getCurrentCycleKey } from "@/lib/missions";
 import { triggerNotification } from "@/lib/qstash";
 import { emailService } from "@/lib/email";
+import type { Prisma } from "@/generated/prisma/client";
+import {
+  ArtifactValidationError,
+  parseSubmissionSchema,
+  submissionArtifactsSchema,
+  validateArtifactsAgainstSchema,
+} from "@/lib/validation/artifacts";
 
 const submissionSchema = z.object({
   missionId: z.string().min(1),
-  content: z.string().max(5000).min(1, "Le contenu ne peut pas être vide."),
+  content: z.string().max(5000).optional().default(""),
+  artifacts: submissionArtifactsSchema.optional(),
   projectDescription: z.string().max(5000).optional(),
   userDifficulty: z.number().min(1).max(5).optional(),
   userRating: z.number().min(1).max(5).optional(),
@@ -43,7 +51,22 @@ async function submitMission(userId: string, input: z.infer<typeof submissionSch
   const requiredLevel = LEVEL_REQUIREMENT[mission.missionLevel ?? "INIT"] ?? 1;
   if ((dbUser.level ?? 1) < requiredLevel) throw new Error("LEVEL_TOO_LOW");
 
-  if (mission.submissionMethod === "TEXT_RESPONSE") {
+  const artifactSpecs = parseSubmissionSchema(mission.submissionSchema);
+  let artifactsToCreate: ReturnType<typeof validateArtifactsAgainstSchema> | undefined;
+  let summaryContent = input.content;
+
+  if (artifactSpecs.length > 0) {
+    if (!input.artifacts || input.artifacts.length === 0) {
+      throw new ArtifactValidationError(["Aucun artefact fourni pour ce labo."]);
+    }
+
+    artifactsToCreate = validateArtifactsAgainstSchema(artifactSpecs, input.artifacts);
+    summaryContent =
+      input.content.trim() ||
+      artifactsToCreate.find((artifact) => artifact.value?.trim())?.value ||
+      artifactsToCreate.find((artifact) => artifact.fileUrl)?.fileUrl ||
+      "multi-artifact";
+  } else if (mission.submissionMethod === "TEXT_RESPONSE") {
     if (!input.content.trim()) throw new Error("INVALID_SUBMISSION_CONTENT");
   } else if (URL_METHODS.includes(mission.submissionMethod as any)) {
     if (!input.content.startsWith("http")) {
@@ -76,7 +99,7 @@ async function submitMission(userId: string, input: z.infer<typeof submissionSch
     const submission = await tx.missionSubmission.upsert({
       where: { userId_missionId_cycleKey: { userId, missionId: mission.id, cycleKey } },
       update: {
-        content: input.content,
+        content: summaryContent,
         projectDescription: input.projectDescription,
         userDifficulty: input.userDifficulty,
         userRating: input.userRating,
@@ -86,7 +109,7 @@ async function submitMission(userId: string, input: z.infer<typeof submissionSch
       },
       create: {
         userId, missionId: mission.id, cycleKey,
-        content: input.content,
+        content: summaryContent,
         projectDescription: input.projectDescription,
         userDifficulty: input.userDifficulty,
         userRating: input.userRating,
@@ -96,6 +119,30 @@ async function submitMission(userId: string, input: z.infer<typeof submissionSch
         xpAwarded: xpToAward,
       }
     });
+
+    if (artifactsToCreate) {
+      await tx.missionSubmissionArtifact.deleteMany({
+        where: { submissionId: submission.id },
+      });
+      await tx.missionSubmissionArtifact.createMany({
+        data: artifactsToCreate.map((artifact) => ({
+          submissionId: submission.id,
+          key: artifact.key,
+          type: artifact.type,
+          label:
+            typeof artifact.metadata?.label === "string"
+              ? artifact.metadata.label
+              : artifact.key,
+          value: artifact.value ?? null,
+          fileUrl: artifact.fileUrl ?? null,
+          fileName: artifact.fileName ?? null,
+          mimeType: artifact.mimeType ?? null,
+          size: artifact.size ?? null,
+          metadata: (artifact.metadata ?? undefined) as Prisma.InputJsonValue | undefined,
+          status: "SUBMITTED",
+        })),
+      });
+    }
 
     if (isAutoApproved) {
       await tx.user.update({
@@ -203,6 +250,16 @@ export async function POST(req: Request) {
       if (process.env.NODE_ENV === "development") console.log("[PERF] missions POST:", (performance.now() - perfStart).toFixed(0), "ms");
       return NextResponse.json(result);
     } catch (serviceError: unknown) {
+      if (serviceError instanceof ArtifactValidationError) {
+        return NextResponse.json(
+          {
+            message: "Certains artefacts sont invalides.",
+            details: serviceError.details,
+          },
+          { status: 400 },
+        );
+      }
+
       const errorMap: Record<string, { message: string, status: number }> = {
         "MISSION_NOT_FOUND": { message: "Mission introuvable dans le système.", status: 404 },
         "USER_NOT_FOUND": { message: "Utilisateur introuvable.", status: 404 },

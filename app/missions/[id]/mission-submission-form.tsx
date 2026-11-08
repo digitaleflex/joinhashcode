@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Loader2, Send, ChevronRight, ChevronLeft, Check, MessageSquare } from "lucide-react";
@@ -10,9 +10,15 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import {
+  ArtifactFields,
+  type ArtifactDraft,
+} from "@/components/missions/artifact-fields";
+import { parseSubmissionSchema } from "@/lib/validation/artifacts";
 interface MissionSubmissionFormProps {
   missionId: string;
   submissionMethod: string;
+  submissionSchema?: unknown;
   isAutoApproved?: boolean;
   revisionNotes?: string | null;
   reviewerFeedback?: string | null;
@@ -24,6 +30,7 @@ import { NeuralScanner } from "@/components/missions/neural-scanner";
 export function MissionSubmissionForm({
   missionId,
   submissionMethod,
+  submissionSchema,
   isAutoApproved = false,
   revisionNotes,
   reviewerFeedback,
@@ -35,6 +42,23 @@ export function MissionSubmissionForm({
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [showRetroForm, setShowRetroForm] = useState(false);
 
+  const artifactSpecs = useMemo(
+    () => parseSubmissionSchema(submissionSchema),
+    [submissionSchema],
+  );
+  const [artifactValues, setArtifactValues] = useState<Record<string, ArtifactDraft>>({});
+
+  useEffect(() => {
+    setArtifactValues(
+      Object.fromEntries(
+        artifactSpecs.map((spec) => [
+          spec.key,
+          { key: spec.key, type: spec.type, value: "" } satisfies ArtifactDraft,
+        ]),
+      ),
+    );
+  }, [artifactSpecs]);
+
   // Form State
   const [content, setContent] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
@@ -44,24 +68,59 @@ export function MissionSubmissionForm({
 
   const handleSubmitStep1 = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!content.trim()) {
+
+    const hasArtifactSchema = artifactSpecs.length > 0;
+
+    if (hasArtifactSchema) {
+      const missing = artifactSpecs.filter((spec) => {
+        const draft = artifactValues[spec.key];
+        return spec.required && !draft?.value?.trim() && !draft?.fileUrl;
+      });
+      if (missing.length > 0) {
+        toast.error(`Preuves manquantes : ${missing.map((spec) => spec.label).join(", ")}`);
+        return;
+      }
+    } else if (!content.trim()) {
       toast.error("Veuillez fournir le lien ou le contenu requis.");
       return;
     }
+
+    const payload = hasArtifactSchema
+      ? {
+          missionId,
+          content: "",
+          artifacts: artifactSpecs.map((spec) => {
+            const draft = artifactValues[spec.key];
+            return {
+              key: spec.key,
+              type: spec.type,
+              value: draft?.value?.trim() || undefined,
+              fileUrl: draft?.fileUrl,
+              fileName: draft?.fileName,
+              mimeType: draft?.mimeType,
+              size: draft?.size,
+            };
+          }),
+        }
+      : { missionId, content };
 
     setIsSubmitting(true);
     try {
       const res = await fetch('/api/missions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          missionId,
-          content,
-        })
+        body: JSON.stringify(payload)
       });
 
-      if (!res.ok) throw new Error(await res.text());
+      if (!res.ok) {
+        const errorPayload = (await res.json().catch(() => null)) as
+          | { message?: string; details?: string[] }
+          | null;
+        const message = errorPayload?.details?.length
+          ? `${errorPayload.message ?? "Soumission invalide."} ${errorPayload.details.join(" ")}`
+          : errorPayload?.message ?? "Erreur lors de la soumission";
+        throw new Error(message);
+      }
 
       await res.json();
       setSubmitSuccess(true);
@@ -208,38 +267,70 @@ const handleSubmitRetro = async (e: React.FormEvent) => {
           </div>
         )}
         <form onSubmit={handleSubmitStep1} className="space-y-4">
-          <div className="space-y-2">
-            <Label className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
-              {isTextResponse
-                ? (missionId === "introduction-ancrage" ? "Ton ancrage (Projet + Objectif)_" : "Ta réponse_")
-                : "Lien de soumission_"}
-            </Label>
-            {isTextResponse ? (
-              <Textarea
-                placeholder={missionId === "introduction-ancrage"
-                  ? "Ex: Je construis un SaaS de gestion de tâches. Mon objectif est d'avoir 100 utilisateurs actifs dans 3 mois."
-                  : "Rédige ta réponse ici..."}
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                className="bg-card/30 border-border/40 min-h-30 rounded-xl focus:ring-primary/20 transition-all text-sm"
-                required
-                autoFocus
-              />
-            ) : (
-              <Input
-                placeholder={
-                  submissionMethod === "GITHUB_LINK" ? "https://github.com/ton-profil/projet" :
-                  submissionMethod === "LIVE_URL" ? "https://ton-projet.app" :
-                  "https://..."
+          {artifactSpecs.length > 0 ? (
+            <div className="space-y-3">
+              <div>
+                <Label className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
+                  Preuves du labo_
+                </Label>
+                <p className="mt-1 text-3xs text-zinc-500 leading-relaxed">
+                  Chaque preuve demandée doit être fournie. Tu peux coller un lien, du texte ou joindre un fichier.
+                </p>
+              </div>
+              <ArtifactFields
+                missionId={missionId}
+                schema={artifactSpecs}
+                values={artifactValues}
+                onChange={(key, patch) =>
+                  setArtifactValues((previous) => ({
+                    ...previous,
+                    [key]: {
+                      ...(previous[key] ?? {
+                        key,
+                        type: artifactSpecs.find((spec) => spec.key === key)?.type ?? "DOC",
+                        value: "",
+                      }),
+                      ...patch,
+                    },
+                  }))
                 }
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                className="bg-card/30 border-border/40 h-11 rounded-xl focus:ring-primary/20 transition-all text-sm"
-                required
-                autoFocus
+                disabled={isSubmitting}
               />
-            )}
-          </div>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              <Label className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
+                {isTextResponse
+                  ? (missionId === "introduction-ancrage" ? "Ton ancrage (Projet + Objectif)_" : "Ta réponse_")
+                  : "Lien de soumission_"}
+              </Label>
+              {isTextResponse ? (
+                <Textarea
+                  placeholder={missionId === "introduction-ancrage"
+                    ? "Ex: Je construis un SaaS de gestion de tâches. Mon objectif est d'avoir 100 utilisateurs actifs dans 3 mois."
+                    : "Rédige ta réponse ici..."}
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  className="bg-card/30 border-border/40 min-h-30 rounded-xl focus:ring-primary/20 transition-all text-sm"
+                  required
+                  autoFocus
+                />
+              ) : (
+                <Input
+                  placeholder={
+                    submissionMethod === "GITHUB_LINK" ? "https://github.com/ton-profil/projet" :
+                    submissionMethod === "LIVE_URL" ? "https://ton-projet.app" :
+                    "https://..."
+                  }
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  className="bg-card/30 border-border/40 h-11 rounded-xl focus:ring-primary/20 transition-all text-sm"
+                  required
+                  autoFocus
+                />
+              )}
+            </div>
+          )}
           <Button type="submit" className="w-full h-11 rounded-xl btn-primary-glow group" disabled={isSubmitting}>
             {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
             Transmettre pour validation

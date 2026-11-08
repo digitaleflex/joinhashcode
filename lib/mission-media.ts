@@ -64,6 +64,32 @@ export function validateMediaFiles(files: File[], type: MediaType): { valid: boo
   return { valid: true };
 }
 
+// ── Artefacts de labo (code, rapports, logs, données) ──────────────────────
+// Les MIME types des fichiers de code sont peu fiables selon les navigateurs :
+// on valide par extension, avec une taille maximale explicite.
+export const ARTIFACT_MAX_SIZE = 25 * 1024 * 1024;
+
+const ARTIFACT_EXTENSIONS = new Set([
+  "py", "sql", "ipynb", "md", "txt", "log", "csv", "tsv", "json", "yaml", "yml",
+  "toml", "sh", "bash", "js", "jsx", "ts", "tsx", "html", "css", "scss",
+  "java", "c", "h", "cpp", "hpp", "go", "rs", "rb", "php", "xml", "ini",
+  "pdf", "zip", "png", "jpg", "jpeg", "webp", "gif", "svg",
+]);
+
+export function validateArtifactFile(file: File): { valid: boolean; error?: string } {
+  if (!file || file.size === 0) {
+    return { valid: false, error: "Fichier vide." };
+  }
+  if (file.size > ARTIFACT_MAX_SIZE) {
+    return { valid: false, error: `Fichier trop volumineux (max ${ARTIFACT_MAX_SIZE / (1024 * 1024)} Mo).` };
+  }
+  const extension = file.name.split(".").pop()?.toLowerCase() ?? "";
+  if (!ARTIFACT_EXTENSIONS.has(extension)) {
+    return { valid: false, error: `Extension non autorisée : .${extension || "?"}` };
+  }
+  return { valid: true };
+}
+
 export async function uploadMissionMedia(
   missionId: string,
   stepKey: string,
