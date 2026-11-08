@@ -6,7 +6,18 @@ import { Button } from "@/components/ui/button"
 import { EmptyState } from "@/components/ui/empty-state"
 import { toast } from "@/hooks/use-toast"
 import { SubmissionsTable } from "@/components/admin/submissions/submissions-table"
-import { ReviewPanel } from "@/components/admin/submissions/review-panel"
+import { ReviewPanel, type ArtifactDecision } from "@/components/admin/submissions/review-panel"
+
+interface SubmissionArtifact {
+  key: string
+  type: string
+  label: string
+  value: string | null
+  fileUrl: string | null
+  fileName: string | null
+  status: string
+  reviewerNote: string | null
+}
 
 interface Submission {
   id: string
@@ -24,6 +35,7 @@ interface Submission {
   userDifficulty: number | null
   userRating: number | null
   improvementSuggestions: string | null
+  artifacts?: SubmissionArtifact[]
   user: {
     id: string
     name: string
@@ -36,6 +48,7 @@ interface Submission {
     xp: number
     submissionMethod: string
     deliverables: string[]
+    acceptanceCriteria?: string[]
   }
 }
 
@@ -50,6 +63,13 @@ export default function AdminSubmissionsPage() {
   const [activeSubmission, setActiveSubmission] = useState<Submission | null>(null)
   const [adminFeedback, setAdminFeedback] = useState("")
   const [checkedCriteria, setCheckedCriteria] = useState<Record<string, boolean>>({})
+  const [artifactDecisions, setArtifactDecisions] = useState<Record<string, ArtifactDecision>>({})
+
+  const resetReviewState = () => {
+    setAdminFeedback("")
+    setCheckedCriteria({})
+    setArtifactDecisions({})
+  }
 
   const fetchSubmissions = useCallback(async () => {
     setLoading(true)
@@ -76,23 +96,32 @@ export default function AdminSubmissionsPage() {
   useEffect(() => {
     setPage(1)
     setActiveSubmission(null)
+    resetReviewState()
   }, [activeTab])
 
   const handleAction = async (id: string, action: string, details: Record<string, unknown>) => {
     setProcessingId(id)
     try {
+      const decided = Object.entries(artifactDecisions).map(([key, d]) => ({
+        key,
+        status: d.status,
+        reviewerNote: d.note || undefined,
+      }))
       const res = await fetch(`/api/admin/submissions/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action, ...details }),
+        body: JSON.stringify({
+          action,
+          ...details,
+          ...(decided.length > 0 ? { artifacts: decided } : {}),
+        }),
       })
 
       if (res.ok) {
         toast({ title: "Succès", description: "Action enregistrée avec succès" })
         setSubmissions(prev => prev.filter(s => s.id !== id))
         setActiveSubmission(null)
-        setAdminFeedback("")
-        setCheckedCriteria({})
+        resetReviewState()
       } else {
         const err = await res.text()
         toast({ title: "Erreur", description: err })
@@ -164,8 +193,7 @@ export default function AdminSubmissionsPage() {
             processingId={processingId}
             onReview={(s) => {
               setActiveSubmission(s)
-              setCheckedCriteria({})
-              setAdminFeedback("")
+              resetReviewState()
             }}
           />
 
@@ -208,8 +236,19 @@ export default function AdminSubmissionsPage() {
               processingId={processingId}
               adminFeedback={adminFeedback}
               checkedCriteria={checkedCriteria}
+              artifactDecisions={artifactDecisions}
               onFeedbackChange={setAdminFeedback}
               onCriteriaToggle={(id) => setCheckedCriteria(prev => ({ ...prev, [id]: !prev[id] }))}
+              onArtifactDecision={(key, decision) =>
+                setArtifactDecisions(prev => {
+                  if (!decision) {
+                    const next = { ...prev }
+                    delete next[key]
+                    return next
+                  }
+                  return { ...prev, [key]: decision }
+                })
+              }
               onApprove={(id, criteria, feedback, qualityLevel) => handleAction(id, "APPROVE", {
                 criteria,
                 feedback,

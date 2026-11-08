@@ -16,6 +16,9 @@ const { mockPrisma } = vi.hoisted(() => {
       updateMany: vi.fn(),
       count: vi.fn(),
     },
+    missionSubmissionArtifact: {
+      updateMany: vi.fn(),
+    },
     missionReview: {
       count: vi.fn(),
     },
@@ -208,5 +211,117 @@ describe("Admin Submissions API [id]", () => {
         revisionCount: { increment: 1 }
       })
     }));
+  });
+
+  it("should block APPROVE when a required artifact is rejected", async () => {
+    (auth.api.getSession as any).mockResolvedValue({ user: { id: "admin1", role: "ADMIN" } });
+
+    const mockSubmission = {
+      id: "sub1",
+      userId: "user1",
+      status: "PENDING",
+      artifacts: [
+        { key: "code", label: "Dépôt de code", status: "SUBMITTED" },
+        { key: "report", label: "Rapport", status: "SUBMITTED" },
+      ],
+      mission: {
+        id: "m1",
+        title: "Labo",
+        xp: 100,
+        submissionSchema: [
+          { key: "code", label: "Dépôt de code", type: "REPO", required: true },
+          { key: "report", label: "Rapport", type: "DOC", required: true },
+        ],
+      },
+      user: { id: "user1", email: "user1@test.com", experience: 0, level: 1 }
+    };
+    (prisma.missionSubmission.findUnique as any).mockResolvedValue(mockSubmission);
+
+    const req = new Request("http://localhost/api/admin/submissions/sub1", {
+      method: "PATCH",
+      body: JSON.stringify({
+        action: "APPROVE",
+        artifacts: [{ key: "code", status: "REJECTED", reviewerNote: "Dépôt vide" }],
+      }),
+    });
+
+    const res = await PATCH(req, { params: Promise.resolve({ id: "sub1" }) });
+    expect(res.status).toBe(400);
+    const body = await res.json();
+    expect(body.message).toContain("code");
+  });
+
+  it("should apply artifact decisions and auto-fill revisionNotes on NEEDS_REVISION", async () => {
+    (auth.api.getSession as any).mockResolvedValue({ user: { id: "admin1", role: "ADMIN" } });
+
+    const mockSubmission = {
+      id: "sub1",
+      userId: "user1",
+      status: "PENDING",
+      revisionCount: 0,
+      artifacts: [
+        { key: "code", label: "Dépôt de code", status: "SUBMITTED" },
+        { key: "report", label: "Rapport", status: "SUBMITTED" },
+      ],
+      mission: {
+        id: "m1",
+        title: "Labo",
+        xp: 100,
+        submissionSchema: [
+          { key: "code", label: "Dépôt de code", type: "REPO", required: true },
+          { key: "report", label: "Rapport", type: "DOC", required: true },
+        ],
+      },
+      user: { id: "user1", email: "user1@test.com", experience: 0, level: 1 }
+    };
+    (prisma.missionSubmission.findUnique as any).mockResolvedValue(mockSubmission);
+
+    const req = new Request("http://localhost/api/admin/submissions/sub1", {
+      method: "PATCH",
+      body: JSON.stringify({
+        action: "NEEDS_REVISION",
+        feedback: "Voir les points ci-dessous.",
+        artifacts: [{ key: "report", status: "REJECTED", reviewerNote: "Manque le rapport 3" }],
+      }),
+    });
+
+    const res = await PATCH(req, { params: Promise.resolve({ id: "sub1" }) });
+    expect(res.status).toBe(200);
+    expect(prisma.missionSubmissionArtifact.updateMany).toHaveBeenCalledWith(expect.objectContaining({
+      where: { submissionId: "sub1", key: "report" },
+      data: expect.objectContaining({ status: "REJECTED", reviewerNote: "Manque le rapport 3" }),
+    }));
+    expect(prisma.missionSubmission.update).toHaveBeenCalledWith(expect.objectContaining({
+      data: expect.objectContaining({
+        status: "NEEDS_REVISION",
+        revisionNotes: expect.stringContaining("Rapport"),
+      })
+    }));
+  });
+
+  it("should reject decisions for unknown artifact keys", async () => {
+    (auth.api.getSession as any).mockResolvedValue({ user: { id: "admin1", role: "ADMIN" } });
+
+    const mockSubmission = {
+      id: "sub1",
+      userId: "user1",
+      status: "PENDING",
+      artifacts: [{ key: "code", label: "Dépôt de code", status: "SUBMITTED" }],
+      mission: { id: "m1", title: "Labo", xp: 100, submissionSchema: [] },
+      user: { id: "user1", email: "user1@test.com", experience: 0, level: 1 }
+    };
+    (prisma.missionSubmission.findUnique as any).mockResolvedValue(mockSubmission);
+
+    const req = new Request("http://localhost/api/admin/submissions/sub1", {
+      method: "PATCH",
+      body: JSON.stringify({
+        action: "NEEDS_REVISION",
+        feedback: "Non.",
+        artifacts: [{ key: "fantome", status: "REJECTED" }],
+      }),
+    });
+
+    const res = await PATCH(req, { params: Promise.resolve({ id: "sub1" }) });
+    expect(res.status).toBe(400);
   });
 });

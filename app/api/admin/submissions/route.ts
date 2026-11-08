@@ -45,8 +45,26 @@ export const GET = withAdminAuth(async (req: Request) => {
           missionLevel: true,
           submissionMethod: true,
           deliverables: true,
+          acceptanceCriteria: true,
+          submissionSchema: true,
         }
-      }
+      },
+      artifacts: {
+        select: {
+          key: true,
+          type: true,
+          label: true,
+          value: true,
+          fileUrl: true,
+          fileName: true,
+          mimeType: true,
+          size: true,
+          status: true,
+          reviewerNote: true,
+          createdAt: true,
+        },
+        orderBy: { key: "asc" },
+      },
     }
 
     const [rawSubmissions, total] = await Promise.all([

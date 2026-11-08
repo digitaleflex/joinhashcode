@@ -17,6 +17,23 @@ interface SubmissionMission {
   category: string
   submissionMethod: string
   deliverables: string[]
+  acceptanceCriteria?: string[]
+}
+
+interface SubmissionArtifact {
+  key: string
+  type: string
+  label: string
+  value: string | null
+  fileUrl: string | null
+  fileName: string | null
+  status: string
+  reviewerNote: string | null
+}
+
+export interface ArtifactDecision {
+  status: "ACCEPTED" | "REJECTED"
+  note: string
 }
 
 interface Submission {
@@ -27,6 +44,7 @@ interface Submission {
   userDifficulty: number | null
   userRating: number | null
   improvementSuggestions: string | null
+  artifacts?: SubmissionArtifact[]
   mission: SubmissionMission
   user: SubmissionUser
 }
@@ -36,12 +54,23 @@ interface ReviewPanelProps {
   processingId: string | null
   adminFeedback: string
   checkedCriteria: Record<string, boolean>
+  artifactDecisions: Record<string, ArtifactDecision>
   onFeedbackChange: (value: string) => void
   onCriteriaToggle: (id: string) => void
+  onArtifactDecision: (key: string, decision: ArtifactDecision | null) => void
   onApprove: (id: string, criteria: Record<string, boolean>, feedback: string, qualityLevel: string) => void
   onNeedsRevision: (id: string, criteria: Record<string, boolean>, feedback: string) => void
   onReject: (id: string, feedback: string) => void
   onClose: () => void
+}
+
+function isHttpUrl(value: string): boolean {
+  try {
+    const url = new URL(value)
+    return url.protocol === "http:" || url.protocol === "https:"
+  } catch {
+    return false
+  }
 }
 
 export function ReviewPanel({
@@ -49,14 +78,23 @@ export function ReviewPanel({
   processingId,
   adminFeedback,
   checkedCriteria,
+  artifactDecisions,
   onFeedbackChange,
   onCriteriaToggle,
+  onArtifactDecision,
   onApprove,
   onNeedsRevision,
   onReject,
   onClose,
 }: ReviewPanelProps) {
   const isProcessing = processingId === submission.id
+  const artifacts = submission.artifacts ?? []
+  const laboCriteria = (submission.mission.acceptanceCriteria ?? []).filter(Boolean)
+  const criteria =
+    laboCriteria.length > 0
+      ? laboCriteria.map((label, i) => ({ id: `lab-${i}`, label, weight: "REQUIRED" as const }))
+      : getCriteriaForMission(submission.mission.category)
+  const rejectedCount = Object.values(artifactDecisions).filter(d => d.status === "REJECTED").length
 
   return (
     <div className="rounded-2xl border border-primary/20 bg-zinc-900/60 p-6 space-y-6">
@@ -105,16 +143,126 @@ export function ReviewPanel({
             )}
           </div>
 
-          {/* Main Deliverable */}
-          <div>
-            <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-3">Livrable principal</p>
-            <SubmissionContent
-              content={submission.content}
-              submissionMethod={submission.mission.submissionMethod}
-              deliverables={submission.mission.deliverables}
-              expanded
-            />
-          </div>
+          {/* Artefacts (multi-preuves) ou livrable unique legacy */}
+          {artifacts.length > 0 ? (
+            <div className="space-y-3">
+              <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
+                Artefacts ({artifacts.length})
+                {rejectedCount > 0 && (
+                  <span className="ml-2 text-amber-400">{rejectedCount} refusé{rejectedCount > 1 ? "s" : ""}</span>
+                )}
+              </p>
+              {artifacts.map((artifact) => {
+                const decision = artifactDecisions[artifact.key]
+                const status = decision?.status ?? artifact.status
+                return (
+                  <div
+                    key={artifact.key}
+                    className={`p-4 rounded-xl border space-y-2 ${
+                      status === "REJECTED"
+                        ? "border-red-500/30 bg-red-500/5"
+                        : status === "ACCEPTED"
+                          ? "border-emerald-500/30 bg-emerald-500/5"
+                          : "border-white/5 bg-white/[0.02]"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-sm font-medium text-zinc-200">{artifact.label}</p>
+                      <span className="text-3xs font-mono uppercase tracking-wider text-muted-foreground">
+                        {artifact.type}
+                      </span>
+                    </div>
+                    {artifact.value && isHttpUrl(artifact.value) ? (
+                      <a
+                        href={artifact.value}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block text-xs text-primary hover:underline break-all"
+                      >
+                        {artifact.value}
+                      </a>
+                    ) : artifact.value ? (
+                      <pre className="text-xs text-zinc-300 whitespace-pre-wrap break-words bg-black/40 border border-white/5 rounded-lg p-3 max-h-40 overflow-y-auto">
+                        {artifact.value}
+                      </pre>
+                    ) : null}
+                    {artifact.fileUrl && (
+                      <a
+                        href={artifact.fileUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block text-xs text-primary hover:underline break-all"
+                      >
+                        📎 {artifact.fileName ?? artifact.fileUrl}
+                      </a>
+                    )}
+                    {artifact.reviewerNote && (
+                      <p className="text-xs text-amber-300/80 italic">&ldquo;{artifact.reviewerNote}&rdquo;</p>
+                    )}
+                    <div className="flex items-center gap-2 pt-1">
+                      <button
+                        type="button"
+                        disabled={isProcessing}
+                        onClick={() => onArtifactDecision(artifact.key, { status: "ACCEPTED", note: "" })}
+                        className={`px-3 py-1.5 rounded-lg text-3xs font-mono uppercase tracking-wider border transition-all ${
+                          status === "ACCEPTED"
+                            ? "border-emerald-500/50 bg-emerald-500/10 text-emerald-300"
+                            : "border-white/10 text-zinc-500 hover:border-emerald-500/30"
+                        }`}
+                      >
+                        ✓ Accepter
+                      </button>
+                      <button
+                        type="button"
+                        disabled={isProcessing}
+                        onClick={() =>
+                          onArtifactDecision(artifact.key, { status: "REJECTED", note: decision?.note ?? "" })
+                        }
+                        className={`px-3 py-1.5 rounded-lg text-3xs font-mono uppercase tracking-wider border transition-all ${
+                          status === "REJECTED"
+                            ? "border-red-500/50 bg-red-500/10 text-red-300"
+                            : "border-white/10 text-zinc-500 hover:border-red-500/30"
+                        }`}
+                      >
+                        ✕ Refuser
+                      </button>
+                      {decision && (
+                        <button
+                          type="button"
+                          disabled={isProcessing}
+                          onClick={() => onArtifactDecision(artifact.key, null)}
+                          className="text-3xs font-mono text-zinc-600 hover:text-zinc-300"
+                        >
+                          annuler
+                        </button>
+                      )}
+                    </div>
+                    {status === "REJECTED" && (
+                      <Textarea
+                        placeholder="Pourquoi cet artefact est refusé ? (repris dans les notes de révision)"
+                        className="bg-black/40 border-white/5 min-h-[60px] text-xs"
+                        value={decision?.note ?? ""}
+                        disabled={isProcessing}
+                        onChange={(e) =>
+                          onArtifactDecision(artifact.key, { status: "REJECTED", note: e.target.value })
+                        }
+                      />
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          ) : (
+            <div>
+              <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-3">Livrable principal</p>
+              <SubmissionContent
+                content={submission.content}
+                submissionMethod={submission.mission.submissionMethod}
+                deliverables={submission.mission.deliverables}
+                expanded
+              />
+            </div>
+          )}
 
           {submission.improvementSuggestions && (
             <div className="p-4 rounded-xl bg-blue-500/5 border border-blue-500/10 space-y-2">
@@ -128,8 +276,10 @@ export function ReviewPanel({
       )}
 
       <div className="space-y-3">
-        <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Rubrique d&apos;évaluation</p>
-        {getCriteriaForMission(submission.mission.category).map(criterion => (
+        <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
+          {laboCriteria.length > 0 ? "Critères du labo" : "Rubrique d'évaluation"}
+        </p>
+        {criteria.map(criterion => (
           <button
             key={criterion.id}
             type="button"
@@ -166,7 +316,6 @@ export function ReviewPanel({
         <Button
           className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white"
           onClick={() => {
-            const criteria = getCriteriaForMission(submission.mission.category)
             const quality = computeQualityLevel(criteria, checkedCriteria)
             onApprove(submission.id, checkedCriteria, adminFeedback, quality)
           }}
