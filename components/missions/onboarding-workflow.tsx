@@ -20,7 +20,6 @@ import {
   Wrench,
   UserRound,
   X,
-  Zap,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -318,10 +317,6 @@ export function OnboardingWorkflow({
                   transition={{ delay: 0.45 }}
                   className="flex flex-wrap items-center justify-center gap-2"
                 >
-                  <Badge className="bg-primary/15 text-primary border-primary/30 font-mono gap-1.5 px-3 py-1.5">
-                    <Zap className="w-3 h-3 fill-current" />
-                    +{state?.xpReward ?? 150} XP
-                  </Badge>
                   {userClass && CLASS_LABELS[userClass.toLowerCase()] && (
                     <Badge variant="outline" className="font-mono px-3 py-1.5 border-white/15 text-zinc-300">
                       Profil&nbsp;

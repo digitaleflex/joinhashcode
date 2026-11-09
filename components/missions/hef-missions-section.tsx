@@ -81,7 +81,7 @@ export function HefMissionsSection({
                 </p>
               )}
               <div className="mt-auto flex items-center justify-between pt-4 text-[11px] font-semibold text-muted-foreground">
-                <span>+{mission.xp} XP</span>
+                <span />
                 <span className="text-primary opacity-0 transition-opacity group-hover:opacity-100">
                   Ouvrir →
                 </span>

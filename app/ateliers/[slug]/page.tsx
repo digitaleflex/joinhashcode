@@ -1,5 +1,5 @@
 import { notFound, redirect } from "next/navigation"
-import { GraduationCap, Clock, Zap, Target, ArrowLeft, ChevronRight, CheckCircle2 } from "lucide-react"
+import { GraduationCap, Clock, Target, ArrowLeft, ChevronRight, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
 import { getSessionSafe } from "@/lib/get-session-safe"
 import { prisma } from "@/lib/prisma"
@@ -95,10 +95,6 @@ export default async function AtelierDetailPage({ params }: { params: Promise<{ 
                     <span className="text-xs font-mono text-zinc-400">{atelier.duration}</span>
                   </div>
                   <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10">
-                    <Zap className="w-3.5 h-3.5" style={{ color }} />
-                    <span className="text-xs font-mono" style={{ color }}>+{atelier.xpReward} XP</span>
-                  </div>
-                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10">
                     <Target className="w-3.5 h-3.5 text-zinc-500" />
                     <span className="text-xs font-mono text-zinc-400">{atelier.specializationLabel}</span>
                   </div>
@@ -141,7 +137,6 @@ export default async function AtelierDetailPage({ params }: { params: Promise<{ 
                         </div>
                       </div>
                       <div className="flex items-center gap-3 shrink-0 ml-3">
-                        <span className="text-xs font-mono" style={{ color }}>+{mission.xp} XP</span>
                         <ChevronRight className="w-4 h-4 text-zinc-700 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
                       </div>
                     </Link>

@@ -251,22 +251,14 @@ export default async function MissionsPage() {
                 <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                     <TrendingUp className="size-12 text-primary" />
                 </div>
-                <div className="flex justify-between items-end mb-6">
+                <div className="flex justify-between items-end">
                    <div className="space-y-1">
-                      <div className="text-xs font-mono text-zinc-500 uppercase">Données d'évolution</div>
-                      <div className="text-sm font-bold text-white uppercase tracking-tight">Expérience Globale Accumulée</div>
+                      <div className="text-xs font-mono text-zinc-500 uppercase">Tes preuves</div>
+                      <div className="text-sm font-bold text-white uppercase tracking-tight">Labs validés</div>
                    </div>
-                     <div className="text-4xl font-black text-primary font-mono italic">{finalDbUser.experience ?? 0} <span className="text-xs not-italic text-zinc-600">XP</span></div>
-                </div>
-                <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
-                    <div 
-                        className="h-full bg-primary shadow-[0_0_20px_#C5F441] transition-all duration-1000" 
-                         style={{ width: `${Math.min(100, ((finalDbUser.experience ?? 0) % 1000) / 10)}%` }}
-                    />
-                </div>
-                <div className="text-xs text-zinc-500 mt-4 font-mono uppercase tracking-wider flex items-center gap-2">
-                   <span className="size-1 rounded-full bg-primary animate-pulse" />
-                   Status: Mise à jour de ton niveau {finalDbUser.level ?? 1} en cours...
+                   <div className="text-4xl font-black text-primary font-mono italic">
+                     {finalDbUser.missionSubmissions.filter((s) => s.status === "APPROVED").length}
+                   </div>
                 </div>
               </div>
               

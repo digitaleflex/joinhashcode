@@ -19,8 +19,7 @@ export function ActivationChecklist({ user, hasSubmission }: ActivationChecklist
       description: "Ton profil psychométrique est actif.",
       icon: Sparkles,
       completed: true,
-      href: "/quiz",
-      xp: 25
+      href: "/quiz"
     },
     {
       id: "profile",
@@ -28,8 +27,7 @@ export function ActivationChecklist({ user, hasSubmission }: ActivationChecklist
       description: "Ajoute un pseudo et tes réseaux.",
       icon: User,
       completed: !!user.pseudo && (!!user.githubUrl || !!user.linkedinUrl),
-      href: "/settings",
-      xp: 50
+      href: "/settings"
     },
     {
       id: "mission",
@@ -37,8 +35,7 @@ export function ActivationChecklist({ user, hasSubmission }: ActivationChecklist
       description: "Soumets ta toute première mission.",
       icon: Target,
       completed: hasSubmission,
-      href: "/missions",
-      xp: 100
+      href: "/missions"
     },
     {
       id: "j7-activation",
@@ -46,8 +43,7 @@ export function ActivationChecklist({ user, hasSubmission }: ActivationChecklist
       description: "As-tu validé 3 des 5 sous-missions M01 dans les 7 jours ?",
       icon: Target,
       completed: user.j7Activated,
-      href: "/missions",
-      xp: 75
+      href: "/missions"
     }
   ]
 
@@ -112,7 +108,7 @@ export function ActivationChecklist({ user, hasSubmission }: ActivationChecklist
             </div>
             <Button asChild variant="ghost" size="sm" className="h-8 text-xs font-mono font-bold text-primary hover:text-primary hover:bg-primary/10">
               <Link href={nextStep.href}>
-                +{nextStep.xp} XP
+                Continuer
                 <ChevronRight className="size-3 ml-1" />
               </Link>
             </Button>

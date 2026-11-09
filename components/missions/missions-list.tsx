@@ -348,9 +348,6 @@ function MissionCard({
             <Badge className={cn("text-3xs uppercase font-black tracking-wider border", statusBadge.className)}>
               {statusBadge.label}
             </Badge>
-            <Badge variant="outline" className="text-3xs font-mono border-white/10 text-zinc-500">
-              +{mission.xpReward} XP
-            </Badge>
 
             {mission.duration && (
               <Badge variant="outline" className="text-3xs font-mono border-white/10 text-zinc-500">

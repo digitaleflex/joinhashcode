@@ -74,12 +74,7 @@ export function WeeklyChallengeBanner({ mission, isCompleted, daysLeft }: Weekly
           </div>
         </div>
 
-        {/* XP + flèche */}
         <div className="flex items-center gap-3 shrink-0">
-          <div className="text-right">
-            <span className="text-xs-sm font-mono text-zinc-600 block">Récompense</span>
-            <span className="text-sm font-black text-primary">+{mission.xp} XP</span>
-          </div>
           {!isCompleted && (
             <ChevronRight className="size-4 text-zinc-600 group-hover/weekly:text-primary group-hover/weekly:translate-x-1 transition-all" />
           )}

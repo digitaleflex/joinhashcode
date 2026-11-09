@@ -85,7 +85,6 @@ export default async function AteliersPage() {
                         <p className="text-xs text-zinc-500 leading-relaxed line-clamp-2 mb-4">{atelier.description}</p>
                         <div className="flex items-center gap-3 text-xs font-mono text-zinc-600">
                           <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{atelier.duration}</span>
-                          <span className="flex items-center gap-1"><Zap className="w-3 h-3" />+{atelier.xpReward} XP</span>
                           <span className="ml-auto text-zinc-700">{atelier.specializationLabel}</span>
                         </div>
                       </Link>

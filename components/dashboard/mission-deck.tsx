@@ -91,10 +91,7 @@ export function MissionDeck({ recommendedMissions }: MissionDeckProps) {
               </p>
 
               <div className="flex items-center justify-between pt-4 mt-auto">
-                <div className="flex flex-col">
-                  <span className="text-xs font-mono text-zinc-600 uppercase tracking-wider">Récompense</span>
-                  <span className="text-2xl font-bold text-primary">+{currentMission.xpReward} XP</span>
-                </div>
+                <div />
 
                 
                 <div className="flex items-center gap-3">

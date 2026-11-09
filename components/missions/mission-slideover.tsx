@@ -4,7 +4,7 @@ import { Sheet, SheetContent } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { MissionBriefing } from "@/components/missions/mission-briefing"
 import { useRouter } from "next/navigation"
-import { Zap, Clock, ChevronRight } from "lucide-react"
+import { Clock, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
   Tooltip,
@@ -116,19 +116,6 @@ export function MissionSlideOver({ mission, isOpen, onClose, hasSubmission, subm
 
               {/* Meta */}
               <div className="flex items-center gap-4 text-3xs font-mono text-zinc-500">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <span className="flex items-center gap-1 cursor-help hover:text-primary transition-colors">
-                        <Zap className="size-2.5 text-primary" />
-                        +{mission.xpReward || mission.xp} XP
-                      </span>
-                    </TooltipTrigger>
-                    <TooltipContent className="bg-zinc-900 border-white/10 text-xs text-zinc-300 font-mono">
-                      XP de base récompensant la validation de cette mission.
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
                 {mission.duration && (
                   <span className="flex items-center gap-1">
                     <Clock className="size-2.5" />
