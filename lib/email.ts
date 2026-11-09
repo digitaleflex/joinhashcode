@@ -17,8 +17,6 @@ import { getFeedbackUpdateEmailContent } from "./email-templates/feedback-update
 import { getMissionSubmittedEmailContent } from "./email-templates/mission-submitted";
 import { getMissionNeedsRevisionEmailContent } from "./email-templates/mission-needs-revision";
 import { getMissionRejectedEmailContent } from "./email-templates/mission-rejected";
-import { getLevelUpEmailContent } from "./email-templates/level-up";
-import { getLevel5ReachedEmailContent } from "./email-templates/level-5-reached";
 import { getAdminAccountDeletedEmailContent } from "./email-templates/admin-account-deleted";
 import { getAccountDeletedEmailContent } from "./email-templates/account-deleted";
 import { getAdminCoreMissionPendingEmailContent } from "./email-templates/admin-core-mission-pending";
@@ -131,9 +129,9 @@ export const emailService = {
     return this._send({ to: email, subject, html, text });
   },
 
-  async sendMissionApproval({ email, name, missionTitle, xp }: { email: string; name: string; missionTitle: string; xp: number }) {
+  async sendMissionApproval({ email, name, missionTitle }: { email: string; name: string; missionTitle: string }) {
     if (!resend) return { success: true, mocked: true };
-    const { subject, html, text } = getMissionApprovedEmailContent({ name, missionTitle, xp });
+    const { subject, html, text } = getMissionApprovedEmailContent({ name, missionTitle });
     return this._send({ to: email, subject, html, text });
   },
 
@@ -229,24 +227,6 @@ export const emailService = {
       return { success: true, mocked: true };
     }
     const { subject, html, text } = getMissionRejectedEmailContent({ name, missionTitle, feedback });
-    return this._send({ to: email, subject, html, text });
-  },
-
-  async sendLevelUp({ email, name, newLevel }: { email: string; name: string; newLevel: number }) {
-    if (!resend) {
-      warnEmailMissing("sendLevelUp");
-      return { success: true, mocked: true };
-    }
-    const { subject, html, text } = getLevelUpEmailContent({ name, newLevel });
-    return this._send({ to: email, subject, html, text });
-  },
-
-  async sendLevel5ReachedEmail({ email, name }: { email: string; name: string }) {
-    if (!resend) {
-      warnEmailMissing("sendLevel5ReachedEmail");
-      return { success: true, mocked: true };
-    }
-    const { subject, html, text } = getLevel5ReachedEmailContent({ name });
     return this._send({ to: email, subject, html, text });
   },
 

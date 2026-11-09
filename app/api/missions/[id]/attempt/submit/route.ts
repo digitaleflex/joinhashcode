@@ -9,7 +9,6 @@ import { safeAfter as after } from "@/lib/after";
 import { generateProfileV1 } from "@/lib/profile-v1";
 import { logActivity } from "@/lib/activity-log";
 import { triggerNotification } from "@/lib/qstash";
-import { emailService } from "@/lib/email";
 import { triggerWebhooks } from "@/lib/webhooks";
 
 export const dynamic = "force-dynamic";
@@ -228,13 +227,6 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
           title: `Mission validée : ${mission.title}`,
           message: `Bienvenue officiellement. Ta prochaine mission t'attend.`,
           link: "/missions",
-        }).catch(() => undefined);
-
-        emailService.sendMissionApproval({
-          email: session.user.email,
-          name: session.user.name,
-          missionTitle: mission.title,
-          xp: mission.xp,
         }).catch(() => undefined);
       });
 
