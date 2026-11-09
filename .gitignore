@@ -122,3 +122,6 @@ test-results/
 playwright-report/
 blob-report/
 playwright/.cache/
+
+# État local des CLI (gh, etc.)
+.local/
