@@ -61,7 +61,7 @@ export function ReferralWidget() {
         <div className="flex items-start gap-3 p-3 rounded-2xl bg-primary/3 border border-primary/10">
           <Gift className="size-4 text-primary shrink-0 mt-0.5" />
           <p className="text-xs text-zinc-400 leading-relaxed">
-            Partage ton lien : chaque personne qui rejoint HASHCODE grâce à toi est comptée dans tes filleuls (après 7 jours).
+            Partage ton lien : chaque personne qui termine son inscription grâce à toi est comptée dans tes filleuls.
           </p>
         </div>
 
