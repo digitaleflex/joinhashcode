@@ -125,7 +125,6 @@ REST endpoints under `app/api/`:
 | `admin/keys/[id]/`              | DELETE    | ADMIN/MOD       | Delete API key                                                        |
 | `admin/notifications/broadcast/`| POST      | ADMIN/MOD       | Broadcast notification to all users                                   |
 | `internal/cron/release-claims/` | POST      | internal        | Release stale peer-review claims                                      |
-| `internal/cron/check-activity/` | POST      | internal        | Send daily reminder to inactive users                                 |
 | `internal/cron/onboarding-drip/`| POST      | internal        | Onboarding drip email sequence                                        |
 | `internal/cron/purge-data/`     | POST      | internal        | Purge stale data                                                      |
 
