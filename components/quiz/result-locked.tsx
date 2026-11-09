@@ -11,18 +11,15 @@ import { Loader2 } from 'lucide-react'
 
 interface Props {
   analysis: AnalysisResult
-  pendingSquad?: string | null
 }
 
-export function ResultLocked({ analysis, pendingSquad }: Props) {
+export function ResultLocked({ analysis }: Props) {
   const [isRedirecting, setIsRedirecting] = useState(false)
   const primary = analysis.primary as ProfileType
   const color = PROFILE_COLORS[primary]
   const content = getProfileContent(primary)
 
-  // pending-squad is read server-side and passed as a prop (set by invite flow)
-  const safeSlug = pendingSquad && /^[a-z0-9-]{3,30}$/.test(pendingSquad) ? pendingSquad : null
-  const destination = safeSlug ? `/invite/${safeSlug}` : "/dashboard"
+  const destination = "/dashboard"
 
   return (
     <section className="px-6 py-16 max-w-2xl mx-auto">

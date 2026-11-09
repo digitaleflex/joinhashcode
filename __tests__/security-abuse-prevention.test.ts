@@ -53,7 +53,6 @@ vi.mock("../lib/features", () => ({
 vi.mock("../lib/ratelimit", () => ({
   checkRateLimit: vi.fn(() => Promise.resolve({ limited: false })),
   claimLimiter: {},
-  squadJoinLimiter: {},
   profileUpdateLimiter: {},
   redis: null,
 }));

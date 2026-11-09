@@ -3,7 +3,6 @@ import { Nav } from "@/components/landing/nav"
 import { Footer } from "@/components/landing/footer"
 import { ChevronLeft } from "lucide-react"
 import Link from "next/link"
-import { cookies } from "next/headers"
 import { getSessionSafe } from "@/lib/get-session-safe"
 import { redirect } from "next/navigation"
 import { prisma } from "@/lib/prisma"
@@ -56,9 +55,6 @@ export default async function QuizPage() {
     }
   }
 
-  const cookieStore = await cookies()
-  const pendingSquad = cookieStore.get("pending-squad")?.value ?? null
-
   return (
     <main className="min-h-screen bg-background flex flex-col">
       <Nav />
@@ -82,7 +78,6 @@ export default async function QuizPage() {
           </div>
           <QuizWrapper
             user={user ? { ...user, level: user.level ?? 1, experience: user.experience ?? 0 } : undefined}
-            pendingSquad={pendingSquad}
           />
         </div>
       </div>

@@ -28,9 +28,8 @@ interface QuizUser {
 
 interface QuizWrapperProps {
   user?: QuizUser
-  pendingSquad?: string | null
 }
 
-export function QuizWrapper({ user, pendingSquad }: QuizWrapperProps) {
-  return <Quiz user={user} pendingSquad={pendingSquad} />
+export function QuizWrapper({ user }: QuizWrapperProps) {
+  return <Quiz user={user} />
 }

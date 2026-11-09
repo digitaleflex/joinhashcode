@@ -1,46 +1,7 @@
-import { getSessionSafe } from "@/lib/get-session-safe";
-import { prisma } from "@/lib/prisma";
-import { InviteClient } from "./invite-client";
+import { redirect } from "next/navigation";
 
-export default async function InvitePage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const session = await getSessionSafe();
-
-  // Fetch squad details
-  const squad = await prisma.organization.findUnique({
-    where: { slug },
-    include: {
-      members: {
-        include: {
-          user: {
-            select: {
-              name: true,
-              pseudo: true,
-              image: true,
-            }
-          }
-        }
-      }
-    }
-  });
-
-  if (!squad) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4">
-        <h1 className="text-2xl font-bold text-white uppercase tracking-tighter">Escouade Introuvable</h1>
-        <p className="text-zinc-500 mt-2">Le lien d&apos;invitation est peut-être expiré ou erroné.</p>
-      </div>
-    );
-  }
-
-  const leader = squad.members.find(m => m.role === "owner" || m.role === "LEADER")?.user ?? squad.members[0]?.user ?? null;
-
-  return (
-    <InviteClient
-        squad={squad}
-        leader={leader ?? { name: null, pseudo: null, image: null }}
-        isLoggedIn={!!session}
-        userId={session?.user?.id}
-    />
-  );
+// Les invitations de squad sont supprimées (D-027). Les anciens liens
+// partagés (/invite/<slug>, /invite/accept) mènent à l'inscription.
+export default function LegacyInvitePage() {
+  redirect("/signin");
 }

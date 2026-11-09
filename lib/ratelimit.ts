@@ -89,13 +89,8 @@ function makeLimiter(tokens: number, window: `${number} s` | `${number} m` | `${
 
 // ── Exported limiters ────────────────────────────────────────────────────────
 
-// 5 check-ins per user per 24h
-
 // 10 claims per user per hour
 export const claimLimiter = makeLimiter(10, "1 h")
-
-// 5 squad joins per user per hour
-export const squadJoinLimiter = makeLimiter(5, "1 h")
 
 // 30 requests per minute per user/IP
 export const mutationLimiter = makeLimiter(30, "1 m")
@@ -130,8 +125,6 @@ export const quizFeedbackLimiter = makeLimiter(10, "1 h")
 // 100 client error logs per IP per minute (high volume expected)
 export const clientErrorLimiter = makeLimiter(100, "1 m")
 
-// 30 squad management ops per leader per hour (update/invite/respond/leave)
-export const squadManagementLimiter = makeLimiter(30, "1 h")
 
 // 10 admin broadcast/export ops per admin per hour
 export const adminOpsLimiter = makeLimiter(10, "1 h")
