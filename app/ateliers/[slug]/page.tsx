@@ -30,13 +30,10 @@ export default async function AtelierDetailPage({ params }: { params: Promise<{ 
   const session = await getSessionSafe()
   if (!session) redirect("/signin")
 
-  const [user, userSquad] = await Promise.all([
-    prisma.user.findUnique({
-      where: { id: session.user.id },
-      select: { id: true, name: true, email: true, image: true, pseudo: true, class: true, role: true, level: true, experience: true, primaryDomain: true, firstActionCompletedAt: true },
-    }),
-    prisma.member.findFirst({ where: { userId: session.user.id }, select: { id: true } }),
-  ])
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { id: true, name: true, email: true, image: true, pseudo: true, class: true, role: true, level: true, experience: true, primaryDomain: true, firstActionCompletedAt: true },
+  })
   if (!user) redirect("/signin")
 
   const atelier = getAtelier(slug)
@@ -68,7 +65,7 @@ export default async function AtelierDetailPage({ params }: { params: Promise<{ 
 
   return (
     <SidebarProvider>
-      <AppSidebar user={user} hasSquad={!!userSquad} />
+      <AppSidebar user={user} />
       <SidebarInset>
         <UserTopBar user={user} />
         <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12">

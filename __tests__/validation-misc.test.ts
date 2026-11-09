@@ -6,8 +6,6 @@ import {
   notificationBulkSchema,
   adminKeyGenSchema,
   adminBroadcastSchema,
-  adminSquadDisbandSchema,
-  adminSquadTransferSchema,
   adminLogSchema,
 } from "../lib/validation/misc";
 
@@ -52,16 +50,6 @@ describe("S6-2 — misc API input validation schemas", () => {
     expect(adminBroadcastSchema.safeParse({}).success).toBe(false);
     expect(adminBroadcastSchema.safeParse({ title: "T", message: "M" }).success).toBe(true);
     expect(adminBroadcastSchema.safeParse({ title: "T", message: "M", link: "javascript:alert(1)" }).success).toBe(false);
-  });
-
-  test("adminSquadDisbandSchema requires organizationId", () => {
-    expect(adminSquadDisbandSchema.safeParse({}).success).toBe(false);
-    expect(adminSquadDisbandSchema.safeParse({ organizationId: "org-1" }).success).toBe(true);
-  });
-
-  test("adminSquadTransferSchema requires both ids", () => {
-    expect(adminSquadTransferSchema.safeParse({ organizationId: "o1" }).success).toBe(false);
-    expect(adminSquadTransferSchema.safeParse({ organizationId: "o1", targetMemberId: "m1" }).success).toBe(true);
   });
 
   test("adminLogSchema validates action and metadata shape", () => {

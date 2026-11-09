@@ -19,11 +19,9 @@ export default async function FeedbackPage() {
     class: string | null; role: string;
     level: number; experience: number;
   } | null = null;
-  let userSquad: { id: string } | null = null;
 
   try {
-    [dbUser, userSquad] = await Promise.all([
-      prisma.user.findUnique({
+    dbUser = await prisma.user.findUnique({
         where: { id: session.user.id },
         select: {
           id: true,
@@ -35,9 +33,7 @@ export default async function FeedbackPage() {
           level: true,
           experience: true,
         }
-      }),
-      prisma.member.findFirst({ where: { userId: session.user.id }, select: { id: true } }),
-    ]);
+      });
   } catch {
     redirect("/signin?reason=db_error");
   }
@@ -48,7 +44,7 @@ export default async function FeedbackPage() {
 
   return (
     <SidebarProvider>
-      <AppSidebar user={dbUser} hasSquad={!!userSquad} />
+      <AppSidebar user={dbUser} />
       <SidebarInset className="bg-background">
         <UserTopBar user={dbUser} />
         <main className="flex-1 p-4 md:p-8 pb-32 md:pb-8 overflow-y-auto scrollbar-none">

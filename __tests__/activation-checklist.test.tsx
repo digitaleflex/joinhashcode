@@ -21,12 +21,12 @@ describe('ActivationChecklist Component', () => {
   };
 
   it('renders correctly and shows progress', () => {
-    render(<ActivationChecklist user={mockUser as UserProfile} hasSquad={false} hasSubmission={false} />);
+    render(<ActivationChecklist user={mockUser as UserProfile} hasSubmission={false} />);
     
     // Header
     expect(screen.getByText('progression')).toBeDefined();
-    // 1/5 completed (only quiz) — 5 steps, only quiz est completed
-    expect(screen.getByText(/1 \/ 5 ÉTAPES/)).toBeDefined();
+    // 1/4 completed (only quiz) — 5 steps, only quiz est completed
+    expect(screen.getByText(/1 \/ 4 ÉTAPES/)).toBeDefined();
     // Next step is profile
     expect(screen.getByText(/Prochaine étape : Identité configurée/)).toBeDefined();
   });
@@ -43,7 +43,7 @@ describe('ActivationChecklist Component', () => {
       j7Activated: true 
     };
     const { container } = render(
-      <ActivationChecklist user={fullUser2 as UserProfile} hasSquad={true} hasSubmission={true} />
+      <ActivationChecklist user={fullUser2 as UserProfile} hasSubmission={true} />
     );
     
     expect(container.firstChild).toBeNull();
@@ -52,10 +52,10 @@ describe('ActivationChecklist Component', () => {
   it('shows 1/5 progress for incomplete user', () => {
     // User with only quiz completed
     const incompleteUser = { pseudo: '', githubUrl: null, linkedinUrl: null, j7Activated: false };
-    render(<ActivationChecklist user={incompleteUser as UserProfile} hasSquad={false} hasSubmission={false} />);
+    render(<ActivationChecklist user={incompleteUser as UserProfile} hasSubmission={false} />);
     
-    // 1/5 completed (only quiz)
-    expect(screen.getByText(/1 \/ 5 ÉTAPES/)).toBeDefined();
+    // 1/4 completed (only quiz)
+    expect(screen.getByText(/1 \/ 4 ÉTAPES/)).toBeDefined();
     // Next step is profile
     expect(screen.getByText(/Prochaine étape : Identité configurée/)).toBeDefined();
   });

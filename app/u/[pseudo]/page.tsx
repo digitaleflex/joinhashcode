@@ -121,7 +121,6 @@ export default async function PublicProfilePage({ params }: PageProps) {
       <main className="flex-1 p-4 md:p-10 pt-24 md:pt-32 relative z-[var(--z-content)]">
         <DossierView 
           user={user}
-          activeOrg={null}
           quizResult={null}
           isPublic={true}
           isPrivate={isPrivate}

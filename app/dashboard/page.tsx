@@ -4,37 +4,9 @@ import { DashboardWithTour } from "@/components/dashboard/dashboard-with-tour";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/generated/prisma/client";
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types";
-import type { SquadData } from "@/components/dashboard/squad-journey";
 import type { Activity } from "@/components/landing/activity-feed";
 import { getFeatureFlags } from "@/lib/feature-flags";
 import { getFirstAction } from "@/lib/first-action";
-
-type MemberPayload = Prisma.MemberGetPayload<{
-  select: {
-    role: true;
-    organization: {
-      select: {
-        id: true;
-        name: true;
-        slug: true;
-        logo: true;
-        cohesionScore: true;
-        streakCount: true;
-        members: {
-          take: 5;
-          select: {
-            id: true;
-            userId: true;
-            role: true;
-            user: {
-              select: { id: true; name: true; email: true; pseudo: true; image: true; class: true };
-            };
-          };
-        };
-      };
-    };
-  };
-}>;
 
 type FeedPayload = Prisma.ActivityLogGetPayload<{
   include: { user: { select: { name: true; city: true; class: true } } };
@@ -52,13 +24,12 @@ export default async function DashboardPage() {
   let dbUser: UserProfile | null = null;
   let quizResult: { profileType?: string | null } | null = null;
   let submissions: DetailedMissionSubmission[] = [];
-  let member: MemberPayload | null = null;
   let feedActivities: Activity[] = [];
   let socialProof = { activeMembers: 0, userRank: 0, weeklyCheckins: 0, totalMembers: 0 };
   let firstActionStatus: "not_started" | "started" | "completed" = "not_started";
 
   try {
-    const [userData, submissionsData, memberData, feedData, activeCount, weeklyCount, totalMembersCount] = await Promise.all([
+    const [userData, submissionsData, feedData, activeCount, weeklyCount, totalMembersCount] = await Promise.all([
       // Requête 1 : Profil utilisateur (champs stricts uniquement)
       prisma.user.findUnique({
         where: { id: session.user.id },
@@ -115,34 +86,6 @@ export default async function DashboardPage() {
         },
         orderBy: { createdAt: "desc" },
         take: 10,
-      }),
-      // Requête 3 : Squad membership (1 seul, champs minimaux)
-      prisma.member.findFirst({
-        where: { userId: session.user.id },
-        select: {
-          role: true,
-          organization: {
-            select: {
-              id: true,
-              name: true,
-              slug: true,
-              logo: true,
-              cohesionScore: true,
-              streakCount: true,
-              members: {
-                take: 5,
-                select: {
-                  id: true,
-                  userId: true,
-                  role: true,
-                  user: {
-                    select: { id: true, name: true, email: true, pseudo: true, image: true, class: true },
-                  },
-                },
-              },
-            },
-          },
-        },
       }),
       // Requête 4 : Activity feed (10 derniers événements publics)
       prisma.activityLog.findMany({
@@ -220,7 +163,6 @@ export default async function DashboardPage() {
         ? "started"
         : "not_started";
     submissions = submissionsData as DetailedMissionSubmission[];
-    member = memberData ?? null;
     feedActivities = (feedData ?? []).map((a) => ({
       id: a.id,
       user: { name: a.user!.name, city: a.user!.city, class: a.user!.class },
@@ -251,19 +193,6 @@ export default async function DashboardPage() {
     return acc;
   }, {} as Record<string, string>);
 
-  const squad: SquadData | null = member?.organization
-    ? {
-        ...member.organization,
-        members: member.organization.members.map((m) => ({
-          ...m,
-          user: {
-            ...m.user,
-            pseudo: m.user.pseudo || m.user.name,
-          },
-        })),
-      } as SquadData
-    : null;
-
   if (!dbUser) {
     redirect("/signin");
   }
@@ -279,8 +208,6 @@ export default async function DashboardPage() {
       quizResult={quizResult}
       submissions={submissionsMap}
       fullSubmissions={submissions}
-      squad={squad}
-      memberRole={member?.role ?? undefined}
       feedActivities={feedActivities}
       featureFlags={featureFlags}
       socialProof={socialProof}

@@ -27,8 +27,5 @@ export type { UpdateUserInput } from "./user";
 export { contactSchema, statusSchema, CONTACT_TYPES } from "./feedback";
 export type { ContactInput, StatusUpdateInput } from "./feedback";
 
-export { squadSlugSchema, inviteSlugSchema, createSquadSchema, updateSquadSchema, joinSquadSchema, inviteSquadSchema, joinRequestSchema, joinRequestRespondSchema, squadMessageSchema } from "./squad";
-export type { CreateSquadInput, UpdateSquadInput, JoinSquadInput, InviteSquadInput, JoinRequestInput, JoinRequestRespondInput, SquadMessageInput } from "./squad";
-
-export { betaVerifySchema, quizFeedbackSchema, uxPollSchema, notificationBulkSchema, adminKeyGenSchema, adminBroadcastSchema, adminSquadDisbandSchema, adminSquadTransferSchema, adminLogSchema } from "./misc";
-export type { BetaVerifyInput, QuizFeedbackInput, UxPollInput, NotificationBulkInput, AdminKeyGenInput, AdminBroadcastInput, AdminSquadDisbandInput, AdminSquadTransferInput, AdminLogInput } from "./misc";
+export { betaVerifySchema, quizFeedbackSchema, uxPollSchema, notificationBulkSchema, adminKeyGenSchema, adminBroadcastSchema, adminLogSchema } from "./misc";
+export type { BetaVerifyInput, QuizFeedbackInput, UxPollInput, NotificationBulkInput, AdminKeyGenInput, AdminBroadcastInput, AdminLogInput } from "./misc";

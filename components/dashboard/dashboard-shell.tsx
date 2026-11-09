@@ -32,7 +32,6 @@ import { NextStepCard } from "./next-step-card"
 import { getMemberNextStep } from "@/lib/next-step"
 import type { FirstAction } from "@/lib/first-action"
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
-import type { SquadData } from "@/components/dashboard/squad-journey"
 import type { Activity } from "@/components/landing/activity-feed"
 const ActivityFeed = dynamic(() => import("../landing/activity-feed").then((m) => m.ActivityFeed), { ssr: false })
 
@@ -66,8 +65,6 @@ const PROFILE_CONFIGS: Record<string, { title: string, color: string, gradient: 
 export function DashboardShell({
   user,
   quizResult,
-  squad = null,
-  memberRole,
   recommendedMissions = [],
   fullSubmissions = [],
   feedActivities = [],
@@ -80,8 +77,6 @@ export function DashboardShell({
   quizResult: { profileType?: string | null } | null,
   submissions?: Record<string, string>,
   fullSubmissions?: DetailedMissionSubmission[],
-  squad?: SquadData | null,
-  memberRole?: string,
   recommendedMissions?: Mission[],
   feedActivities?: Activity[],
   featureFlags?: Record<string, boolean>,
@@ -122,10 +117,10 @@ export function DashboardShell({
         />
       )}
 
-      <AppSidebar user={user} hasSquad={!!squad} />
+      <AppSidebar user={user} />
       <SidebarInset className="bg-background relative bg-gradient-mesh overflow-hidden">
         <div className="scanline"></div>
-        <UserTopBar user={user} squad={squad} memberRole={memberRole} />
+        <UserTopBar user={user} />
 
         <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12 overflow-y-auto scrollbar-none relative z-[var(--z-content)]">
           <div className="max-w-6xl mx-auto space-y-10">
@@ -196,11 +191,8 @@ export function DashboardShell({
                 {/* Activation Checklist */}
                 <ActivationChecklist
                   user={user}
-                  hasSquad={!!squad}
                   hasSubmission={fullSubmissions.length > 0}
                 />
-
-                {/* Squad + referral gelés (pivot pipeline cyber) */}
 
                 {/* Objectif 90 jours */}
                 {user.mainObjective && (

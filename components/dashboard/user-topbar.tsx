@@ -1,6 +1,6 @@
 "use client"
 
-import { Search, User as UserIcon, Settings, LogOut, Bell, ShieldAlert, Users } from "lucide-react"
+import { Search, User as UserIcon, Settings, LogOut, Bell, ShieldAlert } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -18,7 +18,6 @@ import dynamic from "next/dynamic"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { toast } from "sonner"
 import type { NavUser } from "@/lib/types"
-import type { SquadData } from "@/components/dashboard/squad-journey"
 const NotificationBell = dynamic(
   () => import("./notification-bell").then(m => ({ default: m.NotificationBell })),
   {
@@ -31,10 +30,9 @@ const NotificationBell = dynamic(
   }
 )
 
-export function UserTopBar({ user, squad, memberRole }: { user: NavUser | null, squad?: SquadData | null, memberRole?: string }) {
+export function UserTopBar({ user }: { user: NavUser | null }) {
   const session = authClient.useSession();
   const isImpersonated = session.data?.session?.impersonatedBy;
-  const isOwner = memberRole === "owner";
 
   const handleStopImpersonation = async () => {
     try {
@@ -96,15 +94,6 @@ export function UserTopBar({ user, squad, memberRole }: { user: NavUser | null, 
 
       {/* Right: Actions & Profile */}
       <div className="flex items-center gap-2 md:gap-4">
-        {/* Squad Management (Only for Owners) */}
-        {isOwner && squad && (
-          <Button asChild variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-primary/10 text-zinc-400 hover:text-primary transition-all group">
-            <Link href="/squad/manage" title="Gérer l'escouade">
-              <Users className="size-5 group-hover:scale-110 transition-transform" />
-            </Link>
-          </Button>
-        )}
-
         {/* Notifications */}
         <NotificationBell />
 

@@ -113,7 +113,6 @@ export default async function MissionsPage() {
   let completionsMap: Record<string, number> = {}
   let ratingsMap: Record<string, { avg: number | null; count: number }> = {}
   let avgDelayMap: Record<string, number> = {}
-  let userSquad: { id: string } | null = null
   let weeklySubmission: Prisma.MissionSubmissionGetPayload<object> | null = null
   let hefMissions: HefMissionCard[] = []
 
@@ -122,7 +121,6 @@ export default async function MissionsPage() {
       finalDbUser,
       weeklyMission,
       { completionsMap, ratingsMap, avgDelayMap },
-      userSquad,
       weeklySubmission
     ] = await Promise.all([
       prisma.user.findUnique({
@@ -147,10 +145,6 @@ export default async function MissionsPage() {
       }),
       weeklyMissionQuery,
       getMissionsEnrichment(),
-      prisma.member.findFirst({
-        where: { userId: session.user.id },
-        select: { id: true },
-      }),
       weeklySubmissionQuery,
     ])
   } catch (error: unknown) {
@@ -193,10 +187,6 @@ export default async function MissionsPage() {
     submissionsMap[slug] = sub.status;
   });
 
-  // Users already in a squad get squad-genesis marked as completed (display only)
-  if (userSquad && !submissionsMap["squad-genesis"]) {
-    submissionsMap["squad-genesis"] = "APPROVED";
-  }
 
   // Enrich MISSIONS
   const enrichedMissions = MISSIONS.map(m => ({
@@ -211,7 +201,7 @@ export default async function MissionsPage() {
   return (
     <TourProvider userId={finalDbUser.id} featureFlag={isFeatureEnabled("tour")}>
     <SidebarProvider>
-      <AppSidebar user={finalDbUser} hasSquad={!!userSquad} />
+      <AppSidebar user={finalDbUser} />
       <BottomNav />
       
       <SidebarInset className="bg-background relative overflow-hidden">

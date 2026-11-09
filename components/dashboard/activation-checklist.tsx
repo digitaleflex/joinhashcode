@@ -1,6 +1,6 @@
 "use client"
 
-import { Check, User, Users, Target, Sparkles, ChevronRight } from "lucide-react"
+import { Check, User, Target, Sparkles, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
@@ -8,11 +8,10 @@ import { motion } from "framer-motion"
 import type { UserProfile } from "@/lib/types"
 interface ActivationChecklistProps {
   user: UserProfile
-  hasSquad: boolean
   hasSubmission: boolean
 }
 
-export function ActivationChecklist({ user, hasSquad, hasSubmission }: ActivationChecklistProps) {
+export function ActivationChecklist({ user, hasSubmission }: ActivationChecklistProps) {
   const steps = [
     {
       id: "quiz",
@@ -30,15 +29,6 @@ export function ActivationChecklist({ user, hasSquad, hasSubmission }: Activatio
       icon: User,
       completed: !!user.pseudo && (!!user.githubUrl || !!user.linkedinUrl),
       href: "/settings",
-      xp: 50
-    },
-    {
-      id: "squad" as const,
-      title: "Escouade rejointe",
-      description: "Rejoins ou crée ta première Squad.",
-      icon: Users,
-      completed: hasSquad,
-      href: "/squad",
       xp: 50
     },
     {

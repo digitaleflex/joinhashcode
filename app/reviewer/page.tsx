@@ -28,12 +28,9 @@ export default async function ReviewerPage() {
       missionsCompletedCount: true,
       currentStreak: true,
       lastCheckinAt: true,
-      members: { select: { organization: { select: { id: true, name: true, slug: true } } } },
     },
   })
   if (!dbUser) redirect("/signin")
-
-  const activeOrg = dbUser.members[0]?.organization ?? null
 
   const sessionUser = {
     id: dbUser.id,
@@ -82,7 +79,7 @@ export default async function ReviewerPage() {
 
   return (
     <SidebarProvider>
-      <AppSidebar user={sessionUser} hasSquad={!!activeOrg} />
+      <AppSidebar user={sessionUser} />
       <BottomNav />
       <SidebarInset className="bg-background relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-mesh opacity-40 pointer-events-none" />

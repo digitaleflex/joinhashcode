@@ -64,7 +64,7 @@ export default async function MissionBriefingPage({
     avgDelay = Math.round(totalDelay / approvedSubmissions.length / (1000 * 60 * 60)) || 1
   }
 
-  const [dbUser, userSquad] = await Promise.all([
+  const [dbUser] = await Promise.all([
     prisma.user.findUnique({
       where: { id: session.user.id },
       include: {
@@ -83,7 +83,6 @@ export default async function MissionBriefingPage({
         },
       },
     }),
-    prisma.member.findFirst({ where: { userId: session.user.id }, select: { id: true } }),
   ])
 
   if (!dbUser) redirect("/signin")
@@ -144,7 +143,7 @@ export default async function MissionBriefingPage({
 
   return (
     <SidebarProvider>
-      <AppSidebar user={dbUser} hasSquad={!!userSquad} />
+      <AppSidebar user={dbUser} />
       <BottomNav />
 
       <SidebarInset className="bg-background">

@@ -2,15 +2,15 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, Zap, Users, BookOpen } from "lucide-react"
+import { LayoutDashboard, Zap, FileText, BookOpen } from "lucide-react"
 export function BottomNav() {
   const pathname = usePathname()
 
   const navItems = [
-    { name: "Console", href: "/dashboard", icon: LayoutDashboard },
-    { name: "Missions", href: "/missions", icon: Zap },
-    { name: "Squad", href: "/squad", icon: Users },
+    { name: "Parcours", href: "/dashboard", icon: LayoutDashboard },
+    { name: "Labs", href: "/missions", icon: Zap },
     { name: "Academy", href: "/academy", icon: BookOpen },
+    { name: "Portfolio", href: "/dossier", icon: FileText },
   ]
 
   return (
