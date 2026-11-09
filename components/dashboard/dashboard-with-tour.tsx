@@ -16,7 +16,6 @@ export function DashboardWithTour({
   recommendedMissions,
   feedActivities,
   featureFlags,
-  socialProof,
   firstAction,
   firstActionStatus,
 }: {
@@ -27,7 +26,6 @@ export function DashboardWithTour({
   recommendedMissions?: Mission[]
   feedActivities?: Activity[]
   featureFlags?: Record<string, boolean>
-  socialProof?: { activeMembers: number; userRank: number; weeklyCheckins: number; totalMembers: number }
   firstAction?: FirstAction
   firstActionStatus?: "not_started" | "started" | "completed"
 }) {
@@ -43,7 +41,6 @@ export function DashboardWithTour({
         recommendedMissions={recommendedMissions}
         feedActivities={feedActivities}
         featureFlags={featureFlags}
-        socialProof={socialProof}
         firstAction={firstAction}
         firstActionStatus={firstActionStatus}
       />

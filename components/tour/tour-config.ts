@@ -47,7 +47,7 @@ export const getDashboardTour = (isMobile: boolean): Tour => ({
     {
       icon: "📈",
       title: "Ta progression",
-      content: "Suis ton XP, ton niveau et ton grade. Chaque action te rapproche du suivant.",
+      content: "Suis tes labs validés : chacun est une preuve de compétence dans ton Portfolio.",
       selector: "#tour-progression",
       side: "top",
       showControls: true,
@@ -74,30 +74,6 @@ export const missionsTour: Tour = {
       content: "Parcours les missions disponibles et choisis celle qui correspond à ton niveau.",
       selector: "#tour-missions-list",
       side: "top",
-      showControls: true,
-      showSkip: true,
-    },
-  ],
-}
-
-export const squadTour: Tour = {
-  tour: "squad",
-  steps: [
-    {
-      icon: "🚀",
-      title: "Ton équipe",
-      content: "Voici le parcours de ton squad. Suivez votre progression ensemble.",
-      selector: "#tour-squad-journey",
-      side: "bottom",
-      showControls: true,
-      showSkip: true,
-    },
-    {
-      icon: "💬",
-      title: "Chat d'équipe",
-      content: "Échange avec les membres de ton squad en temps réel.",
-      selector: "#tour-squad-chat",
-      side: "left",
       showControls: true,
       showSkip: true,
     },
@@ -131,14 +107,12 @@ export const dossierTour: Tour = {
 export const getAllTours = (isMobile: boolean): Tour[] => [
   getDashboardTour(isMobile),
   missionsTour,
-  squadTour,
   dossierTour,
 ]
 
 export const TOUR_NAMES = {
   DASHBOARD: "dashboard",
   MISSIONS: "missions",
-  SQUAD: "squad",
   DOSSIER: "dossier",
 } as const
 

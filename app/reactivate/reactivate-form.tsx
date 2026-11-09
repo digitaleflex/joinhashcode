@@ -47,7 +47,7 @@ export function ReactivateForm() {
             Compte désactivé
           </CardTitle>
           <CardDescription className="text-xs text-zinc-400 font-medium max-w-80 mx-auto leading-relaxed">
-            Ton profil HASHCODE est actuellement désactivé. Tu peux le réactiver à tout moment pour retrouver l&apos;accès à ton dashboard, tes missions et ta squad.
+            Ton profil HASHCODE est actuellement désactivé. Tu peux le réactiver à tout moment pour retrouver l&apos;accès à ton dashboard, tes labs et ton Portfolio.
           </CardDescription>
         </CardHeader>
 

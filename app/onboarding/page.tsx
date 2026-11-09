@@ -320,7 +320,7 @@ export default function OnboardingPage() {
                 <div className="grid grid-cols-3 gap-3 max-w-sm mx-auto">
                   {[
                     { icon: "🎯", label: "Ton profil", sub: "Builder, Creator, Strategist ou Catalyst" },
-                    { icon: "🛡️", label: "Ta squad", sub: "Trouve ta communauté" },
+                    { icon: "🛡️", label: "Tes preuves", sub: "Un Portfolio vérifiable" },
                     { icon: "⚡", label: "Des missions", sub: "Progresse concrètement" },
                   ].map(item => (
                     <div key={item.label} className="p-3 rounded-2xl bg-white/2 border border-white/5 text-center space-y-1">

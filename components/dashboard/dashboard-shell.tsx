@@ -69,7 +69,6 @@ export function DashboardShell({
   fullSubmissions = [],
   feedActivities = [],
   featureFlags: _featureFlags = {},
-  socialProof: _socialProof = { activeMembers: 0, userRank: 0, weeklyCheckins: 0, totalMembers: 0 },
   firstAction,
   firstActionStatus = "not_started",
 }: {
@@ -80,7 +79,6 @@ export function DashboardShell({
   recommendedMissions?: Mission[],
   feedActivities?: Activity[],
   featureFlags?: Record<string, boolean>,
-  socialProof?: { activeMembers: number, userRank: number, weeklyCheckins: number, totalMembers: number },
   firstAction?: FirstAction,
   firstActionStatus?: "not_started" | "started" | "completed",
 }) {
@@ -104,8 +102,8 @@ export function DashboardShell({
     [fullSubmissions, user?.missionsCompletedCount],
   )
 
-  const isNewUser = (user?.missionsCompletedCount ?? 0) === 0 && (user?.currentStreak ?? 0) === 0
-  const hasStarted = (user?.missionsCompletedCount ?? 0) > 0 || (user?.currentStreak ?? 0) > 0
+  const isNewUser = (user?.missionsCompletedCount ?? 0) === 0
+  const hasStarted = (user?.missionsCompletedCount ?? 0) > 0
 
   return (
     <SidebarProvider>
@@ -135,8 +133,7 @@ export function DashboardShell({
                   </h2>
                   <p className="text-sm text-zinc-400 mt-1">
                     {(() => {
-                      if ((user.currentStreak ?? 0) >= 3) return `${user.currentStreak} jours de suite. Continue comme ça.`
-                      if ((user.missionsCompletedCount ?? 0) > 0) return `Tu as complété ${user.missionsCompletedCount} mission${user.missionsCompletedCount > 1 ? 's' : ''}.`
+                      if ((user.missionsCompletedCount ?? 0) > 0) return `Tu as validé ${user.missionsCompletedCount} lab${user.missionsCompletedCount > 1 ? 's' : ''}.`
                       return "5 questions. 1 diagnostic. Maintenant, passe à l'action."
                     })()}
                   </p>

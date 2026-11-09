@@ -5,7 +5,6 @@ import {
   Globe,
   ShieldCheck,
   Zap,
-  Flame,
   Target,
   Info
 } from "lucide-react";
@@ -116,12 +115,6 @@ export function DossierView({
                   {user.technicalLevel && (
                     <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-primary/10 border border-primary/20">
                         <span className="text-3xs font-mono font-black text-primary uppercase tracking-tighter">Niveau : {user.technicalLevel}</span>
-                    </div>
-                  )}
-                  {user.currentStreak > 0 && (
-                    <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-orange-500/10 border border-orange-500/20">
-                        <Flame className="size-3 text-orange-500" />
-                        <span className="text-xs font-mono font-bold text-orange-500">{user.currentStreak} Jours</span>
                     </div>
                   )}
               </div>
