@@ -51,9 +51,6 @@ export function ResultLocked({ analysis }: Props) {
               />
               <span className="text-sm font-medium text-white">{mission.title}</span>
             </div>
-            <span className="text-xs font-semibold flex-shrink-0" style={{ color }}>
-              +{mission.xp} XP
-            </span>
           </motion.div>
         ))}
 

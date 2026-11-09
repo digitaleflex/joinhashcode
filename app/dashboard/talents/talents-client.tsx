@@ -21,8 +21,7 @@ interface Talent {
   pseudo: string | null
   image: string | null
   class: string | null
-  level: number
-  experience: number
+  missionsCompletedCount: number
   city: string | null
   country: string | null
   bio: string | null
@@ -166,8 +165,7 @@ function TalentCard({ talent, index }: { talent: Talent; index: number }) {
 
               <div className="flex items-center justify-between pt-1">
                 <div className="flex items-center gap-3 text-xs font-mono">
-                  <span className="text-zinc-600">LV.{talent.level}</span>
-                  <span className="text-primary font-bold">{talent.experience.toLocaleString()} XP</span>
+                  <span className="text-primary font-bold">{talent.missionsCompletedCount} lab{talent.missionsCompletedCount > 1 ? "s" : ""} validé{talent.missionsCompletedCount > 1 ? "s" : ""}</span>
                 </div>
                 {(talent.city || talent.country) && (
                   <div className="flex items-center gap-1 text-3xs text-zinc-500">
@@ -206,7 +204,7 @@ function TalentCard({ talent, index }: { talent: Talent; index: number }) {
             </Avatar>
             <div>
               <p className="font-bold text-sm text-white">{talent.name}</p>
-              <p className="font-mono text-3xs text-zinc-500">{displayLabel} · LV.{talent.level}</p>
+              <p className="font-mono text-3xs text-zinc-500">{displayLabel}</p>
             </div>
           </div>
           {talent.bio && (
@@ -266,8 +264,7 @@ function TalentRow({ talent }: { talent: Talent }) {
               </div>
               <div className="flex items-center gap-3 text-xs font-mono text-zinc-600">
                 <span className="flex items-center gap-1"><Icon className="size-3" />{displayLabel}</span>
-                <span>LV.{talent.level}</span>
-                <span className="text-primary font-bold">{talent.experience.toLocaleString()} XP</span>
+                <span className="text-primary font-bold">{talent.missionsCompletedCount} labs validés</span>
                 {(talent.city || talent.country) && (
                   <span className="hidden md:flex items-center gap-1">
                     <Globe className="size-2.5" />{[talent.city, talent.country].filter(Boolean).join(", ")}
@@ -332,7 +329,7 @@ export function TalentsClient({ talents }: { talents: Talent[] }) {
   }, [talents])
 
   const topTalents = useMemo(() => {
-    return [...talents].sort((a, b) => b.experience - a.experience).slice(0, 3)
+    return [...talents].sort((a, b) => b.missionsCompletedCount - a.missionsCompletedCount).slice(0, 3)
   }, [talents])
 
   return (
@@ -364,8 +361,7 @@ export function TalentsClient({ talents }: { talents: Talent[] }) {
             { label: "Stratèges", value: classCounts.strategist, icon: BarChart3, color: "text-amber-400" },
             { label: "Catalyseurs", value: classCounts.catalyst, icon: Users, color: "text-emerald-400" },
             { label: "Initiés", value: classCounts.unknown, icon: Sparkles, color: "text-zinc-400" },
-            { label: "Niveau max", value: Math.max(...talents.map((t) => t.level), 0), icon: TrendingUp, color: "text-[#C5F441]" },
-            { label: "Moy. XP", value: Math.round(talents.reduce((a, t) => a + t.experience, 0) / Math.max(talents.length, 1)), icon: Trophy, color: "text-primary" },
+            { label: "Labs validés", value: talents.reduce((a, t) => a + t.missionsCompletedCount, 0), icon: Trophy, color: "text-primary" },
           ].map((stat) => {
             const Icon = stat.icon
             return (
@@ -417,8 +413,7 @@ export function TalentsClient({ talents }: { talents: Talent[] }) {
                         <div className="flex items-center gap-2 text-3xs font-mono text-zinc-500">
                           <Icon className="size-3" />
                           <span>{cfg.label}</span>
-                          <span>· LV.{talent.level}</span>
-                          <span>· {talent.experience.toLocaleString()} XP</span>
+                          <span>· {talent.missionsCompletedCount} labs validés</span>
                         </div>
                       </div>
                     </div>

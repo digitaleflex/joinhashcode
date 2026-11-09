@@ -162,7 +162,7 @@ export function AccountTab({ userData }: AccountTabProps) {
                 <div className="space-y-1 font-mono text-3xs text-left">
                   <div className="text-red-400 font-black uppercase tracking-wider">ACTION IRRÉVERSIBLE</div>
                   <div className="text-zinc-500 leading-normal">
-                    Profil, missions, XP, squad — tout sera définitivement effacé.
+                    Profil, labs, soumissions et preuves — tout sera définitivement effacé.
                   </div>
                 </div>
               </div>
@@ -203,7 +203,7 @@ export function AccountTab({ userData }: AccountTabProps) {
         open={deleteOpen}
         onOpenChange={setDeleteOpen}
         title="Supprimer définitivement ton profil"
-        description="Cette action est irréversible. Profil, missions, XP, squad — tout sera définitivement effacé."
+        description="Cette action est irréversible. Profil, labs, soumissions et preuves — tout sera définitivement effacé."
         confirmText="Supprimer définitivement"
         cancelText="Annuler"
         variant="destructive"

@@ -58,7 +58,6 @@ export function DossierView({
   const engagementTips = [];
   if (!isPublic) {
     if (user.missionSubmissions.length === 0) engagementTips.push("Lance ta première mission pour voir ton profil prendre vie.");
-    if (user.experience < 500) engagementTips.push("Atteins 500 XP pour passer au niveau 2.");
   }
 
   return (

@@ -128,11 +128,9 @@ export default async function TalentsPage() {
       creatorScore: true,
       strategistScore: true,
       catalystScore: true,
-      level: true,
-      experience: true,
       missionsCompletedCount: true,
     },
-    orderBy: [{ experience: "desc" }, { level: "desc" }],
+    orderBy: [{ missionsCompletedCount: "desc" }, { createdAt: "asc" }],
   }) as unknown as Array<{
     id: string;
     name: string;
@@ -148,8 +146,6 @@ export default async function TalentsPage() {
     creatorScore: number;
     strategistScore: number;
     catalystScore: number;
-    level: number;
-    experience: number;
     missionsCompletedCount: number;
     referralCount: number;
   }>
@@ -158,8 +154,7 @@ export default async function TalentsPage() {
     ...t,
     bio: t.bio ?? null,
     tools: t.tools ?? [],
-    level: t.level ?? 1,
-    experience: t.experience ?? 0,
+    missionsCompletedCount: t.missionsCompletedCount ?? 0,
   }))
 
   return (

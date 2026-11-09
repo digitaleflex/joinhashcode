@@ -18,14 +18,12 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { authClient } from "@/lib/auth-client"
-import { getLevelProgress } from "@/lib/level-utils"
 import { MoreHorizontal, LogOut, Settings, FileText } from "lucide-react"
 import type { NavUser } from "@/lib/types"
 
 export function SidebarUser({ user }: { user: NavUser | null }) {
   const { data: session } = authClient.useSession()
   const currentUser = (user || session?.user) as NavUser | undefined
-  const progress = getLevelProgress(currentUser?.experience || 0)
 
   const handleLogout = async () => {
     await authClient.signOut()
@@ -34,22 +32,6 @@ export function SidebarUser({ user }: { user: NavUser | null }) {
 
   return (
     <SidebarFooter className="border-t border-white/5 p-4">
-      <div className="px-2 pb-4 group-data-[collapsible=icon]:hidden">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-xs font-mono text-primary uppercase tracking-wider font-bold">
-            Niveau {progress.level}
-          </span>
-          <span className="text-xs font-mono text-zinc-500 uppercase">
-            {currentUser?.experience} / {progress.nextLevelXp || progress.xpInLevel} XP
-          </span>
-        </div>
-        <div className="h-1.5 w-full bg-zinc-900 rounded-full overflow-hidden border border-white/5">
-          <div
-            className="h-full bg-primary shadow-[0_0_10px_rgba(197,244,65,0.4)] transition-all duration-500"
-            style={{ width: `${progress.percent}%` }}
-          />
-        </div>
-      </div>
       <SidebarMenu>
         <SidebarMenuItem>
           <DropdownMenu>

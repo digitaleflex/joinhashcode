@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Copy, Check, Users, Zap, Gift } from "lucide-react"
+import { Copy, Check, Users, Gift } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
@@ -106,11 +106,8 @@ export function ReferralWidget() {
                     </Avatar>
                     <div className="min-w-0">
                       <div className="text-xs font-bold text-white truncate">@{r.pseudo || r.name?.split(" ")[0]}</div>
-                      <div className="text-3xs font-mono text-zinc-600 uppercase">LVL {r.level} · {r.class || "Agent"}</div>
+                      <div className="text-3xs font-mono text-zinc-600 uppercase">{r.class || "Membre"}</div>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-1 text-3xs font-mono text-primary font-bold shrink-0">
-                    <Zap className="size-3" /> +100 XP
                   </div>
                 </div>
               ))}

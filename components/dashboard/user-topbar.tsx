@@ -109,7 +109,6 @@ export function UserTopBar({ user }: { user: NavUser | null }) {
               </div>
               <div className="hidden sm:flex flex-col items-start leading-none">
                 <span className="text-xs font-bold text-white">{user?.name?.split(' ')[0]}</span>
-                <span className="text-3xs font-mono text-primary uppercase">LVL {user?.level || 1}</span>
               </div>
             </Button>
           </DropdownMenuTrigger>

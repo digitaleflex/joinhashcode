@@ -120,7 +120,7 @@ export default async function CommunityPage() {
                   )}
                 </div>
                 <p className="mt-2 text-xs text-muted-foreground">
-                  {t.missionsCompletedCount} mission{t.missionsCompletedCount > 1 ? "s" : ""} validée{t.missionsCompletedCount > 1 ? "s" : ""} · Niveau {t.level}
+                  {t.missionsCompletedCount} mission{t.missionsCompletedCount > 1 ? "s" : ""} validée{t.missionsCompletedCount > 1 ? "s" : ""}
                 </p>
               </Link>
             ))}

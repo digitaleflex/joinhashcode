@@ -67,7 +67,6 @@ export default async function TalentsVitrinePage() {
                   </div>
                 )}
                 <div className="mt-4 flex items-center gap-4 border-t border-border pt-3 text-xs text-muted-foreground">
-                  <span>Niveau {t.level}</span>
                   <span>{t.missionsCompletedCount} mission{t.missionsCompletedCount > 1 ? "s" : ""} validée{t.missionsCompletedCount > 1 ? "s" : ""}</span>
                 </div>
               </Link>
