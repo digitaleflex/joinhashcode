@@ -48,7 +48,7 @@ describe('Referral System Logic (P17)', () => {
     expect(prisma.user.update).not.toHaveBeenCalled();
   });
 
-  it('should award 50 XP to referrer on success', async () => {
+  it('should credit the referrer on success', async () => {
     const mockReferrerId = 'user_referrer';
     (prisma.user.findUnique as any).mockImplementation(({ where }: any) => {
       if (where.id === 'user_new') {
@@ -72,7 +72,6 @@ describe('Referral System Logic (P17)', () => {
     });
 
     (prisma.activityLog.findFirst as any).mockResolvedValue(null);
-    (prisma.dailyCheckin.count as any).mockResolvedValue(3);
 
     await processReferralReward('user_new');
 

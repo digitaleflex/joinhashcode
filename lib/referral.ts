@@ -1,9 +1,7 @@
 import { prisma } from "./prisma";
-import { awardXp } from "./experience";
 import { logError, logInfo } from "./logger";
 
 const MIN_DAYS_BEFORE_REWARD = 7
-const MIN_CHECKINS_BEFORE_REWARD = 3
 
 export async function processReferralReward(newUserId: string) {
   try {
@@ -31,24 +29,11 @@ export async function processReferralReward(newUserId: string) {
        return
      }
 
-    // Anti-fraud: minimum check-ins
-    const checkinCount = await prisma.dailyCheckin.count({
-      where: { userId: newUserId },
-    })
-     if (checkinCount < MIN_CHECKINS_BEFORE_REWARD) {
-       logInfo("Referral Deferred", `${newUserId} check-ins ${checkinCount} < ${MIN_CHECKINS_BEFORE_REWARD}`);
-       return
-     }
-
-    const rewardXp = 50;
-
     if (!user.referrerId) {
       return;
     }
 
     await prisma.$transaction(async (tx) => {
-      await awardXp(user.referrerId as string, rewardXp, "REFERRAL_SUCCESS", newUserId, tx);
-
       await tx.user.update({
         where: { id: user.referrerId as string },
         data: { referralCount: { increment: 1 } },
@@ -58,8 +43,8 @@ export async function processReferralReward(newUserId: string) {
         data: {
           userId: user.referrerId as string,
           type: "REFERRAL_SUCCESS",
-          title: "Récompense de parrainage ! 💎",
-          message: `Ton ami ${user.name} a rejoint HASHCODE. Tu as reçu +${rewardXp} XP.`,
+          title: "Parrainage réussi !",
+          message: `${user.name} a rejoint HASHCODE grâce à toi.`,
           link: "/dashboard",
         }
       });
@@ -70,12 +55,12 @@ export async function processReferralReward(newUserId: string) {
           action: "REFERRAL_REWARD_GRANTED",
           entity: "user",
           entityId: newUserId,
-          metadata: { xpGranted: rewardXp, referredUserName: user.name, accountAgeDays: Math.round(accountAgeDays), checkinCount }
+          metadata: { referredUserName: user.name, accountAgeDays: Math.round(accountAgeDays) }
         }
       });
     });
 
-    logInfo("Referral Reward", `Reward of ${rewardXp} XP granted to ${user.referrerId} for referring ${newUserId}`);
+    logInfo("Referral Reward", `Referral of ${newUserId} credited to ${user.referrerId}`);
    } catch (error: unknown) {
      logError("Referral Reward", error);
    }
