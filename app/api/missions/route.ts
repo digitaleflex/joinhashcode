@@ -88,7 +88,6 @@ async function submitMission(userId: string, input: z.infer<typeof submissionSch
 
   const isAutoApproved = mission.isWeeklyChallenge || mission.isAutoApproved;
   const finalStatus = isAutoApproved ? "APPROVED" : "PENDING";
-  const xpToAward = isAutoApproved ? (mission.xp || 0) : 0;
 
   const resultSubmission = await prisma.$transaction(async (tx) => {
     const submission = await tx.missionSubmission.upsert({
@@ -111,7 +110,7 @@ async function submitMission(userId: string, input: z.infer<typeof submissionSch
         userFeedback: input.userFeedback,
         improvementSuggestions: input.improvementSuggestions,
         status: finalStatus,
-        xpAwarded: xpToAward,
+        xpAwarded: 0,
       }
     });
 
@@ -163,9 +162,9 @@ async function submitMission(userId: string, input: z.infer<typeof submissionSch
     await triggerNotification({
       userId,
       type: "SYSTEM",
-      title: isAutoApproved ? `Challenge Validé : ${mission.title}` : `Mission transmise : ${mission.title}`,
+      title: isAutoApproved ? `Lab validé : ${mission.title}` : `Lab transmis : ${mission.title}`,
       message: isAutoApproved
-        ? `Ton challenge hebdomadaire est validé. +${xpToAward} XP accordés !`
+        ? `Ton lab est validé.`
         : `Analyse en cours... Ta soumission va être analysée.`,
       link: "/missions"
     });
@@ -177,7 +176,7 @@ async function submitMission(userId: string, input: z.infer<typeof submissionSch
     });
   }
 
-  return { submission: resultSubmission, status: finalStatus, missionXp: xpToAward };
+  return { submission: resultSubmission, status: finalStatus };
 }
 
 export async function GET() {

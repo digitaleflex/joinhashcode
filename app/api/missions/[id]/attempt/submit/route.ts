@@ -182,8 +182,6 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
             reviewerType: "AUTO",
           },
         });
-        if (mission.xp > 0) {
-        }
         await tx.user.update({
           where: { id: session.user.id },
           data: { missionsCompletedCount: { increment: 1 } },
