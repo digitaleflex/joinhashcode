@@ -21,8 +21,14 @@
 > - Reboot est une source de capacités à intégrer sélectivement, pas une seconde plateforme
 >   à maintenir en parallèle.
 > - La gratuité et les règles de validation restent celles des décisions produit existantes.
-> - Le gel de la gamification générique (D-015) et de CORE avancé (D-019) reste applicable
->   jusqu'à décision explicite contraire.
+> - **Domaine phare : Cybersécurité (D-026).** Les trois domaines restent présentés, mais seul
+>   le cyber reçoit de nouveaux développements tant que la traction n'est pas démontrée.
+> - **Pas de gamification (D-027, D-029, 11/2026).** XP, niveaux, badges, check-in, séries et
+>   squads ont été supprimés du produit. Aucun lab n'est verrouillé ; la progression se mesure
+>   en **labs validés** (preuves). Un membre devient relecteur après 3 labs validés.
+>   CORE avancé reste différé (D-019).
+> - **Gel des fonctionnalités (D-028)** : pas de nouvelle fonctionnalité sans une hypothèse
+>   `H-xx` qu'elle teste.
 >
 > Le contenu historique ci-dessous est conservé comme référence de conception ; en cas de
 > contradiction avec D-024, la vision active ci-dessus prévaut.
@@ -303,14 +309,14 @@ Orienter     →  Ajuste le cap si l'utilisateur dévie
 
 Un utilisateur peut devenir mentor après avoir atteint le niveau **Specialist** ou **Mentor** (voir niveaux de maturité). Le mentorat est :
 - Une étape de progression (prouver qu'on sait transmettre)
-- Une source d'XP et de reconnaissance
+- Une source de reconnaissance (statut, visibilité dans le Vivier)
 - Un maillon essentiel de la validation des compétences
 
 ---
 
 ## Niveaux de maturité
 
-En complément des niveaux XP (INIT → CORE → PRO → ELITE), les **niveaux de maturité** décrivent le stade de l'utilisateur dans son parcours global.
+Les **niveaux de maturité** décrivent le stade de l'utilisateur dans son parcours global. Il n'existe plus de niveaux XP (D-029). Ces niveaux restent un cadre de conception : seuls les labs validés et l'éligibilité relecteur (3 labs validés) sont implémentés.
 
 ```
 Explorer
@@ -330,7 +336,7 @@ Mentor
 |---|---|---|
 | Explorer | Inscription | Découverte, Orientation |
 | Learner | Objectif 90 jours défini | Ateliers, ressources |
-| Practitioner | Premier projet terminé | Missions avancées, squad |
+| Practitioner | Premier projet terminé | Labs avancés (tous les labs sont ouverts, D-029) |
 | Verified | Première evidence validée | Portfolio publiable |
 | Specialist | 3+ evidences dans une spécialisation | Mentorat (en tant que mentoré avancé) |
 | Mentor | 5+ evidences + recommandation pairs | Peut valider les evidences des autres |
@@ -348,7 +354,7 @@ Système de Découverte      →   Quiz, profils psychométriques
 Système d'Orientation      →   Recommandation, choix, objectif 90 jours
 Système d'Apprentissage    →   Ateliers, ressources, mentorat
 Système de Pratique        →   Projets, missions, labs
-Système de Validation      →   Evidences, mentor review, badges
+Système de Validation      →   Evidences, revue par les pairs et les mentors
 Système d'Opportunités     →   Portfolio, mise en relation, certifications
 ```
 
@@ -399,7 +405,7 @@ Les emails sont le premier contact durable avec l'utilisateur. Ils doivent **ten
 | Ancien (cyberpunk) | Pourquoi on arrête |
 |---|---|
 | « Ton signal est actif » | Trop vague. Qu'est-ce que ça veut dire concrètement ? |
-| « NEURAL CHECK-IN » | Jargon inutile. On dit « check-in » ou « connexion quotidienne ». |
+| « NEURAL CHECK-IN » | Le check-in quotidien a été supprimé (D-027). |
 | « Protocole de Calibration » | Fait peur. On dit « diagnostic » ou « quiz ». |
 | « Agent validé » | On n'est pas dans un jeu d'espionnage. |
 | « Symbiose Cognitive » | Personne ne parle comme ça. |

@@ -5,6 +5,33 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ---
 
+## [Unreleased] — Grand nettoyage (novembre 2026)
+
+Branche `chore/grand-nettoyage` — décisions D-026 à D-029 (`DOCS/DECISIONS.md`),
+suivi dans `DOCS/NETTOYAGE_SUIVI.md`. Point de retour : tag `pre-nettoyage`.
+
+### Supprimé
+- **Squads** : pages, API, admin, invitations, chat, cohésion, séries ; emails squad et
+  email J+3 « squad power » du drip d'onboarding. `/squad/*` → `/dashboard`, `/invite/*` → `/signin`.
+- **Gamification** : XP, niveaux, badges, check-in quotidien, classement, modale de niveau,
+  emails « niveau atteint », preuve sociale du dashboard.
+- **Modules gelés** : `/leaderboard`, `/guide`, admin core / fraud / mentorat / knowledge-hub / interventions.
+- **Cron `check-activity`** (rappel de check-in) — à retirer aussi du planificateur externe.
+- Des dizaines de fichiers orphelins, 13 dépendances inutilisées, outils d'agents IA hors OpenCode/Claude.
+
+### Corrigé
+- Labs CORE/PRO (13 modules HEF sur 17) bloqués à vie : plus de verrou par niveau.
+- Devenir relecteur était impossible : la règle est désormais « 3 labs validés ».
+- Parrainage : bloqué par la condition de check-in, puis compté en double ; un seul chemin (onboarding).
+- Email de validation de lab envoyé deux fois (attempts) ; plus de « +N XP » promis nulle part.
+- `knip` ne détectait aucun fichier orphelin (configuration réparée).
+
+### Modifié
+- Vivier, Portfolio, labs et emails affichent les **labs validés** à la place de l'XP.
+- Documentation : `CLAUDE.md` (nouveau), `AGENTS.md`, `README.md`, vision, roadmap, hypothèses.
+
+---
+
 ## [2.6.0] — 2026-06-14
 
 ### 🚀 Stabilisation Production & Neuro-Engagement (Sprint Final)

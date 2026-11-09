@@ -63,6 +63,13 @@ The middleware enforces a three-stage workflow:
 1. **No active session** ➡️ Redirects to `/signin`
 2. **Session active, but no `currentSituation`** ➡️ Redirects to `/onboarding`
 3. **Session active, onboarding completed, but no profile class assigned** ➡️ Redirects to `/quiz`
+4. **Profile class assigned, but no domain chosen** ➡️ Redirects to `/specialization`
+
+### Progression : des preuves, pas des points
+
+Il n'y a ni XP, ni niveaux, ni badges, ni squads (décisions D-027 et D-029, novembre 2026).
+Tous les labs sont accessibles ; ce qui compte, ce sont les **labs validés**, visibles dans le
+Portfolio et le Vivier. Un membre peut relire les soumissions des autres après 3 labs validés.
 
 ---
 
@@ -81,34 +88,39 @@ pnpm build
 pnpm test
 
 # Run a single test
-npx vitest run __tests__/smoke.test.tsx
+pnpm exec vitest run __tests__/smoke.test.tsx
+
+# Quality gate before each commit (types + lint + Prisma schema)
+pnpm verify:fast
+
+# Full gate (+ HTTP probes on :3000 + Playwright)
+pnpm verify
+
+# Find unused files, exports and dependencies
+pnpm exec knip
 
 # Lint the codebase
 pnpm lint
 
 # Open Prisma Studio to browse your database locally
-npx prisma studio
+pnpm exec prisma studio
 
 # Generate Prisma client
-npx prisma generate
+pnpm exec prisma generate
 
 # Apply migrations and update database schema (dev mode)
-npx prisma migrate dev --name <description>
+pnpm exec prisma migrate dev --name <description>
 ```
 
-### 🐳 Docker & Local Environment
+Node 22 is required (`.nvmrc`). The local production build needs `REDIS_URL` in the Upstash
+REST format (`https://…`); otherwise run `REDIS_URL= REDIS_TOKEN= pnpm build` to use the
+in-memory rate-limit fallback.
 
-We provide a specialized local environment setup using Docker to run both the database and the web application in a consistent containerized environment.
+### 🐳 Docker
 
-```bash
-# Start the full local environment (Web + DB + Adminer)
-# Requires Git Bash, WSL, or Linux/Mac
-./dev.sh
-```
-
-- **Web App**: [http://localhost:3000](http://localhost:3000)
-- **Adminer (DB Management)**: [http://localhost:8081](http://localhost:8081)
-- **Local DB Port**: `5434` (external) / `5432` (internal)
+- `compose.db.yml` — PostgreSQL + PgBouncer + Adminer (the database stack, started once).
+- `compose.app.yml` — the production `web` service behind Traefik.
+- Deployment: `./deploy.sh --image` pulls the image built by CI (see `AGENTS.md`, « Deployment »).
 
 ---
 

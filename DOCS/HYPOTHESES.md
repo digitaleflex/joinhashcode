@@ -60,7 +60,7 @@ Une hypothèse avec 2 observations a une confiance faible même si 🟢.
 |---|---|---|---|
 | H9 | Les widgets masqués aux nouveaux membres réduisent la charge cognitive | 🟡 | — |
 | H11 | Un atelier de 45 min est la durée maximale pour un débutant | 🟡 | — |
-| H18 | Les squads de 5 sont trop petites / trop grandes | 🟡 | — |
+| H18 | ~~Les squads de 5 sont trop petites / trop grandes~~ — caduque : squads supprimées (D-027) | — | — |
 | H19 | Les utilisateurs préfèrent les défis individuels aux défis d'équipe | 🟡 | — |
 
 ---

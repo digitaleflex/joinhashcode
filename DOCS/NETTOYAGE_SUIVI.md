@@ -10,7 +10,7 @@
 | 0 | Décisions D-026 → D-028 | ✅ 09/11 |
 | 1 | Hygiène dépôt : racine rangée, `.local/` dé-versionné, AGENTS.md corrigé, 12 dépendances retirées | ✅ 09/11 — outils IA : OpenCode + Claude Code conservés, `.agents/` `.gemini/` supprimés |
 | 2 | Suppression du code gelé — **terminée (09/11)** : libs orphelines, /leaderboard, /guide, check-in, admin core/fraud/mentorat/knowledge-hub/interventions, squads (UI/API/admin/invitations/email J+3), 16+ fichiers orphelins, moteur XP/badges/niveaux et leur affichage, knip réparé. **Bugs corrigés** : labs CORE/PRO verrouillés à vie, relecteur inatteignable, parrainage bloqué (D-029). **Reste ouvert** : `TwoFactorSetup` (brancher ou abandonner), `ateliers` (utilisé par `first-action`), ~45 exports inutilisés (phase 5). `/specialization` est ACTIF | ✅ |
-| 3 | Produit/docs : une seule vision de référence, parcours nouveau membre cyber | ⬜ |
+| 3 | Produit/docs. **Fait (09/11)** : textes UI et emails sans XP/squad/check-in, cron `check-activity` supprimé (spam quotidien), parrainage dédoublonné, double email de validation corrigé, README/vision/roadmap/hypothèses/CHANGELOG à jour. **Reste** : CGU (`app/terms`, texte juridique à relire), métriques admin basées sur `lastCheckinAt`, `TwoFactorSetup`, `ateliers`, parcours nouveau membre cyber à tester en vrai | 🔄 |
 | 4 | Base de données : sauvegarde + export, puis migrations destructives (66 → ~30 modèles), feu vert explicite requis | ⬜ |
 | 5 | Garde-fous : knip en CI, règle « pas de feature sans H-xx » | ⬜ |
 

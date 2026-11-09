@@ -44,7 +44,7 @@
 | Phase | Statut | Score mesuré | Base du calcul |
 |---|---|---|---|
 | **0 — Unification** | 🟡 **en cours** | **74 %** | les 5 actions exigées par `RAPPORT_STRATEGIQUE.md` §8 |
-| 1 — Communauté & Progression | ⬜ à faire | ~10 % | squads/missions/check-in existent déjà (héritage) |
+| 1 — Communauté & Progression | ⬜ à faire | ~10 % | labs + revue par les pairs en place ; squads, XP et check-in supprimés (11/2026, D-027/D-029) |
 | 2 — Certification & revenus | ⬜ à faire | ~0 % | — |
 | 3 — Scale | ⬜ à faire | ~0 % | — |
 | **Conformité à la constitution** | ⚠️ | **58 %** | moyenne des 6 piliers |
@@ -111,7 +111,7 @@ Toute proposition qui retombe ici doit être **refusée** avec un lien vers cett
 
 | Élément éliminé | Motif | Référence |
 |---|---|---|
-| **Guildes** (`Guild`/`GuildMember`, `/guilds`) | Absentes des 6 piliers. Squad/Organization couvrent déjà le besoin. L'ancien roadmap **affirmait à tort** qu'elles étaient dans le schéma | constitution |
+| **Guildes** (`Guild`/`GuildMember`, `/guilds`) | Absentes des 6 piliers. Les squads ont aussi été supprimées (D-027) ; le plugin `organization` est réservé aux futures Promotions. L'ancien roadmap **affirmait à tort** qu'elles étaient dans le schéma | constitution |
 | **`finance`, `transactions`, `revenue`, `subscriptions`** (hashskills) | **B2C** — « jamais de paiement membre ». Aucun Stripe dans la source | constitution §5 |
 | **Blog, Events, RSVP** | Absents des 6 piliers | constitution |
 | **i18n complète** (`next-intl`, FR→EN) | « Expansion géographique » = Phase 3 | `RAPPORT_STRATEGIQUE` §8 |
@@ -124,7 +124,7 @@ Toute proposition qui retombe ici doit être **refusée** avec un lien vers cett
 ## 5. Phases suivantes (rappel — `PRODUCT_VISION.md` fait foi)
 
 ### Phase 1 — Communauté & Progression (semaines 5-10)
-Discord squads/projets · pont WhatsApp → plateforme · **parcours guidé** (roadmap perso par domaine) · dashboard membre (progression visible) · micro-challenge à l'inscription
+Discord projets · pont WhatsApp → plateforme · **parcours guidé** (roadmap perso par domaine) · dashboard membre (progression visible) · micro-challenge à l'inscription
 **Cible :** 500 membres actifs · 25 % actifs/semaine · +40 % missions complétées
 
 ### Phase 2 — Certification & premiers revenus (semaines 11-18)
@@ -167,8 +167,8 @@ Matching IA (CORE étendu) · webinars/events live · boucle feedback entreprise
 ## 8. Le gate — aucune avancée sans preuve
 
 ```bash
-npm run verify        # gate complet : types → lint → prisma → 15 sondes HTTP → E2E
-npm run verify:fast   # types + lint + prisma (sans réseau)
+pnpm verify           # gate complet : types → lint → prisma → 15 sondes HTTP → E2E
+pnpm verify:fast      # types + lint + prisma (sans réseau)
 ```
 
 Dernier passage **GATE VERT** : 2026-09-16 sur `831e8e1` — types ✅ · lint ✅ · prisma ✅ ·
