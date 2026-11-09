@@ -51,21 +51,14 @@ interface AnalyticsData {
     byCategory: { category: string; total: number; approved: number; rejected: number; pending: number; completionRate: number }[];
     byDifficulty: { difficulty: number; total: number; approved: number; rejected: number; pending: number; completionRate: number }[];
   };
-  squads: {
-    total: number;
-    active: number;
-    avgCohesion: number;
-    avgMembers: number;
-    streakDistribution: Record<string, number>;
-  };
   profiles: { distribution: { profile: string; count: number; percentage: number }[]; totalQuizzes: number };
   funnel: { stage: string; count: number; conversionRate: number; dropOffRate: number }[];
-  growth: { date: string; signups: number; checkins: number; submissions: number }[];
+  growth: { date: string; signups: number; active: number; submissions: number }[];
 }
 
 interface WeeklyData {
   dayStart: Date;
-  checkins: number;
+  active: number;
   signups: number;
   missions: number;
 }
@@ -174,7 +167,7 @@ export default function AdminAnalyticsPage() {
     );
   }
 
-  const { users, missions, squads, profiles, funnel, growth } = data;
+  const { users, missions, profiles, funnel, growth } = data;
 
   const profileColors: Record<string, string> = {
     builder: "#B8FF3B",
@@ -191,7 +184,7 @@ export default function AdminAnalyticsPage() {
 
   const weeklyData: WeeklyData[] = growth.map((g) => ({
     dayStart: new Date(g.date),
-    checkins: g.checkins,
+    active: g.active,
     signups: g.signups,
     missions: g.submissions,
   }));
@@ -265,10 +258,6 @@ export default function AdminAnalyticsPage() {
               <Target className="h-4 w-4 mr-1" />
               Missions
             </Button>
-            <Button variant="outline" size="sm" onClick={() => handleExport("squads")} className="font-mono text-xs">
-              <Shield className="h-4 w-4 mr-1" />
-              Squads
-            </Button>
             <Button variant="outline" size="sm" onClick={() => handleExport("funnel")} className="font-mono text-xs">
               <Filter className="h-4 w-4 mr-1" />
               Funnel
@@ -321,17 +310,6 @@ export default function AdminAnalyticsPage() {
           </div>
         </div>
 
-        <div className="bg-zinc-900/50 border border-zinc-800 p-5 rounded-lg space-y-3">
-          <div className="flex items-center gap-2 text-emerald-400">
-            <Shield className="h-4 w-4" />
-            <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Escouades</span>
-          </div>
-          <div className="text-3xl font-bold text-white tracking-tight">{squads.active} / {squads.total}</div>
-          <div className="flex items-center gap-4 text-xs font-mono">
-            <span>Cohésion: {squads.avgCohesion}</span>
-            <span>Moy. membres: {squads.avgMembers}</span>
-          </div>
-        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -350,7 +328,7 @@ export default function AdminAnalyticsPage() {
         activeNow={0}
         weeklyData={weeklyData.length > 0 ? weeklyData : Array.from({ length: 7 }, (_, i) => ({
           dayStart: new Date(Date.now() - (6 - i) * 24 * 60 * 60 * 1000),
-          checkins: 0,
+          active: 0,
           signups: 0,
           missions: 0,
         }))}
@@ -421,22 +399,6 @@ export default function AdminAnalyticsPage() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-white/5 bg-zinc-900/60 p-6 space-y-5">
-          <h2 className="font-mono text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-            <Shield className="h-3 w-3" /> Distribution des Streaks Escouades
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-            {Object.entries(squads.streakDistribution).map(([range, count]) => (
-              <div key={range} className="space-y-2 p-4 rounded-xl border border-white/5 bg-white/[0.02] text-center">
-                <div className="text-2xl font-bold text-white font-mono">{count}</div>
-                <div className="text-xs font-mono text-zinc-500 uppercase">{range} jours</div>
-                <div className="text-xs font-mono text-muted-foreground">
-                  {squads.total > 0 ? Math.round((count / squads.total) * 100) : 0}%
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
 
       <RetentionSection

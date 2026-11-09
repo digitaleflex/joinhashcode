@@ -27,7 +27,6 @@ export default async function AdminPage() {
     userStats,
     onboardingStats,
     retentionStats,
-    squadStats,
     missionStatsData,
     weeklyData,
     activeNow,
@@ -46,23 +45,18 @@ export default async function AdminPage() {
     Promise.all([
       prisma.user.count({ where: { currentSituation: { not: null } } }),
       prisma.user.count({ where: { class: { not: null } } }),
-      prisma.member.count(),
-    ]).then(([withOnboarding, withClass, inSquad]) => ({ withOnboarding, withClass, inSquad })),
+    ]).then(([withOnboarding, withClass]) => ({ withOnboarding, withClass })),
 
     Promise.all([
-      prisma.user.count({ where: { lastCheckinAt: { gte: sevenDaysAgo } } }),
-      prisma.user.count({ where: { lastCheckinAt: { not: null } } }),
-      prisma.user.count({ where: { lastCheckinAt: { gte: thirtyDaysAgo } } }),
-      prisma.user.count({ where: { lastCheckinAt: { gte: sixtyDaysAgo } } }),
-      prisma.user.count({ where: { lastCheckinAt: { gte: ninetyDaysAgo } } }),
-    ]).then(([active7d, everCheckin, active30d, active60d, active90d]) => ({
-      active7d, everCheckin, active30d, active60d, active90d
+      // Membres actifs = au moins une action journalisée (activity_log) sur la période.
+      prisma.activityLog.findMany({ where: { createdAt: { gte: sevenDaysAgo }, userId: { not: null } }, distinct: ["userId"], select: { userId: true } }).then((r) => r.length),
+      prisma.user.count({ where: { missionsCompletedCount: { gt: 0 } } }),
+      prisma.activityLog.findMany({ where: { createdAt: { gte: thirtyDaysAgo }, userId: { not: null } }, distinct: ["userId"], select: { userId: true } }).then((r) => r.length),
+      prisma.activityLog.findMany({ where: { createdAt: { gte: sixtyDaysAgo }, userId: { not: null } }, distinct: ["userId"], select: { userId: true } }).then((r) => r.length),
+      prisma.activityLog.findMany({ where: { createdAt: { gte: ninetyDaysAgo }, userId: { not: null } }, distinct: ["userId"], select: { userId: true } }).then((r) => r.length),
+    ]).then(([active7d, withValidatedLab, active30d, active60d, active90d]) => ({
+      active7d, withValidatedLab, active30d, active60d, active90d
     })),
-
-    Promise.all([
-      prisma.organization.aggregate({ _avg: { cohesionScore: true } }),
-      prisma.organization.count(),
-    ]).then(([cohesion, count]) => ({ cohesion, count })),
 
     Promise.all([
       prisma.mission.findMany({ select: { id: true, title: true, missionLevel: true, targetProfiles: true, _count: { select: { submissions: true } } }, orderBy: { createdAt: "desc" }, take: 20 }),
@@ -71,8 +65,8 @@ export default async function AdminPage() {
 
     Promise.all([
       prisma.$queryRaw<{ day: Date; count: number }[]>`
-        SELECT DATE_TRUNC('day', "createdAt") as "day", COUNT("id")::int as "count"
-        FROM "daily_checkin"
+        SELECT DATE_TRUNC('day', "createdAt") as "day", COUNT(DISTINCT "userId")::int as "count"
+        FROM "activity_log"
         WHERE "createdAt" >= ${sevenDaysAgo}
         GROUP BY 1
       `,
@@ -88,7 +82,7 @@ export default async function AdminPage() {
         WHERE "createdAt" >= ${sevenDaysAgo}
         GROUP BY 1
       `,
-    ]).then(([checkinsRaw, usersRaw, submissionsRaw]) => {
+    ]).then(([activeRaw, usersRaw, submissionsRaw]) => {
       return Array.from({ length: 7 }, (_, i) => {
         const dayStart = new Date(Date.now() - (6 - i) * 24 * 60 * 60 * 1000)
         dayStart.setHours(0, 0, 0, 0)
@@ -100,10 +94,10 @@ export default async function AdminPage() {
                  d.getMonth() === dayStart.getMonth() &&
                  d.getDate() === dayStart.getDate()
         }
-        const checkins = checkinsRaw.find(r => matchDay(r.day))?.count ?? 0
+        const active = activeRaw.find(r => matchDay(r.day))?.count ?? 0
         const signups = usersRaw.find(r => matchDay(r.day))?.count ?? 0
         const missions = submissionsRaw.find(r => matchDay(r.day))?.count ?? 0
-        return { dayStart, checkins, signups, missions }
+        return { dayStart, active, signups, missions }
       })
     }),
 
@@ -114,9 +108,8 @@ export default async function AdminPage() {
   ])
 
   const { total: userCount, recent: recentUsers, byProfile: quizByProfile } = userStats
-  const { withOnboarding: usersWithOnboarding, withClass: usersWithClass, inSquad: usersInSquad } = onboardingStats
-  const { active7d, everCheckin, active30d, active60d, active90d } = retentionStats
-  const { cohesion: squadCohesion, count: squadCount } = squadStats
+  const { withOnboarding: usersWithOnboarding, withClass: usersWithClass } = onboardingStats
+  const { active7d, withValidatedLab, active30d, active60d, active90d } = retentionStats
   const { stats: missionStats, submissions: submissionStats } = missionStatsData
 
   const profileColors: Record<string, string> = {
@@ -177,8 +170,8 @@ export default async function AdminPage() {
       <RetentionSection
         kpis={[
           { label: "Actifs 7 derniers jours", value: active7d, icon: Activity, color: "text-primary", sub: `sur ${userCount} inscrits` },
-          { label: "Taux d'activité 7j", value: `${userCount > 0 ? Math.round((active7d / userCount) * 100) : 0}%`, icon: TrendingUp, color: "text-amber-400", sub: "check-in récent" },
-          { label: "Ont déjà check-iné", value: everCheckin, icon: Zap, color: "text-violet-400", sub: `sur ${userCount} inscrits` },
+          { label: "Taux d'activité 7j", value: `${userCount > 0 ? Math.round((active7d / userCount) * 100) : 0}%`, icon: TrendingUp, color: "text-amber-400", sub: "action dans les 7 jours" },
+          { label: "Ont validé un lab", value: withValidatedLab, icon: Zap, color: "text-violet-400", sub: `sur ${userCount} inscrits` },
           { label: "Rétention J30", value: `${retention30}%`, icon: Shield, color: retention30 >= 70 ? "text-emerald-400" : "text-amber-400", sub: "30 jours" },
         ]}
       />

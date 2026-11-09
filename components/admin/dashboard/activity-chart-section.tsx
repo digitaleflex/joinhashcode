@@ -2,7 +2,7 @@ import { Activity, BarChart2 } from "lucide-react"
 
 interface WeeklyData {
   dayStart: Date
-  checkins: number
+  active: number
   signups: number
   missions: number
 }
@@ -30,12 +30,12 @@ export function ActivityChartSection({ activeNow, weeklyData }: ActivityChartSec
         </div>
         <div className="flex items-end gap-2 h-28 pt-2">
           {weeklyData.map((day, i) => {
-            const max = Math.max(...weeklyData.map(d => Math.max(d.checkins, d.signups, d.missions)), 1)
+            const max = Math.max(...weeklyData.map(d => Math.max(d.active, d.signups, d.missions)), 1)
             const dayName = new Intl.DateTimeFormat("fr-FR", { weekday: "short" }).format(day.dayStart)
             return (
               <div key={i} className="flex-1 flex flex-col items-center gap-1 h-full justify-end">
                 <div className="flex items-end gap-0.5 w-full justify-center">
-                  <div className="w-2 rounded-t-sm bg-amber-500/70 transition-all" style={{ height: `${(day.checkins / max) * 100}%` }} title="Check-ins" />
+                  <div className="w-2 rounded-t-sm bg-amber-500/70 transition-all" style={{ height: `${(day.active / max) * 100}%` }} title="Membres actifs" />
                   <div className="w-2 rounded-t-sm bg-primary/70 transition-all" style={{ height: `${(day.signups / max) * 100}%` }} title="Inscriptions" />
                   <div className="w-2 rounded-t-sm bg-violet-500/70 transition-all" style={{ height: `${(day.missions / max) * 100}%` }} title="Missions" />
                 </div>
@@ -45,7 +45,7 @@ export function ActivityChartSection({ activeNow, weeklyData }: ActivityChartSec
           })}
         </div>
         <div className="flex items-center gap-4 text-3xs font-mono text-zinc-600">
-          <span className="flex items-center gap-1"><span className="size-2 rounded-sm bg-amber-500/70" /> Check-ins</span>
+          <span className="flex items-center gap-1"><span className="size-2 rounded-sm bg-amber-500/70" /> Membres actifs</span>
           <span className="flex items-center gap-1"><span className="size-2 rounded-sm bg-primary/70" /> Inscriptions</span>
           <span className="flex items-center gap-1"><span className="size-2 rounded-sm bg-violet-500/70" /> Missions</span>
         </div>
