@@ -18,7 +18,6 @@ vi.mock('@/lib/prisma', () => ({
 vi.mock('@/lib/email', () => ({
   emailService: {
     sendMissionProtocolEmail: vi.fn(),
-    sendSquadPowerEmail: vi.fn(),
     sendDigitalIdentityEmail: vi.fn(),
   },
 }));
@@ -40,7 +39,7 @@ describe('Onboarding Drip Cron', () => {
     expect(res.status).toBe(401);
   });
 
-  it('should process users for Day 1, Day 3, and Day 7', async () => {
+  it('should process users for Day 1 and Day 7', async () => {
     const mockUsers = [
       { id: 'user-1', email: 'user1@test.com', name: 'User 1', class: 'BUILDER' },
     ];
@@ -48,7 +47,6 @@ describe('Onboarding Drip Cron', () => {
     // Mock findMany to return users only for the first step (Day 1) to simplify
     vi.mocked(prisma.user.findMany)
       .mockResolvedValueOnce(mockUsers as any) // Day 1
-      .mockResolvedValueOnce([])        // Day 3
       .mockResolvedValueOnce([]);       // Day 7
 
     const req = new Request('http://localhost', {
