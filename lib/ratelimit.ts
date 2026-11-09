@@ -90,7 +90,6 @@ function makeLimiter(tokens: number, window: `${number} s` | `${number} m` | `${
 // ── Exported limiters ────────────────────────────────────────────────────────
 
 // 5 check-ins per user per 24h
-export const checkinLimiter = makeLimiter(5, "24 h")
 
 // 10 claims per user per hour
 export const claimLimiter = makeLimiter(10, "1 h")

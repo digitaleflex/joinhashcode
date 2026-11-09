@@ -1,5 +1,4 @@
 import { expect, test, describe, vi, beforeEach } from "vitest";
-import { POST as checkinPOST } from "../app/api/user/checkin/route";
 import { PATCH as updatePATCH } from "../app/api/user/update/route";
 import { NextRequest } from "next/server";
 import { prisma } from "../lib/prisma";
@@ -53,7 +52,6 @@ vi.mock("../lib/features", () => ({
 
 vi.mock("../lib/ratelimit", () => ({
   checkRateLimit: vi.fn(() => Promise.resolve({ limited: false })),
-  checkinLimiter: {},
   claimLimiter: {},
   squadJoinLimiter: {},
   profileUpdateLimiter: {},
@@ -67,59 +65,6 @@ vi.mock("next/headers", () => ({
 describe("Security & Abuse Prevention", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-  });
-
-  describe("Daily Check-in Cooldown", () => {
-    test("returns 429 if check-in already exists today", async () => {
-      (auth.api.getSession as any).mockResolvedValue({ user: { id: "user-1" } });
-      (prisma.dailyCheckin.findFirst as any).mockResolvedValue({ id: "checkin-1", createdAt: new Date() });
-
-      const req = new NextRequest("http://localhost/api/user/checkin", {
-        method: "POST",
-        body: JSON.stringify({
-          note: "Aujourd'hui j'ai codé des super fonctionnalités de matchmaking pour Hashcode.",
-          domain: "Web",
-          energy: 5,
-          duration: 30,
-        }),
-      });
-
-      const res = await checkinPOST(req);
-      expect(res.status).toBe(429);
-      const json = await res.json();
-      expect(json.message).toContain("Tu as déjà signé ton check-in");
-    });
-
-    test("strips HTML from note", async () => {
-      (auth.api.getSession as any).mockResolvedValue({ user: { id: "user-1" } });
-      (prisma.dailyCheckin.findFirst as any).mockResolvedValue(null);
-      (prisma.user.findUnique as any).mockResolvedValue({
-        id: "user-1",
-        lastCheckinAt: null,
-        currentStreak: 0,
-        longestStreak: 0,
-        lastStreakDate: null,
-      });
-      (prisma.dailyCheckin.create as any).mockResolvedValue({ id: "checkin-2" });
-
-      const req = new NextRequest("http://localhost/api/user/checkin", {
-        method: "POST",
-        body: JSON.stringify({
-          note: "<script>alert('xss')</script>Hello <b>World</b>",
-          domain: "Web",
-          energy: 5,
-          duration: 30,
-        }),
-      });
-
-      await checkinPOST(req);
-      
-      expect(prisma.dailyCheckin.create).toHaveBeenCalledWith({
-        data: expect.objectContaining({
-          note: "alert('xss')Hello World",
-        }),
-      });
-    });
   });
 
   describe("User Update Rate Limit", () => {

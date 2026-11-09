@@ -20,7 +20,6 @@ import Link from "next/link"
 import { AppSidebar } from "./app-sidebar"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { UserTopBar } from "./user-topbar"
-import { DailyCheckinWidget } from "./daily-checkin-widget"
 const WelcomeModal = dynamic(() => import("./welcome-modal").then((m) => m.WelcomeModal), { ssr: false })
 const MissionHistory = dynamic(() => import("./mission-history").then((m) => m.MissionHistory), { ssr: false })
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
@@ -186,10 +185,6 @@ export function DashboardShell({
                   </div>
                 )}
 
-                {/* Check-in — simple, low friction */}
-                <div id="tour-checkin">
-                  <DailyCheckinWidget isFirstTime={!user.lastCheckin} />
-                </div>
               </>
             )}
 
