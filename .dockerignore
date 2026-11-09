@@ -13,7 +13,6 @@ agents
 memory
 monitoring
 skills
-skills-lock.json
 *.log
 tsconfig.tsbuildinfo
 .env

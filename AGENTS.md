@@ -1,6 +1,6 @@
 # AGENTS.md
 
-This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
+This file provides guidance to OpenCode (and other agents reading AGENTS.md) when working with code in this repository.
 
 ## Commands
 
@@ -340,4 +340,4 @@ Cette section définit le standard de qualité pour tout prompt structuré (mast
 
 ### Exemple
 
-Voir `.gemini/commands/ui/audit.toml` pour un exemple de prompt structuré selon ce standard.
+Voir les commandes `.opencode/commands/` pour des prompts structurés.
