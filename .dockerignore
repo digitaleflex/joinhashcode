@@ -21,17 +21,6 @@ tsconfig.tsbuildinfo
 !.env.example
 README.md
 CHANGELOG.md
-ADMIN_VISION.md
-ARCHITECTURE_AUDIT.md
-PRODUCTION_KEYS.md
-PRODUCT_VISION.md
-RAPPORT_MODIFICATIONS.md
-ROADMAP_PRODUCTION.md
-audit-hxf.md
-implementation_plan.md
-plan-modifications.md
-progress.md
-security.sql
 Dockerfile.prod
 compose.*.yml
 deploy.sh
