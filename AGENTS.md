@@ -5,18 +5,19 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 ## Commands
 
 ```bash
-npm run dev        # Generate Prisma client + start dev server (port 3000)
-npm run build      # Generate Prisma client + push schema + build Next.js
-npm run lint       # Run ESLint
-npm run test       # Run Vitest test suite
+pnpm dev           # Generate Prisma client + start dev server (port 3000)
+pnpm build         # Clear .next/cache + generate Prisma client + next build (no DB push)
+pnpm lint          # Run ESLint
+pnpm test          # Run Vitest test suite
+pnpm verify:fast   # tsc + eslint + prisma validate (gate before each commit)
+pnpm verify        # full gate (+ live HTTP probes + Playwright)
 npx prisma studio  # Open Prisma database browser
-npx prisma db push # Push schema changes without migration (dev)
 ```
 
 To run a single test:
 
 ```bash
-npx vitest run __tests__/smoke.test.tsx
+pnpm exec vitest run __tests__/smoke.test.tsx
 ```
 
 ## Architecture
@@ -31,7 +32,7 @@ Route groups live under `/app`. The middleware at `proxy.ts` enforces a three-st
 2. Session but no `currentSituation` → redirect to `/onboarding`
 3. Session but no `class` assigned → redirect to `/quiz`
 
-Protected routes (middleware matcher + `isProtectedPath`): `admin`, `dashboard`, `missions`, `settings`, `squad`, `dossier`, `reviewer`, `feedback`, `onboarding`, `quiz`, `ateliers`, `specialization`.
+Protected routes: see `PROTECTED_PATHS` in `proxy.ts` (source of truth — includes `/academy/my-courses` and `/academy/certificates`). Any new private page must be added there; `pnpm verify` fails if a private route returns 200.
 
 `/admin/*` is additionally guarded by `app/admin/layout.tsx` (requires role `ADMIN` or `MODERATOR`) for fine-grained role-based access control beyond the session check.
 
@@ -266,10 +267,10 @@ Security docs: `https://github.com/digitaleflex/infra-docs` → `/security/`
 
 ### Verification
 
-- **Always run `npm run build` before any `git push`.** A successful build is the minimum bar — if it fails, fix it before pushing. This catches type errors, missing imports, and broken pages that lint and tests don't cover.
-- **Node 20+ required** — the host has Node 20.20.2 via nvm. Prisma 7's dev tooling fails with Node 18 ESM errors. Use `~/.nvm/versions/node/v20.20.2/bin/node` if `npx` picks up the wrong version.
-- Run `npm run lint` after any TypeScript changes.
-- Run `npm run test` when touching business logic: quiz scoring, cohesion math, mission XP, auth flow.
+- **Always run `pnpm build` before any `git push`.** A successful build is the minimum bar — if it fails, fix it before pushing. This catches type errors, missing imports, and broken pages that lint and tests don't cover.
+- **Node 22 required** (`.nvmrc` = 22.23.0, `engines` = `>=22.23 <23`). Package manager: pnpm 10.33.
+- Run `pnpm lint` after any TypeScript changes.
+- Run `pnpm test` when touching business logic: quiz scoring, cohesion math, mission XP, auth flow.
 - For API route changes, verify the route appears in the table above (or add it) and that the auth guard is correct.
 
 ### OpenCode tooling

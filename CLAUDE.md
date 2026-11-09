@@ -2,11 +2,11 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-`AGENTS.md` is the long-form reference: the full API route table with each route's auth level, squad mechanics, deployment details and VPS hardening. This file summarizes it. Where the two differ, this file has the corrected facts. Docs, commits and UI copy are mostly in French; keep that language.
+`AGENTS.md` is the long-form reference: the full API route table with each route's auth level, squad mechanics, deployment details and VPS hardening. This file summarizes it. Docs, commits and UI copy are mostly in French; keep that language.
 
 ## Commands
 
-The package manager is pnpm (`packageManager: pnpm@10.33.0`). Use Node 22: `.nvmrc` says 22.23.0, and `engines` requires `>=22.23 <23`. The "Node 20" note in AGENTS.md is out of date.
+The package manager is pnpm (`packageManager: pnpm@10.33.0`). Use Node 22: `.nvmrc` says 22.23.0, and `engines` requires `>=22.23 <23`.
 
 ```bash
 pnpm dev                 # prisma generate + next dev (port 3000)
