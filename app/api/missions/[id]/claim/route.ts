@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { isEligibleReviewer, LEVEL_REQUIREMENT } from "@/lib/acceptance-criteria";
+import { isEligibleReviewer } from "@/lib/acceptance-criteria";
 import { logActivity } from "@/lib/activity-log";
 import { claimLimiter, checkRateLimit } from "@/lib/ratelimit";
 import { triggerWebhooks } from "@/lib/webhooks";
@@ -49,16 +49,12 @@ export async function POST(
       return NextResponse.json({ message: "Cette mission est réservée à la validation admin. Elle ne peut pas être réclamée par un pair." }, { status: 403 });
     }
 
-    const missionRequiredLevel = LEVEL_REQUIREMENT[submission.mission.missionLevel ?? "INIT"] ?? 1;
-
     const eligible = isEligibleReviewer({
       reviewerClass: reviewer.class,
-      reviewerLevel: reviewer.level ?? 1,
       reviewerMissionsCompleted: reviewer.missionsCompletedCount ?? 0,
       reviewerId: reviewer.id,
       submissionUserId: submission.userId,
       missionTargetProfiles: submission.mission.targetProfiles,
-      missionRequiredLevel,
     });
 
     if (!eligible) {

@@ -1,7 +1,7 @@
 import { getSessionSafe } from "@/lib/get-session-safe"
 import { redirect } from "next/navigation"
 import { prisma } from "@/lib/prisma"
-import { isEligibleReviewer, LEVEL_REQUIREMENT } from "@/lib/acceptance-criteria"
+import { isEligibleReviewer } from "@/lib/acceptance-criteria"
 import { AppSidebar } from "@/components/dashboard/app-sidebar"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
@@ -59,15 +59,12 @@ export default async function ReviewerPage() {
 
   const eligible: Submission[] = pendingSubmissions
     .filter((sub) => {
-      const missionRequiredLevel = LEVEL_REQUIREMENT[sub.mission.missionLevel ?? "INIT"] ?? 1
       return isEligibleReviewer({
         reviewerClass: dbUser.class,
-      reviewerLevel: dbUser.level ?? 1,
       reviewerMissionsCompleted: dbUser.missionsCompletedCount ?? 0,
         reviewerId: dbUser.id,
         submissionUserId: sub.userId,
         missionTargetProfiles: sub.mission.targetProfiles,
-        missionRequiredLevel,
       })
     })
     .map((sub) => ({
