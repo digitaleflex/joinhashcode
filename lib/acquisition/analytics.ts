@@ -47,45 +47,6 @@ export function getOrCreateSessionId(): string {
   }
 }
 
-/**
- * Capture UTM/source params from the current URL (best-effort).
- * Persisted in localStorage so the acquisition source survives the funnel.
- */
-export function getOrCreateSource(): string {
-  if (typeof window === "undefined") return "direct";
-  try {
-    const existing = localStorage.getItem(SOURCE_KEY);
-    if (existing) return existing;
-
-    const params = new URLSearchParams(window.location.search);
-    const source = params.get("utm_source");
-    const medium = params.get("utm_medium");
-    const campaign = params.get("utm_campaign");
-    let value: string;
-    if (source) {
-      value = `${source}${medium ? `/${medium}` : ""}${campaign ? `?${campaign}` : ""}`;
-    } else if (medium) {
-      value = medium;
-    } else {
-      value = "direct";
-    }
-    localStorage.setItem(SOURCE_KEY, value);
-    return value;
-  } catch {
-    return "direct";
-  }
-}
-
-/** Read the persisted acquisition source (or "direct"). */
-export function getSource(): string {
-  if (typeof window === "undefined") return "direct";
-  try {
-    return localStorage.getItem(SOURCE_KEY) ?? "direct";
-  } catch {
-    return "direct";
-  }
-}
-
 /** Fire-and-forget client tracker. Never blocks the UI. */
 export function track(event: TrackEvent): void {
   if (typeof window === "undefined") return;

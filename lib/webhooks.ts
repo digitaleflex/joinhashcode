@@ -47,42 +47,10 @@ export async function sendWebhook(
   }
 }
 
-export async function registerWebhook(
-  missionId: string,
-  url: string,
-  events: WebhookEvent[],
-  secret: string
-) {
-  return prisma.missionWebhook.create({
-    data: {
-      missionId,
-      url,
-      secret,
-      events,
-    },
-  });
-}
-
 export async function getWebhooks(missionId: string) {
   return prisma.missionWebhook.findMany({
     where: { missionId, isActive: true },
     orderBy: { createdAt: "desc" },
-  });
-}
-
-export async function updateWebhook(
-  webhookId: string,
-  data: { url?: string; events?: WebhookEvent[]; isActive?: boolean }
-) {
-  return prisma.missionWebhook.update({
-    where: { id: webhookId },
-    data,
-  });
-}
-
-export async function deleteWebhook(webhookId: string) {
-  return prisma.missionWebhook.delete({
-    where: { id: webhookId },
   });
 }
 

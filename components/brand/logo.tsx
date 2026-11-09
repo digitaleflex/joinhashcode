@@ -7,26 +7,6 @@ interface HashSymbolProps {
   size?: number;
 }
 
-/** Simple hash/motorcycle emblem icon for HASHCODE branding (legacy fallback). */
-export function HashSymbol({ className, size = 40 }: HashSymbolProps) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 40 40"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={cn("", className)}
-      aria-hidden
-    >
-      <circle cx="20" cy="20" r="18" stroke="currentColor" strokeWidth="2" />
-      <text x="20" y="26" textAnchor="middle" fill="currentColor" fontSize="16" fontWeight="bold" fontFamily="var(--font-syne), sans-serif">
-        #
-      </text>
-    </svg>
-  );
-}
-
 type LogoSize = "sm" | "md" | "lg";
 
 interface LogoProps {

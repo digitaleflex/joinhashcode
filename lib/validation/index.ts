@@ -1,9 +1,7 @@
 export {
   PSEUDO_REGEX,
-  SLUG_REGEX,
   safeUrl,
   imageSchema,
-  pseudoField,
   countryField,
   cityField,
   languageField,

@@ -336,20 +336,4 @@ export const QUESTIONS: Question[] = [
   },
 ];
 
-/** Suggestions 1-clic pour l'objectif à 3 mois. */
-export const THREE_MONTH_GOAL_SUGGESTIONS = [
-  "Décrocher mon premier stage",
-  "Finir mon portfolio",
-  "Lancer mon premier projet",
-  "Être à l'aise avec les bases",
-];
-
-/** Resolve options dynamically for a question (used for conditional option sets). */
-export function getQuestionOptions(questionId: string, answers: ProfileAnswers): { value: string; label: string; emoji?: string; description?: string }[] {
-  if (questionId === "domainSpecialty") return DOMAIN_SPECIALTIES[answers.primaryDomain ?? ""] ?? [];
-  if (questionId === "mentoringTypes") return MENTORING_TYPES[answers.primaryDomain ?? ""] ?? [];
-  const q = QUESTIONS.find((q) => q.id === questionId);
-  return q?.options ?? [];
-}
-
 export { DOMAINS, GOALS, LEVELS, AVAILABILITY, LEARNING };

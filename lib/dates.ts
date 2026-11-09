@@ -1,7 +1,7 @@
-import { formatDistanceToNow, format, subDays } from "date-fns"
+import { formatDistanceToNow, format } from "date-fns"
 import { fr } from "date-fns/locale"
 
-export { format, subDays, fr }
+export { format, fr }
 
 export function formatRelativeTime(date: Date | string): string {
   return formatDistanceToNow(new Date(date), { addSuffix: true, locale: fr })
@@ -45,34 +45,4 @@ export function daysUntilMonday(): number {
   const today = new Date()
   const day = today.getDay()
   return day === 0 ? 1 : 8 - day
-}
-
-export function getTimeUntilNextMonday(): string {
-  const now = new Date()
-  const nextMonday = new Date()
-  nextMonday.setDate(now.getDate() + (1 + 7 - now.getDay()) % 7)
-  nextMonday.setHours(0, 0, 0, 0)
-  const diff = nextMonday.getTime() - now.getTime()
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24))
-  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24)
-  return `${days}j ${hours}h`
-}
-
-export function hoursSince(date: Date | string): number {
-  return (Date.now() - new Date(date).getTime()) / (1000 * 60 * 60)
-}
-
-export function daysSince(date: Date | string): number {
-  return (Date.now() - new Date(date).getTime()) / (1000 * 60 * 60 * 24)
-}
-
-export function minutesSince(date: Date | string): number {
-  return (Date.now() - new Date(date).getTime()) / (1000 * 60)
-}
-
-export function isToday(date: Date): boolean {
-  const now = new Date()
-  return date.getDate() === now.getDate()
-    && date.getMonth() === now.getMonth()
-    && date.getFullYear() === now.getFullYear()
 }

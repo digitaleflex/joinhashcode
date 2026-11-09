@@ -142,21 +142,6 @@ export async function auditPage(html: string, url: string): Promise<A11yAuditRes
   }
 }
 
-export function checkContrast(): void {
-  // This function is meant to be called in browser context
-  // It uses axe-core's contrast checks which are run during auditPage
-}
-
-export function checkSemanticStructure(): void {
-  // This function is meant to be called in browser context
-  // It uses axe-core's semantic checks which are run during auditPage
-}
-
-export function checkKeyboardNavigation(): void {
-  // This function is meant to be called in browser context
-  // It uses axe-core's keyboard checks which are run during auditPage
-}
-
 export function generateReport(results: A11yAuditResult[]): string {
   const summary = {
     totalPages: results.length,

@@ -107,9 +107,6 @@ export const avatarLimiter = makeLimiter(10, "1 h")
 // 5 account deletions/deactivations per user per 24h (irreversible ops)
 export const accountLifecycleLimiter = makeLimiter(5, "24 h")
 
-// 15 peer reviews per user per hour
-export const reviewLimiter = makeLimiter(15, "1 h")
-
 // 20 reviews per hour per reviewer (for mission reviews)
 export const reviewLimiterStrict = makeLimiter(20, "1 h")
 

@@ -12,7 +12,29 @@
     "playwright.*.config.ts",
     "types/**/*.d.ts"
   ],
-  "project": ["**/*.{ts,tsx,mjs}"],
-  "ignore": ["generated/**"],
-  "ignoreDependencies": ["tailwindcss", "tw-animate-css", "sharp", "eslint-config-next"]
+  "project": [
+    "**/*.{ts,tsx,mjs}"
+  ],
+  "ignore": [
+    "generated/**"
+  ],
+  "ignoreDependencies": [
+    "@next/eslint-plugin-next",
+    "@typescript-eslint/parser",
+    "eslint-config-next",
+    "postcss-load-config",
+    "sharp",
+    "tailwindcss",
+    "tw-animate-css"
+  ],
+  "ignoreExportsUsedInFile": true,
+  "ignoreIssues": {
+    "components/ui/**": [
+      "exports",
+      "types"
+    ]
+  },
+  "rules": {
+    "types": "off"
+  }
 }

@@ -2,7 +2,6 @@
 // Générique : fonctionne pour Mission 01 et toutes les futures missions à étapes.
 
 import { logActivity } from "./activity-log";
-import { triggerNotification } from "./qstash";
 import { ONBOARDING_MISSION } from "./onboarding-mission";
 import type { OnboardingMissionDef, MissionSubDef, StepField } from "./onboarding-mission";
 import { PROJECT_MISSION } from "./project-mission";
@@ -28,11 +27,6 @@ export function getStepMissionDef(slug: string | null | undefined): OnboardingMi
   if (slug === PROJECT_MISSION.slug) return PROJECT_MISSION;
   if (slug === SOLUTION_MISSION.slug) return SOLUTION_MISSION;
   return null;
-}
-
-export function getStepMissionDefByMission(mission?: { slug?: string | null } | null): OnboardingMissionDef | null {
-  if (!mission) return null;
-  return getStepMissionDef(mission.slug);
 }
 
 export function isStepMission(slug: string | null | undefined): boolean {
@@ -221,21 +215,6 @@ export function createDefaultAttemptData(def: OnboardingMissionDef): Record<stri
   return data;
 }
 
-export const ATTEMPT_STATUS_LABELS: Record<AttemptStatus, string> = {
-  DRAFT: "Brouillon",
-  SUBMITTED: "Soumise",
-  IN_REVIEW: "En revue",
-  REVISION_REQUIRED: "Révision requise",
-  APPROVED: "Validée",
-  REJECTED: "Rejetée",
-};
-
-export const STEP_STATUS_LABELS: Record<StepStatus, string> = {
-  DRAFT: "Brouillon",
-  APPROVED: "Validée",
-  REVISION_REQUIRED: "Révision requise",
-};
-
 // ── Timeline ────────────────────────────────────────────────────────────────
 
 export async function logAttemptAction(opts: {
@@ -255,21 +234,6 @@ export async function logAttemptAction(opts: {
       metadata: (opts.metadata ?? undefined) as Prisma.InputJsonValue | undefined,
     },
   }).catch(() => undefined);
-}
-
-export async function notifyAttempt(opts: {
-  userId: string;
-  title: string;
-  message: string;
-  link?: string;
-}) {
-  await triggerNotification({
-    userId: opts.userId,
-    type: "SYSTEM",
-    title: opts.title,
-    message: opts.message,
-    link: opts.link,
-  });
 }
 
 export function logAttemptActivity(opts: {
