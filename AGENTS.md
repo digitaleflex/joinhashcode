@@ -55,7 +55,7 @@ The `User` model is the central data structure — it holds psychometric scores 
 logActivity({ userId, action: "QUIZ_COMPLETED", entity: "quiz_result", entityId, metadata: { ... }, request: req })
 ```
 
-Tracked actions: `ONBOARDING_COMPLETED`, `QUIZ_COMPLETED`, `POST_QUIZ_COMPLETED`, `SQUAD_CREATED`, `SQUAD_JOINED`, `SQUAD_UPDATED`, `CHECKIN_COMPLETED`, `MISSION_CLAIMED`, `MISSION_APPROVED`, `ADMIN_SUBMISSION_REVIEWED`, `EMAIL_OPT_OUT`. Add new actions to the `ActivityAction` union in `lib/activity-log.ts`.
+Tracked actions: `ONBOARDING_COMPLETED`, `QUIZ_COMPLETED`, `POST_QUIZ_COMPLETED`, `MISSION_CLAIMED`, `MISSION_APPROVED`, `ADMIN_SUBMISSION_REVIEWED`, `EMAIL_OPT_OUT`. Add new actions to the `ActivityAction` union in `lib/activity-log.ts`.
 
 > **After any schema change:** run `npx prisma db push` to apply the migration and regenerate the client. The `(prisma as any).activityLog` cast in `lib/activity-log.ts` can be removed once the client is regenerated.
 
@@ -86,7 +86,6 @@ REST endpoints under `app/api/`:
 | `missions/[id]/review/`         | POST      | session         | Peer-review a submission (claim + submit review)                      |
 | `missions/[id]/claim/`          | POST      | session         | Claim a submission for peer review                                    |
 | `user/update/`                  | PATCH     | session         | Update profile fields                                                 |
-| `user/checkin/`                 | POST      | session         | Daily check-in (XP, streak, squad cohesion)                           |
 | `user/me/`                      | GET       | session         | Current user data                                                     |
 | `user/notifications/`           | GET       | session         | Fetch notifications                                                   |
 | `user/avatar/`                  | POST      | session         | Update avatar                                                         |
@@ -97,17 +96,6 @@ REST endpoints under `app/api/`:
 | `user/check-pseudo/`            | GET       | session         | Check pseudo availability                                             |
 | `user/j7-activation/`           | POST      | session         | Track J7 activation milestone                                         |
 | `user/quiz-status/`             | GET       | session         | Check if user completed quiz                                          |
-| `squad/create/`                 | POST      | session         | Create a new squad (user becomes LEADER)                              |
-| `squad/join/`                   | POST      | session         | Join squad by slug                                                    |
-| `squad/update/`                 | PATCH     | session, LEADER | Update squad name and invite slug                                     |
-| `squad/leave/`                  | POST      | session         | Leave current squad                                                   |
-| `squad/members/`                | GET       | session         | List squad members                                                    |
-| `squad/message/`                | POST      | session         | Send message to squad                                                 |
-| `squad/invite/`                 | POST      | session, LEADER | Generate invite link                                                  |
-| `squad/promote/`                | POST      | session, LEADER | Promote/demote member ↔ co-leader (`admin`)                           |
-| `squad/join-request/`           | POST      | session         | Request to join a squad                                               |
-| `squad/join-request/respond/`   | POST      | session, LEADER | Accept/reject join request                                            |
-| `squad/public/`                 | GET       | —               | Public squad info                                                     |
 | `feed/`                         | GET       | session         | Activity feed                                                         |
 | `feedback/`                     | POST      | session         | Submit beta feedback                                                  |
 | `contact/`                      | POST      | —               | Contact form                                                          |
@@ -135,25 +123,19 @@ REST endpoints under `app/api/`:
 | `admin/log/`                    | GET       | ADMIN/MOD       | View activity logs                                                    |
 | `admin/keys/`                   | GET/POST  | ADMIN/MOD       | Manage API keys                                                       |
 | `admin/keys/[id]/`              | DELETE    | ADMIN/MOD       | Delete API key                                                        |
-| `admin/squads/disband/`         | POST      | ADMIN/MOD       | Disband a squad                                                       |
-| `admin/squads/transfer/`        | POST      | ADMIN/MOD       | Transfer squad ownership                                              |
 | `admin/notifications/broadcast/`| POST      | ADMIN/MOD       | Broadcast notification to all users                                   |
-| `internal/cron/squad-decay/`    | POST      | internal        | Decay inactive squad cohesion scores                                  |
 | `internal/cron/release-claims/` | POST      | internal        | Release stale peer-review claims                                      |
 | `internal/cron/check-activity/` | POST      | internal        | Send daily reminder to inactive users                                 |
 | `internal/cron/onboarding-drip/`| POST      | internal        | Onboarding drip email sequence                                        |
 | `internal/cron/purge-data/`     | POST      | internal        | Purge stale data                                                      |
 
-### Squad System
+### Squads (supprimées) → futures Promotions
 
-Squads are `Organization` records (Better Auth's org model, mapped to `organization` table). The creator is `LEADER`; others are `MEMBER`. Key mechanics:
+Les squads ont été supprimées du produit (D-027, 11/2026) : plus de pages, d'API, de cohésion ni de streaks. Le plugin better-auth `organization` est conservé pour les futures **Promotions** (cohortes, D-016) ; les tables `organization`/`member` gardent leurs données jusqu'à la phase 4 du nettoyage. Les anciens liens `/squad/*` redirigent vers `/dashboard`, `/invite/*` vers `/signin`. Rôles org si réutilisés : `owner` / `admin` / `member`, jamais `"LEADER"`.
 
-- **Cohesion score** (0–1): boosted by daily check-ins (`+0.05`) and approved missions (`+0.1`). Decays `−0.02/day` via cron if inactive.
-- **Streak**: incremented when cohesion stays ≥ 0.9 for a new day. Breaks after 48h of inactivity — unless the squad consumes its weekly **streak freeze** (`streakFreezes`, refilled to 1/week via cron). Milestones at 3d and 7d trigger badge rewards.
-- **Roles**: `owner` (creator), `admin` (= co-leader: can manage invites + join requests), `member`. Only `owner` can promote/demote via `/api/squad/promote`. Never use the legacy `"LEADER"` value.
-- **Invite link**: `<origin>/invite/<org.slug>`. The LEADER and co-leaders can customize name + slug via `PATCH /api/squad/update`. Slug rules: 3–30 chars, lowercase alphanumeric + hyphens, no leading/trailing hyphens.
+### Progression : preuves, pas de points
 
-Squad journey page lives at `/squad` (`app/squad/page.tsx` → `components/dashboard/squad-journey.tsx`). It shows a 6-phase gamified path; the leader sees a personalization panel.
+XP, niveaux, badges et check-in ont été retirés (D-029). Aucun lab n'est verrouillé par niveau ; un membre devient éligible relecteur après **3 labs validés** (`isEligibleReviewer` dans `lib/acceptance-criteria.ts`). La mesure de progression est le nombre de labs validés (`User.missionsCompletedCount`).
 
 ### Environment Variables
 
@@ -183,13 +165,11 @@ The repo uses `.env.development` and `.env.production` for environment-specific 
 | `proxy.ts`                          | Session guard, onboarding funnel, protected route list       |
 | `lib/auth.ts`                            | Better Auth configuration                                    |
 | `lib/activity-log.ts`                    | Fire-and-forget activity logger — instrument new routes here |
-| `lib/squad-logic.ts`                     | Cohesion updates, streak logic, member notifications         |
 | `lib/prisma.ts`                          | Prisma singleton client                                      |
 | `lib/missions.ts`                        | Mission data and scoring logic                               |
 | `prisma/schema.prisma`                   | Full data model                                              |
 | `components/auth/signin-form.tsx`        | Sign-in form (reads `?callbackURL` for invite redirects)     |
 | `components/dashboard/app-sidebar.tsx`   | Main nav — add new routes here                               |
-| `components/dashboard/squad-journey.tsx` | Gamified squad page                                          |
 | `components/ui/`                         | shadcn/ui base components                                    |
 | `next.config.mjs`                        | Standalone output, CSP headers, image domains, redirects            |
 
@@ -270,7 +250,7 @@ Security docs: `https://github.com/digitaleflex/infra-docs` → `/security/`
 - **Always run `pnpm build` before any `git push`.** A successful build is the minimum bar — if it fails, fix it before pushing. This catches type errors, missing imports, and broken pages that lint and tests don't cover.
 - **Node 22 required** (`.nvmrc` = 22.23.0, `engines` = `>=22.23 <23`). Package manager: pnpm 10.33.
 - Run `pnpm lint` after any TypeScript changes.
-- Run `pnpm test` when touching business logic: quiz scoring, cohesion math, mission XP, auth flow.
+- Run `pnpm test` when touching business logic: quiz scoring, review eligibility, mission engine, auth flow.
 - For API route changes, verify the route appears in the table above (or add it) and that the auth guard is correct.
 
 ### OpenCode tooling
@@ -287,7 +267,7 @@ Security docs: `https://github.com/digitaleflex/infra-docs` → `/security/`
 type(scope): short description
 
 # types: feat, fix, chore, refactor, test, docs
-# examples: feat(missions): add XP multiplier for streaks
+# examples: feat(labs): add artifact validation for HEF-020
 #           fix(auth): handle expired magic-link tokens
 ```
 
