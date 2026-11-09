@@ -18,7 +18,7 @@ export type { OnboardingInput } from "./onboarding";
 export { QuizSubmissionSchema } from "./quiz";
 export type { QuizSubmissionInput } from "./quiz";
 
-export { missionSchema, submissionSchema, reviewSchema, UpdateSubmissionSchema, LEVEL_REQUIREMENT } from "./mission";
+export { missionSchema, submissionSchema, reviewSchema, UpdateSubmissionSchema } from "./mission";
 export type { MissionInput, SubmissionInput, ReviewInput, UpdateSubmissionInput } from "./mission";
 
 export { updateSchema } from "./user";

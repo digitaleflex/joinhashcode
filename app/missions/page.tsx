@@ -281,8 +281,6 @@ export default async function MissionsPage() {
 
             <div id="tour-missions-list">
               <MissionsList 
-                userLevel={finalDbUser.level ?? 1} 
-                userXp={finalDbUser.experience ?? 0} 
                 submissions={submissionsMap} 
                 userClass={finalDbUser.class}
                 missions={enrichedMissions}

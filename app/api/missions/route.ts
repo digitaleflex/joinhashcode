@@ -29,8 +29,6 @@ const submissionSchema = z.object({
 
 const URL_METHODS = ["ANY_LINK", "LIVE_URL", "DOCUMENT_LINK", "GITHUB_LINK"] as const;
 
-const LEVEL_REQUIREMENT: Record<string, number> = { INIT: 1, CORE: 2, PRO: 3 };
-
 async function submitMission(userId: string, input: z.infer<typeof submissionSchema>) {
   const [mission, dbUser] = await Promise.all([
     prisma.mission.findFirst({
@@ -47,9 +45,6 @@ async function submitMission(userId: string, input: z.infer<typeof submissionSch
   ]);
   if (!mission) throw new Error("MISSION_NOT_FOUND");
   if (!dbUser) throw new Error("USER_NOT_FOUND");
-
-  const requiredLevel = LEVEL_REQUIREMENT[mission.missionLevel ?? "INIT"] ?? 1;
-  if ((dbUser.level ?? 1) < requiredLevel) throw new Error("LEVEL_TOO_LOW");
 
   const artifactSpecs = parseSubmissionSchema(mission.submissionSchema);
   let artifactsToCreate: ReturnType<typeof validateArtifactsAgainstSchema> | undefined;
@@ -263,7 +258,6 @@ export async function POST(req: Request) {
       const errorMap: Record<string, { message: string, status: number }> = {
         "MISSION_NOT_FOUND": { message: "Mission introuvable dans le système.", status: 404 },
         "USER_NOT_FOUND": { message: "Utilisateur introuvable.", status: 404 },
-        "LEVEL_TOO_LOW": { message: "Ton rang est trop bas pour cette mission. Continue de build !", status: 403 },
         "ALREADY_APPROVED": { message: "Cette mission a déjà été validée pour cette période.", status: 409 },
         "SUBMISSION_PENDING": { message: "Ta soumission est déjà en attente de validation. Patience !", status: 400 },
         "MAX_REVISIONS_REACHED": { message: "Nombre maximum de révisions atteint. Contacte un admin.", status: 400 },
