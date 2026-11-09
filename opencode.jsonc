@@ -3,7 +3,7 @@
 
   // Documentation projet chargée en plus d'AGENTS.md.
   "instructions": [
-    "PRODUCT_VISION.md",
+    "DOCS/PRODUCT_VISION.md",
     "DOCS/DECISIONS.md",
     "DOCS/CI.md",
     "DOCS/MIGRATIONS.md",
