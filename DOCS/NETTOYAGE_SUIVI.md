@@ -8,7 +8,7 @@
 | Phase | Contenu | Statut |
 |---|---|---|
 | 0 | Décisions D-026 → D-028 | ✅ 09/11 |
-| 1 | Hygiène dépôt : racine rangée, `.local/` dé-versionné, AGENTS.md corrigé, 12 dépendances retirées | ✅ 09/11 (sauf choix de l'outil d'agent IA) |
+| 1 | Hygiène dépôt : racine rangée, `.local/` dé-versionné, AGENTS.md corrigé, 12 dépendances retirées | ✅ 09/11 — outils IA : OpenCode + Claude Code conservés, `.agents/` `.gemini/` supprimés |
 | 2 | Suppression du code gelé (≈ 8 500 l.) — ordre : libs orphelines → pages/API gelées → squads (plugin org conservé) → libs gamification. ⚠️ `ateliers` encore utilisé par `lib/first-action.ts` | ⬜ |
 | 3 | Produit/docs : une seule vision de référence, parcours nouveau membre cyber | ⬜ |
 | 4 | Base de données : sauvegarde + export, puis migrations destructives (66 → ~30 modèles), feu vert explicite requis | ⬜ |
