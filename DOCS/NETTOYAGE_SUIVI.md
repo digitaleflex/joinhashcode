@@ -1,4 +1,23 @@
-# NETTOYAGE_SUIVI.md — Tracker de la Vague 1 (découplage + gel)
+# NETTOYAGE_SUIVI.md — Grand nettoyage (11/2026)
+
+> **Décisions :** D-026 (cyber phare), D-027 (suppression du code gelé), D-028 (gel 6 semaines) — `DOCS/DECISIONS.md`
+> **Branche :** `chore/grand-nettoyage` · **Point de retour :** tag `pre-nettoyage`
+> **Règle :** 1 commit = 1 intention, `pnpm verify:fast` VERT avant chaque commit, `pnpm verify` + build en fin de phase.
+> **Build local :** `REDIS_URL= REDIS_TOKEN= pnpm build` tant que `.env` contient une URL `rediss://` (le client Upstash exige `https://`).
+
+| Phase | Contenu | Statut |
+|---|---|---|
+| 0 | Décisions D-026 → D-028 | ✅ 09/11 |
+| 1 | Hygiène dépôt : racine rangée, `.local/` dé-versionné, AGENTS.md corrigé, 12 dépendances retirées | ✅ 09/11 (sauf choix de l'outil d'agent IA) |
+| 2 | Suppression du code gelé (≈ 8 500 l.) — ordre : libs orphelines → pages/API gelées → squads (plugin org conservé) → libs gamification. ⚠️ `ateliers` encore utilisé par `lib/first-action.ts` | ⬜ |
+| 3 | Produit/docs : une seule vision de référence, parcours nouveau membre cyber | ⬜ |
+| 4 | Base de données : sauvegarde + export, puis migrations destructives (66 → ~30 modèles), feu vert explicite requis | ⬜ |
+| 5 | Garde-fous : knip en CI, règle « pas de feature sans H-xx » | ⬜ |
+
+---
+
+# Historique — Vague 1 (09/2026)
+
 
 > **Dernière mise à jour :** 2026-09-17 (Vague 1 étape 1 exécutée)
 > **Références :** `DOCS/AUDIT_PIVOT.md` (la carte), `DOCS/PIVOT_CYBER.md` (la vision), EPIC #372, Vague 1 #373
