@@ -37,6 +37,22 @@ interface HefContent {
   slidesUrl?: string;
 }
 
+interface HefQuizQuestion {
+  order: number;
+  text: string;
+  explanation?: string | null;
+  options: Array<{ text: string; isCorrect: boolean }>;
+}
+
+interface HefQuiz {
+  passScore: number;
+  questions: HefQuizQuestion[];
+}
+
+interface HefMission extends HefContent {
+  flashQuiz?: HefQuiz | null;
+}
+
 interface HefRubricCriterion {
   label: string;
   description: string;
@@ -64,20 +80,13 @@ interface HefModule {
   pillarSlug: string;
   thumbnail: string | null;
   durationMinutes: number | null;
-  missions: HefContent[];
+  missions: HefMission[];
   labs: HefContent[];
   assessment:
     | {
         title: string;
         body: string;
-        quiz?: {
-          passScore: number;
-          questions: Array<{
-            order: number;
-            text: string;
-            options: Array<{ text: string; isCorrect: boolean }>;
-          }>;
-        } | null;
+        quiz?: HefQuiz | null;
       }
     | null;
   project: HefProject | null;
@@ -119,6 +128,8 @@ export interface HefCounts {
   linkedPillars: number;
   quizzes: number;
   questions: number;
+  flashQuizzes: number;
+  flashQuestions: number;
   missions: number;
   deprecated: number;
   skipped: string[];
@@ -207,6 +218,44 @@ const LAB_TESTS: Record<string, Array<[string, string]>> = {
   ],
 };
 
+/**
+ * Upsert du CourseQuiz d'un contenu puis reconstruction de ses questions.
+ * Questions/options dérivent de la source Markdown : on les recrée à chaque
+ * import. Les tentatives (course_quiz_attempt) sont conservées.
+ */
+async function syncQuiz(
+  db: Db,
+  contentId: string,
+  level: HefModule["level"],
+  source: HefQuiz,
+): Promise<number> {
+  const quiz = await db.courseQuiz.upsert({
+    where: { contentId },
+    update: { difficulty: level, passScore: source.passScore },
+    create: { contentId, difficulty: level, passScore: source.passScore },
+    select: { id: true },
+  });
+
+  await db.courseQuestion.deleteMany({ where: { quizId: quiz.id } });
+  for (const question of source.questions) {
+    await db.courseQuestion.create({
+      data: {
+        quizId: quiz.id,
+        text: question.text,
+        explanation: question.explanation ?? null,
+        order: question.order,
+        options: {
+          create: question.options.map((option) => ({
+            text: option.text,
+            isCorrect: option.isCorrect,
+          })),
+        },
+      },
+    });
+  }
+  return source.questions.length;
+}
+
 const MISSION_LEVEL_BY_PHASE: Record<number, string> = {
   1: "INIT",
   2: "CORE",
@@ -288,6 +337,8 @@ export async function seedHef(db: Db): Promise<HefCounts> {
     linkedPillars: 0,
     quizzes: 0,
     questions: 0,
+    flashQuizzes: 0,
+    flashQuestions: 0,
     missions: 0,
     deprecated: 0,
     skipped: [],
@@ -377,8 +428,26 @@ export async function seedHef(db: Db): Promise<HefCounts> {
     const missionsSection = await upsertSection(db, course.id, "Missions", 1);
     counts.sections += 1;
     for (const [index, mission] of module.missions.entries()) {
-      await upsertContent(db, missionsSection.id, { ...mission, url: mission.slidesUrl }, index + 1);
+      const missionContent = await upsertContent(
+        db,
+        missionsSection.id,
+        { ...mission, url: mission.slidesUrl },
+        index + 1,
+      );
       counts.contents += 1;
+
+      // Quiz éclair : rattaché au contenu de la mission elle-même (1 Content ↔
+      // 1 CourseQuiz). Le contenu reste un DOCUMENT : le cours s'affiche
+      // inchangé, le quiz est exposé par le Mission Player (#427).
+      if (mission.flashQuiz && mission.flashQuiz.questions.length > 0) {
+        counts.flashQuestions += await syncQuiz(
+          db,
+          missionContent.id,
+          module.level,
+          mission.flashQuiz,
+        );
+        counts.flashQuizzes += 1;
+      }
     }
 
     if (module.labs.length > 0) {
@@ -420,39 +489,12 @@ export async function seedHef(db: Db): Promise<HefCounts> {
         });
         counts.contents += 1;
 
-        const quiz = await db.courseQuiz.upsert({
-          where: { contentId: quizContent.id },
-          update: {
-            difficulty: module.level,
-            passScore: module.assessment.quiz.passScore,
-          },
-          create: {
-            contentId: quizContent.id,
-            difficulty: module.level,
-            passScore: module.assessment.quiz.passScore,
-          },
-          select: { id: true },
-        });
-
-        // Questions/options are derived from the Markdown source: rebuild them
-        // on each import. Attempts live in course_quiz_attempt and are preserved.
-        await db.courseQuestion.deleteMany({ where: { quizId: quiz.id } });
-        for (const question of module.assessment.quiz.questions) {
-          await db.courseQuestion.create({
-            data: {
-              quizId: quiz.id,
-              text: question.text,
-              order: question.order,
-              options: {
-                create: question.options.map((option) => ({
-                  text: option.text,
-                  isCorrect: option.isCorrect,
-                })),
-              },
-            },
-          });
-          counts.questions += 1;
-        }
+        counts.questions += await syncQuiz(
+          db,
+          quizContent.id,
+          module.level,
+          module.assessment.quiz,
+        );
         counts.quizzes += 1;
       }
     }
@@ -515,6 +557,9 @@ async function main() {
     console.log(`   Piliers liés:   ${counts.linkedPillars}`);
     console.log(`   Missions HEF:   ${counts.missions}`);
     console.log(`   Quiz:           ${counts.quizzes} (${counts.questions} questions)`);
+    console.log(
+      `   Quiz éclair:    ${counts.flashQuizzes} (${counts.flashQuestions} questions)`,
+    );
     console.log(`   Cours démo dépubliés: ${counts.deprecated}`);
     if (counts.skipped.length > 0) {
       console.log(`   Ignorés:        ${counts.skipped.join("; ")}`);
