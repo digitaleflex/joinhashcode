@@ -25,7 +25,7 @@ pnpm check-secrets       # scan tracked files for secrets (runs in CI)
 pnpm exec knip           # unused files/exports/deps (entries = Next.js routes, see knip.json)
 ```
 
-CI (`.github/workflows/ci.yml`) runs these steps in order: prisma generate and validate, `hef:validate`, migrations (`scripts/ci-migrate-deploy.sh`), seed ×2, lint, type-check, `vitest run`, `check-secrets`, build, then the public and auth-OTP Playwright suites. Run `pnpm build` before pushing.
+CI (`.github/workflows/ci.yml`) runs these steps in order: prisma generate and validate, `hef:validate`, migrations (`scripts/ci-migrate-deploy.sh`), seed ×2, lint, type-check, knip, `vitest run`, `check-secrets`, build, then the public and auth-OTP Playwright suites. Run `pnpm build` before pushing.
 
 The pre-commit hook runs `lint-staged` (`eslint --fix` on staged JS/TS files).
 
@@ -50,4 +50,6 @@ The app is built with Next.js 16 (App Router, React 19), Prisma 7 on PostgreSQL 
 2. Pages and layouts are server components by default. Add `"use client"` only when a component needs hooks, event handlers or browser APIs.
 3. Keep scope tight. Do not refactor or abstract beyond what the task asks for.
 4. Commits use the format `type(scope): description` (feat, fix, chore, refactor, test, docs). Split work into **granular commits**, one verifiable intent each. Never mix code changes and pivot docs in one commit. Destructive refactors must cite the issue (`#377`) and include proof that the gate passed in the commit body.
-5. Deployment: on the VPS, use `./deploy.sh --image` (pull the GHCR image built by CI). Never leave a bare `npm run build` un-deployed there: the running container keeps the old `.next` inodes and CSS/JS starts returning 404.
+5. **Feature freeze (D-028)**: no new feature unless it tests a hypothesis `H-xx` from `DOCS/HYPOTHESES.md`; name it in the commit body. Fixes, cleanup and content are fine.
+6. **No dead code**: `pnpm exec knip` runs in CI and must stay clean (no unused files, exports or dependencies). Remove what you stop using.
+7. Deployment: on the VPS, use `./deploy.sh --image` (pull the GHCR image built by CI). Never leave a bare `npm run build` un-deployed there: the running container keeps the old `.next` inodes and CSS/JS starts returning 404.

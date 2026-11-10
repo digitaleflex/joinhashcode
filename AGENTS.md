@@ -243,6 +243,8 @@ Security docs: `https://github.com/digitaleflex/infra-docs` → `/security/`
 4. **DB safety** → never reset, truncate, or delete data without explicit user confirmation. Schema changes affect the database directly.
 5. **Scope discipline** → implement only what was asked. Don't refactor surrounding code, extract helpers, or add abstractions unless directly required by the task.
 6. **Auth guard** → every new API route must match the auth pattern in the table above (session / ADMIN+MOD / internal CRON_SECRET). Never skip the guard.
+7. **Gel des fonctionnalités (D-028)** → aucune nouvelle fonctionnalité sans une hypothèse `H-xx` de `DOCS/HYPOTHESES.md` qu'elle teste (à citer dans le commit). Correctifs, nettoyage et contenu restent libres.
+8. **Pas de code mort** → `pnpm exec knip` tourne en CI et doit rester vide (fichiers, exports, dépendances inutilisés).
 
 ### Verification
 
