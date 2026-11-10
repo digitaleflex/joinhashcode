@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-04T00:11:02.488Z",
+  "generatedAt": "2026-11-10T00:53:22.758Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-060"
@@ -23,6 +23,132 @@
         "durationMinutes": 70,
         "badge": "Cartographe du réseau",
         "slidesUrl": "/hef/slides-pdf/HEF-060/01-modeles-reseau.pdf",
+        "flashQuiz": {
+          "xp": 15,
+          "passScore": 80,
+          "questions": [
+            {
+              "order": 1,
+              "text": "L'encapsulation consiste à :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "ajouter un en-tête à chaque couche",
+                  "isCorrect": true
+                },
+                {
+                  "text": "chiffrer les données",
+                  "isCorrect": false
+                },
+                {
+                  "text": "compresser le message",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 2,
+              "text": "Un routeur prend ses décisions à partir de :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "l'adresse MAC de l'émetteur",
+                  "isCorrect": false
+                },
+                {
+                  "text": "l'adresse IP de destination",
+                  "isCorrect": true
+                },
+                {
+                  "text": "le contenu de la page web",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 3,
+              "text": "Un port identifie :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "un câble",
+                  "isCorrect": false
+                },
+                {
+                  "text": "une machine",
+                  "isCorrect": false
+                },
+                {
+                  "text": "un programme sur une machine",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 4,
+              "text": "🔁 *Révision HEF-050, mission 09* : Un service (démon) tourne :",
+              "revisionOf": {
+                "module": "HEF-050",
+                "mission": 9
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "en arrière-plan, supervisé par le système",
+                  "isCorrect": true
+                },
+                {
+                  "text": "uniquement dans un terminal",
+                  "isCorrect": false
+                },
+                {
+                  "text": "sans processus",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 5,
+              "text": "🔁 *Révision HEF-050, mission 08* : Un tube (pipe) relie :",
+              "revisionOf": {
+                "module": "HEF-050",
+                "mission": 8
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "deux disques",
+                  "isCorrect": false
+                },
+                {
+                  "text": "la sortie d'un processus à l'entrée d'un autre",
+                  "isCorrect": true
+                },
+                {
+                  "text": "deux écrans",
+                  "isCorrect": false
+                }
+              ]
+            }
+          ]
+        },
+        "reflection": {
+          "xp": 10,
+          "intro": null,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Quelle situation de ta vie ressemble à une encapsulation (message dans une enveloppe, dans un carton, dans un camion) ?"
+            },
+            {
+              "order": 2,
+              "text": "Pourquoi dire « à quelle couche ? » aide-t-il à résoudre un problème ?"
+            }
+          ]
+        },
         "body": "![Les modèles réseau : OSI et TCP/IP](/hef/parcours/hef060-m01.svg)\n\n<img src=\"/hef/personnages/kodi.svg\" alt=\"Kodi, ton guide pour cette mission\" width=\"96\" align=\"right\">\n\n\n> **Un message qui traverse internet passe par des couches, comme un colis qui change d'emballage à chaque étape.**\n\n⏱️ Durée : environ 70 minutes · 🎓 Niveau : intermédiaire · 🏅 Badge : **Cartographe du réseau**\n\n---\n\n## 🎬 L'histoire\n\nKodi envoie un message à un ami de l'autre côté du monde. Il appuie sur « Envoyer » et, une fraction de seconde plus tard, le message est là. Il se demande : « Mais par où est-il passé ? Qui s'est occupé de quoi ? »\n\n> « Personne ne s'occupe de tout, dit Sam. Chaque couche fait une petite tâche et fait confiance à celle du dessous. C'est ce qui permet à des milliards d'appareils différents de se comprendre. »\n\n**Dans cette mission, tu découvres les couches qui organisent tous les réseaux.**\n\n---\n\n## 🎯 Ta mission\n\nÀ la fin, **je serai capable de** :\n\n- [ ] expliquer pourquoi on découpe les réseaux en couches\n- [ ] citer les couches du modèle TCP/IP et leur rôle\n- [ ] décrire l'encapsulation d'un message\n- [ ] relier un protocole (HTTP, TCP, IP, Ethernet) à sa couche\n- [ ] distinguer modèle OSI (théorique) et TCP/IP (utilisé)\n\n---\n\n## 🧩 Défi d'échauffement (5 XP)\n\nTu envoies un colis à un ami à l'étranger. Tu écris une lettre (contenu), tu la mets dans une enveloppe avec l'adresse (destinataire), un transporteur la place dans un carton avec un numéro de suivi, puis un camion la transporte. Quels sont les **emballages successifs** ? Qui lit quoi à l'arrivée ? Le camionneur a-t-il besoin de lire ta lettre ?\n\n---\n\n## 💡 Le concept\n\n### Pourquoi des couches ?\n\nUn réseau doit faire beaucoup de choses : transmettre des signaux, adresser, router, fiabiliser, chiffrer, présenter une page web. Plutôt que de tout mélanger, on **sépare en couches**. Chaque couche :\n\n- offre un **service** à la couche du dessus ;\n- utilise le service de la couche du dessous ;\n- peut être **remplacée** sans changer les autres (le Wi-Fi remplace le câble, la page web ne le sait pas).\n\nC'est la même idée que l'abstraction (HEF-000) et que les interfaces (HEF-020).\n\n### Le modèle TCP/IP (4 couches utilisées en pratique)\n\n| Couche | Rôle | Exemples |\n|---|---|---|\n| **Application** | ce que l'utilisateur voit : web, mail, noms | HTTP, HTTPS, DNS, SMTP, SSH |\n| **Transport** | communication entre deux **programmes** (ports), fiabilité | TCP, UDP |\n| **Internet (réseau)** | adressage et acheminement entre **machines** | IP, ICMP |\n| **Accès réseau (liaison)** | transmission sur **un lien local** | Ethernet, Wi-Fi |\n\n### Le modèle OSI (7 couches, de référence)\n\n| # | Couche OSI | Équivalent TCP/IP |\n|---|---|---|\n| 7 | Application | Application |\n| 6 | Présentation (formats, chiffrement) | Application |\n| 5 | Session | Application |\n| 4 | Transport | Transport |\n| 3 | Réseau | Internet |\n| 2 | Liaison de données | Accès réseau |\n| 1 | Physique (câbles, ondes) | Accès réseau |\n\nLe modèle OSI sert de **vocabulaire** (« problème de couche 2 », « pare-feu de couche 7 ») ; TCP/IP décrit ce qui tourne réellement.\n\n### L'encapsulation\n\nÀ l'envoi, chaque couche **ajoute son en-tête** (et parfois une fin) autour des données de la couche supérieure. À la réception, chaque couche **retire** le sien.\n\n```mermaid\nflowchart TD\n    A[\"Données de l'application<br/>(ex. requête HTTP)\"] --> B[\"Segment TCP<br/>en-tête TCP + données\"]\n    B --> C[\"Paquet IP<br/>en-tête IP + segment\"]\n    C --> D[\"Trame Ethernet<br/>en-tête + paquet + contrôle\"]\n    D --> E[\"Bits sur le câble ou les ondes\"]\n```\n\n**Description du schéma** : les données de l'application sont placées dans un segment TCP (avec son en-tête), qui est placé dans un paquet IP (avec son en-tête), qui est placé dans une trame Ethernet, qui part sous forme de bits sur le support physique.\n\n### Qui lit quoi ?\n\n| Équipement | Regarde jusqu'à | Pourquoi |\n|---|---|---|\n| **Switch** | l'adresse Ethernet (couche 2) | acheminer sur le réseau local |\n| **Routeur** | l'adresse IP (couche 3) | choisir le prochain saut |\n| **Pare-feu** | IP, ports (couches 3-4), parfois plus | filtrer |\n| **Machine finale** | toutes les couches | remettre les données au bon programme |\n\n### Un en-tête, concrètement\n\nUn en-tête est une suite d'octets avec des champs de taille fixe. Python peut le fabriquer :\n\n```python\nimport struct\n\ndonnees = b\"GET / HTTP/1.1\"\n# En-tête TCP simplifié : port source (2 octets), port destination (2 octets)\nsegment = struct.pack(\"!HH\", 54321, 80) + donnees\n# En-tête IP simplifié : adresse source (4 octets), adresse destination (4 octets)\npaquet = bytes([192, 168, 1, 10]) + bytes([93, 184, 216, 34]) + segment\n\nprint(len(donnees), len(segment), len(paquet))     # 14 18 26\nprint(paquet[:8].hex(\" \"))                         # c0 a8 01 0a 5d b8 d8 22\n```\n\n> 🧠 **Astuce** : quand un problème réseau survient, demande « à quelle **couche** ? » Cela réduit tout de suite l'espace de recherche.\n\n---\n\n## 🔍 Exemple pas à pas\n\n**Problème** : simuler l'encapsulation et la décapsulation d'un message, couche par couche.\n\n```python\ndef encapsuler(message, ip_src, ip_dst, port_src, port_dst, mac_src, mac_dst):\n    segment = {\"couche\": \"transport\", \"port_src\": port_src, \"port_dst\": port_dst, \"donnees\": message}\n    paquet = {\"couche\": \"internet\", \"ip_src\": ip_src, \"ip_dst\": ip_dst, \"contenu\": segment}\n    trame = {\"couche\": \"liaison\", \"mac_src\": mac_src, \"mac_dst\": mac_dst, \"contenu\": paquet}\n    return trame\n\ndef decapsuler(trame, ma_mac, mon_ip, mon_port):\n    if trame[\"mac_dst\"] != ma_mac:\n        return \"rejeté par la couche liaison (pas pour ma carte)\"\n    paquet = trame[\"contenu\"]\n    if paquet[\"ip_dst\"] != mon_ip:\n        return \"rejeté par la couche internet (pas pour mon adresse IP)\"\n    segment = paquet[\"contenu\"]\n    if segment[\"port_dst\"] != mon_port:\n        return \"rejeté par la couche transport (aucun programme à ce port)\"\n    return \"livré à l'application : \" + segment[\"donnees\"]\n\ntrame = encapsuler(\"bonjour\", \"192.168.1.10\", \"192.168.1.20\", 54321, 80,\n                   \"aa:aa:aa:aa:aa:01\", \"bb:bb:bb:bb:bb:02\")\n\nprint(decapsuler(trame, \"bb:bb:bb:bb:bb:02\", \"192.168.1.20\", 80))\nprint(decapsuler(trame, \"cc:cc:cc:cc:cc:03\", \"192.168.1.20\", 80))\nprint(decapsuler(trame, \"bb:bb:bb:bb:bb:02\", \"192.168.1.99\", 80))\nprint(decapsuler(trame, \"bb:bb:bb:bb:bb:02\", \"192.168.1.20\", 443))\n```\n\n**Lecture** : chaque couche fait **son** contrôle et ne regarde que **son** en-tête. Un message peut être rejeté à l'une des trois couches, pour une raison différente.\n\nC'est exactement ce qui permet de diagnostiquer : si le message arrive à la carte mais pas au programme, le problème est en haut ; s'il n'arrive pas du tout, il est en bas.\n\n---\n\n## ✍️ À toi, avec aide (10 XP)\n\nClasse ces éléments dans la bonne couche TCP/IP :\n\n| Élément | Couche |\n|---|---|\n| HTTPS | ? |\n| Adresse IP | ? |\n| Port 443 | ? |\n| Adresse MAC | ? |\n| DNS | ? |\n| Câble Ethernet / ondes Wi-Fi | ? |\n\n<details>\n<summary>💡 Indice 1</summary>\n\nHTTPS et DNS sont des protocoles que les programmes utilisent directement.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nUn port identifie un programme sur une machine.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nL'adresse MAC ne sert que sur le réseau local.\n\n</details>\n\n<details>\n<summary>✅ Réponse</summary>\n\n| Élément | Couche |\n|---|---|\n| HTTPS | Application |\n| Adresse IP | Internet (réseau) |\n| Port 443 | Transport |\n| Adresse MAC | Accès réseau (liaison) |\n| DNS | Application |\n| Câble / Wi-Fi | Accès réseau (physique) |\n\n</details>\n\n---\n\n## 🚀 À toi, en solo (20 XP)\n\nVoici trois pannes. Pour chacune, dis à quelle couche le problème se situe probablement et propose une vérification :\n\n1. Le câble est débranché : la carte réseau n'a plus de lumière.\n2. La machine a une adresse IP, peut joindre `8.8.8.8` mais pas `exemple.fr`.\n3. Le serveur est joignable, mais la connexion au port 443 est refusée.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n1. **Couche physique/liaison** : vérifier câble, voyant, `ip link`.\n2. **Couche application (DNS)** : la connectivité IP marche, la résolution de noms non. Vérifier `nslookup exemple.fr` ou le serveur DNS configuré.\n3. **Couche transport/application** : aucun programme n'écoute sur ce port, ou un pare-feu bloque. Vérifier que le service tourne (`ss -tlnp`) et les règles de pare-feu.\n\nLa démarche est toujours la même : de bas en haut, jusqu'à la première couche qui échoue.\n\n</details>\n\n---\n\n## ⚠️ Pièges classiques\n\n| Piège | Pourquoi c'est un problème | Comment l'éviter |\n|---|---|---|\n| **Mélanger les couches** | On cherche au mauvais endroit | Toujours nommer la couche concernée |\n| **Croire que le routeur lit le contenu** | Il lit l'en-tête IP, pas la lettre | Chaque équipement regarde sa couche |\n| **Apprendre OSI par cœur sans comprendre** | Aucune utilité en dépannage | Relier chaque couche à un exemple concret |\n| **Confondre MAC et IP** | MAC : réseau local ; IP : entre réseaux | L'adresse MAC change à chaque saut, l'IP reste |\n\n---\n\n## 🐉 Mini-boss (40 XP)\n\n**Le voyage d'un message.** Alice (192.168.1.10) envoie « salut » au serveur 203.0.113.50 (port 80) via son routeur 192.168.1.1.\n\n1. Dessine (Mermaid) le trajet : Alice → switch → routeur → internet → serveur.\n2. Pour chaque saut, écris les adresses MAC et IP source/destination de la trame. Que remarques-tu sur les adresses MAC et IP au fil des sauts ?\n3. Écris un programme qui simule ce voyage avec `encapsuler` et un routeur qui **réécrit les adresses MAC** mais conserve les adresses IP.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\ndef trame(mac_src, mac_dst, ip_src, ip_dst, message):\n    return {\"mac_src\": mac_src, \"mac_dst\": mac_dst, \"ip_src\": ip_src, \"ip_dst\": ip_dst, \"msg\": message}\n\ndef routeur(trame_entrante, mac_routeur_sortie, mac_prochain_saut):\n    t = dict(trame_entrante)\n    t[\"mac_src\"], t[\"mac_dst\"] = mac_routeur_sortie, mac_prochain_saut      # nouvelles adresses MAC\n    return t                                                                # IP inchangées\n\nt1 = trame(\"aa:01\", \"rr:in\", \"192.168.1.10\", \"203.0.113.50\", \"salut\")       # Alice -> routeur\nt2 = routeur(t1, \"rr:out\", \"fai:01\")                                        # routeur -> routeur du FAI\nt3 = routeur(t2, \"fai:02\", \"srv:01\")                                        # FAI -> serveur\nfor nom, t in ((\"Alice→routeur\", t1), (\"routeur→FAI\", t2), (\"FAI→serveur\", t3)):\n    print(nom, t)\nassert t1[\"ip_src\"] == t3[\"ip_src\"] and t1[\"ip_dst\"] == t3[\"ip_dst\"]\nassert t1[\"mac_src\"] != t3[\"mac_src\"]\n```\nObservation : les **adresses MAC changent à chaque saut** (elles ne servent que sur le lien local), alors que les **adresses IP restent** de bout en bout (hors NAT, qu'on verra plus tard).\n\n</details>\n\n---\n\n## ⚡ Quiz éclair (15 XP si 4/5 ou plus)\n\n**1.** L'encapsulation consiste à :\n- A. ajouter un en-tête à chaque couche\n- B. chiffrer les données\n- C. compresser le message\n\n**2.** Un routeur prend ses décisions à partir de :\n- A. l'adresse MAC de l'émetteur\n- B. l'adresse IP de destination\n- C. le contenu de la page web\n\n**3.** Un port identifie :\n- A. un câble\n- B. une machine\n- C. un programme sur une machine\n\n**4.** 🔁 *Révision HEF-050, mission 09* : Un service (démon) tourne :\n- A. en arrière-plan, supervisé par le système\n- B. uniquement dans un terminal\n- C. sans processus\n\n**5.** 🔁 *Révision HEF-050, mission 08* : Un tube (pipe) relie :\n- A. deux disques\n- B. la sortie d'un processus à l'entrée d'un autre\n- C. deux écrans\n\n<details>\n<summary>✅ Réponses</summary>\n\n1. **A**.\n2. **B**.\n3. **C**.\n4. **A**.\n5. **B**.\n\n</details>\n\n---\n\n## 🪞 Je réfléchis (10 XP)\n\n1. Quelle situation de ta vie ressemble à une encapsulation (message dans une enveloppe, dans un carton, dans un camion) ?\n2. Pourquoi dire « à quelle couche ? » aide-t-il à résoudre un problème ?\n\n---\n\n## 🎒 À retenir\n\n1. Les réseaux sont organisés en couches indépendantes.\n2. TCP/IP : application, transport, internet, accès réseau.\n3. Chaque couche ajoute son en-tête (encapsulation).\n4. Chaque équipement regarde sa couche : switch (MAC), routeur (IP).\n5. Diagnostiquer = trouver la première couche qui échoue.\n\n---\n\n## 🏅 Récompenses\n\nTotal possible : **100 XP** · 🏅 Badge **Cartographe du réseau**\n\n---\n\n[Mission 02 — Ethernet, adresses MAC et réseau local](./02-ethernet-et-adressage.md) →\n\n**HEF-060 — Réseaux**\n"
       },
       {
@@ -32,6 +158,132 @@
         "durationMinutes": 70,
         "badge": "Facteur du réseau local",
         "slidesUrl": "/hef/slides-pdf/HEF-060/02-ethernet-et-adressage.pdf",
+        "flashQuiz": {
+          "xp": 15,
+          "passScore": 80,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Une adresse MAC est composée de :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "32 bits",
+                  "isCorrect": false
+                },
+                {
+                  "text": "128 bits",
+                  "isCorrect": false
+                },
+                {
+                  "text": "48 bits",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 2,
+              "text": "Un switch apprend où se trouvent les machines en observant :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "l'adresse MAC source des trames",
+                  "isCorrect": true
+                },
+                {
+                  "text": "l'adresse IP de destination",
+                  "isCorrect": false
+                },
+                {
+                  "text": "les ports des programmes",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 3,
+              "text": "ARP sert à :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "chiffrer les trames",
+                  "isCorrect": false
+                },
+                {
+                  "text": "trouver l'adresse MAC correspondant à une adresse IP",
+                  "isCorrect": true
+                },
+                {
+                  "text": "attribuer des adresses IP",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 4,
+              "text": "🔁 *Révision mission 01* : L'encapsulation consiste à :",
+              "revisionOf": {
+                "module": null,
+                "mission": 1
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "chiffrer les données",
+                  "isCorrect": false
+                },
+                {
+                  "text": "compresser le message",
+                  "isCorrect": false
+                },
+                {
+                  "text": "ajouter un en-tête à chaque couche",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 5,
+              "text": "🔁 *Révision mission 01* : Un routeur prend ses décisions à partir de :",
+              "revisionOf": {
+                "module": null,
+                "mission": 1
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "l'adresse IP de destination",
+                  "isCorrect": true
+                },
+                {
+                  "text": "l'adresse MAC de l'émetteur",
+                  "isCorrect": false
+                },
+                {
+                  "text": "le contenu de la page web",
+                  "isCorrect": false
+                }
+              ]
+            }
+          ]
+        },
+        "reflection": {
+          "xp": 10,
+          "intro": null,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Dans quelle situation de ta vie « cries »-tu (diffusion) plutôt que de t'adresser à une personne précise ?"
+            },
+            {
+              "order": 2,
+              "text": "Pourquoi est-il pratique que le switch apprenne seul plutôt que de tout configurer à la main ?"
+            }
+          ]
+        },
         "body": "![Ethernet, adresses MAC et réseau local](/hef/parcours/hef060-m02.svg)\n\n<img src=\"/hef/personnages/maya.svg\" alt=\"Maya, ton guide pour cette mission\" width=\"96\" align=\"right\">\n\n\n> **Sur un même réseau local, les machines se parlent grâce à leurs adresses MAC et à un switch qui apprend vite.**\n\n⏱️ Durée : environ 70 minutes · 🎓 Niveau : intermédiaire · 🏅 Badge : **Facteur du réseau local**\n\n---\n\n## 🎬 L'histoire\n\nAu bureau, Kodi branche son ordinateur sur une prise murale. Il peut aussitôt joindre l'imprimante, le serveur de fichiers et le portable de Maya, sans rien configurer. Il se demande : « Comment mon ordinateur sait-il à qui envoyer chaque message ? »\n\n> « Chaque carte réseau a une adresse unique, dit Sam, et un switch apprend où se trouve chacune. Ensuite il n'envoie le message qu'au bon endroit. »\n\n**Tu comprends comment fonctionne un réseau local : adresses MAC, trames, switch et ARP.**\n\n---\n\n## 🎯 Ta mission\n\nÀ la fin, **je serai capable de** :\n\n- [ ] décrire une adresse MAC et son format\n- [ ] expliquer le rôle d'une trame Ethernet\n- [ ] expliquer comment un switch apprend les adresses\n- [ ] expliquer le protocole ARP (adresse IP → adresse MAC)\n- [ ] distinguer hub, switch et domaine de diffusion (broadcast)\n\n---\n\n## 🧩 Défi d'échauffement (5 XP)\n\nDans un grand open space, tu veux transmettre un papier à Léa. Option A : tu cries son prénom pour que tout le monde l'entende. Option B : tu sais où elle est assise et tu lui apportes le papier. Quand l'option A est-elle utile ? Comment un nouvel arrivant apprend-il où chacun est assis ?\n\n---\n\n## 💡 Le concept\n\n### L'adresse MAC\n\nChaque carte réseau possède une **adresse MAC** (*Media Access Control*) de **48 bits**, écrite en six octets hexadécimaux : `3c:22:fb:12:ab:9f`.\n\n- Les **3 premiers octets** identifient le fabricant (OUI).\n- Les 3 derniers sont attribués par le fabricant.\n- `ff:ff:ff:ff:ff:ff` est l'adresse de **diffusion** (broadcast) : tout le monde la lit.\n\n### La trame Ethernet\n\nSur un réseau local, les données voyagent dans une **trame** :\n\n| Champ | Taille | Rôle |\n|---|---|---|\n| Adresse MAC destination | 6 octets | à qui |\n| Adresse MAC source | 6 octets | de qui |\n| Type | 2 octets | quel protocole est dedans (IPv4, IPv6, ARP) |\n| Données (*payload*) | 46 à 1 500 octets | le paquet IP |\n| Contrôle (FCS) | 4 octets | détecter les erreurs |\n\nLa taille maximale des données, **1 500 octets**, s'appelle la **MTU** (*Maximum Transmission Unit*).\n\n### Hub, switch\n\n- Un **hub** répète chaque trame sur tous ses ports : tout le monde entend tout (collisions, pas de confidentialité).\n- Un **switch** apprend quelle MAC se trouve derrière quel port, puis **n'envoie la trame qu'au bon port**.\n\n**Apprentissage du switch** :\n\n1. Une trame arrive sur le port 3 avec la MAC source `A` : le switch note `A → port 3`.\n2. Si la MAC destination est connue : il envoie sur ce seul port.\n3. Si elle est inconnue (ou si c'est du broadcast) : il envoie sur **tous les ports sauf celui d'arrivée** (*flooding*).\n\n### ARP : de l'adresse IP à l'adresse MAC\n\nTa machine connaît l'**IP** du destinataire (192.168.1.20), mais pour envoyer une trame elle a besoin de sa **MAC**. Elle demande en diffusion :\n\n> « Qui a l'adresse 192.168.1.20 ? Répondez à 192.168.1.10. » (ARP request)\n\nLa machine concernée répond avec sa MAC (ARP reply). Le résultat est gardé dans une **table ARP** (cache) pendant un moment.\n\n### Domaine de diffusion\n\nL'ensemble des machines qui reçoivent un broadcast forme un **domaine de diffusion**. Un switch ne le coupe pas ; un **routeur** le coupe. Les **VLAN** permettent de découper un switch en plusieurs réseaux logiques.\n\n### Manipuler une adresse MAC en Python\n\n```python\ndef mac_vers_octets(mac):\n    return bytes(int(x, 16) for x in mac.split(\":\"))\n\ndef est_diffusion(mac):\n    return mac.lower() == \"ff:ff:ff:ff:ff:ff\"\n\ndef est_multicast(mac):\n    return bool(mac_vers_octets(mac)[0] & 1)       # bit de poids faible du premier octet\n\nprint(mac_vers_octets(\"3c:22:fb:12:ab:9f\").hex())    # 3c22fb12ab9f\nprint(est_diffusion(\"ff:ff:ff:ff:ff:ff\"), est_multicast(\"01:00:5e:00:00:01\"))   # True True\n```\n\n---\n\n## 🔍 Exemple pas à pas\n\n**Problème** : simuler un switch à 4 ports qui apprend les adresses.\n\n```python\nclass Switch:\n    def __init__(self, nb_ports):\n        self.nb_ports = nb_ports\n        self.table = {}                 # MAC -> port\n\n    def recevoir(self, port, mac_src, mac_dst):\n        self.table[mac_src] = port                          # apprentissage\n        if mac_dst in self.table and mac_dst != \"ff:ff:ff:ff:ff:ff\":\n            return [self.table[mac_dst]]                    # envoi ciblé\n        return [p for p in range(self.nb_ports) if p != port]   # inondation\n\nsw = Switch(4)\nprint(sw.recevoir(0, \"A\", \"B\"))    # B inconnue : [1, 2, 3]\nprint(sw.recevoir(1, \"B\", \"A\"))    # A connue : [0]\nprint(sw.recevoir(0, \"A\", \"B\"))    # B connue maintenant : [1]\nprint(sw.recevoir(2, \"C\", \"ff:ff:ff:ff:ff:ff\"))   # diffusion : [0, 1, 3]\nprint(sw.table)\n```\n\n**Lecture** :\n\n1. Au premier message A → B, le switch ne connaît pas B : il **inonde**. Il apprend que A est sur le port 0.\n2. Quand B répond, le switch apprend que B est sur le port 1.\n3. Ensuite, les échanges A ↔ B sont **ciblés**, les autres ports n'entendent plus rien.\n\n**ARP en pratique** :\n\n```python\ntable_arp = {}\n\ndef resoudre(ip_cible, machines):\n    if ip_cible in table_arp:\n        return table_arp[ip_cible], \"cache\"\n    for ip, mac in machines.items():           # simulation de la diffusion ARP\n        if ip == ip_cible:\n            table_arp[ip] = mac\n            return mac, \"requête ARP\"\n    return None, \"personne ne répond\"\n\nmachines = {\"192.168.1.20\": \"bb:bb:bb:bb:bb:02\", \"192.168.1.30\": \"cc:cc:cc:cc:cc:03\"}\nprint(resoudre(\"192.168.1.20\", machines))\nprint(resoudre(\"192.168.1.20\", machines))\nprint(resoudre(\"192.168.1.99\", machines))\n```\n\n---\n\n## ✍️ À toi, avec aide (10 XP)\n\nUn switch à 4 ports reçoit, dans cet ordre :\n\n1. port 0 : A → B\n2. port 1 : B → A\n3. port 2 : C → A\n4. port 0 : A → C\n5. port 3 : D → ff:ff:ff:ff:ff:ff\n\nPour chaque trame, indique les ports sur lesquels le switch envoie, puis l'état de la table à la fin. Vérifie avec la classe `Switch`.\n\n<details>\n<summary>💡 Indice 1</summary>\n\nLa première trame : B est inconnue → inondation (ports 1, 2, 3).\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nAprès la trame 2, le switch connaît A (port 0) et B (port 1).\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nUne diffusion est toujours envoyée à tous les ports sauf celui d'arrivée.\n\n</details>\n\n<details>\n<summary>✅ Réponse</summary>\n\n```python\nclass Switch:\n    def __init__(self, n):\n        self.n, self.table = n, {}\n    def recevoir(self, port, src, dst):\n        self.table[src] = port\n        if dst in self.table and dst != \"ff:ff:ff:ff:ff:ff\":\n            return [self.table[dst]]\n        return [p for p in range(self.n) if p != port]\n\nsw = Switch(4)\nfor port, s, d in ((0, \"A\", \"B\"), (1, \"B\", \"A\"), (2, \"C\", \"A\"), (0, \"A\", \"C\"), (3, \"D\", \"ff:ff:ff:ff:ff:ff\")):\n    print(f\"port {port} {s}→{d} : envoyé sur {sw.recevoir(port, s, d)}\")\nprint(sw.table)\n# [1,2,3] / [0] / [0] / [2] / [0,1,2] ; table : A:0, B:1, C:2, D:3\n```\n\n</details>\n\n---\n\n## 🚀 À toi, en solo (20 XP)\n\nAméliore le switch :\n\n1. **Vieillissement** : une entrée de la table disparaît si elle n'a pas été vue depuis 300 secondes (utilise un temps simulé passé en paramètre).\n2. **Déplacement** : si la MAC A apparaît sur un autre port, la table est mise à jour.\n3. **Compteurs** : nombre de trames ciblées, inondées, diffusées.\n\nTeste avec un scénario où une machine change de port et où une entrée expire.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\nclass Switch:\n    def __init__(self, n, duree_vie=300):\n        self.n, self.vie = n, duree_vie\n        self.table = {}                 # mac -> (port, derniere_vue)\n        self.stats = {\"cible\": 0, \"inonde\": 0, \"diffusion\": 0}\n\n    def recevoir(self, maintenant, port, src, dst):\n        self.table[src] = (port, maintenant)                     # apprend ou met à jour\n        self.table = {m: (p, t) for m, (p, t) in self.table.items() if maintenant - t <= self.vie}\n        if dst == \"ff:ff:ff:ff:ff:ff\":\n            self.stats[\"diffusion\"] += 1\n        elif dst in self.table:\n            self.stats[\"cible\"] += 1\n            return [self.table[dst][0]]\n        else:\n            self.stats[\"inonde\"] += 1\n        return [p for p in range(self.n) if p != port]\n\nsw = Switch(4)\nprint(sw.recevoir(0, 0, \"A\", \"B\"))        # inonde\nprint(sw.recevoir(1, 1, \"B\", \"A\"))        # ciblé : [0]\nprint(sw.recevoir(2, 3, \"A\", \"B\"))        # A a déménagé sur le port 3, B connue : [1]\nprint(sw.recevoir(400, 2, \"C\", \"B\"))      # B a expiré (vue à t=1) : inonde\nprint(sw.stats)\n```\n\n</details>\n\n---\n\n## ⚠️ Pièges classiques\n\n| Piège | Pourquoi c'est un problème | Comment l'éviter |\n|---|---|---|\n| **Croire que le switch lit les IP** | Un switch classique travaille en couche 2 | MAC pour le réseau local, IP pour le routage |\n| **Confondre hub et switch** | Un hub répète tout | Le switch cible grâce à sa table |\n| **Oublier que les MAC changent à chaque saut** | Elles ne traversent pas un routeur | MAC = local, IP = bout en bout |\n| **ARP non sécurisé** | Une machine peut mentir (usurpation ARP) | Réseaux segmentés, protections côté switch |\n\n---\n\n## 🐉 Mini-boss (40 XP)\n\n**Mini réseau local.** Simule un réseau avec 1 switch (6 ports) et 4 machines. Chaque machine a une IP, une MAC, une table ARP. Écris `envoyer(machine_src, ip_dst, message)` qui :\n\n1. consulte la table ARP ; sinon envoie une requête ARP en diffusion via le switch ;\n2. reçoit la réponse ARP et met à jour la table ;\n3. envoie la trame de données via le switch ;\n4. journalise chaque étape (ARP, inondation, ciblage).\n\nMontre le journal pour deux envois consécutifs A → B : le second doit être plus court.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\nUn bon travail construit : une classe `Machine` (ip, mac, arp, port), un `Switch` avec `recevoir` (comme ci-dessus), une fonction `envoyer` qui appelle d'abord `resoudre` (diffusion via le switch, réponse ciblée), puis envoie la trame. Le journal du premier envoi contient : requête ARP (diffusion, inondation), réponse ARP (ciblée), trame de données (ciblée) ; le second : seulement la trame de données (ciblée), car l'ARP est en cache et le switch connaît les ports.\n\n</details>\n\n---\n\n## ⚡ Quiz éclair (15 XP si 4/5 ou plus)\n\n**1.** Une adresse MAC est composée de :\n- A. 32 bits\n- B. 128 bits\n- C. 48 bits\n\n**2.** Un switch apprend où se trouvent les machines en observant :\n- A. l'adresse MAC source des trames\n- B. l'adresse IP de destination\n- C. les ports des programmes\n\n**3.** ARP sert à :\n- A. chiffrer les trames\n- B. trouver l'adresse MAC correspondant à une adresse IP\n- C. attribuer des adresses IP\n\n**4.** 🔁 *Révision mission 01* : L'encapsulation consiste à :\n- A. chiffrer les données\n- B. compresser le message\n- C. ajouter un en-tête à chaque couche\n\n**5.** 🔁 *Révision mission 01* : Un routeur prend ses décisions à partir de :\n- A. l'adresse IP de destination\n- B. l'adresse MAC de l'émetteur\n- C. le contenu de la page web\n\n<details>\n<summary>✅ Réponses</summary>\n\n1. **C**.\n2. **A**.\n3. **B**.\n4. **C**.\n5. **A**.\n\n</details>\n\n---\n\n## 🪞 Je réfléchis (10 XP)\n\n1. Dans quelle situation de ta vie « cries »-tu (diffusion) plutôt que de t'adresser à une personne précise ?\n2. Pourquoi est-il pratique que le switch apprenne seul plutôt que de tout configurer à la main ?\n\n---\n\n## 🎒 À retenir\n\n1. MAC : adresse de 48 bits d'une carte réseau.\n2. Trame Ethernet : MAC destination, source, type, données, contrôle.\n3. Un switch apprend avec les MAC sources et cible ses envois.\n4. ARP : de l'IP vers la MAC, par diffusion puis cache.\n5. Un routeur sépare les domaines de diffusion.\n\n```mermaid\nflowchart LR\n    T([\"Ethernet, adresses MAC et réseau local\"])\n    T --> R1[\"1. MAC : adresse de 48 bits d'une carte réseau.\"]\n    T --> R2[\"2. Trame Ethernet : MAC destination, source, type, données, contrôle.\"]\n    T --> R3[\"3. Un switch apprend avec les MAC sources et cible ses envois.\"]\n    T --> R4[\"4. ARP : de l'IP vers la MAC, par diffusion puis cache.\"]\n    T --> R5[\"5. Un routeur sépare les domaines de diffusion.\"]\n```\n\n**Description du schéma** : la mission au centre, reliée aux cinq idées à retenir.\n\n---\n\n## 🏅 Récompenses\n\nTotal possible : **100 XP** · 🏅 Badge **Facteur du réseau local**\n\n---\n\n← [Mission 01 — Les modèles réseau : OSI et TCP/IP](./01-modeles-reseau.md) · [Mission 03 — Adresses IP et sous-réseaux](./03-ip-et-sous-reseaux.md) →\n\n**HEF-060 — Réseaux**\n"
       },
       {
@@ -41,6 +293,132 @@
         "durationMinutes": 80,
         "badge": "Géomètre des adresses",
         "slidesUrl": "/hef/slides-pdf/HEF-060/03-ip-et-sous-reseaux.pdf",
+        "flashQuiz": {
+          "xp": 15,
+          "passScore": 80,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Un réseau /24 contient combien d'hôtes utilisables ?",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "256",
+                  "isCorrect": false
+                },
+                {
+                  "text": "254",
+                  "isCorrect": true
+                },
+                {
+                  "text": "255",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 2,
+              "text": "Le masque 255.255.255.192 correspond à :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "/24",
+                  "isCorrect": false
+                },
+                {
+                  "text": "/28",
+                  "isCorrect": false
+                },
+                {
+                  "text": "/26",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 3,
+              "text": "Une adresse IPv6 est composée de :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "128 bits",
+                  "isCorrect": true
+                },
+                {
+                  "text": "32 bits",
+                  "isCorrect": false
+                },
+                {
+                  "text": "64 bits",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 4,
+              "text": "🔁 *Révision mission 02* : Une adresse MAC est composée de :",
+              "revisionOf": {
+                "module": null,
+                "mission": 2
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "32 bits",
+                  "isCorrect": false
+                },
+                {
+                  "text": "48 bits",
+                  "isCorrect": true
+                },
+                {
+                  "text": "128 bits",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 5,
+              "text": "🔁 *Révision mission 02* : Un switch apprend où se trouvent les machines en observant :",
+              "revisionOf": {
+                "module": null,
+                "mission": 2
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "l'adresse IP de destination",
+                  "isCorrect": false
+                },
+                {
+                  "text": "les ports des programmes",
+                  "isCorrect": false
+                },
+                {
+                  "text": "l'adresse MAC source des trames",
+                  "isCorrect": true
+                }
+              ]
+            }
+          ]
+        },
+        "reflection": {
+          "xp": 10,
+          "intro": null,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Dans ta vie, où retrouves-tu un système « adresse = zone + numéro » (code postal, téléphone) ?"
+            },
+            {
+              "order": 2,
+              "text": "Pourquoi découper un réseau en sous-réseaux améliore-t-il la sécurité et la gestion ?"
+            }
+          ]
+        },
         "body": "![Adresses IP et sous-réseaux](/hef/parcours/hef060-m03.svg)\n\n<img src=\"/hef/personnages/sam.svg\" alt=\"Sam, ton guide pour cette mission\" width=\"96\" align=\"right\">\n\n\n> **Une adresse IP, c'est une adresse postale : un réseau (la rue) et une machine (le numéro).**\n\n⏱️ Durée : environ 80 minutes · 🎓 Niveau : intermédiaire · 🏅 Badge : **Géomètre des adresses**\n\n---\n\n## 🎬 L'histoire\n\nHashBox ouvre un second bureau. Maya veut que les ordinateurs du bureau A et ceux du bureau B soient sur des réseaux séparés. Kodi reçoit une plage d'adresses `192.168.10.0/24` et doit la découper en quatre.\n\n> « Pour découper, il faut comprendre ce que veut dire ce /24, dit Sam. C'est de l'arithmétique binaire que tu connais déjà. »\n\n**Tu apprends à lire une adresse IP, un masque, et à découper un réseau en sous-réseaux.**\n\n---\n\n## 🎯 Ta mission\n\nÀ la fin, **je serai capable de** :\n\n- [ ] expliquer la structure d'une adresse IPv4 (réseau + hôte)\n- [ ] lire la notation CIDR (/24, /26…)\n- [ ] calculer adresse de réseau, de diffusion et nombre d'hôtes\n- [ ] découper un réseau en sous-réseaux\n- [ ] reconnaître les adresses privées, de boucle locale et IPv6\n\n---\n\n## 🧩 Défi d'échauffement (5 XP)\n\nUne adresse postale : « 12 rue des Lilas, 75011 Paris ». Où se trouve la partie qui désigne **le quartier** (identique pour tous les voisins) ? Et celle qui désigne **le logement précis** ? Si une ville devait numéroter toutes les maisons avec seulement 8 bits (256 numéros), combien de rues faudrait-il pour 10 000 maisons ?\n\n---\n\n## 💡 Le concept\n\n### L'adresse IPv4\n\nUne adresse **IPv4** fait **32 bits**, écrite en 4 octets décimaux séparés par des points : `192.168.10.37`.\n\n```text\n192       .168      .10       .37\n11000000  10101000  00001010  00100101\n```\n\nUne adresse est composée de deux parties :\n\n- la partie **réseau** (les premiers bits) : identique pour toutes les machines du même réseau ;\n- la partie **hôte** (les derniers bits) : identifie la machine dans ce réseau.\n\n### Le masque et la notation CIDR\n\nLe **masque** indique combien de bits forment la partie réseau. En **notation CIDR**, on écrit `/n` : n bits de réseau.\n\n| CIDR | Masque | Bits hôte | Adresses | Hôtes utilisables |\n|---|---|---|---|---|\n| /24 | 255.255.255.0 | 8 | 256 | 254 |\n| /25 | 255.255.255.128 | 7 | 128 | 126 |\n| /26 | 255.255.255.192 | 6 | 64 | 62 |\n| /27 | 255.255.255.224 | 5 | 32 | 30 |\n| /30 | 255.255.255.252 | 2 | 4 | 2 |\n\n**Hôtes utilisables = 2^(bits hôte) − 2**, car on réserve :\n\n- la première adresse : l'**adresse de réseau** (tous les bits hôte à 0) ;\n- la dernière : l'**adresse de diffusion** (tous les bits hôte à 1).\n\n### Même réseau ou pas ?\n\nDeux machines sont sur le même réseau si leurs adresses ont les **mêmes bits de réseau**. Sinon, elles passent par un routeur (la **passerelle**).\n\n### Adresses spéciales\n\n| Plage | Usage |\n|---|---|\n| `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16` | **privées** (non routées sur internet) |\n| `127.0.0.0/8` | boucle locale (`localhost`) |\n| `169.254.0.0/16` | auto-adresse (pas de DHCP) |\n| `100.64.0.0/10` | espace partagé des opérateurs (CGNAT) |\n\n### IPv6\n\nLes adresses IPv4 (4,3 milliards) ne suffisent plus. **IPv6** utilise **128 bits**, écrits en hexadécimal : `2001:0db8:85a3::8a2e:0370:7334`. Chaque réseau a généralement un préfixe de /64. Le nombre d'adresses est astronomique (2¹²⁸).\n\n### Le module `ipaddress`\n\n```python\nimport ipaddress\n\nreseau = ipaddress.ip_network(\"192.168.10.0/24\")\nprint(reseau.netmask, reseau.broadcast_address, reseau.num_addresses)\nprint(ipaddress.ip_address(\"192.168.10.37\") in reseau)       # True\nprint(ipaddress.ip_address(\"10.1.2.3\").is_private)           # True\n\nfor sous in reseau.subnets(new_prefix=26):\n    print(sous, \"→ hôtes :\", sous.num_addresses - 2)\n```\n\n---\n\n## 🔍 Exemple pas à pas\n\n**Problème** : découper `192.168.10.0/24` en quatre sous-réseaux égaux pour les services Dev, Compta, Support, Invités.\n\n**Raisonnement** : 4 sous-réseaux → 2 bits supplémentaires pour les distinguer → /24 + 2 = **/26** (64 adresses, 62 hôtes utilisables chacun).\n\n```python\nimport ipaddress\n\nreseau = ipaddress.ip_network(\"192.168.10.0/24\")\nservices = [\"Dev\", \"Compta\", \"Support\", \"Invités\"]\n\nfor nom, sous in zip(services, reseau.subnets(new_prefix=26)):\n    premiere = next(sous.hosts())\n    derniere = list(sous.hosts())[-1]\n    print(f\"{nom:8s} {str(sous):18s} hôtes {premiere} → {derniere}   diffusion {sous.broadcast_address}\")\n```\n\n**Résultat** :\n\n| Service | Réseau | Hôtes | Diffusion |\n|---|---|---|---|\n| Dev | 192.168.10.0/26 | .1 à .62 | .63 |\n| Compta | 192.168.10.64/26 | .65 à .126 | .127 |\n| Support | 192.168.10.128/26 | .129 à .190 | .191 |\n| Invités | 192.168.10.192/26 | .193 à .254 | .255 |\n\n**Vérifier qu'une machine est dans le bon réseau** :\n\n```python\nimport ipaddress\n\nreseau_dev = ipaddress.ip_network(\"192.168.10.0/26\")\nfor ip in (\"192.168.10.40\", \"192.168.10.70\"):\n    print(ip, ipaddress.ip_address(ip) in reseau_dev)     # True puis False\n```\n\n**À la main**, avec le masque /26 (255.255.255.192) : le dernier octet de `192.168.10.70` en binaire est `01000110`. Les 2 premiers bits (`01`) donnent le sous-réseau n° 1 (de 64 à 127).\n\n---\n\n## ✍️ À toi, avec aide (10 XP)\n\nPour l'adresse `172.16.5.130/25` calcule, à la main puis avec Python :\n\n1. l'adresse de réseau ;\n2. l'adresse de diffusion ;\n3. la première et la dernière adresse utilisable ;\n4. le nombre d'hôtes.\n\n<details>\n<summary>💡 Indice 1</summary>\n\n/25 : le dernier octet est coupé en deux moitiés de 128.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\n130 est dans la deuxième moitié (128 à 255).\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nHôtes = 128 − 2 = 126.\n\n</details>\n\n<details>\n<summary>✅ Réponse</summary>\n\n```python\nimport ipaddress\n\ni = ipaddress.ip_interface(\"172.16.5.130/25\")\nr = i.network\nhotes = list(r.hosts())\nprint(r.network_address, r.broadcast_address, hotes[0], hotes[-1], len(hotes))\n# 172.16.5.128 172.16.5.255 172.16.5.129 172.16.5.254 126\n```\nRéseau : 172.16.5.128 · diffusion : 172.16.5.255 · hôtes de .129 à .254 · 126 hôtes.\n\n</details>\n\n---\n\n## 🚀 À toi, en solo (20 XP)\n\n**Plan d'adressage (VLSM).** Tu dois répartir `10.20.0.0/24` entre :\n\n- Serveurs : 100 machines ;\n- Postes : 50 machines ;\n- Wi-Fi invités : 25 machines ;\n- Liaison routeur-routeur : 2 machines.\n\nLes sous-réseaux n'ont pas la même taille (*Variable Length Subnet Masking*). Écris un programme `allouer(reseau, besoins)` qui attribue à chaque besoin le plus petit préfixe suffisant, en commençant par le plus gros besoin, sans chevauchement. Affiche le plan.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\nimport ipaddress, math\n\ndef allouer(reseau, besoins):\n    reseau = ipaddress.ip_network(reseau)\n    courant = int(reseau.network_address)\n    plan = {}\n    for nom, nb in sorted(besoins.items(), key=lambda x: -x[1]):\n        bits_hote = max(2, math.ceil(math.log2(nb + 2)))\n        prefixe = 32 - bits_hote\n        sous = ipaddress.ip_network((courant, prefixe))\n        if not sous.subnet_of(reseau):\n            raise ValueError(f\"plus de place pour {nom}\")\n        plan[nom] = sous\n        courant = int(sous.broadcast_address) + 1\n    return plan\n\nplan = allouer(\"10.20.0.0/24\", {\"Serveurs\": 100, \"Postes\": 50, \"Invités\": 25, \"Liaison\": 2})\nfor nom, sous in plan.items():\n    print(f\"{nom:9s} {sous}  ({sous.num_addresses - 2} hôtes)\")\n```\nAttendu : Serveurs /25 (126 hôtes), Postes /26 (62), Invités /27 (30), Liaison /30 (2). Allouer du plus gros au plus petit évite la fragmentation et garantit l'alignement des blocs.\n\n</details>\n\n---\n\n## ⚠️ Pièges classiques\n\n| Piège | Pourquoi c'est un problème | Comment l'éviter |\n|---|---|---|\n| **Oublier les 2 adresses réservées** | 254 hôtes pour un /24, pas 256 | Hôtes = 2^bits − 2 |\n| **Mal aligner un sous-réseau** | Un /26 doit commencer à un multiple de 64 | Allouer du plus grand au plus petit |\n| **Chevauchement** | Deux réseaux se superposent | Vérifier avec `overlaps()` |\n| **Router des adresses privées sur internet** | Elles ne sont pas joignables | NAT (mission 9) |\n\n---\n\n## 🐉 Mini-boss (40 XP)\n\n**Outil d'adressage.** Écris `analyser(cidr)` qui renvoie un dictionnaire complet : adresse de réseau, masque, joker (wildcard), diffusion, première/dernière adresse, nombre d'hôtes, type (privée, publique, boucle locale, lien local, multicast), binaire du masque.\n\nPuis écris `meme_reseau(ip1, ip2, prefixe)` **sans** utiliser `ipaddress.ip_network` (uniquement des opérations binaires sur les entiers), et vérifie-la contre la version bibliothèque sur 1 000 couples aléatoires.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\nimport ipaddress, random\n\ndef analyser(cidr):\n    i = ipaddress.ip_interface(cidr)\n    r = i.network\n    hotes = list(r.hosts()) if r.num_addresses > 2 else []\n    a = i.ip\n    type_ = (\"boucle locale\" if a.is_loopback else \"lien local\" if a.is_link_local\n             else \"multicast\" if a.is_multicast else \"privée\" if a.is_private else \"publique\")\n    return {\n        \"reseau\": str(r.network_address), \"masque\": str(r.netmask),\n        \"joker\": str(r.hostmask), \"diffusion\": str(r.broadcast_address),\n        \"premiere\": str(hotes[0]) if hotes else None, \"derniere\": str(hotes[-1]) if hotes else None,\n        \"hotes\": max(r.num_addresses - 2, 0), \"type\": type_,\n        \"masque_binaire\": format(int(r.netmask), \"032b\"),\n    }\n\ndef meme_reseau(ip1, ip2, prefixe):\n    masque = (0xFFFFFFFF << (32 - prefixe)) & 0xFFFFFFFF\n    return (int(ipaddress.ip_address(ip1)) & masque) == (int(ipaddress.ip_address(ip2)) & masque)\n\nprint(analyser(\"192.168.10.37/26\"))\nrng = random.Random(7)\nfor _ in range(1000):\n    a = ipaddress.ip_address(rng.getrandbits(32))\n    b = ipaddress.ip_address(rng.getrandbits(32) if rng.random() < 0.5 else int(a) ^ rng.getrandbits(6))\n    p = rng.randint(8, 30)\n    attendu = b in ipaddress.ip_network((int(a) & ((0xFFFFFFFF << (32 - p)) & 0xFFFFFFFF), p))\n    assert meme_reseau(str(a), str(b), p) == attendu\nprint(\"ok\")\n```\n\n</details>\n\n---\n\n## ⚡ Quiz éclair (15 XP si 4/5 ou plus)\n\n**1.** Un réseau /24 contient combien d'hôtes utilisables ?\n- A. 256\n- B. 254\n- C. 255\n\n**2.** Le masque 255.255.255.192 correspond à :\n- A. /24\n- B. /28\n- C. /26\n\n**3.** Une adresse IPv6 est composée de :\n- A. 128 bits\n- B. 32 bits\n- C. 64 bits\n\n**4.** 🔁 *Révision mission 02* : Une adresse MAC est composée de :\n- A. 32 bits\n- B. 48 bits\n- C. 128 bits\n\n**5.** 🔁 *Révision mission 02* : Un switch apprend où se trouvent les machines en observant :\n- A. l'adresse IP de destination\n- B. les ports des programmes\n- C. l'adresse MAC source des trames\n\n<details>\n<summary>✅ Réponses</summary>\n\n1. **B**.\n2. **C**.\n3. **A**.\n4. **B**.\n5. **C**.\n\n</details>\n\n---\n\n## 🪞 Je réfléchis (10 XP)\n\n1. Dans ta vie, où retrouves-tu un système « adresse = zone + numéro » (code postal, téléphone) ?\n2. Pourquoi découper un réseau en sous-réseaux améliore-t-il la sécurité et la gestion ?\n\n---\n\n## 🎒 À retenir\n\n1. IPv4 : 32 bits ; IPv6 : 128 bits.\n2. CIDR /n : n bits de réseau, le reste pour les hôtes.\n3. Hôtes = 2^bits hôte − 2.\n4. Adresses privées, boucle locale, lien local.\n5. On découpe du plus grand au plus petit (VLSM).\n\n```mermaid\nflowchart LR\n    T([\"Adresses IP et sous-réseaux\"])\n    T --> R1[\"1. IPv4 : 32 bits ; IPv6 : 128 bits.\"]\n    T --> R2[\"2. CIDR /n : n bits de réseau, le reste pour les hôtes.\"]\n    T --> R3[\"3. Hôtes = 2^bits hôte − 2.\"]\n    T --> R4[\"4. Adresses privées, boucle locale, lien local.\"]\n    T --> R5[\"5. On découpe du plus grand au plus petit VLSM.\"]\n```\n\n**Description du schéma** : la mission au centre, reliée aux cinq idées à retenir.\n\n---\n\n## 🏅 Récompenses\n\nTotal possible : **100 XP** · 🏅 Badge **Géomètre des adresses**\n\n---\n\n← [Mission 02 — Ethernet, adresses MAC et réseau local](./02-ethernet-et-adressage.md) · [Mission 04 — Le routage](./04-routage.md) →\n\n**HEF-060 — Réseaux**\n"
       },
       {
@@ -50,6 +428,132 @@
         "durationMinutes": 75,
         "badge": "Aiguilleur",
         "slidesUrl": "/hef/slides-pdf/HEF-060/04-routage.pdf",
+        "flashQuiz": {
+          "xp": 15,
+          "passScore": 80,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Un routeur choisit parmi plusieurs routes correspondantes celle qui a :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "le plus long préfixe",
+                  "isCorrect": true
+                },
+                {
+                  "text": "le plus court préfixe",
+                  "isCorrect": false
+                },
+                {
+                  "text": "le plus petit numéro",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 2,
+              "text": "La route par défaut est :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "127.0.0.1",
+                  "isCorrect": false
+                },
+                {
+                  "text": "0.0.0.0/0",
+                  "isCorrect": true
+                },
+                {
+                  "text": "255.255.255.255",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 3,
+              "text": "Le TTL sert à :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "chiffrer le paquet",
+                  "isCorrect": false
+                },
+                {
+                  "text": "compresser le paquet",
+                  "isCorrect": false
+                },
+                {
+                  "text": "empêcher un paquet de tourner indéfiniment",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 4,
+              "text": "🔁 *Révision mission 03* : Le masque 255.255.255.192 correspond à :",
+              "revisionOf": {
+                "module": null,
+                "mission": 3
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "/26",
+                  "isCorrect": true
+                },
+                {
+                  "text": "/24",
+                  "isCorrect": false
+                },
+                {
+                  "text": "/28",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 5,
+              "text": "🔁 *Révision mission 03* : Un réseau /24 contient combien d'hôtes utilisables ?",
+              "revisionOf": {
+                "module": null,
+                "mission": 3
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "256",
+                  "isCorrect": false
+                },
+                {
+                  "text": "254",
+                  "isCorrect": true
+                },
+                {
+                  "text": "255",
+                  "isCorrect": false
+                }
+              ]
+            }
+          ]
+        },
+        "reflection": {
+          "xp": 10,
+          "intro": null,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Quand tu voyages, suis-tu un plan complet ou des panneaux « prochain saut » ?"
+            },
+            {
+              "order": 2,
+              "text": "Pourquoi est-il robuste qu'aucun routeur n'ait la carte complète d'internet ?"
+            }
+          ]
+        },
         "body": "![Le routage](/hef/parcours/hef060-m04.svg)\n\n<img src=\"/hef/personnages/leo.svg\" alt=\"Léo, ton guide pour cette mission\" width=\"96\" align=\"right\">\n\n\n> **Un routeur ne connaît pas internet : il connaît seulement le prochain pas à faire.**\n\n⏱️ Durée : environ 75 minutes · 🎓 Niveau : intermédiaire · 🏅 Badge : **Aiguilleur**\n\n---\n\n## 🎬 L'histoire\n\nUn client en Asie ne parvient plus à joindre HashBox. Un collègue exécute `traceroute` : la liste des machines traversées s'arrête au cinquième saut.\n\n> « Chaque routeur sur le chemin décide seul du prochain saut, dit Sam. Personne n'a la carte complète. Voyons comment ces décisions sont prises. »\n\n**Tu comprends comment les paquets trouvent leur chemin à travers des centaines de réseaux.**\n\n---\n\n## 🎯 Ta mission\n\nÀ la fin, **je serai capable de** :\n\n- [ ] expliquer le rôle d'un routeur et d'une passerelle par défaut\n- [ ] lire une table de routage\n- [ ] appliquer la règle du plus long préfixe\n- [ ] expliquer le TTL et le fonctionnement de traceroute\n- [ ] distinguer routage statique et dynamique\n\n---\n\n## 🧩 Défi d'échauffement (5 XP)\n\nÀ un carrefour sans carte, un panneau dit : « Paris → à gauche ; Lyon → tout droit ; autres destinations → à droite ». Tu veux aller à Marseille : quelle direction ? Que se passe-t-il s'il y a un panneau « Lyon et sa région → à droite » **et** « France → tout droit » ? Lequel suis-tu pour aller à Lyon ?\n\n---\n\n## 💡 Le concept\n\n### Le routeur\n\nUn **routeur** relie des réseaux. Pour chaque paquet qui arrive, il regarde l'**adresse IP de destination** et décide **par quelle interface et vers quel prochain saut** (*next hop*) l'envoyer. Il ne connaît pas le chemin complet.\n\n### La table de routage\n\n| Destination | Passerelle (prochain saut) | Interface |\n|---|---|---|\n| 192.168.10.0/24 | directement connecté | eth0 |\n| 10.0.0.0/8 | 192.168.10.254 | eth0 |\n| 10.5.0.0/16 | 192.168.10.253 | eth0 |\n| 0.0.0.0/0 | 192.168.10.1 | eth0 |\n\nLa dernière ligne, `0.0.0.0/0`, est la **route par défaut** : « si rien d'autre ne correspond, envoie à cette passerelle ».\n\n### La règle du plus long préfixe\n\nPlusieurs routes peuvent correspondre à une même destination. Le routeur choisit celle dont le **préfixe est le plus long** (la plus précise).\n\nPour la destination `10.5.7.9` : les routes `10.0.0.0/8`, `10.5.0.0/16` et `0.0.0.0/0` correspondent toutes. La plus spécifique est `10.5.0.0/16` : **c'est celle-ci qu'on utilise**.\n\n### Le TTL\n\nChaque paquet IP porte un compteur **TTL** (*Time To Live*), souvent 64 au départ. Chaque routeur le **décrémente de 1**. À 0, le paquet est **détruit** et le routeur renvoie un message ICMP « temps dépassé ». Cela évite qu'un paquet tourne en boucle indéfiniment.\n\n**traceroute** exploite cela : il envoie des paquets avec TTL = 1, 2, 3… Chaque routeur qui détruit un paquet répond, ce qui révèle le chemin.\n\n```text\n 1  192.168.10.1     1 ms     (ma passerelle)\n 2  10.255.0.1       5 ms     (réseau du fournisseur)\n 3  * * *                      (ce routeur ne répond pas)\n 4  203.0.113.1      28 ms\n```\n\n### Routage statique et dynamique\n\n| | Statique | Dynamique |\n|---|---|---|\n| Configuration | à la main | protocoles qui échangent des routes |\n| Exemples | route par défaut d'un poste | OSPF (réseau interne), BGP (entre opérateurs) |\n| Adaptation aux pannes | non | oui |\n\n**BGP** est le protocole qui relie les milliers de réseaux autonomes qui forment internet.\n\n### Choisir une route en Python\n\n```python\nimport ipaddress\n\ntable = [\n    (\"192.168.10.0/24\", \"directement connecté\"),\n    (\"10.0.0.0/8\", \"192.168.10.254\"),\n    (\"10.5.0.0/16\", \"192.168.10.253\"),\n    (\"0.0.0.0/0\", \"192.168.10.1\"),\n]\n\ndef router(destination, table):\n    dest = ipaddress.ip_address(destination)\n    candidates = [(ipaddress.ip_network(r), p) for r, p in table if dest in ipaddress.ip_network(r)]\n    reseau, passerelle = max(candidates, key=lambda c: c[0].prefixlen)\n    return str(reseau), passerelle\n\nprint(router(\"10.5.7.9\", table))      # ('10.5.0.0/16', '192.168.10.253')\nprint(router(\"10.9.1.1\", table))      # ('10.0.0.0/8', '192.168.10.254')\nprint(router(\"8.8.8.8\", table))       # ('0.0.0.0/0', '192.168.10.1')\n```\n\n---\n\n## 🔍 Exemple pas à pas\n\n**Problème** : simuler le voyage d'un paquet à travers trois routeurs, avec le TTL.\n\n```python\nimport ipaddress\n\nclass Routeur:\n    def __init__(self, nom, table):\n        self.nom = nom\n        self.table = [(ipaddress.ip_network(r), saut) for r, saut in table]\n\n    def prochain_saut(self, ip):\n        dest = ipaddress.ip_address(ip)\n        candidats = [(r, saut) for r, saut in self.table if dest in r]\n        if not candidats:\n            return None\n        return max(candidats, key=lambda c: c[0].prefixlen)[1]\n\ndef envoyer(depart, reseau, destination, ttl=8):\n    courant, chemin = depart, []\n    while True:\n        chemin.append(courant)\n        saut = reseau[courant].prochain_saut(destination)\n        if saut == \"livré\":\n            return chemin, \"livré\"\n        if saut is None:\n            return chemin, f\"destination inaccessible depuis {courant}\"\n        ttl -= 1\n        if ttl == 0:\n            return chemin, \"TTL expiré\"\n        courant = saut\n\nreseau = {\n    \"R1\": Routeur(\"R1\", [(\"0.0.0.0/0\", \"R2\")]),\n    \"R2\": Routeur(\"R2\", [(\"203.0.113.0/24\", \"R3\"), (\"0.0.0.0/0\", \"R1\")]),\n    \"R3\": Routeur(\"R3\", [(\"203.0.113.0/24\", \"livré\")]),\n}\n\nprint(envoyer(\"R1\", reseau, \"203.0.113.50\"))     # (['R1', 'R2', 'R3'], 'livré')\nprint(envoyer(\"R1\", reseau, \"198.51.100.7\"))     # boucle R1 <-> R2 : TTL expiré\n```\n\n**Lecture** :\n\n- Le premier paquet traverse R1 → R2 → R3 et arrive.\n- Le second est destiné à une adresse que **personne ne connaît** : R1 l'envoie à R2 (route par défaut) qui le renvoie à R1 (route par défaut)… une **boucle de routage**. Le **TTL** finit par l'arrêter : sans lui, le paquet tournerait indéfiniment.\n\n---\n\n## ✍️ À toi, avec aide (10 XP)\n\nVoici la table d'un routeur :\n\n| Destination | Saut |\n|---|---|\n| 172.16.0.0/12 | A |\n| 172.16.8.0/21 | B |\n| 172.16.8.128/25 | C |\n| 0.0.0.0/0 | D |\n\nPour chaque destination, dis quelle route est choisie : `172.16.8.200`, `172.16.9.1`, `172.20.0.1`, `192.0.2.5`. Vérifie avec le programme `router`.\n\n<details>\n<summary>💡 Indice 1</summary>\n\n`172.16.8.0/21` couvre 172.16.8.0 à 172.16.15.255.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\n`172.16.8.128/25` couvre 172.16.8.128 à 172.16.8.255.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nLe plus long préfixe gagne.\n\n</details>\n\n<details>\n<summary>✅ Réponse</summary>\n\n```python\nimport ipaddress\n\ntable = [(\"172.16.0.0/12\", \"A\"), (\"172.16.8.0/21\", \"B\"), (\"172.16.8.128/25\", \"C\"), (\"0.0.0.0/0\", \"D\")]\n\ndef router(ip):\n    d = ipaddress.ip_address(ip)\n    c = [(ipaddress.ip_network(r), s) for r, s in table if d in ipaddress.ip_network(r)]\n    return max(c, key=lambda x: x[0].prefixlen)[1]\n\nfor ip in (\"172.16.8.200\", \"172.16.9.1\", \"172.20.0.1\", \"192.0.2.5\"):\n    print(ip, \"→\", router(ip))\n# C, B, A, D\n```\n\n</details>\n\n---\n\n## 🚀 À toi, en solo (20 XP)\n\n**traceroute simulé.** Utilise la classe `Routeur` de l'exemple. Écris `traceroute(depart, reseau, destination)` qui envoie des paquets avec TTL = 1, 2, 3… et affiche, pour chaque TTL, quel routeur « répond » (celui où le TTL tombe à 0) jusqu'à la livraison. Teste sur le réseau de l'exemple, puis ajoute un routeur muet qui ne répond pas (affiche `*`).\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\nimport ipaddress\n\nclass Routeur:\n    def __init__(self, nom, table, muet=False):\n        self.nom, self.muet = nom, muet\n        self.table = [(ipaddress.ip_network(r), s) for r, s in table]\n    def prochain_saut(self, ip):\n        d = ipaddress.ip_address(ip)\n        c = [(r, s) for r, s in self.table if d in r]\n        return max(c, key=lambda x: x[0].prefixlen)[1] if c else None\n\ndef chemin_ttl(depart, reseau, destination, ttl):\n    courant = depart\n    for _ in range(ttl):\n        saut = reseau[courant].prochain_saut(destination)\n        if saut == \"livré\":\n            return courant, True\n        if saut is None:\n            return courant, False\n        courant = saut\n    return courant, False\n\ndef traceroute(depart, reseau, destination, max_sauts=10):\n    for ttl in range(1, max_sauts + 1):\n        qui, livre = chemin_ttl(depart, reseau, destination, ttl)\n        repond = not reseau[qui].muet\n        print(f\"{ttl:2d}  {qui if repond else '*'}\")\n        if livre:\n            break\n\nreseau = {\n    \"R1\": Routeur(\"R1\", [(\"0.0.0.0/0\", \"R2\")]),\n    \"R2\": Routeur(\"R2\", [(\"203.0.113.0/24\", \"R3\"), (\"0.0.0.0/0\", \"R1\")], muet=True),\n    \"R3\": Routeur(\"R3\", [(\"203.0.113.0/24\", \"livré\")]),\n}\ntraceroute(\"R1\", reseau, \"203.0.113.50\")\n```\nUn `*` ne signifie pas forcément une panne : certains routeurs ignorent volontairement ces sondes.\n\n</details>\n\n---\n\n## ⚠️ Pièges classiques\n\n| Piège | Pourquoi c'est un problème | Comment l'éviter |\n|---|---|---|\n| **Oublier la route par défaut** | Destination inaccessible pour tout ce qui est hors réseau | Toujours une route `0.0.0.0/0` sur un poste |\n| **Boucle de routage** | Deux routeurs se renvoient le paquet | Le TTL protège, corriger les tables |\n| **Confondre route et chemin** | Un routeur ne connaît que le prochain saut | Penser « saut par saut » |\n| **Mauvais masque dans une route** | Mauvaise correspondance, mauvais plus long préfixe | Vérifier avec `ipaddress` |\n\n---\n\n## 🐉 Mini-boss (40 XP)\n\n**Routage dynamique minimal.** Simule un réseau de 6 routeurs reliés par des liens (graphe). Chaque routeur doit calculer sa table de routage vers les autres routeurs en connaissant la topologie complète (principe d'OSPF).\n\n1. Représente le réseau comme un graphe pondéré (coût de chaque lien).\n2. Pour chaque routeur, calcule avec l'algorithme de Dijkstra le prochain saut vers chaque destination.\n3. Simule l'envoi d'un paquet de bout en bout avec TTL.\n4. Coupe un lien, recalcule les tables et montre que le trafic contourne la panne.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\nimport heapq\n\ndef dijkstra(graphe, source):\n    dist, premier = {source: 0}, {}\n    tas = [(0, source, None)]\n    vus = set()\n    while tas:\n        d, n, saut = heapq.heappop(tas)\n        if n in vus:\n            continue\n        vus.add(n)\n        if saut is not None:\n            premier[n] = saut\n        for voisin, cout in graphe[n].items():\n            if voisin not in vus and d + cout < dist.get(voisin, float(\"inf\")):\n                dist[voisin] = d + cout\n                heapq.heappush(tas, (d + cout, voisin, saut or voisin))\n    return premier\n\ndef tables(graphe):\n    return {r: dijkstra(graphe, r) for r in graphe}\n\ndef envoyer(tables_, depart, arrivee, ttl=10):\n    chemin, courant = [depart], depart\n    while courant != arrivee and ttl > 0:\n        courant = tables_[courant].get(arrivee)\n        if courant is None:\n            return chemin, \"inaccessible\"\n        chemin.append(courant)\n        ttl -= 1\n    return chemin, \"livré\" if courant == arrivee else \"TTL expiré\"\n\ngraphe = {\n    \"A\": {\"B\": 1, \"C\": 4}, \"B\": {\"A\": 1, \"C\": 2, \"D\": 5}, \"C\": {\"A\": 4, \"B\": 2, \"D\": 1, \"E\": 3},\n    \"D\": {\"B\": 5, \"C\": 1, \"F\": 2}, \"E\": {\"C\": 3, \"F\": 1}, \"F\": {\"D\": 2, \"E\": 1},\n}\nprint(envoyer(tables(graphe), \"A\", \"F\"))\ndel graphe[\"C\"][\"D\"]; del graphe[\"D\"][\"C\"]          # panne du lien C-D\nprint(envoyer(tables(graphe), \"A\", \"F\"))\n```\nAprès la panne, les tables sont recalculées et le trafic passe par un autre chemin : c'est l'intérêt du routage dynamique.\n\n</details>\n\n---\n\n## ⚡ Quiz éclair (15 XP si 4/5 ou plus)\n\n**1.** Un routeur choisit parmi plusieurs routes correspondantes celle qui a :\n- A. le plus long préfixe\n- B. le plus court préfixe\n- C. le plus petit numéro\n\n**2.** La route par défaut est :\n- A. 127.0.0.1\n- B. 0.0.0.0/0\n- C. 255.255.255.255\n\n**3.** Le TTL sert à :\n- A. chiffrer le paquet\n- B. compresser le paquet\n- C. empêcher un paquet de tourner indéfiniment\n\n**4.** 🔁 *Révision mission 03* : Le masque 255.255.255.192 correspond à :\n- A. /26\n- B. /24\n- C. /28\n\n**5.** 🔁 *Révision mission 03* : Un réseau /24 contient combien d'hôtes utilisables ?\n- A. 256\n- B. 254\n- C. 255\n\n<details>\n<summary>✅ Réponses</summary>\n\n1. **A**.\n2. **B**.\n3. **C**.\n4. **A**.\n5. **B**.\n\n</details>\n\n---\n\n## 🪞 Je réfléchis (10 XP)\n\n1. Quand tu voyages, suis-tu un plan complet ou des panneaux « prochain saut » ?\n2. Pourquoi est-il robuste qu'aucun routeur n'ait la carte complète d'internet ?\n\n---\n\n## 🎒 À retenir\n\n1. Un routeur choisit le prochain saut d'après l'IP de destination.\n2. Plus long préfixe d'abord ; route par défaut en dernier.\n3. Le TTL évite les boucles ; traceroute l'exploite.\n4. Routage statique ou dynamique (OSPF, BGP).\n5. Internet = des réseaux autonomes reliés par BGP.\n\n```mermaid\nflowchart LR\n    T([\"Le routage\"])\n    T --> R1[\"1. Un routeur choisit le prochain saut d'après l'IP de destination.\"]\n    T --> R2[\"2. Plus long préfixe d'abord ; route par défaut en dernier.\"]\n    T --> R3[\"3. Le TTL évite les boucles ; traceroute l'exploite.\"]\n    T --> R4[\"4. Routage statique ou dynamique OSPF, BGP.\"]\n    T --> R5[\"5. Internet = des réseaux autonomes reliés par BGP.\"]\n```\n\n**Description du schéma** : la mission au centre, reliée aux cinq idées à retenir.\n\n---\n\n## 🏅 Récompenses\n\nTotal possible : **100 XP** · 🏅 Badge **Aiguilleur**\n\n---\n\n← [Mission 03 — Adresses IP et sous-réseaux](./03-ip-et-sous-reseaux.md) · [Mission 05 — TCP et UDP : deux façons de parler](./05-tcp-et-udp.md) →\n\n**HEF-060 — Réseaux**\n"
       },
       {
@@ -59,6 +563,132 @@
         "durationMinutes": 85,
         "badge": "Maître des sockets",
         "slidesUrl": "/hef/slides-pdf/HEF-060/05-tcp-et-udp.pdf",
+        "flashQuiz": {
+          "xp": 15,
+          "passScore": 80,
+          "questions": [
+            {
+              "order": 1,
+              "text": "TCP garantit :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "la vitesse maximale",
+                  "isCorrect": false
+                },
+                {
+                  "text": "la confidentialité",
+                  "isCorrect": false
+                },
+                {
+                  "text": "l'ordre et l'absence de perte des octets",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 2,
+              "text": "La poignée de main TCP se déroule en :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "trois temps (SYN, SYN-ACK, ACK)",
+                  "isCorrect": true
+                },
+                {
+                  "text": "un seul message",
+                  "isCorrect": false
+                },
+                {
+                  "text": "cinq échanges",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 3,
+              "text": "UDP est adapté à :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "les transferts de fichiers",
+                  "isCorrect": false
+                },
+                {
+                  "text": "la voix et la vidéo en direct",
+                  "isCorrect": true
+                },
+                {
+                  "text": "les paiements",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 4,
+              "text": "🔁 *Révision mission 04* : Le routeur choisit la route avec :",
+              "revisionOf": {
+                "module": null,
+                "mission": 4
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "le plus court préfixe",
+                  "isCorrect": false
+                },
+                {
+                  "text": "le plus petit numéro",
+                  "isCorrect": false
+                },
+                {
+                  "text": "le plus long préfixe",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 5,
+              "text": "🔁 *Révision mission 04* : Le TTL sert à :",
+              "revisionOf": {
+                "module": null,
+                "mission": 4
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "empêcher un paquet de tourner indéfiniment",
+                  "isCorrect": true
+                },
+                {
+                  "text": "chiffrer le paquet",
+                  "isCorrect": false
+                },
+                {
+                  "text": "compresser le paquet",
+                  "isCorrect": false
+                }
+              ]
+            }
+          ]
+        },
+        "reflection": {
+          "xp": 10,
+          "intro": null,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Dans ta vie, quand préfères-tu un échange « avec accusé de réception » plutôt qu'un message sans garantie ?"
+            },
+            {
+              "order": 2,
+              "text": "Pourquoi un protocole doit-il définir où s'arrête un message ?"
+            }
+          ]
+        },
         "body": "![TCP et UDP : deux façons de parler](/hef/parcours/hef060-m05.svg)\n\n<img src=\"/hef/personnages/kodi.svg\" alt=\"Kodi, ton guide pour cette mission\" width=\"96\" align=\"right\">\n\n\n> **TCP garantit que tout arrive dans l'ordre. UDP envoie vite et ne promet rien. Quand choisir lequel ?**\n\n⏱️ Durée : environ 85 minutes · 🎓 Niveau : intermédiaire · 🏅 Badge : **Maître des sockets**\n\n---\n\n## 🎬 L'histoire\n\nHashBox ajoute deux fonctions : un chat entre apprenants et des cours en visioconférence. Kodi veut utiliser TCP pour les deux. Sam hésite.\n\n> « Pour le chat, oui : on ne veut perdre aucun message. Pour la vidéo, un paquet perdu vaut mieux qu'une image en retard. Il faut deux outils. »\n\n**Tu comprends les deux protocoles de transport, et tu écris tes premiers serveurs et clients avec des sockets.**\n\n---\n\n## 🎯 Ta mission\n\nÀ la fin, **je serai capable de** :\n\n- [ ] expliquer le rôle des ports et des sockets\n- [ ] décrire la poignée de main en trois temps de TCP\n- [ ] expliquer ce que TCP garantit et ce que UDP ne garantit pas\n- [ ] écrire un serveur et un client TCP avec `socket`\n- [ ] expliquer le problème des frontières de messages dans TCP\n\n---\n\n## 🧩 Défi d'échauffement (5 XP)\n\nDeux façons de transmettre un message : (A) un **appel téléphonique** : on compose, l'autre décroche, on se parle, on raccroche ; si on n'entend pas, on répète. (B) une **carte postale** : on l'envoie, aucune confirmation, elle peut se perdre ou arriver dans le désordre. Quels usages conviennent à chacune ? Que ferais-tu pour envoyer un livre en 10 cartes postales ?\n\n---\n\n## 💡 Le concept\n\n### Les ports et les sockets\n\nUne adresse IP désigne une **machine**. Un **port** (nombre de 0 à 65 535) désigne un **programme** sur cette machine. Un **socket** est l'extrémité d'une communication, identifiée par `(adresse IP, port)`.\n\n| Port | Service |\n|---|---|\n| 22 | SSH |\n| 25 | SMTP (envoi de mail) |\n| 53 | DNS |\n| 80 | HTTP |\n| 443 | HTTPS |\n\nUne connexion est identifiée par **quatre** valeurs : IP source, port source, IP destination, port destination.\n\n### UDP : le message isolé\n\n- **Pas de connexion** : on envoie des **datagrammes** indépendants.\n- **Pas de garantie** : perte, doublon, désordre possibles.\n- Léger et rapide.\n- Usages : DNS, voix et vidéo en direct, jeux, découverte réseau.\n\n### TCP : le flux fiable\n\n- **Connexion** établie avant l'échange.\n- **Flux d'octets** ordonné et sans perte.\n- **Accusés de réception**, retransmission en cas de perte, ordre garanti.\n- **Contrôle de flux** (ne pas submerger le récepteur) et de **congestion** (ne pas submerger le réseau).\n- Usages : web, e-mail, transferts de fichiers, bases de données.\n\n### La poignée de main en trois temps\n\n```mermaid\nsequenceDiagram\n    participant C as Client\n    participant S as Serveur\n    C->>S: SYN (je voudrais me connecter)\n    S->>C: SYN-ACK (d'accord, et moi aussi)\n    C->>S: ACK (connexion établie)\n    C->>S: données\n    S->>C: ACK des données\n    C->>S: FIN (j'ai fini)\n    S->>C: FIN-ACK\n```\n\n**Description du schéma** : le client envoie SYN, le serveur répond SYN-ACK, le client confirme avec ACK : la connexion est établie. Ils échangent des données avec accusés de réception, puis se quittent avec FIN.\n\nLe coût : **un aller-retour** avant le premier octet de données.\n\n### TCP est un flux, pas des messages\n\nTCP ne conserve **pas** les frontières des messages. Si tu envoies « bonjour » puis « monde », le récepteur peut lire « bonjourmonde » en une fois, ou « bonj » puis « ourmonde ». Il faut donc **définir un protocole de découpage** : un séparateur (ligne `\\n`) ou une longueur annoncée.\n\n### Un serveur TCP et un client en Python\n\n```python\nimport socket, threading\n\ndef serveur(ecouteur):\n    connexion, _ = ecouteur.accept()\n    with connexion:\n        donnees = connexion.recv(1024)\n        connexion.sendall(b\"echo: \" + donnees)\n\necouteur = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\necouteur.bind((\"127.0.0.1\", 0))               # port 0 : le système choisit un port libre\necouteur.listen()\nport = ecouteur.getsockname()[1]\nthreading.Thread(target=serveur, args=(ecouteur,), daemon=True).start()\n\nwith socket.create_connection((\"127.0.0.1\", port), timeout=2) as client:\n    client.sendall(b\"bonjour\")\n    print(client.recv(1024))                  # b'echo: bonjour'\necouteur.close()\n```\n\n### UDP en Python\n\n```python\nimport socket\n\nrecepteur = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)\nrecepteur.bind((\"127.0.0.1\", 0))\nport = recepteur.getsockname()[1]\n\nemetteur = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)\nemetteur.sendto(b\"salut\", (\"127.0.0.1\", port))      # pas de connexion\nprint(recepteur.recvfrom(1024))                     # (b'salut', (...))\nemetteur.close(); recepteur.close()\n```\n\n> 🧠 **Astuce** : choisis TCP quand l'exactitude prime, UDP quand la fraîcheur prime.\n\n---\n\n## 🔍 Exemple pas à pas\n\n**Problème** : écrire un petit serveur d'écho **ligne par ligne** qui gère correctement les frontières de messages avec TCP.\n\n```python\nimport socket, threading\n\ndef gerer(connexion):\n    with connexion, connexion.makefile(\"rwb\") as fichier:\n        for ligne in fichier:                         # lit jusqu'au \\n\n            fichier.write(b\"echo: \" + ligne)\n            fichier.flush()\n\ndef serveur(ecouteur):\n    while True:\n        try:\n            connexion, _ = ecouteur.accept()\n        except OSError:\n            return\n        threading.Thread(target=gerer, args=(connexion,), daemon=True).start()\n\necouteur = socket.socket()\necouteur.bind((\"127.0.0.1\", 0))\necouteur.listen()\nport = ecouteur.getsockname()[1]\nthreading.Thread(target=serveur, args=(ecouteur,), daemon=True).start()\n\nwith socket.create_connection((\"127.0.0.1\", port), timeout=2) as c:\n    f = c.makefile(\"rwb\")\n    for message in (b\"un\\n\", b\"deux\\n\", b\"trois\\n\"):\n        f.write(message)\n        f.flush()\n        print(f.readline())\necouteur.close()\n```\n\n**Lecture** : on a défini un protocole simple : **un message = une ligne terminée par `\\n`**. Grâce à lui, le récepteur sait où chaque message s'arrête, quelle que soit la façon dont TCP a découpé les octets. Un protocole peut aussi annoncer la longueur avant les données (`struct.pack(\"!I\", n)`).\n\n**UDP : mesurer la perte** (sur la boucle locale il y en a rarement, mais le principe demeure) :\n\n```python\nimport socket\n\nr = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)\nr.bind((\"127.0.0.1\", 0)); r.settimeout(0.5)\nport = r.getsockname()[1]\ne = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)\nfor i in range(5):\n    e.sendto(f\"msg{i}\".encode(), (\"127.0.0.1\", port))\nrecus = []\ntry:\n    while True:\n        recus.append(r.recvfrom(100)[0].decode())\nexcept socket.timeout:\n    pass\nprint(recus, \"→\", 5 - len(recus), \"perdu(s)\")\n```\n\n---\n\n## ✍️ À toi, avec aide (10 XP)\n\nComplète le tableau, puis justifie un choix pour HashBox :\n\n| Cas d'usage | TCP ou UDP ? | Pourquoi ? |\n|---|---|---|\n| Chat entre apprenants | ? | ? |\n| Visioconférence | ? | ? |\n| Téléchargement d'un support de cours | ? | ? |\n| Requête DNS | ? | ? |\n| Jeu de quiz en temps réel (score) | ? | ? |\n\n<details>\n<summary>💡 Indice 1</summary>\n\nPour le téléchargement, un octet manquant rend le fichier inutilisable.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nPour la voix, un retard rend le son inutilisable.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nDNS : une petite question, une petite réponse, on réessaie si perdu.\n\n</details>\n\n<details>\n<summary>✅ Réponse</summary>\n\n| Cas | Choix | Pourquoi |\n|---|---|---|\n| Chat | **TCP** | aucun message ne doit se perdre ni arriver dans le désordre |\n| Visioconférence | **UDP** | une image tardive est inutile ; mieux vaut en perdre une que ralentir |\n| Téléchargement | **TCP** | le fichier doit être complet et exact |\n| Requête DNS | **UDP** (TCP en repli) | question courte, réponse courte, simple de réessayer |\n| Quiz en temps réel (score) | **TCP** pour les actions importantes, UDP éventuellement pour des positions fréquentes | dépend de ce qui peut se perdre sans conséquence |\n\n</details>\n\n---\n\n## 🚀 À toi, en solo (20 XP)\n\n**Protocole à longueur annoncée.** Écris un petit protocole où chaque message commence par 4 octets annonçant sa longueur (`struct.pack(\"!I\", n)`). Implémente :\n\n- `envoyer_message(sock, octets)` ;\n- `recevoir_message(sock)` (lit exactement le bon nombre d'octets, même si TCP les livre en plusieurs morceaux).\n\nTeste avec un serveur d'écho et des messages de 5, 5 000 et 100 000 octets.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\nimport socket, struct, threading\n\ndef recevoir_exactement(sock, n):\n    morceaux = b\"\"\n    while len(morceaux) < n:\n        bloc = sock.recv(n - len(morceaux))\n        if not bloc:\n            raise ConnectionError(\"connexion fermée avant la fin du message\")\n        morceaux += bloc\n    return morceaux\n\ndef envoyer_message(sock, octets):\n    sock.sendall(struct.pack(\"!I\", len(octets)) + octets)\n\ndef recevoir_message(sock):\n    (n,) = struct.unpack(\"!I\", recevoir_exactement(sock, 4))\n    return recevoir_exactement(sock, n)\n\ndef echo(ecouteur):\n    c, _ = ecouteur.accept()\n    with c:\n        try:\n            while True:\n                envoyer_message(c, recevoir_message(c))\n        except ConnectionError:\n            pass\n\necouteur = socket.socket()\necouteur.bind((\"127.0.0.1\", 0)); ecouteur.listen()\nport = ecouteur.getsockname()[1]\nthreading.Thread(target=echo, args=(ecouteur,), daemon=True).start()\n\nwith socket.create_connection((\"127.0.0.1\", port), timeout=5) as c:\n    for taille in (5, 5000, 100_000):\n        msg = bytes(range(256)) * (taille // 256 + 1)\n        msg = msg[:taille]\n        envoyer_message(c, msg)\n        assert recevoir_message(c) == msg\n    print(\"ok\")\necouteur.close()\n```\nLa fonction `recevoir_exactement` est indispensable : `recv(n)` peut rendre moins de `n` octets.\n\n</details>\n\n---\n\n## ⚠️ Pièges classiques\n\n| Piège | Pourquoi c'est un problème | Comment l'éviter |\n|---|---|---|\n| **Supposer 1 `send` = 1 `recv`** | Messages coupés ou fusionnés | Définir un protocole de découpage |\n| **Oublier les délais d'attente** | Programme figé si l'autre disparaît | `settimeout` partout |\n| **TCP pour tout** | Latence inutile pour le temps réel | UDP pour ce qui supporte la perte |\n| **Fermer sans lire la fin** | Données perdues | Fermer proprement (`shutdown`) après avoir tout lu |\n\n---\n\n## 🐉 Mini-boss (40 XP)\n\n**Mini serveur de chat TCP.** Écris un serveur qui accepte plusieurs clients simultanés (un thread par client). Protocole : une ligne par message ; `/pseudo nom` définit le nom ; tout autre texte est diffusé aux autres clients sous la forme `nom: texte`.\n\n1. Teste avec 3 clients simulés dans le même programme.\n2. Gère la déconnexion d'un client sans planter le serveur.\n3. Ajoute un délai d'inactivité de 2 secondes (déconnexion).\n4. Explique quelles propriétés de TCP rendent ce chat simple à écrire.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\nimport socket, threading, time\n\nclients, verrou = {}, threading.Lock()\n\ndef diffuser(source, texte):\n    with verrou:\n        for c, nom in list(clients.items()):\n            if c is not source:\n                try:\n                    c.sendall(texte.encode() + b\"\\n\")\n                except OSError:\n                    clients.pop(c, None)\n\ndef gerer(c):\n    c.settimeout(2)\n    with verrou:\n        clients[c] = \"anonyme\"\n    try:\n        f = c.makefile(\"rb\")\n        for ligne in f:\n            texte = ligne.decode().strip()\n            if texte.startswith(\"/pseudo \"):\n                clients[c] = texte[8:]\n            else:\n                diffuser(c, f\"{clients[c]}: {texte}\")\n    except (OSError, socket.timeout):\n        pass\n    finally:\n        with verrou:\n            clients.pop(c, None)\n        c.close()\n\ndef serveur(ecouteur):\n    while True:\n        try:\n            c, _ = ecouteur.accept()\n        except OSError:\n            return\n        threading.Thread(target=gerer, args=(c,), daemon=True).start()\n\necouteur = socket.socket(); ecouteur.bind((\"127.0.0.1\", 0)); ecouteur.listen()\nport = ecouteur.getsockname()[1]\nthreading.Thread(target=serveur, args=(ecouteur,), daemon=True).start()\n\ndef client(nom):\n    s = socket.create_connection((\"127.0.0.1\", port), timeout=2)\n    s.sendall(f\"/pseudo {nom}\\n\".encode())\n    return s\n\na, b, c = client(\"ada\"), client(\"bob\"), client(\"cleo\")\ntime.sleep(0.2)\na.sendall(b\"salut tout le monde\\n\")\ntime.sleep(0.2)\nprint(b.recv(100), c.recv(100))\na.close()                                   # un client part, le serveur continue\nb.sendall(b\"ada est partie\\n\")\ntime.sleep(0.2)\nprint(c.recv(100))\necouteur.close()\n```\nTCP fournit un flux **fiable et ordonné** : le chat n'a pas à gérer la perte ni le réordonnancement des messages.\n\n</details>\n\n---\n\n## ⚡ Quiz éclair (15 XP si 4/5 ou plus)\n\n**1.** TCP garantit :\n- A. la vitesse maximale\n- B. la confidentialité\n- C. l'ordre et l'absence de perte des octets\n\n**2.** La poignée de main TCP se déroule en :\n- A. trois temps (SYN, SYN-ACK, ACK)\n- B. un seul message\n- C. cinq échanges\n\n**3.** UDP est adapté à :\n- A. les transferts de fichiers\n- B. la voix et la vidéo en direct\n- C. les paiements\n\n**4.** 🔁 *Révision mission 04* : Le routeur choisit la route avec :\n- A. le plus court préfixe\n- B. le plus petit numéro\n- C. le plus long préfixe\n\n**5.** 🔁 *Révision mission 04* : Le TTL sert à :\n- A. empêcher un paquet de tourner indéfiniment\n- B. chiffrer le paquet\n- C. compresser le paquet\n\n<details>\n<summary>✅ Réponses</summary>\n\n1. **C**.\n2. **A**.\n3. **B**.\n4. **C**.\n5. **A**.\n\n</details>\n\n---\n\n## 🪞 Je réfléchis (10 XP)\n\n1. Dans ta vie, quand préfères-tu un échange « avec accusé de réception » plutôt qu'un message sans garantie ?\n2. Pourquoi un protocole doit-il définir où s'arrête un message ?\n\n---\n\n## 🎒 À retenir\n\n1. Port = programme ; socket = (IP, port).\n2. TCP : connexion, ordre, fiabilité ; coût d'un aller-retour.\n3. UDP : datagrammes sans garantie, rapide.\n4. TCP est un flux : il faut définir les frontières de messages.\n5. Toujours des délais d'attente.\n\n---\n\n## 🏅 Récompenses\n\nTotal possible : **100 XP** · 🏅 Badge **Maître des sockets**\n\n---\n\n← [Mission 04 — Le routage](./04-routage.md) · [Mission 06 — DNS : l'annuaire d'internet](./06-dns.md) →\n\n**HEF-060 — Réseaux**\n"
       },
       {
@@ -68,6 +698,132 @@
         "durationMinutes": 75,
         "badge": "Bibliothécaire des noms",
         "slidesUrl": "/hef/slides-pdf/HEF-060/06-dns.pdf",
+        "flashQuiz": {
+          "xp": 15,
+          "passScore": 80,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Le DNS sert à :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "chiffrer les connexions",
+                  "isCorrect": false
+                },
+                {
+                  "text": "traduire des noms en adresses et autres informations",
+                  "isCorrect": true
+                },
+                {
+                  "text": "attribuer des adresses MAC",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 2,
+              "text": "Un enregistrement MX indique :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "l'adresse IPv6",
+                  "isCorrect": false
+                },
+                {
+                  "text": "un alias",
+                  "isCorrect": false
+                },
+                {
+                  "text": "le serveur de mail d'un domaine",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 3,
+              "text": "Le TTL d'une réponse DNS détermine :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "combien de temps elle peut être gardée en cache",
+                  "isCorrect": true
+                },
+                {
+                  "text": "la vitesse de réponse",
+                  "isCorrect": false
+                },
+                {
+                  "text": "la taille du paquet",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 4,
+              "text": "🔁 *Révision mission 05* : TCP garantit :",
+              "revisionOf": {
+                "module": null,
+                "mission": 5
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "la vitesse maximale",
+                  "isCorrect": false
+                },
+                {
+                  "text": "l'ordre et l'absence de perte des octets",
+                  "isCorrect": true
+                },
+                {
+                  "text": "la confidentialité",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 5,
+              "text": "🔁 *Révision mission 05* : UDP est adapté à :",
+              "revisionOf": {
+                "module": null,
+                "mission": 5
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "les transferts de fichiers",
+                  "isCorrect": false
+                },
+                {
+                  "text": "les paiements",
+                  "isCorrect": false
+                },
+                {
+                  "text": "la voix et la vidéo en direct",
+                  "isCorrect": true
+                }
+              ]
+            }
+          ]
+        },
+        "reflection": {
+          "xp": 10,
+          "intro": null,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Quel équivalent du DNS utilises-tu (contacts du téléphone, raccourcis) ?"
+            },
+            {
+              "order": 2,
+              "text": "Pourquoi un cache est-il à la fois un avantage et une source de problèmes ?"
+            }
+          ]
+        },
         "body": "![DNS : l'annuaire d'internet](/hef/parcours/hef060-m06.svg)\n\n<img src=\"/hef/personnages/maya.svg\" alt=\"Maya, ton guide pour cette mission\" width=\"96\" align=\"right\">\n\n\n> **Personne ne retient 93.184.216.34. On retient exemple.fr. Quelqu'un doit faire la traduction.**\n\n⏱️ Durée : environ 75 minutes · 🎓 Niveau : intermédiaire · 🏅 Badge : **Bibliothécaire des noms**\n\n---\n\n## 🎬 L'histoire\n\nHashBox déménage son site chez un autre hébergeur : nouvelle adresse IP. Kodi modifie un enregistrement, et pendant plusieurs heures, certains utilisateurs arrivent sur l'ancien serveur, d'autres sur le nouveau.\n\n> « C'est le DNS, dit Sam. Des copies de l'annuaire sont gardées partout, avec une durée de vie. Il faut apprendre à les gérer. »\n\n**Tu comprends comment un nom devient une adresse, et pourquoi tant d'incidents commencent par « c'est le DNS ».**\n\n---\n\n## 🎯 Ta mission\n\nÀ la fin, **je serai capable de** :\n\n- [ ] expliquer le rôle du DNS et de la résolution de noms\n- [ ] décrire la hiérarchie racine, TLD, serveurs faisant autorité\n- [ ] citer les principaux types d'enregistrements (A, AAAA, CNAME, MX, TXT, NS)\n- [ ] expliquer le rôle du cache et du TTL\n- [ ] simuler une résolution complète en Python\n\n---\n\n## 🧩 Défi d'échauffement (5 XP)\n\nPour joindre une amie dont tu n'as que le nom, tu appelles les renseignements. Ils te demandent la ville, puis te donnent le numéro d'un service local, qui te renseigne sur la rue, puis sur le foyer. Quelles sont les **étapes** de cette recherche ? Si tu appelles souvent cette amie, que fais-tu pour ne pas refaire toute la recherche ? Quel risque s'il change de numéro ?\n\n---\n\n## 💡 Le concept\n\n### Le problème\n\nLes machines utilisent des **adresses IP**. Les humains préfèrent des **noms**. Le **DNS** (*Domain Name System*) est un système distribué qui traduit un **nom de domaine** en informations (adresse IP, serveur de mail…).\n\n### La hiérarchie\n\nUn nom se lit **de droite à gauche** :\n\n```text\nwww . exemple . fr .\n │       │      │   └── la racine (le point final, souvent invisible)\n │       │      └────── domaine de premier niveau (TLD) : .fr, .com, .org\n │       └───────────── domaine : exemple\n └───────────────────── sous-domaine : www\n```\n\nChaque niveau est géré par des serveurs différents :\n\n| Niveau | Qui | Rôle |\n|---|---|---|\n| **Racine** (13 groupes de serveurs racines) | organismes mondiaux | sait qui gère chaque TLD |\n| **TLD** (`.fr`, `.com`) | registre | sait quels serveurs gèrent chaque domaine |\n| **Serveur faisant autorité** | le propriétaire du domaine (ou son hébergeur) | donne la réponse définitive |\n\n### La résolution\n\nTon ordinateur ne parle pas directement à la racine. Il interroge un **résolveur récursif** (celui de ton fournisseur, ou `8.8.8.8`, `1.1.1.1`…) qui fait tout le travail :\n\n```mermaid\nsequenceDiagram\n    participant PC as Ton ordinateur\n    participant R as Résolveur\n    participant Racine\n    participant TLD as Serveur .fr\n    participant Auth as Serveur de exemple.fr\n    PC->>R: Quelle est l'IP de www.exemple.fr ?\n    R->>Racine: www.exemple.fr ?\n    Racine-->>R: demande aux serveurs de .fr\n    R->>TLD: www.exemple.fr ?\n    TLD-->>R: demande aux serveurs de exemple.fr\n    R->>Auth: www.exemple.fr ?\n    Auth-->>R: 93.184.216.34 (TTL 300 s)\n    R-->>PC: 93.184.216.34\n```\n\n**Description du schéma** : l'ordinateur demande au résolveur, qui interroge successivement la racine, le serveur du TLD, puis le serveur faisant autorité, et renvoie la réponse finale à l'ordinateur.\n\n### Les types d'enregistrements\n\n| Type | Contenu | Exemple |\n|---|---|---|\n| **A** | adresse IPv4 | `www.exemple.fr → 93.184.216.34` |\n| **AAAA** | adresse IPv6 | `www.exemple.fr → 2606:2800:…` |\n| **CNAME** | alias vers un autre nom | `blog.exemple.fr → hebergeur.example.net` |\n| **MX** | serveur de mail du domaine | `exemple.fr → mail.exemple.fr (priorité 10)` |\n| **NS** | serveurs faisant autorité | `exemple.fr → ns1.hebergeur.net` |\n| **TXT** | texte libre (vérifications, SPF) | `\"v=spf1 include:…\"` |\n\n### Le cache et le TTL\n\nChaque réponse porte un **TTL** (*Time To Live*, en secondes). Pendant ce temps, les résolveurs et les systèmes **gardent la réponse en cache**. Avantages : rapidité, moins de charge. Inconvénient : un changement met du temps à se propager.\n\n**Bonne pratique** avant un déménagement : **baisser le TTL** (par exemple à 60 s) quelques jours avant, faire le changement, puis le remonter.\n\n### Résoudre un nom en Python\n\n```python\nimport socket\n\n# getaddrinfo interroge le système (hosts, DNS...). 'localhost' est résolu localement.\nfor famille, _, _, _, adresse in socket.getaddrinfo(\"localhost\", 80, proto=socket.IPPROTO_TCP):\n    print(famille.name, adresse[0])\n```\n\n> 🧠 **Astuce** : quand un site « ne marche plus » pour certains seulement, pense cache DNS et TTL.\n\n---\n\n## 🔍 Exemple pas à pas\n\n**Problème** : simuler un résolveur avec cache et TTL.\n\n```python\nZONES = {\n    \"exemple.fr\": {\"A\": {\"www\": (\"93.184.216.34\", 300), \"api\": (\"93.184.216.40\", 60)},\n                   \"CNAME\": {\"blog\": (\"www.exemple.fr\", 300)}},\n}\n\nclass Resolveur:\n    def __init__(self):\n        self.cache = {}          # (nom, type) -> (valeur, expire_a)\n        self.requetes_autorite = 0\n        self.horloge = 0\n\n    def avancer(self, secondes):\n        self.horloge += secondes\n\n    def _chercher_autorite(self, nom, type_):\n        self.requetes_autorite += 1\n        sous, _, domaine = nom.partition(\".\")\n        zone = ZONES.get(domaine)\n        if zone and sous in zone.get(type_, {}):\n            return zone[type_][sous]\n        return None\n\n    def resoudre(self, nom, type_=\"A\"):\n        cle = (nom, type_)\n        if cle in self.cache and self.cache[cle][1] > self.horloge:\n            return self.cache[cle][0], \"cache\"\n        reponse = self._chercher_autorite(nom, type_)\n        if reponse is None and type_ == \"A\":\n            alias = self._chercher_autorite(nom, \"CNAME\")\n            if alias:\n                valeur, _ = self.resoudre(alias[0], \"A\")\n                return valeur, \"via CNAME\"\n        if reponse is None:\n            return None, \"NXDOMAIN\"\n        valeur, ttl = reponse\n        self.cache[cle] = (valeur, self.horloge + ttl)\n        return valeur, \"autorité\"\n\nr = Resolveur()\nprint(r.resoudre(\"www.exemple.fr\"))        # ('93.184.216.34', 'autorité')\nprint(r.resoudre(\"www.exemple.fr\"))        # ('93.184.216.34', 'cache')\nr.avancer(301)\nprint(r.resoudre(\"www.exemple.fr\"))        # TTL expiré : ('93.184.216.34', 'autorité')\nprint(r.resoudre(\"blog.exemple.fr\"))       # via CNAME\nprint(r.resoudre(\"inconnu.exemple.fr\"))    # (None, 'NXDOMAIN')\nprint(\"requêtes à l'autorité :\", r.requetes_autorite)\n```\n\n**Lecture** :\n\n- la 2ᵉ requête est servie par le **cache** (aucune requête à l'autorité) ;\n- après 301 secondes (TTL de 300 dépassé), on **réinterroge** l'autorité ;\n- un **CNAME** redirige vers un autre nom qu'il faut à son tour résoudre ;\n- un nom inexistant renvoie **NXDOMAIN**.\n\n**Impact d'un déménagement** : tant que le TTL n'a pas expiré, certains résolveurs répondent encore avec l'ancienne adresse. Avec un TTL de 86 400 s (un jour), la transition peut durer 24 h.\n\n---\n\n## ✍️ À toi, avec aide (10 XP)\n\nUn site `shop.exemple.fr` a un TTL de 3 600 s. Tu changes son adresse à 12:00.\n\n1. Au pire, à quelle heure tous les résolveurs auront-ils l'information ?\n2. Quel TTL aurais-tu dû configurer 48 h avant pour limiter l'impact à 2 minutes ?\n3. Simule avec le `Resolveur` ci-dessus : un client a résolu le nom à 11:50 (TTL 3 600) ; que voit-il à 12:30 ? À 13:00 ?\n\n<details>\n<summary>💡 Indice 1</summary>\n\nLe pire cas : un résolveur a mis la réponse en cache juste avant le changement.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nL'ancien enregistrement peut vivre jusqu'à (moment de la dernière mise en cache + TTL).\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\n12:00 + 1 h = 13:00.\n\n</details>\n\n<details>\n<summary>✅ Réponse</summary>\n\n1. Au pire à **13:00** (un résolveur a mis en cache à 11:59 avec TTL de 3 600 s).\n2. Un TTL de **120 s** (2 minutes) appliqué au moins 48 h avant (pour que l'ancien TTL long ait expiré partout).\n3. Le client voit l'**ancienne** adresse à 12:30 (cache valable jusqu'à 12:50) ; à 13:00 il a expiré, il obtient la **nouvelle**.\n\n```python\n# horloge en secondes depuis 11:50 ; le cache expire à 11:50 + 3600 = 12:50\nmise_en_cache, ttl = 0, 3600\nfor nom, t in ((\"12:30\", 40 * 60), (\"13:00\", 70 * 60)):\n    print(nom, \"ancienne\" if t < mise_en_cache + ttl else \"nouvelle adresse\")\n```\n\n</details>\n\n---\n\n## 🚀 À toi, en solo (20 XP)\n\n**Débogage DNS.** Voici le contenu d'une zone `exemple.fr` :\n\n```text\nwww    A      203.0.113.10\n@      MX 10  mail.exemple.fr\nmail   A      203.0.113.20\nblog   CNAME  www\nshop   CNAME  shop.exemple.fr\napi    A      203.0.113.30\napi    CNAME  www\n```\n\n1. Trouve **deux erreurs** dans cette zone (indice : un CNAME ne peut pas coexister avec un autre enregistrement de même nom ; un CNAME ne doit pas se pointer lui-même).\n2. Écris un validateur `valider(zone)` qui les détecte automatiquement.\n3. Propose les corrections.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\ndef valider(zone):\n    # zone : liste de (nom, type, valeur)\n    erreurs = []\n    par_nom = {}\n    for nom, type_, valeur in zone:\n        par_nom.setdefault(nom, []).append((type_, valeur))\n        if type_ == \"CNAME\" and (valeur == nom or valeur == f\"{nom}.exemple.fr\"):\n            erreurs.append(f\"{nom}: CNAME qui pointe vers lui-même\")\n    for nom, enregs in par_nom.items():\n        types = [t for t, _ in enregs]\n        if \"CNAME\" in types and len(types) > 1:\n            erreurs.append(f\"{nom}: CNAME ne peut pas coexister avec {sorted(set(types) - {'CNAME'})}\")\n    return erreurs\n\nzone = [\n    (\"www\", \"A\", \"203.0.113.10\"), (\"@\", \"MX\", \"mail.exemple.fr\"), (\"mail\", \"A\", \"203.0.113.20\"),\n    (\"blog\", \"CNAME\", \"www\"), (\"shop\", \"CNAME\", \"shop.exemple.fr\"),\n    (\"api\", \"A\", \"203.0.113.30\"), (\"api\", \"CNAME\", \"www\"),\n]\nfor e in valider(zone):\n    print(e)\n```\nErreurs : `shop` est un alias de lui-même (boucle) ; `api` a à la fois un `A` et un `CNAME`. Corrections : faire pointer `shop` vers une vraie cible (par exemple `www`) ; garder soit le `A`, soit le `CNAME` pour `api`.\n\n</details>\n\n---\n\n## ⚠️ Pièges classiques\n\n| Piège | Pourquoi c'est un problème | Comment l'éviter |\n|---|---|---|\n| **TTL trop long avant un changement** | Anciens utilisateurs mal redirigés pendant des heures | Baisser le TTL à l'avance |\n| **CNAME avec d'autres enregistrements** | Comportement imprévisible | Un nom = soit CNAME seul, soit autres types |\n| **Oublier le cache local** | On teste avec un résultat périmé | Vider le cache ou interroger directement l'autorité |\n| **Croire que DNS est instantané** | Propagation = expiration des caches | Prévoir une transition |\n\n---\n\n## 🐉 Mini-boss (40 XP)\n\n**Résolveur itératif complet.** Simule la hiérarchie : serveurs racine, TLD et autorité sous forme de dictionnaires qui renvoient soit une **réponse**, soit une **délégation** (« demande à tel serveur »).\n\n1. Écris `resoudre_iteratif(nom)` qui part de la racine, suit les délégations et affiche chaque étape.\n2. Ajoute un cache avec TTL et un compteur de requêtes réseau.\n3. Montre qu'après un premier appel, un deuxième appel ne fait plus de requête et qu'un appel pour un autre nom du même domaine n'interroge plus que le serveur d'autorité.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\nSERVEURS = {\n    \"racine\": {\"fr\": (\"delegation\", \"serveur-fr\")},\n    \"serveur-fr\": {\"exemple.fr\": (\"delegation\", \"ns-exemple\")},\n    \"ns-exemple\": {\"www.exemple.fr\": (\"reponse\", \"203.0.113.10\", 300),\n                   \"api.exemple.fr\": (\"reponse\", \"203.0.113.30\", 60)},\n}\n\nclass Resolveur:\n    def __init__(self):\n        self.cache, self.requetes, self.horloge = {}, 0, 0\n        self.serveur_domaine = {}          # domaine -> serveur d'autorité (délégations mémorisées)\n\n    def interroger(self, serveur, nom):\n        self.requetes += 1\n        table = SERVEURS[serveur]\n        for suffixe, rep in table.items():\n            if nom == suffixe or nom.endswith(\".\" + suffixe):\n                return rep\n        return (\"nxdomain\",)\n\n    def resoudre(self, nom):\n        if nom in self.cache and self.cache[nom][1] > self.horloge:\n            return self.cache[nom][0], \"cache\"\n        domaine = \".\".join(nom.split(\".\")[-2:])\n        serveur = self.serveur_domaine.get(domaine, \"racine\")\n        while True:\n            rep = self.interroger(serveur, nom)\n            print(f\"  {serveur} → {rep[0]}\")\n            if rep[0] == \"delegation\":\n                serveur = rep[1]\n                if serveur == \"ns-exemple\":\n                    self.serveur_domaine[domaine] = serveur\n            elif rep[0] == \"reponse\":\n                self.cache[nom] = (rep[1], self.horloge + rep[2])\n                return rep[1], \"résolu\"\n            else:\n                return None, \"NXDOMAIN\"\n\nr = Resolveur()\nprint(r.resoudre(\"www.exemple.fr\"), r.requetes)\nprint(r.resoudre(\"www.exemple.fr\"), r.requetes)\nprint(r.resoudre(\"api.exemple.fr\"), r.requetes)\n```\nPremier appel : 3 requêtes (racine, TLD, autorité). Deuxième : 0 (cache). Autre nom du même domaine : 1 seule (on connaît déjà l'autorité).\n\n</details>\n\n---\n\n## ⚡ Quiz éclair (15 XP si 4/5 ou plus)\n\n**1.** Le DNS sert à :\n- A. chiffrer les connexions\n- B. traduire des noms en adresses et autres informations\n- C. attribuer des adresses MAC\n\n**2.** Un enregistrement MX indique :\n- A. l'adresse IPv6\n- B. un alias\n- C. le serveur de mail d'un domaine\n\n**3.** Le TTL d'une réponse DNS détermine :\n- A. combien de temps elle peut être gardée en cache\n- B. la vitesse de réponse\n- C. la taille du paquet\n\n**4.** 🔁 *Révision mission 05* : TCP garantit :\n- A. la vitesse maximale\n- B. l'ordre et l'absence de perte des octets\n- C. la confidentialité\n\n**5.** 🔁 *Révision mission 05* : UDP est adapté à :\n- A. les transferts de fichiers\n- B. les paiements\n- C. la voix et la vidéo en direct\n\n<details>\n<summary>✅ Réponses</summary>\n\n1. **B**.\n2. **C**.\n3. **A**.\n4. **B**.\n5. **C**.\n\n</details>\n\n---\n\n## 🪞 Je réfléchis (10 XP)\n\n1. Quel équivalent du DNS utilises-tu (contacts du téléphone, raccourcis) ?\n2. Pourquoi un cache est-il à la fois un avantage et une source de problèmes ?\n\n---\n\n## 🎒 À retenir\n\n1. DNS : noms ↔ adresses et autres informations.\n2. Hiérarchie : racine, TLD, serveur faisant autorité.\n3. Résolveur récursif + cache.\n4. Types : A, AAAA, CNAME, MX, NS, TXT.\n5. Baisser le TTL avant un changement.\n\n---\n\n## 🏅 Récompenses\n\nTotal possible : **100 XP** · 🏅 Badge **Bibliothécaire des noms**\n\n---\n\n← [Mission 05 — TCP et UDP : deux façons de parler](./05-tcp-et-udp.md) · [Mission 07 — HTTP et les API](./07-http-et-api.md) →\n\n**HEF-060 — Réseaux**\n"
       },
       {
@@ -77,6 +833,132 @@
         "durationMinutes": 85,
         "badge": "Facteur du web",
         "slidesUrl": "/hef/slides-pdf/HEF-060/07-http-et-api.pdf",
+        "flashQuiz": {
+          "xp": 15,
+          "passScore": 80,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Un code 404 signifie :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "la ressource demandée est introuvable",
+                  "isCorrect": true
+                },
+                {
+                  "text": "une erreur du serveur",
+                  "isCorrect": false
+                },
+                {
+                  "text": "une redirection",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 2,
+              "text": "Une méthode idempotente :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "est toujours sûre",
+                  "isCorrect": false
+                },
+                {
+                  "text": "donne le même résultat si on la répète",
+                  "isCorrect": true
+                },
+                {
+                  "text": "ne renvoie jamais de corps",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 3,
+              "text": "HTTP est dit « sans état » car :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "il ne stocke aucun fichier",
+                  "isCorrect": false
+                },
+                {
+                  "text": "il n'utilise pas TCP",
+                  "isCorrect": false
+                },
+                {
+                  "text": "le serveur ne se souvient pas des requêtes précédentes",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 4,
+              "text": "🔁 *Révision mission 06* : Un enregistrement MX indique :",
+              "revisionOf": {
+                "module": null,
+                "mission": 6
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "le serveur de mail d'un domaine",
+                  "isCorrect": true
+                },
+                {
+                  "text": "l'adresse IPv6",
+                  "isCorrect": false
+                },
+                {
+                  "text": "un alias",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 5,
+              "text": "🔁 *Révision mission 06* : Le TTL d'une réponse DNS détermine :",
+              "revisionOf": {
+                "module": null,
+                "mission": 6
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "la vitesse de réponse",
+                  "isCorrect": false
+                },
+                {
+                  "text": "combien de temps elle peut être gardée en cache",
+                  "isCorrect": true
+                },
+                {
+                  "text": "la taille du paquet",
+                  "isCorrect": false
+                }
+              ]
+            }
+          ]
+        },
+        "reflection": {
+          "xp": 10,
+          "intro": null,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Quand tu relances une action (clic sur « payer »), qu'est-ce qui te protège d'un doublon ?"
+            },
+            {
+              "order": 2,
+              "text": "Pourquoi les codes de statut sont-ils un contrat utile entre client et serveur ?"
+            }
+          ]
+        },
         "body": "![HTTP et les API](/hef/parcours/hef060-m07.svg)\n\n<img src=\"/hef/personnages/sam.svg\" alt=\"Sam, ton guide pour cette mission\" width=\"96\" align=\"right\">\n\n\n> **Le web, c'est une longue conversation de requêtes et de réponses. Apprenons sa langue.**\n\n⏱️ Durée : environ 85 minutes · 🎓 Niveau : intermédiaire · 🏅 Badge : **Facteur du web**\n\n---\n\n## 🎬 L'histoire\n\nKodi ouvre les outils de développement du navigateur et voit défiler des dizaines de lignes : `GET`, `POST`, `200`, `404`, `301`. Il demande : « Que se passe-t-il quand je clique sur un lien ? »\n\n> « Ton navigateur envoie une demande textuelle à un serveur, qui répond par un autre texte, dit Sam. Ça ressemble à une conversation de bureau : poli, structuré, avec des codes pour dire si ça s'est bien passé. »\n\n**Tu apprends à lire, écrire et concevoir des échanges HTTP, et à bâtir une petite API.**\n\n---\n\n## 🎯 Ta mission\n\nÀ la fin, **je serai capable de** :\n\n- [ ] décrire la structure d'une requête et d'une réponse HTTP\n- [ ] utiliser correctement les méthodes (GET, POST, PUT, DELETE) et savoir ce qu'est l'idempotence\n- [ ] interpréter les familles de codes de statut (2xx, 3xx, 4xx, 5xx)\n- [ ] construire une petite API JSON avec `http.server` et l'interroger avec `urllib`\n- [ ] expliquer l'absence d'état de HTTP, les cookies et le cache\n\n---\n\n## 🧩 Défi d'échauffement (5 XP)\n\nTu commandes dans un restaurant par écrit. Tu remets un papier avec : **ce que tu veux faire** (consulter la carte, commander, annuler), **quelle table**, et des **précisions** (sans oignon). Le serveur répond avec un papier : un **code** (« ok », « plat épuisé », « vous n'avez pas le droit »), des précisions, et le plat. Écris la structure de ces deux papiers.\n\n---\n\n## 💡 Le concept\n\n### HTTP, le protocole du web\n\n**HTTP** (*HyperText Transfer Protocol*) est un protocole d'**application** de type **requête-réponse**, au-dessus de TCP (et de TLS pour HTTPS). Le client envoie une **requête**, le serveur renvoie une **réponse**.\n\n### Une requête\n\n```text\nGET /cours/hef-000?langue=fr HTTP/1.1\nHost: hashbox.example\nAccept: application/json\nAuthorization: Bearer abc123\n```\n\n- **Méthode** : ce qu'on veut faire.\n- **Chemin** (et paramètres) : sur quelle ressource.\n- **En-têtes** : informations complémentaires.\n- **Corps** (facultatif) : les données envoyées (pour `POST`, `PUT`).\n\n### Une réponse\n\n```text\nHTTP/1.1 200 OK\nContent-Type: application/json\nContent-Length: 41\n\n{\"id\": \"HEF-000\", \"titre\": \"Mentalité\"}\n```\n\n- **Ligne de statut** : version, code, texte.\n- **En-têtes**, ligne vide, puis **corps**.\n\n### Les méthodes\n\n| Méthode | Sens | Sûre ? | Idempotente ? |\n|---|---|---|---|\n| **GET** | lire | oui | oui |\n| **POST** | créer / déclencher | non | **non** |\n| **PUT** | remplacer entièrement | non | oui |\n| **PATCH** | modifier en partie | non | pas forcément |\n| **DELETE** | supprimer | non | oui |\n\n- **Sûre** : ne modifie rien sur le serveur.\n- **Idempotente** : l'appliquer 1 fois ou 10 fois donne le **même résultat**. Important quand un client **réessaie** après une erreur réseau : refaire un `PUT` est inoffensif, refaire un `POST` peut créer un doublon.\n\n### Les codes de statut\n\n| Famille | Sens | Exemples |\n|---|---|---|\n| **1xx** | information | 101 Switching Protocols |\n| **2xx** | succès | 200 OK, 201 Created, 204 No Content |\n| **3xx** | redirection | 301 Moved Permanently, 304 Not Modified |\n| **4xx** | erreur du **client** | 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 429 Too Many Requests |\n| **5xx** | erreur du **serveur** | 500 Internal Server Error, 502 Bad Gateway, 503 Service Unavailable |\n\n**Règle** : 4xx = « tu as mal demandé », 5xx = « j'ai mal répondu ».\n\n### HTTP n'a pas de mémoire\n\nChaque requête est **indépendante** : le serveur ne se souvient pas de la précédente (*sans état*). Pour garder un contexte (utilisateur connecté), on utilise :\n\n- des **cookies** (le serveur donne un identifiant que le client renvoie) ;\n- des **jetons** (`Authorization: Bearer …`).\n\n### Le cache\n\nDes en-têtes (`Cache-Control`, `ETag`) permettent de réutiliser une réponse sans la redemander. Le code `304 Not Modified` signifie « ta copie est toujours valable ».\n\n### Les API REST\n\nUne **API** (*Application Programming Interface*) permet à un programme d'en utiliser un autre. Le style **REST** modélise des **ressources** avec des URL et utilise les méthodes HTTP :\n\n| Action | Requête |\n|---|---|\n| Lister les cours | `GET /cours` |\n| Lire un cours | `GET /cours/HEF-000` |\n| Créer un cours | `POST /cours` |\n| Remplacer un cours | `PUT /cours/HEF-000` |\n| Supprimer un cours | `DELETE /cours/HEF-000` |\n\nLes données circulent souvent en **JSON**.\n\n### HTTP/1.1, 2, 3\n\nHTTP/2 et HTTP/3 changent la façon de **transporter** (multiplexage, QUIC sur UDP) mais gardent la **même sémantique** : méthodes, codes, en-têtes.\n\n---\n\n## 🔍 Exemple pas à pas\n\n**Problème** : écrire un mini serveur d'API JSON pour des cours, et l'interroger.\n\n```python\nimport json, threading, urllib.request, urllib.error\nfrom http.server import BaseHTTPRequestHandler, HTTPServer\n\nCOURS = {\"HEF-000\": {\"titre\": \"Mentalité d'ingénieur\"}, \"HEF-010\": {\"titre\": \"Algorithmes\"}}\n\nclass Gestionnaire(BaseHTTPRequestHandler):\n    def _repondre(self, code, donnees=None):\n        corps = json.dumps(donnees).encode() if donnees is not None else b\"\"\n        self.send_response(code)\n        self.send_header(\"Content-Type\", \"application/json\")\n        self.send_header(\"Content-Length\", str(len(corps)))\n        self.end_headers()\n        self.wfile.write(corps)\n\n    def do_GET(self):\n        if self.path == \"/cours\":\n            self._repondre(200, sorted(COURS))\n        elif self.path.startswith(\"/cours/\") and self.path[7:] in COURS:\n            self._repondre(200, COURS[self.path[7:]])\n        else:\n            self._repondre(404, {\"erreur\": \"introuvable\"})\n\n    def do_POST(self):\n        longueur = int(self.headers.get(\"Content-Length\", 0))\n        try:\n            donnees = json.loads(self.rfile.read(longueur))\n            COURS[donnees[\"id\"]] = {\"titre\": donnees[\"titre\"]}\n        except (ValueError, KeyError):\n            return self._repondre(400, {\"erreur\": \"JSON invalide\"})\n        self._repondre(201, {\"id\": donnees[\"id\"]})\n\n    def log_message(self, *args):\n        pass\n\nserveur = HTTPServer((\"127.0.0.1\", 0), Gestionnaire)\nport = serveur.server_address[1]\nthreading.Thread(target=serveur.serve_forever, daemon=True).start()\nbase = f\"http://127.0.0.1:{port}\"\n\ndef appeler(methode, chemin, donnees=None):\n    corps = json.dumps(donnees).encode() if donnees is not None else None\n    requete = urllib.request.Request(base + chemin, data=corps, method=methode,\n                                     headers={\"Content-Type\": \"application/json\"})\n    try:\n        with urllib.request.urlopen(requete, timeout=2) as r:\n            return r.status, json.loads(r.read() or b\"null\")\n    except urllib.error.HTTPError as e:\n        return e.code, json.loads(e.read() or b\"null\")\n\nprint(appeler(\"GET\", \"/cours\"))                                  # 200, liste\nprint(appeler(\"GET\", \"/cours/HEF-000\"))                          # 200, objet\nprint(appeler(\"GET\", \"/cours/XXX\"))                              # 404\nprint(appeler(\"POST\", \"/cours\", {\"id\": \"HEF-020\", \"titre\": \"Structures\"}))   # 201\nprint(appeler(\"POST\", \"/cours\", {\"titre\": \"sans id\"}))           # 400\nserveur.shutdown()\n```\n\n**Lecture** : le serveur choisit le **code de statut** selon la situation (404 introuvable, 201 créé, 400 requête invalide). Le client lit le code **avant** le corps : c'est ce qui permet de gérer les erreurs proprement.\n\n---\n\n## ✍️ À toi, avec aide (10 XP)\n\nPour chaque situation, choisis la méthode et le code de statut les plus adaptés :\n\n| Situation | Méthode | Code |\n|---|---|---|\n| Lire la liste des membres | ? | ? |\n| Un membre s'inscrit (création) | ? | ? |\n| Un membre demande une page qui n'existe pas | ? | ? |\n| Un membre non connecté demande son profil | ? | ? |\n| Le serveur de base de données est en panne | ? | ? |\n| Un membre envoie un JSON mal formé | ? | ? |\n\n<details>\n<summary>💡 Indice 1</summary>\n\n401 = non authentifié ; 403 = authentifié mais pas autorisé.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nLa création réussie renvoie souvent 201.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nUne panne côté serveur est une erreur 5xx.\n\n</details>\n\n<details>\n<summary>✅ Réponse</summary>\n\n| Situation | Méthode | Code |\n|---|---|---|\n| Lire la liste des membres | GET | 200 |\n| S'inscrire | POST | 201 |\n| Page inexistante | GET | 404 |\n| Profil sans être connecté | GET | 401 |\n| Base de données en panne | (toute) | 500 ou 503 |\n| JSON mal formé | POST | 400 |\n\n</details>\n\n---\n\n## 🚀 À toi, en solo (20 XP)\n\n**Idempotence et réessai.** Étends le serveur de l'exemple avec `PUT /cours/<id>` (remplace le cours) et `DELETE /cours/<id>`.\n\n1. Écris un client `appeler_avec_reessai(methode, chemin, donnees, essais=3)` qui réessaie en cas d'erreur 503 ou de coupure.\n2. Simule un serveur instable qui renvoie 503 une fois sur deux.\n3. Montre qu'un `PUT` réessayé donne le bon résultat final, alors qu'un `POST` réessayé peut créer des doublons (ajoute `POST /commandes` qui génère un numéro).\n4. Propose une clé d'idempotence (en-tête `Idempotency-Key`) pour sécuriser le `POST`.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\nimport json, threading, urllib.request, urllib.error\nfrom http.server import BaseHTTPRequestHandler, HTTPServer\n\netat = {\"cours\": {}, \"commandes\": [], \"requetes\": 0, \"cles\": {}}\n\nclass H(BaseHTTPRequestHandler):\n    def _r(self, code, donnees=None):\n        corps = json.dumps(donnees).encode() if donnees is not None else b\"\"\n        self.send_response(code); self.send_header(\"Content-Length\", str(len(corps))); self.end_headers()\n        self.wfile.write(corps)\n\n    def _instable(self):\n        etat[\"requetes\"] += 1\n        if etat[\"requetes\"] % 2 == 1:\n            self._r(503, {\"erreur\": \"indisponible\"})\n            return True\n        return False\n\n    def do_PUT(self):\n        n = int(self.headers.get(\"Content-Length\", 0)); donnees = json.loads(self.rfile.read(n))\n        if self._instable(): return\n        etat[\"cours\"][self.path.split(\"/\")[-1]] = donnees\n        self._r(200, donnees)\n\n    def do_POST(self):\n        n = int(self.headers.get(\"Content-Length\", 0)); self.rfile.read(n)\n        cle = self.headers.get(\"Idempotency-Key\")\n        if self._instable(): return\n        if cle and cle in etat[\"cles\"]:\n            return self._r(200, etat[\"cles\"][cle])\n        numero = len(etat[\"commandes\"]) + 1\n        etat[\"commandes\"].append(numero)\n        if cle: etat[\"cles\"][cle] = {\"numero\": numero}\n        self._r(201, {\"numero\": numero})\n\n    def log_message(self, *a): pass\n\nserveur = HTTPServer((\"127.0.0.1\", 0), H)\nport = serveur.server_address[1]\nthreading.Thread(target=serveur.serve_forever, daemon=True).start()\n\ndef appeler(methode, chemin, donnees, entetes=None, essais=3):\n    for _ in range(essais):\n        req = urllib.request.Request(f\"http://127.0.0.1:{port}{chemin}\", data=json.dumps(donnees).encode(),\n                                     method=methode, headers=entetes or {})\n        try:\n            with urllib.request.urlopen(req, timeout=2) as r:\n                return r.status\n        except urllib.error.HTTPError as e:\n            if e.code != 503:\n                return e.code\n    return \"échec\"\n\nprint(appeler(\"PUT\", \"/cours/HEF-000\", {\"titre\": \"X\"}), etat[\"cours\"])\netat[\"requetes\"] = 1                      # force un 503 puis un succès pour le POST sans clé\n# POST dont la réponse 201 est \"perdue\" côté client : simulons un réessai manuel\nappeler(\"POST\", \"/commandes\", {}); appeler(\"POST\", \"/commandes\", {})\nprint(\"sans clé  :\", etat[\"commandes\"])\netat.update(commandes=[], cles={}, requetes=0)\nfor _ in range(2):\n    appeler(\"POST\", \"/commandes\", {}, {\"Idempotency-Key\": \"abc\"}, essais=3)\nprint(\"avec clé  :\", etat[\"commandes\"])\nserveur.shutdown()\n```\nSans clé, deux envois du même ordre créent deux commandes. Avec une clé d'idempotence, le serveur reconnaît la répétition et renvoie la **même** réponse : c'est le mécanisme utilisé par les API de paiement.\n\n</details>\n\n---\n\n## ⚠️ Pièges classiques\n\n| Piège | Pourquoi c'est un problème | Comment l'éviter |\n|---|---|---|\n| **`POST` réessayé aveuglément** | Doublons (double paiement) | Clé d'idempotence ou `PUT` |\n| **Confondre 401 et 403** | Mauvais message à l'utilisateur | 401 : qui es-tu ? 403 : tu n'as pas le droit |\n| **Tout renvoyer en 200** | Les clients ne détectent pas les erreurs | Utiliser les codes de statut |\n| **Mettre des secrets dans l'URL** | Journaux et historique les conservent | En-têtes ou corps, jamais l'URL |\n\n---\n\n## 🐉 Mini-boss (40 XP)\n\n**Mini API de tâches.** Conçois et implémente (avec `http.server`) une API REST pour une liste de tâches :\n\n- `GET /taches` (avec filtre `?fait=true`), `GET /taches/<id>` ;\n- `POST /taches` (crée, 201 + en-tête `Location`) ;\n- `PUT /taches/<id>` (remplace), `PATCH /taches/<id>` (modifie un champ), `DELETE /taches/<id>` (204).\n\nExigences : JSON valide, codes de statut corrects (400, 404, 405 pour une méthode non supportée), messages d'erreur clairs. Écris une suite de tests avec `urllib` qui vérifie chaque route, y compris les cas d'erreur.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\nUn bon travail : un dictionnaire de tâches et un compteur d'identifiants ; un routage par expression régulière sur le chemin ; une fonction `_repondre(code, donnees, entetes)` ; `Location: /taches/<id>` sur les créations ; `204` sans corps pour `DELETE` ; `405` avec en-tête `Allow` quand la méthode ne convient pas ; `400` quand le JSON est invalide ou qu'un champ obligatoire manque ; `404` pour une tâche inconnue. Les tests couvrent : liste vide, création, lecture, remplacement, modification partielle, suppression, deuxième suppression (404), JSON invalide (400), méthode inconnue (405).\n\n</details>\n\n---\n\n## ⚡ Quiz éclair (15 XP si 4/5 ou plus)\n\n**1.** Un code 404 signifie :\n- A. la ressource demandée est introuvable\n- B. une erreur du serveur\n- C. une redirection\n\n**2.** Une méthode idempotente :\n- A. est toujours sûre\n- B. donne le même résultat si on la répète\n- C. ne renvoie jamais de corps\n\n**3.** HTTP est dit « sans état » car :\n- A. il ne stocke aucun fichier\n- B. il n'utilise pas TCP\n- C. le serveur ne se souvient pas des requêtes précédentes\n\n**4.** 🔁 *Révision mission 06* : Un enregistrement MX indique :\n- A. le serveur de mail d'un domaine\n- B. l'adresse IPv6\n- C. un alias\n\n**5.** 🔁 *Révision mission 06* : Le TTL d'une réponse DNS détermine :\n- A. la vitesse de réponse\n- B. combien de temps elle peut être gardée en cache\n- C. la taille du paquet\n\n<details>\n<summary>✅ Réponses</summary>\n\n1. **A**.\n2. **B**.\n3. **C**.\n4. **A**.\n5. **B**.\n\n</details>\n\n---\n\n## 🪞 Je réfléchis (10 XP)\n\n1. Quand tu relances une action (clic sur « payer »), qu'est-ce qui te protège d'un doublon ?\n2. Pourquoi les codes de statut sont-ils un contrat utile entre client et serveur ?\n\n---\n\n## 🎒 À retenir\n\n1. Requête : méthode, chemin, en-têtes, corps. Réponse : code, en-têtes, corps.\n2. GET lit ; POST crée ; PUT remplace ; DELETE supprime.\n3. 2xx succès, 3xx redirection, 4xx erreur client, 5xx erreur serveur.\n4. Idempotence : essentielle pour réessayer.\n5. HTTP est sans état : cookies et jetons portent le contexte.\n\n```mermaid\nflowchart LR\n    T([\"HTTP et les API\"])\n    T --> R1[\"1. Requête : méthode, chemin, en-têtes, corps. Réponse : code, en-têtes,…\"]\n    T --> R2[\"2. GET lit ; POST crée ; PUT remplace ; DELETE supprime.\"]\n    T --> R3[\"3. 2xx succès, 3xx redirection, 4xx erreur client, 5xx erreur serveur.\"]\n    T --> R4[\"4. Idempotence : essentielle pour réessayer.\"]\n    T --> R5[\"5. HTTP est sans état : cookies et jetons portent le contexte.\"]\n```\n\n**Description du schéma** : la mission au centre, reliée aux cinq idées à retenir.\n\n---\n\n## 🏅 Récompenses\n\nTotal possible : **100 XP** · 🏅 Badge **Facteur du web**\n\n---\n\n← [Mission 06 — DNS : l'annuaire d'internet](./06-dns.md) · [Mission 08 — TLS et HTTPS : la confiance](./08-tls-et-https.md) →\n\n**HEF-060 — Réseaux**\n"
       },
       {
@@ -86,6 +968,132 @@
         "durationMinutes": 85,
         "badge": "Gardien du cadenas",
         "slidesUrl": "/hef/slides-pdf/HEF-060/08-tls-et-https.pdf",
+        "flashQuiz": {
+          "xp": 15,
+          "passScore": 80,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Une clé publique peut être :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "gardée secrète",
+                  "isCorrect": false
+                },
+                {
+                  "text": "utilisée uniquement pour déchiffrer",
+                  "isCorrect": false
+                },
+                {
+                  "text": "partagée avec tout le monde",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 2,
+              "text": "Un certificat lie :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "un nom de domaine à une clé publique",
+                  "isCorrect": true
+                },
+                {
+                  "text": "une adresse IP à une adresse MAC",
+                  "isCorrect": false
+                },
+                {
+                  "text": "un mot de passe à un utilisateur",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 3,
+              "text": "Pourquoi TLS utilise le chiffrement symétrique pour les données ?",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "il est plus sûr que tout autre",
+                  "isCorrect": false
+                },
+                {
+                  "text": "il est beaucoup plus rapide",
+                  "isCorrect": true
+                },
+                {
+                  "text": "il n'a pas besoin de clé",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 4,
+              "text": "🔁 *Révision mission 07* : Une méthode idempotente :",
+              "revisionOf": {
+                "module": null,
+                "mission": 7
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "est toujours sûre",
+                  "isCorrect": false
+                },
+                {
+                  "text": "ne renvoie jamais de corps",
+                  "isCorrect": false
+                },
+                {
+                  "text": "donne le même résultat si on la répète",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 5,
+              "text": "🔁 *Révision mission 07* : Un code 404 signifie :",
+              "revisionOf": {
+                "module": null,
+                "mission": 7
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "la ressource demandée est introuvable",
+                  "isCorrect": true
+                },
+                {
+                  "text": "une erreur du serveur",
+                  "isCorrect": false
+                },
+                {
+                  "text": "une redirection",
+                  "isCorrect": false
+                }
+              ]
+            }
+          ]
+        },
+        "reflection": {
+          "xp": 10,
+          "intro": null,
+          "questions": [
+            {
+              "order": 1,
+              "text": "À quels signes reconnais-tu un site de confiance, et lesquels sont faciles à imiter ?"
+            },
+            {
+              "order": 2,
+              "text": "Quel équivalent humain de la « chaîne de confiance » (une personne te présente une autre) connais-tu ?"
+            }
+          ]
+        },
         "body": "![TLS et HTTPS : la confiance](/hef/parcours/hef060-m08.svg)\n\n<img src=\"/hef/personnages/leo.svg\" alt=\"Léo, ton guide pour cette mission\" width=\"96\" align=\"right\">\n\n\n> **Sans TLS, tout ce que tu envoies voyage en clair. Avec TLS, personne d'autre ne peut ni lire ni modifier.**\n\n⏱️ Durée : environ 85 minutes · 🎓 Niveau : intermédiaire · 🏅 Badge : **Gardien du cadenas**\n\n---\n\n## 🎬 L'histoire\n\nDans un café, Kodi se connecte au Wi-Fi public et ouvre le site de HashBox. Sam, à côté, lui montre une capture de ce qui circule : avec l'ancien site en HTTP, on lit les mots de passe en clair. Avec HTTPS, on ne voit qu'un flot illisible.\n\n> « Le petit cadenas du navigateur, dit Sam, représente trois promesses : confidentialité, intégrité, authenticité. Voyons comment elles sont tenues. »\n\n**Tu comprends les idées derrière HTTPS, sans devenir cryptographe.**\n\n---\n\n## 🎯 Ta mission\n\nÀ la fin, **je serai capable de** :\n\n- [ ] énoncer les trois garanties de TLS (confidentialité, intégrité, authentification)\n- [ ] distinguer chiffrement symétrique et asymétrique\n- [ ] expliquer le rôle des certificats et des autorités de certification\n- [ ] décrire les grandes étapes de la poignée de main TLS\n- [ ] utiliser hachage et HMAC pour vérifier l'intégrité en Python\n\n---\n\n## 🧩 Défi d'échauffement (5 XP)\n\nTu envoies une carte postale : le facteur, les voisins et n'importe qui peuvent la lire (**confidentialité**), et même la modifier (**intégrité**). Tu ne peux pas non plus être sûr·e que la carte vient bien de ta grand-mère (**authenticité**). Comment ferais-tu pour garantir chacun de ces trois points ? Imagine ce que tu mettrais dans une enveloppe, un sceau, une signature.\n\n---\n\n## 💡 Le concept\n\n### Trois garanties\n\n| Garantie | Question | Moyen |\n|---|---|---|\n| **Confidentialité** | Quelqu'un d'autre peut-il lire ? | chiffrement |\n| **Intégrité** | Quelqu'un a-t-il modifié le message ? | empreinte, code d'authentification (MAC) |\n| **Authenticité** | Suis-je bien en train de parler au bon serveur ? | certificat, signature |\n\n**TLS** (*Transport Layer Security*) offre les trois au-dessus de TCP. **HTTPS** = HTTP dans TLS.\n\n### Chiffrement symétrique\n\nUne **même clé** chiffre et déchiffre. **Rapide**, mais comment partager la clé sans qu'on l'intercepte ?\n\n### Chiffrement asymétrique\n\nUne **paire de clés** : une **clé publique** (partageable) et une **clé privée** (secrète).\n\n- Ce qui est chiffré avec la clé publique ne se déchiffre qu'avec la privée.\n- Ce qui est **signé** avec la clé privée se vérifie avec la publique.\n\nPlus **lent**, mais résout le partage de clé. TLS utilise l'asymétrique **pour s'entendre**, puis le symétrique **pour échanger les données** (le meilleur des deux).\n\n### L'échange de clés\n\nLes deux parties peuvent construire un **secret partagé** sans jamais le transmettre, grâce à l'échange de clés de **Diffie-Hellman**. L'idée avec des couleurs de peinture : chacun mélange une couleur secrète avec une couleur publique, échange le mélange, puis remélange sa couleur secrète : les deux obtiennent la **même couleur finale**, qu'un espion ne peut pas reconstituer.\n\n### Les certificats\n\nComment savoir que la clé publique est bien celle de `hashbox.example` ? Grâce à un **certificat** :\n\n- il lie un **nom de domaine** à une **clé publique** ;\n- il est **signé** par une **autorité de certification** (AC) de confiance.\n\nTon système contient la liste des AC de confiance. Le navigateur vérifie la **chaîne** : certificat du site → AC intermédiaire → AC racine de confiance, ainsi que la validité (dates), le nom, et la non-révocation.\n\n### La poignée de main TLS (version simplifiée)\n\n```mermaid\nsequenceDiagram\n    participant C as Client (navigateur)\n    participant S as Serveur\n    C->>S: ClientHello (versions, algorithmes, part de la clé)\n    S->>C: ServerHello + certificat + part de la clé + signature\n    Note over C: vérifie le certificat (chaîne, nom, dates)\n    Note over C,S: calcul du secret partagé (clés de session)\n    C->>S: Finished (chiffré)\n    S->>C: Finished (chiffré)\n    C->>S: données HTTP chiffrées\n```\n\n**Description du schéma** : le client propose des paramètres, le serveur répond avec son certificat. Le client vérifie le certificat. Les deux calculent un secret partagé, confirment avec un message « Finished » chiffré, puis échangent les données HTTP chiffrées.\n\n### Intégrité en Python\n\nUne **fonction de hachage** transforme un message en empreinte de taille fixe. Un changement d'un seul bit change complètement l'empreinte. Un **HMAC** ajoute une clé secrète : seul un détenteur de la clé peut produire l'empreinte valide.\n\n```python\nimport hashlib, hmac\n\nmessage = b\"virement de 100 euros a Ada\"\nprint(hashlib.sha256(message).hexdigest()[:16])\nprint(hashlib.sha256(b\"virement de 900 euros a Ada\").hexdigest()[:16])     # complètement différent\n\ncle = b\"secret-partage\"\netiquette = hmac.new(cle, message, hashlib.sha256).hexdigest()\nprint(hmac.compare_digest(etiquette, hmac.new(cle, message, hashlib.sha256).hexdigest()))   # True\n```\n\n### Les erreurs de certificat\n\nUn avertissement du navigateur signifie : nom incorrect, certificat expiré, autorité inconnue, chaîne incomplète. **Ne jamais l'ignorer sur un site sensible** : c'est peut-être une attaque de l'homme du milieu.\n\n> 🧠 **Astuce** : TLS protège **le transport**, pas ce que fait le site de tes données. Un site en HTTPS peut être malhonnête.\n\n---\n\n## 🔍 Exemple pas à pas\n\n**Problème** : voir pourquoi Diffie-Hellman fonctionne, avec de petits nombres (⚠️ simulation pédagogique, jamais à utiliser telle quelle).\n\n```python\n# Paramètres publics (connus de tous, y compris un espion)\np, g = 23, 5\n\n# Secrets privés\na = 6        # secret d'Alice\nb = 15       # secret de Bob\n\nA = pow(g, a, p)          # Alice envoie A\nB = pow(g, b, p)          # Bob envoie B\n\nsecret_alice = pow(B, a, p)\nsecret_bob = pow(A, b, p)\nprint(A, B, secret_alice, secret_bob)       # 8 19 2 2\nassert secret_alice == secret_bob\n```\n\n**Lecture** : Alice et Bob obtiennent le **même secret (2)** sans qu'il n'ait jamais circulé. Un espion qui voit `p`, `g`, `A`, `B` doit retrouver `a` ou `b` : c'est le **logarithme discret**, difficile avec de grands nombres (des centaines de chiffres) mais facile ici (23).\n\n**Vérifier l'intégrité d'un téléchargement** :\n\n```python\nimport hashlib\n\ncontenu = b\"contenu du fichier\" * 1000\nempreinte_publiee = hashlib.sha256(contenu).hexdigest()\n\nrecu = contenu[:-1] + b\"X\"              # un octet modifié en route\nprint(hashlib.sha256(recu).hexdigest() == empreinte_publiee)    # False\n```\n\n**Une API signée avec HMAC** :\n\n```python\nimport hashlib, hmac, json\n\nCLE = b\"cle-partagee-entre-client-et-serveur\"\n\ndef signer(corps):\n    return hmac.new(CLE, corps, hashlib.sha256).hexdigest()\n\ndef verifier(corps, signature):\n    return hmac.compare_digest(signer(corps), signature)\n\ncorps = json.dumps({\"membre\": 42, \"montant\": 100}).encode()\nsig = signer(corps)\nprint(verifier(corps, sig))                                            # True\nprint(verifier(json.dumps({\"membre\": 42, \"montant\": 900}).encode(), sig))   # False : modifié\n```\n\n---\n\n## ✍️ À toi, avec aide (10 XP)\n\nComplète le tableau avec la garantie principale apportée et le mécanisme :\n\n| Situation | Garantie | Mécanisme |\n|---|---|---|\n| Un espion sur le Wi-Fi ne peut pas lire le mot de passe | ? | ? |\n| Un attaquant ne peut pas modifier le montant d'un virement en transit | ? | ? |\n| Le navigateur vérifie qu'il parle bien à la banque | ? | ? |\n| Le fichier téléchargé n'a pas été altéré | ? | ? |\n\n<details>\n<summary>💡 Indice 1</summary>\n\nLire = confidentialité. Modifier = intégrité. Vérifier l'identité = authenticité.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nLes certificats lient un nom à une clé.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nUne empreinte (hachage) change si le contenu change.\n\n</details>\n\n<details>\n<summary>✅ Réponse</summary>\n\n| Situation | Garantie | Mécanisme |\n|---|---|---|\n| Espion qui ne lit pas | **Confidentialité** | chiffrement symétrique (clés de session) |\n| Montant non modifiable | **Intégrité** | code d'authentification (HMAC / mode authentifié) |\n| Parler à la vraie banque | **Authenticité** | certificat signé par une AC + vérification de la chaîne |\n| Fichier non altéré | **Intégrité** | empreinte (SHA-256) comparée à la valeur publiée |\n\n</details>\n\n---\n\n## 🚀 À toi, en solo (20 XP)\n\n**Chaîne de confiance simulée.** Simule des certificats avec HMAC en guise de signature (par pédagogie : de vraies signatures utilisent des clés asymétriques) :\n\n- une AC racine `RACINE` avec sa clé secrète ;\n- une AC intermédiaire signée par la racine ;\n- un certificat de site `hashbox.example` signé par l'intermédiaire, avec dates de validité.\n\nÉcris `verifier_chaine(certificat_site, intermediaire, racine_de_confiance, nom_demande, date)` qui contrôle les signatures, les noms, les dates, et la confiance dans la racine. Teste 4 cas : valide, nom incorrect, certificat expiré, signature falsifiée.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\nimport hashlib, hmac, json\n\ndef signer(cle, contenu):\n    donnees = json.dumps(contenu, sort_keys=True).encode()\n    return hmac.new(cle, donnees, hashlib.sha256).hexdigest()\n\nCLE_RACINE, CLE_INTER = b\"cle-racine\", b\"cle-intermediaire\"\n\ndef creer_certificat(sujet, emetteur, cle_emetteur, debut, fin):\n    contenu = {\"sujet\": sujet, \"emetteur\": emetteur, \"debut\": debut, \"fin\": fin}\n    return {**contenu, \"signature\": signer(cle_emetteur, contenu)}\n\ndef contenu_de(cert):\n    return {k: v for k, v in cert.items() if k != \"signature\"}\n\ndef verifier_chaine(site, inter, racine_de_confiance, nom, date):\n    if site[\"sujet\"] != nom:\n        return \"refusé : nom incorrect\"\n    if not (site[\"debut\"] <= date <= site[\"fin\"]):\n        return \"refusé : certificat expiré ou pas encore valide\"\n    if site[\"emetteur\"] != inter[\"sujet\"] or not hmac.compare_digest(site[\"signature\"], signer(CLE_INTER, contenu_de(site))):\n        return \"refusé : signature du site invalide\"\n    if inter[\"emetteur\"] not in racine_de_confiance or not hmac.compare_digest(inter[\"signature\"], signer(CLE_RACINE, contenu_de(inter))):\n        return \"refusé : intermédiaire non reconnu ou falsifié\"\n    return \"accepté\"\n\ninter = creer_certificat(\"INTER\", \"RACINE\", CLE_RACINE, \"2024-01-01\", \"2034-01-01\")\nsite = creer_certificat(\"hashbox.example\", \"INTER\", CLE_INTER, \"2025-01-01\", \"2026-01-01\")\nprint(verifier_chaine(site, inter, {\"RACINE\"}, \"hashbox.example\", \"2025-06-01\"))    # accepté\nprint(verifier_chaine(site, inter, {\"RACINE\"}, \"autre.example\", \"2025-06-01\"))      # nom incorrect\nprint(verifier_chaine(site, inter, {\"RACINE\"}, \"hashbox.example\", \"2027-01-01\"))    # expiré\nfaux = dict(site, sujet=\"hashbox.example\", fin=\"2099-01-01\")                         # date modifiée, signature inchangée\nprint(verifier_chaine(faux, inter, {\"RACINE\"}, \"hashbox.example\", \"2030-01-01\"))    # signature invalide\n```\nDans la vraie vie, la signature est asymétrique (RSA, ECDSA) : n'importe qui peut la **vérifier** avec la clé publique de l'autorité, sans pouvoir la **produire**.\n\n</details>\n\n---\n\n## ⚠️ Pièges classiques\n\n| Piège | Pourquoi c'est un problème | Comment l'éviter |\n|---|---|---|\n| **Ignorer un avertissement de certificat** | Risque d'attaque de l'homme du milieu | Comprendre la cause avant de continuer |\n| **Inventer son propre chiffrement** | Presque toujours cassable | Utiliser des bibliothèques éprouvées |\n| **Comparer des signatures avec `==`** | Attaque par mesure du temps | `hmac.compare_digest` |\n| **Croire que HTTPS = site honnête** | TLS protège le transport, pas l'intention | Rester vigilant sur le contenu |\n\n---\n\n## 🐉 Mini-boss (40 XP)\n\n**Canal sécurisé miniature.** Combine les ingrédients de la mission pour envoyer des messages entre un client et un serveur locaux :\n\n1. Échange de clé **Diffie-Hellman** avec un grand nombre premier public (utilise le groupe de 2048 bits du RFC 3526 si tu veux, ou un premier de 256 bits généré en dur) ;\n2. Dérive une clé de session avec `hashlib.sha256(secret)` ;\n3. Chaque message est envoyé avec son HMAC ; le récepteur refuse un message modifié ou rejoué (numéro de séquence) ;\n4. Teste : message normal, message modifié, message rejoué.\n\n⚠️ Écris dans le fichier que c'est un exercice pédagogique et qu'en production on utilise TLS.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\nimport hashlib, hmac, json, secrets\n\nP = 2**255 - 19               # nombre premier de 255 bits (démonstration uniquement)\nG = 2\n\nclass Partie:\n    def __init__(self):\n        self.prive = secrets.randbelow(P - 2) + 1\n        self.public = pow(G, self.prive, P)\n        self.cle = None\n        self.seq_envoi = 0\n        self.seq_recu = -1\n\n    def deriver(self, public_autre):\n        secret = pow(public_autre, self.prive, P)\n        self.cle = hashlib.sha256(str(secret).encode()).digest()\n\n    def envoyer(self, texte):\n        corps = json.dumps({\"seq\": self.seq_envoi, \"texte\": texte}).encode()\n        self.seq_envoi += 1\n        return corps, hmac.new(self.cle, corps, hashlib.sha256).hexdigest()\n\n    def recevoir(self, corps, etiquette):\n        attendu = hmac.new(self.cle, corps, hashlib.sha256).hexdigest()\n        if not hmac.compare_digest(attendu, etiquette):\n            return \"refusé : message modifié\"\n        msg = json.loads(corps)\n        if msg[\"seq\"] <= self.seq_recu:\n            return \"refusé : message rejoué\"\n        self.seq_recu = msg[\"seq\"]\n        return \"accepté : \" + msg[\"texte\"]\n\nclient, serveur = Partie(), Partie()\nclient.deriver(serveur.public); serveur.deriver(client.public)\nassert client.cle == serveur.cle\n\nm1 = client.envoyer(\"bonjour\")\nprint(serveur.recevoir(*m1))\nprint(serveur.recevoir(*m1))                                     # rejoué\ncorps, tag = client.envoyer(\"virement 100\")\nprint(serveur.recevoir(corps.replace(b\"100\", b\"900\"), tag))      # modifié\n```\nCe montage protège l'intégrité et le rejeu, mais il manque l'**authentification** des parties (rien ne prouve que le serveur est le vrai serveur) : c'est exactement le rôle des certificats dans TLS.\n\n</details>\n\n---\n\n## ⚡ Quiz éclair (15 XP si 4/5 ou plus)\n\n**1.** Une clé publique peut être :\n- A. gardée secrète\n- B. utilisée uniquement pour déchiffrer\n- C. partagée avec tout le monde\n\n**2.** Un certificat lie :\n- A. un nom de domaine à une clé publique\n- B. une adresse IP à une adresse MAC\n- C. un mot de passe à un utilisateur\n\n**3.** Pourquoi TLS utilise le chiffrement symétrique pour les données ?\n- A. il est plus sûr que tout autre\n- B. il est beaucoup plus rapide\n- C. il n'a pas besoin de clé\n\n**4.** 🔁 *Révision mission 07* : Une méthode idempotente :\n- A. est toujours sûre\n- B. ne renvoie jamais de corps\n- C. donne le même résultat si on la répète\n\n**5.** 🔁 *Révision mission 07* : Un code 404 signifie :\n- A. la ressource demandée est introuvable\n- B. une erreur du serveur\n- C. une redirection\n\n<details>\n<summary>✅ Réponses</summary>\n\n1. **C**.\n2. **A**.\n3. **B**.\n4. **C**.\n5. **A**.\n\n</details>\n\n---\n\n## 🪞 Je réfléchis (10 XP)\n\n1. À quels signes reconnais-tu un site de confiance, et lesquels sont faciles à imiter ?\n2. Quel équivalent humain de la « chaîne de confiance » (une personne te présente une autre) connais-tu ?\n\n---\n\n## 🎒 À retenir\n\n1. TLS : confidentialité, intégrité, authenticité.\n2. Asymétrique pour s'entendre, symétrique pour échanger.\n3. Un certificat lie un nom à une clé publique, signé par une AC.\n4. Hachage et HMAC vérifient l'intégrité.\n5. Ne jamais ignorer un avertissement de certificat.\n\n---\n\n## 🏅 Récompenses\n\nTotal possible : **100 XP** · 🏅 Badge **Gardien du cadenas**\n\n---\n\n← [Mission 07 — HTTP et les API](./07-http-et-api.md) · [Mission 09 — NAT, pare-feu et services](./09-nat-pare-feu-et-services.md) →\n\n**HEF-060 — Réseaux**\n"
       },
       {
@@ -95,6 +1103,132 @@
         "durationMinutes": 80,
         "badge": "Gardien de la frontière",
         "slidesUrl": "/hef/slides-pdf/HEF-060/09-nat-pare-feu-et-services.pdf",
+        "flashQuiz": {
+          "xp": 15,
+          "passScore": 80,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Le NAT permet de :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "chiffrer le trafic",
+                  "isCorrect": false
+                },
+                {
+                  "text": "faire partager une adresse publique à plusieurs machines privées",
+                  "isCorrect": true
+                },
+                {
+                  "text": "trouver l'adresse MAC",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 2,
+              "text": "Dans un pare-feu à règles ordonnées, c'est :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "la dernière règle qui s'applique",
+                  "isCorrect": false
+                },
+                {
+                  "text": "la plus longue règle qui s'applique",
+                  "isCorrect": false
+                },
+                {
+                  "text": "la première règle qui correspond qui s'applique",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 3,
+              "text": "La politique « default deny » consiste à :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "tout refuser sauf ce qui est explicitement autorisé",
+                  "isCorrect": true
+                },
+                {
+                  "text": "tout accepter sauf le danger",
+                  "isCorrect": false
+                },
+                {
+                  "text": "désactiver le pare-feu",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 4,
+              "text": "🔁 *Révision mission 08* : Une clé publique peut être :",
+              "revisionOf": {
+                "module": null,
+                "mission": 8
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "gardée secrète",
+                  "isCorrect": false
+                },
+                {
+                  "text": "partagée avec tout le monde",
+                  "isCorrect": true
+                },
+                {
+                  "text": "utilisée uniquement pour déchiffrer",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 5,
+              "text": "🔁 *Révision mission 08* : Un certificat lie :",
+              "revisionOf": {
+                "module": null,
+                "mission": 8
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "une adresse IP à une adresse MAC",
+                  "isCorrect": false
+                },
+                {
+                  "text": "un mot de passe à un utilisateur",
+                  "isCorrect": false
+                },
+                {
+                  "text": "un nom de domaine à une clé publique",
+                  "isCorrect": true
+                }
+              ]
+            }
+          ]
+        },
+        "reflection": {
+          "xp": 10,
+          "intro": null,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Quels « pare-feu » personnels utilises-tu (filtrer les appels, les messages) ?"
+            },
+            {
+              "order": 2,
+              "text": "Pourquoi refuser par défaut est-il plus sûr qu'accepter par défaut ?"
+            }
+          ]
+        },
         "body": "![NAT, pare-feu et services](/hef/parcours/hef060-m09.svg)\n\n<img src=\"/hef/personnages/kodi.svg\" alt=\"Kodi, ton guide pour cette mission\" width=\"96\" align=\"right\">\n\n\n> **Comment des centaines d'appareils partagent une seule adresse publique, et comment on décide qui entre.**\n\n⏱️ Durée : environ 80 minutes · 🎓 Niveau : intermédiaire · 🏅 Badge : **Gardien de la frontière**\n\n---\n\n## 🎬 L'histoire\n\nÀ la maison, toute la famille de Kodi utilise la même connexion : une seule adresse IP publique, et pourtant dix appareils sont en ligne. Au bureau, un administrateur dit : « Le serveur de test n'est pas joignable de l'extérieur : c'est voulu. »\n\n> « Deux mécanismes expliquent ça, dit Sam : le NAT traduit les adresses, le pare-feu filtre le trafic. »\n\n**Tu comprends comment on partage une adresse publique et comment on protège un réseau.**\n\n---\n\n## 🎯 Ta mission\n\nÀ la fin, **je serai capable de** :\n\n- [ ] expliquer le NAT/PAT et la table de traduction\n- [ ] expliquer pourquoi une machine privée n'est pas joignable de l'extérieur par défaut\n- [ ] décrire un pare-feu à règles ordonnées (première correspondance)\n- [ ] distinguer pare-feu sans état et avec état\n- [ ] concevoir une politique « tout refuser sauf le nécessaire »\n\n---\n\n## 🧩 Défi d'échauffement (5 XP)\n\nUn immeuble n'a qu'**une seule adresse postale** (le numéro 12). Le concierge reçoit tout le courrier. Quand un habitant envoie une lettre, le concierge note « lettre de l'appartement 3 vers Paris » sur un carnet. Quand une réponse arrive, comment sait-il à quel appartement la donner ? Qu'arrive-t-il à une lettre qui arrive sans correspondre à aucune demande ?\n\n---\n\n## 💡 Le concept\n\n### Pourquoi le NAT ?\n\nIl n'y a pas assez d'adresses IPv4 publiques pour tous les appareils. Les réseaux locaux utilisent des adresses **privées** (`192.168.x.x`, `10.x.x.x`…) qui ne sont pas routées sur internet. Le **NAT** (*Network Address Translation*) permet à plusieurs machines privées de partager **une** adresse publique.\n\n### PAT : le NAT avec ports\n\nEn pratique, on traduit aussi les **ports** (*PAT*, *NAT overload*). Le routeur garde une **table de traduction** :\n\n| Interne (IP:port) | Externe (IP publique:port) | Destination |\n|---|---|---|\n| 192.168.1.10:51000 | 203.0.113.5:40001 | 93.184.216.34:443 |\n| 192.168.1.11:51000 | 203.0.113.5:40002 | 93.184.216.34:443 |\n\nÀ l'**aller**, le routeur remplace la source par `203.0.113.5:40001`. Au **retour**, il consulte la table et remet l'adresse interne.\n\n### Conséquences\n\n- Les connexions **sortantes** fonctionnent naturellement.\n- Les connexions **entrantes** vers une machine privée ne correspondent à aucune entrée : elles sont **rejetées**. C'est un effet de protection (mais le NAT n'est **pas** un pare-feu à lui seul).\n- Pour exposer un service : **redirection de port** (*port forwarding*) : « tout ce qui arrive sur le port 443 de l'adresse publique va vers 192.168.1.50:443 ».\n- Les protocoles qui incluent des adresses dans leurs données, ou la communication directe entre deux machines derrière des NAT, sont plus compliqués.\n\n(IPv6 offre assez d'adresses pour s'en passer ; le filtrage devient alors la seule protection.)\n\n### Le pare-feu\n\nUn **pare-feu** (*firewall*) filtre les paquets selon des **règles** :\n\n| # | Action | Protocole | Source | Destination | Port |\n|---|---|---|---|---|---|\n| 1 | ACCEPTER | TCP | 10.0.0.0/8 | serveur | 22 |\n| 2 | ACCEPTER | TCP | tout | serveur | 443 |\n| 3 | REFUSER | tout | tout | tout | tout |\n\n- Les règles sont évaluées **dans l'ordre** ; **la première qui correspond s'applique**.\n- La dernière règle est la **politique par défaut**. Bonne pratique : **tout refuser** sauf ce qui est explicitement autorisé (*default deny*).\n\n### Sans état ou avec état\n\n- **Sans état** (*stateless*) : chaque paquet est jugé seul. Il faut autoriser explicitement les réponses.\n- **Avec état** (*stateful*) : le pare-feu **mémorise les connexions** ; les réponses à une connexion autorisée passent automatiquement.\n\n### Où placer un pare-feu ?\n\n- au bord du réseau (entre internet et le réseau interne) ;\n- sur chaque machine (pare-feu local, `ufw`, `iptables`, `nftables`) ;\n- entre les zones internes (**segmentation**) : une machine compromise ne peut pas atteindre tout le reste.\n\n### Modéliser en Python\n\n```python\nimport ipaddress\n\nREGLES = [\n    (\"ACCEPTER\", \"tcp\", \"10.0.0.0/8\", 22),\n    (\"ACCEPTER\", \"tcp\", \"0.0.0.0/0\", 443),\n    (\"REFUSER\", \"*\", \"0.0.0.0/0\", None),\n]\n\ndef decision(protocole, ip_source, port_dest):\n    for action, proto, reseau, port in REGLES:\n        if proto in (\"*\", protocole) and ipaddress.ip_address(ip_source) in ipaddress.ip_network(reseau) \\\n           and (port is None or port == port_dest):\n            return action\n    return \"REFUSER\"\n\nprint(decision(\"tcp\", \"10.1.2.3\", 22))        # ACCEPTER\nprint(decision(\"tcp\", \"203.0.113.9\", 22))     # REFUSER\nprint(decision(\"tcp\", \"203.0.113.9\", 443))    # ACCEPTER\n```\n\n---\n\n## 🔍 Exemple pas à pas\n\n**Problème** : simuler un routeur NAT avec table de traduction.\n\n```python\nclass RouteurNAT:\n    def __init__(self, ip_publique, port_depart=40000):\n        self.ip_publique = ip_publique\n        self.prochain_port = port_depart\n        self.sortant = {}       # (ip_interne, port_interne, ip_dest, port_dest) -> port_externe\n        self.entrant = {}       # port_externe -> (ip_interne, port_interne, ip_dest, port_dest)\n\n    def sortir(self, ip_interne, port_interne, ip_dest, port_dest):\n        cle = (ip_interne, port_interne, ip_dest, port_dest)\n        if cle not in self.sortant:\n            self.sortant[cle] = self.prochain_port\n            self.entrant[self.prochain_port] = cle\n            self.prochain_port += 1\n        return (self.ip_publique, self.sortant[cle])\n\n    def entrer(self, ip_source, port_source, port_externe):\n        cle = self.entrant.get(port_externe)\n        if cle is None or (cle[2], cle[3]) != (ip_source, port_source):\n            return \"rejeté (aucune connexion correspondante)\"\n        return (cle[0], cle[1])\n\nnat = RouteurNAT(\"203.0.113.5\")\na = nat.sortir(\"192.168.1.10\", 51000, \"93.184.216.34\", 443)\nb = nat.sortir(\"192.168.1.11\", 51000, \"93.184.216.34\", 443)\nprint(a, b)                                          # deux ports externes différents\nprint(nat.entrer(\"93.184.216.34\", 443, a[1]))        # réponse : ('192.168.1.10', 51000)\nprint(nat.entrer(\"198.51.100.9\", 4444, a[1]))        # inconnu : rejeté\nprint(nat.entrer(\"93.184.216.34\", 443, 12345))       # port non traduit : rejeté\n```\n\n**Lecture** :\n\n- deux machines utilisent **le même port interne** (51000), mais le routeur leur attribue des **ports externes différents** pour s'y retrouver ;\n- une réponse légitime est correctement renvoyée à la bonne machine ;\n- un paquet non sollicité est **rejeté** : le NAT agit comme un pare-feu à états rudimentaire.\n\n**Règles de pare-feu : l'ordre compte** :\n\n| Ordre des règles | Effet pour le trafic depuis 203.0.113.9 vers le port 22 |\n|---|---|\n| 1. REFUSER tout · 2. ACCEPTER 10.0.0.0/8 | refusé, et **personne** n'est jamais accepté (la règle 2 n'est jamais atteinte) |\n| 1. ACCEPTER 10.0.0.0/8 · 2. REFUSER tout | refusé pour cette adresse, accepté pour le réseau interne |\n\n---\n\n## ✍️ À toi, avec aide (10 XP)\n\nÉcris les règles d'un pare-feu pour un serveur web :\n\n- le public peut joindre les ports 80 et 443 ;\n- l'administration SSH (port 22) n'est accessible que depuis `192.168.1.0/24` ;\n- tout le reste est refusé.\n\nTeste avec 6 paquets : `203.0.113.9:443`, `203.0.113.9:22`, `192.168.1.77:22`, `203.0.113.9:8080`, `192.168.2.5:22`, `198.51.100.1:80`.\n\n<details>\n<summary>💡 Indice 1</summary>\n\nMets les règles spécifiques d'abord, la règle `tout refuser` en dernier.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nUtilise `ipaddress.ip_network` pour les réseaux.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nLe résultat attendu : A, R, A, R, R, A.\n\n</details>\n\n<details>\n<summary>✅ Réponse</summary>\n\n```python\nimport ipaddress\n\nREGLES = [\n    (\"ACCEPTER\", 80, \"0.0.0.0/0\"),\n    (\"ACCEPTER\", 443, \"0.0.0.0/0\"),\n    (\"ACCEPTER\", 22, \"192.168.1.0/24\"),\n    (\"REFUSER\", None, \"0.0.0.0/0\"),\n]\n\ndef decision(ip, port):\n    for action, p, reseau in REGLES:\n        if (p is None or p == port) and ipaddress.ip_address(ip) in ipaddress.ip_network(reseau):\n            return action\n\ntests = [(\"203.0.113.9\", 443), (\"203.0.113.9\", 22), (\"192.168.1.77\", 22),\n         (\"203.0.113.9\", 8080), (\"192.168.2.5\", 22), (\"198.51.100.1\", 80)]\nprint([decision(*t)[0] for t in tests])     # ['A', 'R', 'A', 'R', 'R', 'A']\n```\n\n</details>\n\n---\n\n## 🚀 À toi, en solo (20 XP)\n\n**Pare-feu avec état.** Étends le pare-feu pour qu'il :\n\n1. autorise les connexions **sortantes** (réseau interne → externe) et mémorise chaque connexion ;\n2. autorise les paquets **entrants** seulement s'ils appartiennent à une connexion mémorisée, ou s'ils visent un service public (80, 443) ;\n3. oublie une connexion après un délai d'inactivité (temps simulé).\n\nTeste : un client interne ouvre une connexion vers un serveur ; la réponse passe ; un autre paquet venant du même serveur vers un autre port est refusé ; après expiration, la réponse est refusée.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\nclass PareFeuEtat:\n    def __init__(self, delai=60):\n        self.delai = delai\n        self.connexions = {}                 # (ip_int, port_int, ip_ext, port_ext) -> dernière activité\n\n    def sortant(self, t, ip_int, port_int, ip_ext, port_ext):\n        self.connexions[(ip_int, port_int, ip_ext, port_ext)] = t\n        return \"ACCEPTER\"\n\n    def entrant(self, t, ip_ext, port_ext, ip_int, port_int):\n        if port_int in (80, 443):\n            return \"ACCEPTER (service public)\"\n        cle = (ip_int, port_int, ip_ext, port_ext)\n        if cle in self.connexions and t - self.connexions[cle] <= self.delai:\n            self.connexions[cle] = t\n            return \"ACCEPTER (réponse)\"\n        return \"REFUSER\"\n\npf = PareFeuEtat(delai=60)\nprint(pf.sortant(0, \"192.168.1.10\", 51000, \"93.184.216.34\", 443))\nprint(pf.entrant(5, \"93.184.216.34\", 443, \"192.168.1.10\", 51000))      # réponse acceptée\nprint(pf.entrant(6, \"93.184.216.34\", 8080, \"192.168.1.10\", 51000))     # autre port : refusé\nprint(pf.entrant(100, \"93.184.216.34\", 443, \"192.168.1.10\", 51000))    # trop tard : refusé\n```\n\n</details>\n\n---\n\n## ⚠️ Pièges classiques\n\n| Piège | Pourquoi c'est un problème | Comment l'éviter |\n|---|---|---|\n| **Penser que le NAT protège** | Il n'est pas conçu pour la sécurité | Toujours un vrai pare-feu |\n| **Règles dans le mauvais ordre** | Une règle générale masque les spécifiques | Du plus précis au plus général, `deny` à la fin |\n| **Ouvrir trop de ports** | Surface d'attaque élargie | N'ouvrir que le nécessaire |\n| **Oublier le trafic de retour** | Services qui ne répondent pas (sans état) | Pare-feu avec état ou règles explicites |\n\n---\n\n## 🐉 Mini-boss (40 XP)\n\n**Architecture réseau de HashBox.** Zones : internet, DMZ (serveur web), réseau interne (base de données, postes), administration.\n\n1. Définis les plages d'adresses (avec `ipaddress`) et les flux autorisés dans une **matrice de flux** (qui peut parler à qui, sur quel port).\n2. Écris une classe `Politique` qui évalue un flux `(source, destination, port)` et renvoie la règle appliquée.\n3. Teste avec 12 flux, dont des flux interdits (internet → base de données, DMZ → réseau administration).\n4. Décris ce qui se passe si le serveur web de la DMZ est compromis : que peut atteindre l'attaquant ?\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\nUn bon travail : internet → DMZ (80/443) ; DMZ → base de données (5432 seulement depuis le serveur web) ; administration → DMZ et interne (22) ; interne → internet (sortant) ; tout le reste refusé. La classe évalue les règles dans l'ordre et renvoie la règle appliquée pour l'explicabilité. Si le serveur web est compromis, il ne peut atteindre que le port de la base prévu, pas les postes ni l'administration : la segmentation limite le rayon d'action. Le dossier précise les journaux à surveiller sur les règles de refus.\n\n</details>\n\n---\n\n## ⚡ Quiz éclair (15 XP si 4/5 ou plus)\n\n**1.** Le NAT permet de :\n- A. chiffrer le trafic\n- B. faire partager une adresse publique à plusieurs machines privées\n- C. trouver l'adresse MAC\n\n**2.** Dans un pare-feu à règles ordonnées, c'est :\n- A. la dernière règle qui s'applique\n- B. la plus longue règle qui s'applique\n- C. la première règle qui correspond qui s'applique\n\n**3.** La politique « default deny » consiste à :\n- A. tout refuser sauf ce qui est explicitement autorisé\n- B. tout accepter sauf le danger\n- C. désactiver le pare-feu\n\n**4.** 🔁 *Révision mission 08* : Une clé publique peut être :\n- A. gardée secrète\n- B. partagée avec tout le monde\n- C. utilisée uniquement pour déchiffrer\n\n**5.** 🔁 *Révision mission 08* : Un certificat lie :\n- A. une adresse IP à une adresse MAC\n- B. un mot de passe à un utilisateur\n- C. un nom de domaine à une clé publique\n\n<details>\n<summary>✅ Réponses</summary>\n\n1. **B**.\n2. **C**.\n3. **A**.\n4. **B**.\n5. **C**.\n\n</details>\n\n---\n\n## 🪞 Je réfléchis (10 XP)\n\n1. Quels « pare-feu » personnels utilises-tu (filtrer les appels, les messages) ?\n2. Pourquoi refuser par défaut est-il plus sûr qu'accepter par défaut ?\n\n---\n\n## 🎒 À retenir\n\n1. NAT/PAT : une IP publique, une table de traduction avec ports.\n2. Connexions entrantes non sollicitées rejetées par défaut.\n3. Pare-feu : règles ordonnées, première correspondance, default deny.\n4. Avec état : mémorise les connexions.\n5. Segmenter limite les dégâts d'une compromission.\n\n```mermaid\nflowchart LR\n    T([\"NAT, pare-feu et services\"])\n    T --> R1[\"1. NAT/PAT : une IP publique, une table de traduction avec ports.\"]\n    T --> R2[\"2. Connexions entrantes non sollicitées rejetées par défaut.\"]\n    T --> R3[\"3. Pare-feu : règles ordonnées, première correspondance, default deny.\"]\n    T --> R4[\"4. Avec état : mémorise les connexions.\"]\n    T --> R5[\"5. Segmenter limite les dégâts d'une compromission.\"]\n```\n\n**Description du schéma** : la mission au centre, reliée aux cinq idées à retenir.\n\n---\n\n## 🏅 Récompenses\n\nTotal possible : **100 XP** · 🏅 Badge **Gardien de la frontière**\n\n---\n\n← [Mission 08 — TLS et HTTPS : la confiance](./08-tls-et-https.md) · [Mission 10 — Analyse de trafic et dépannage](./10-analyse-de-trafic-et-troubleshooting.md) →\n\n**HEF-060 — Réseaux**\n"
       },
       {
@@ -104,6 +1238,132 @@
         "durationMinutes": 90,
         "badge": "Détective du réseau",
         "slidesUrl": "/hef/slides-pdf/HEF-060/10-analyse-de-trafic-et-troubleshooting.pdf",
+        "flashQuiz": {
+          "xp": 15,
+          "passScore": 80,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Une connexion TCP « refusée » (RST) signifie :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "rien n'écoute sur ce port",
+                  "isCorrect": true
+                },
+                {
+                  "text": "paquets filtrés en silence",
+                  "isCorrect": false
+                },
+                {
+                  "text": "DNS en panne",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 2,
+              "text": "Une adresse 169.254.x.x indique :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "un réseau d'entreprise",
+                  "isCorrect": false
+                },
+                {
+                  "text": "que le DHCP n'a pas répondu",
+                  "isCorrect": true
+                },
+                {
+                  "text": "une adresse publique",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 3,
+              "text": "La démarche de dépannage recommandée va :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "au hasard",
+                  "isCorrect": false
+                },
+                {
+                  "text": "de l'application vers le câble sans test",
+                  "isCorrect": false
+                },
+                {
+                  "text": "de la couche basse vers la couche haute",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 4,
+              "text": "🔁 *Révision mission 09* : Le NAT permet de :",
+              "revisionOf": {
+                "module": null,
+                "mission": 9
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "faire partager une adresse publique à plusieurs machines privées",
+                  "isCorrect": true
+                },
+                {
+                  "text": "chiffrer le trafic",
+                  "isCorrect": false
+                },
+                {
+                  "text": "trouver l'adresse MAC",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 5,
+              "text": "🔁 *Révision mission 09* : La politique « default deny » consiste à :",
+              "revisionOf": {
+                "module": null,
+                "mission": 9
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "tout accepter sauf le danger",
+                  "isCorrect": false
+                },
+                {
+                  "text": "tout refuser sauf ce qui est explicitement autorisé",
+                  "isCorrect": true
+                },
+                {
+                  "text": "désactiver le pare-feu",
+                  "isCorrect": false
+                }
+              ]
+            }
+          ]
+        },
+        "reflection": {
+          "xp": 10,
+          "intro": null,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Quel réflexe de dépannage veux-tu garder (ne pas redémarrer au hasard, comparer deux situations) ?"
+            },
+            {
+              "order": 2,
+              "text": "Que changerais-tu à ta façon de décrire un problème réseau à quelqu'un d'autre ?"
+            }
+          ]
+        },
         "body": "![Analyse de trafic et dépannage](/hef/parcours/hef060-m10.svg)\n\n<img src=\"/hef/personnages/maya.svg\" alt=\"Maya, ton guide pour cette mission\" width=\"96\" align=\"right\">\n\n\n> **« Internet ne marche pas » n'est pas un diagnostic. Voyons comment le transformer en méthode.**\n\n⏱️ Durée : environ 90 minutes · 🎓 Niveau : intermédiaire · 🏅 Badge : **Détective du réseau**\n\n---\n\n## 🎬 L'histoire\n\nLundi matin, une dizaine de personnes à HashBox disent la même phrase : « Internet ne marche pas ! » Kodi ouvre un terminal. Les premières minutes, il essaie des choses au hasard : redémarrer le routeur, changer de câble, relancer le navigateur.\n\n> « Reprends à la base, dit Sam. Une couche après l'autre. À chaque étape, un test, une conclusion. »\n\n**Dans cette dernière mission, tu assembles tout le module en une méthode de dépannage.**\n\n---\n\n## 🎯 Ta mission\n\nÀ la fin, **je serai capable de** :\n\n- [ ] appliquer une démarche de dépannage couche par couche\n- [ ] utiliser ping, traceroute, nslookup/dig, curl et ss pour isoler un problème\n- [ ] lire une capture de paquets de façon élémentaire\n- [ ] écrire un outil de diagnostic réseau en Python\n- [ ] rédiger un rapport d'incident réseau\n\n---\n\n## 🧩 Défi d'échauffement (5 XP)\n\n« Je n'arrive pas à ouvrir le site de ma banque. » Liste dans l'ordre **cinq vérifications** que tu ferais, du plus simple au plus complexe (câble ou Wi-Fi, adresse, passerelle, nom, site). Pour chacune, qu'apprend-on si elle réussit ? Si elle échoue ?\n\n---\n\n## 💡 Le concept\n\n### La méthode : de bas en haut\n\n```mermaid\nflowchart TD\n    A[\"1. Lien : câble/Wi-Fi connecté ?\"] --> B[\"2. Adresse IP : j'en ai une ?\"]\n    B --> C[\"3. Passerelle : ping 192.168.x.1\"]\n    C --> D[\"4. Internet par IP : ping 8.8.8.8\"]\n    D --> E[\"5. DNS : nslookup exemple.fr\"]\n    E --> F[\"6. Port : le service répond-il ? (curl, nc)\"]\n    F --> G[\"7. Application : réponse HTTP correcte ?\"]\n```\n\n**Description du schéma** : sept vérifications successives, du lien physique à l'application. On s'arrête à la première qui échoue : c'est là que se trouve le problème.\n\n### Ce que chaque test nous apprend\n\n| Test | Succès signifie | Échec signifie |\n|---|---|---|\n| Lien actif | le support physique est bon | câble, Wi-Fi, carte |\n| Adresse IP obtenue | DHCP a répondu | DHCP en panne, `169.254.x.x` (auto-adresse) |\n| `ping` passerelle | le réseau local marche | problème local (switch, Wi-Fi) |\n| `ping 8.8.8.8` | la route vers internet marche | routage ou opérateur |\n| `nslookup exemple.fr` | DNS fonctionne | résolveur injoignable ou mauvais |\n| `curl -v https://exemple.fr` | transport + TLS + HTTP OK | pare-feu, port, certificat, service |\n\n### Les outils\n\n| Outil | Rôle |\n|---|---|\n| `ping` | joignabilité et latence (ICMP) |\n| `traceroute` / `tracepath` | chemin et sauts |\n| `nslookup` / `dig` | requêtes DNS |\n| `curl -v` | requête HTTP détaillée (TLS, en-têtes, codes) |\n| `ss -tulpn` | ports en écoute et connexions |\n| `ip addr`, `ip route` | adresses et routes |\n| `tcpdump` / Wireshark | capture et analyse de paquets |\n\n### Lire une capture\n\nUne capture montre chaque paquet : horodatage, source, destination, protocole, informations. Exemple d'une connexion TCP qui échoue :\n\n```text\n10:00:00.001 192.168.1.10:51234 > 203.0.113.50:443  SYN\n10:00:01.002 192.168.1.10:51234 > 203.0.113.50:443  SYN   (retransmission)\n10:00:03.004 192.168.1.10:51234 > 203.0.113.50:443  SYN   (retransmission)\n```\n\nDes SYN répétés **sans SYN-ACK** : le serveur ne répond pas (pare-feu qui jette, serveur éteint, mauvais routage). À l'inverse, un `RST` immédiat signifie « personne n'écoute sur ce port ».\n\n| Symptôme dans la capture | Cause probable |\n|---|---|\n| SYN sans réponse | paquets filtrés ou machine injoignable |\n| SYN puis RST | port fermé, rien n'écoute |\n| Requête DNS sans réponse | résolveur injoignable |\n| Beaucoup de retransmissions | perte de paquets, lien saturé |\n| Alerte TLS | certificat ou version non supportée |\n\n### Un diagnostic en Python\n\nOn peut automatiser les tests élémentaires avec les modules standard :\n\n```python\nimport socket\n\ndef resoudre(nom):\n    try:\n        return socket.gethostbyname(nom), None\n    except socket.gaierror as e:\n        return None, f\"échec DNS : {e}\"\n\ndef port_ouvert(ip, port, delai=1.0):\n    try:\n        with socket.create_connection((ip, port), timeout=delai):\n            return True, \"connexion acceptée\"\n    except ConnectionRefusedError:\n        return False, \"refusée (rien n'écoute, RST)\"\n    except socket.timeout:\n        return False, \"délai dépassé (filtré ou injoignable)\"\n    except OSError as e:\n        return False, f\"erreur : {e}\"\n\nprint(resoudre(\"localhost\"))\nprint(port_ouvert(\"127.0.0.1\", 9))      # le port 9 est en général fermé\n```\n\n> 🧠 **Astuce** : « refusée » et « délai dépassé » n'ont pas du tout la même cause. La première vient d'une machine qui répond « non », la seconde du silence.\n\n---\n\n## 🔍 Exemple pas à pas\n\n**Problème** : écrire un outil de diagnostic qui teste un service local et explique ce qu'il trouve.\n\n```python\nimport json, socket, threading, urllib.request\nfrom http.server import BaseHTTPRequestHandler, HTTPServer\n\nclass H(BaseHTTPRequestHandler):\n    def do_GET(self):\n        self.send_response(200); self.send_header(\"Content-Length\", \"2\"); self.end_headers(); self.wfile.write(b\"ok\")\n    def log_message(self, *a): pass\n\nserveur = HTTPServer((\"127.0.0.1\", 0), H)\nport_ok = serveur.server_address[1]\nthreading.Thread(target=serveur.serve_forever, daemon=True).start()\n\ndef diagnostiquer(hote, port):\n    etapes = []\n    try:\n        ip = socket.gethostbyname(hote)\n        etapes.append((\"DNS\", \"OK\", ip))\n    except socket.gaierror as e:\n        etapes.append((\"DNS\", \"ÉCHEC\", str(e)))\n        return etapes\n    try:\n        with socket.create_connection((ip, port), timeout=1):\n            etapes.append((\"TCP\", \"OK\", f\"port {port} ouvert\"))\n    except ConnectionRefusedError:\n        etapes.append((\"TCP\", \"ÉCHEC\", \"connexion refusée : rien n'écoute\"))\n        return etapes\n    except socket.timeout:\n        etapes.append((\"TCP\", \"ÉCHEC\", \"délai dépassé : paquets filtrés ?\"))\n        return etapes\n    try:\n        with urllib.request.urlopen(f\"http://{ip}:{port}/\", timeout=1) as r:\n            etapes.append((\"HTTP\", \"OK\", f\"code {r.status}\"))\n    except Exception as e:\n        etapes.append((\"HTTP\", \"ÉCHEC\", str(e)))\n    return etapes\n\ndef afficher(titre, etapes):\n    print(titre)\n    for couche, etat, detail in etapes:\n        print(f\"  {couche:5s} {etat:6s} {detail}\")\n\nafficher(\"service sain\", diagnostiquer(\"localhost\", port_ok))\nafficher(\"port fermé\", diagnostiquer(\"localhost\", 1))\nafficher(\"nom inconnu\", diagnostiquer(\"ce-nom-n-existe-pas.invalid\", 80))\nserveur.shutdown()\n```\n\n**Lecture** : l'outil s'arrête à la **première étape en échec** et explique la signification, exactement comme le ferait un technicien. Le troisième cas échoue dès le DNS, il ne sert donc à rien de tester le port.\n\n---\n\n## ✍️ À toi, avec aide (10 XP)\n\nVoici trois situations. Pour chacune, dis à quelle étape de la méthode le problème se situe, et propose la prochaine commande.\n\n1. `ping 192.168.1.1` → « Destination Host Unreachable ». L'ordinateur a l'adresse 169.254.7.22.\n2. `ping 8.8.8.8` répond ; `ping exemple.fr` → « Name or service not known ».\n3. `curl -v https://hashbox.example` → « Connection timed out after 10001 ms » ; `ping` du serveur répond.\n\n<details>\n<summary>💡 Indice 1</summary>\n\nUne adresse 169.254.x.x signifie que le DHCP n'a pas répondu.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nSi l'IP marche mais pas les noms, c'est le DNS.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nLe ping répond mais le port 443 ne répond pas : quelque chose filtre ou le service est arrêté.\n\n</details>\n\n<details>\n<summary>✅ Réponse</summary>\n\n1. **Étape 2 (adresse IP)** : pas de réponse du DHCP (auto-adresse). Prochaine commande : vérifier le lien et le service DHCP (`ip addr`, journaux DHCP, essayer un autre port/Wi-Fi).\n2. **Étape 5 (DNS)** : la connectivité IP est bonne. Prochaine commande : `nslookup exemple.fr 8.8.8.8` pour tester un autre résolveur, puis vérifier `/etc/resolv.conf`.\n3. **Étape 6 (port 443)** : le serveur est joignable mais le port ne répond pas : pare-feu qui jette les paquets, ou service arrêté (un service arrêté renverrait plutôt un `RST`/refus rapide). Prochaine commande : `nc -zv hashbox.example 443` depuis plusieurs endroits, puis vérifier les règles du pare-feu et `ss -tlnp` côté serveur.\n\n</details>\n\n---\n\n## 🚀 À toi, en solo (20 XP)\n\n**Analyseur de capture.** Voici une capture simplifiée sous forme de lignes `temps source destination protocole détail`. Écris `analyser(lignes)` qui détecte automatiquement :\n\n1. les connexions TCP qui n'aboutissent jamais (SYN répétés sans SYN-ACK) ;\n2. les connexions refusées (SYN suivi de RST) ;\n3. les requêtes DNS sans réponse ;\n4. le temps de réponse HTTP (requête → réponse) pour chaque connexion réussie.\n\nTeste avec une capture de ton invention contenant au moins un cas de chaque.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\nfrom collections import defaultdict\n\nCAPTURE = [\n    \"0.000 10.0.0.2:5000 203.0.113.50:443 TCP SYN\",\n    \"1.000 10.0.0.2:5000 203.0.113.50:443 TCP SYN\",\n    \"3.000 10.0.0.2:5000 203.0.113.50:443 TCP SYN\",\n    \"0.100 10.0.0.2:5001 203.0.113.60:80 TCP SYN\",\n    \"0.101 203.0.113.60:80 10.0.0.2:5001 TCP RST\",\n    \"0.200 10.0.0.2:5002 203.0.113.70:80 TCP SYN\",\n    \"0.230 203.0.113.70:80 10.0.0.2:5002 TCP SYN-ACK\",\n    \"0.231 10.0.0.2:5002 203.0.113.70:80 TCP ACK\",\n    \"0.232 10.0.0.2:5002 203.0.113.70:80 HTTP GET /\",\n    \"0.400 203.0.113.70:80 10.0.0.2:5002 HTTP 200 OK\",\n    \"0.500 10.0.0.2:5003 10.0.0.53:53 DNS requete exemple.fr\",\n]\n\ndef analyser(lignes):\n    syn, synack, rst, dns_req, dns_rep = defaultdict(list), set(), set(), {}, set()\n    http_req, http_rep = {}, {}\n    for ligne in lignes:\n        t, src, dst, proto, *detail = ligne.split()\n        t, detail = float(t), \" \".join(detail)\n        if proto == \"TCP\" and detail == \"SYN\":\n            syn[(src, dst)].append(t)\n        elif proto == \"TCP\" and detail == \"SYN-ACK\":\n            synack.add((dst, src))\n        elif proto == \"TCP\" and detail == \"RST\":\n            rst.add((dst, src))\n        elif proto == \"DNS\" and detail.startswith(\"requete\"):\n            dns_req[(src, dst)] = t\n        elif proto == \"DNS\" and detail.startswith(\"reponse\"):\n            dns_rep.add((dst, src))\n        elif proto == \"HTTP\" and detail.startswith(\"GET\"):\n            http_req[(src, dst)] = t\n        elif proto == \"HTTP\":\n            http_rep[(dst, src)] = t\n    rapport = []\n    for cle, temps in syn.items():\n        if cle in rst:\n            rapport.append(f\"{cle[0]} → {cle[1]} : connexion refusée (RST)\")\n        elif cle not in synack:\n            rapport.append(f\"{cle[0]} → {cle[1]} : {len(temps)} SYN sans réponse (filtré ou injoignable)\")\n    for cle in dns_req:\n        if cle not in dns_rep:\n            rapport.append(f\"{cle[0]} → {cle[1]} : requête DNS sans réponse\")\n    for cle, t in http_req.items():\n        if cle in http_rep:\n            rapport.append(f\"{cle[0]} → {cle[1]} : réponse HTTP en {1000 * (http_rep[cle] - t):.0f} ms\")\n    return rapport\n\nfor r in analyser(CAPTURE):\n    print(\"-\", r)\n```\nLe raisonnement est celui d'un outil comme Wireshark : on regroupe les paquets par connexion, puis on cherche les motifs qui trahissent une panne.\n\n</details>\n\n---\n\n## ⚠️ Pièges classiques\n\n| Piège | Pourquoi c'est un problème | Comment l'éviter |\n|---|---|---|\n| **Tester au hasard** | On passe à côté de la cause | Une couche après l'autre, de bas en haut |\n| **Confondre refus et silence** | Causes opposées | Refus (RST) = rien n'écoute ; silence = filtré ou injoignable |\n| **Accuser le réseau trop vite** | Souvent DNS, certificat ou application | Tester chaque couche |\n| **Ne pas noter** | On refait les mêmes tests | Journal de diagnostic |\n\n---\n\n## 🐉 Mini-boss (60 XP)\n\n**Dossier de dépannage final du module HEF-060.** Scénario : « Depuis ce matin, les postes du bureau B n'accèdent plus à l'application interne `app.hashbox.example` (port 8443). Le bureau A fonctionne. »\n\n1. Écris un programme qui simule trois causes possibles : (a) règle de pare-feu entre le bureau B et le serveur, (b) enregistrement DNS erroné pour les clients du bureau B (résolveur interne différent), (c) route manquante vers le sous-réseau du serveur. Chaque cause produit des « sorties de commandes » différentes (ping, nslookup, connexion TCP).\n2. Écris `diagnostiquer(sorties)` qui identifie la cause à partir de ces sorties en appliquant la méthode couche par couche.\n3. Rédige le rapport : chronologie, constats, cause racine, correction, vérification, prévention.\n4. Relie chaque constat à une mission du module (DNS, routage, pare-feu, TCP…).\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\nUn bon dossier : pour (a), `ping` du serveur répond, DNS résout bien, la connexion TCP au port 8443 expire (silence) → pare-feu ; pour (b), `nslookup` donne une mauvaise adresse ou NXDOMAIN depuis B mais la bonne depuis A → DNS ; pour (c), `ping` du serveur échoue (« network unreachable »), `ip route` n'a pas de route vers le sous-réseau → routage. `diagnostiquer` s'arrête à la première étape en échec et nomme la couche. Le rapport inclut la comparaison A/B (qui est la meilleure démarche pour isoler), la correction minimale, la vérification (les trois tests au vert depuis B) et la prévention (supervision synthétique du service depuis chaque site, versionner les règles de pare-feu et les zones DNS).\n\n</details>\n\n---\n\n## ⚡ Quiz éclair (15 XP si 4/5 ou plus)\n\n**1.** Une connexion TCP « refusée » (RST) signifie :\n- A. rien n'écoute sur ce port\n- B. paquets filtrés en silence\n- C. DNS en panne\n\n**2.** Une adresse 169.254.x.x indique :\n- A. un réseau d'entreprise\n- B. que le DHCP n'a pas répondu\n- C. une adresse publique\n\n**3.** La démarche de dépannage recommandée va :\n- A. au hasard\n- B. de l'application vers le câble sans test\n- C. de la couche basse vers la couche haute\n\n**4.** 🔁 *Révision mission 09* : Le NAT permet de :\n- A. faire partager une adresse publique à plusieurs machines privées\n- B. chiffrer le trafic\n- C. trouver l'adresse MAC\n\n**5.** 🔁 *Révision mission 09* : La politique « default deny » consiste à :\n- A. tout accepter sauf le danger\n- B. tout refuser sauf ce qui est explicitement autorisé\n- C. désactiver le pare-feu\n\n<details>\n<summary>✅ Réponses</summary>\n\n1. **A**.\n2. **B**.\n3. **C**.\n4. **A**.\n5. **B**.\n\n</details>\n\n---\n\n## 🪞 Je réfléchis (10 XP)\n\n1. Quel réflexe de dépannage veux-tu garder (ne pas redémarrer au hasard, comparer deux situations) ?\n2. Que changerais-tu à ta façon de décrire un problème réseau à quelqu'un d'autre ?\n\n---\n\n## 🎒 À retenir\n\n1. Dépanner = tester de bas en haut, une couche après l'autre.\n2. Refus rapide ≠ silence : causes différentes.\n3. ping, traceroute, nslookup, curl, ss, capture de paquets.\n4. Comparer une situation qui marche et une qui échoue.\n5. Un rapport clair permet de prévenir la récidive.\n\n---\n\n## 🏅 Récompenses\n\nTotal possible : **120 XP** · 🏅 Badge **Détective du réseau**\n\n---\n\n← [Mission 09 — NAT, pare-feu et services](./09-nat-pare-feu-et-services.md)\n\n## 🎉 Félicitations\n\nTu as terminé **HEF-060 — Réseaux**. Tu sais lire un modèle en couches, calculer des sous-réseaux, raisonner sur le routage, écrire des clients et serveurs TCP/HTTP, comprendre DNS et TLS, configurer des règles de filtrage et dépanner un service couche par couche.\n\n→ Prochain module : **HEF-070 — Bases de données**\n\n**HEF-060 — Réseaux**\n"
       }
     ],
@@ -129,6 +1389,20 @@
           "Le diagnostic distingue « refusé » (RST), « délai dépassé » et « nom inconnu ».",
           "Les codes HTTP sont corrects (200, 201, 204, 400, 404)."
         ],
+        "reflection": {
+          "xp": null,
+          "intro": null,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Quelle panne était la plus difficile à distinguer des autres ?"
+            },
+            {
+              "order": 2,
+              "text": "Qu'a changé le fait d'ajouter des délais d'attente partout ?"
+            }
+          ]
+        },
         "sourcePath": "03-Labs/lab-01.md",
         "body": "> Construire un petit service réseau, le casser de plusieurs façons, et le dépanner avec méthode.\n\n## Scénario\n\nHashBox veut un petit service interne d'annuaire accessible en réseau. Tu dois l'écrire (TCP puis HTTP), simuler des pannes réseau typiques (port fermé, filtré, DNS erroné), et construire l'outil qui les diagnostique.\n\n## Objectif\n\nÉcrire un serveur et un client TCP avec un protocole de messages, exposer le même service en HTTP/JSON, puis implémenter un diagnostic en couches qui distingue les pannes.\n\n## Environnement\n\nPython 3.10 ou plus. Boucle locale (127.0.0.1) uniquement. Modules standard : `socket`, `threading`, `http.server`, `urllib`, `ipaddress`.\n\n## État de départ\n\nUn fichier `annuaire.py` vide. Données : un dictionnaire de 10 membres (nom → ville). Protocole TCP imposé : une ligne par requête (`GET nom`, `SET nom ville`, `DEL nom`) et une ligne par réponse (`OK ...` ou `ERR ...`).\n\n## Tâches\n\n1. Écris le serveur TCP multi-clients (un thread par connexion) avec le protocole en lignes.\n2. Écris un client qui gère les délais d'attente et les erreurs.\n3. Écris l'API HTTP équivalente (`GET /membres/<nom>`, `PUT /membres/<nom>`, `DELETE /membres/<nom>`) avec les bons codes de statut.\n4. Écris des tests qui vérifient les deux interfaces avec les mêmes cas.\n5. Simule trois pannes : port fermé (rien n'écoute), service lent (délai dépassé), mauvais nom d'hôte.\n6. Écris `diagnostiquer(hote, port)` qui teste DNS, TCP, puis HTTP et explique chaque échec.\n7. Ajoute un test d'adressage : vérifie avec `ipaddress` qu'un client est dans le sous-réseau autorisé avant de le servir.\n8. Rédige un rapport de 10 lignes comparant TCP brut et HTTP pour ce service.\n\n## Observations attendues\n\n- Les deux interfaces donnent les mêmes résultats sur les mêmes requêtes.\n- Le client ne se fige jamais : chaque appel a un délai d'attente.\n- Le diagnostic distingue « refusé » (RST), « délai dépassé » et « nom inconnu ».\n- Les codes HTTP sont corrects (200, 201, 204, 400, 404).\n\n## Validation\n\n`python annuaire.py` lance les tests sans erreur. Chaque panne simulée produit un diagnostic distinct et lisible.\n\n## Indices\n\n<details>\n<summary>💡 Indice 1</summary>\n\nUtilise le port 0 pour laisser le système choisir un port libre et évite les conflits.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nPour simuler un service lent, mets un `time.sleep` plus long que le délai du client.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nPour un port « refusé », connecte-toi à un port sur lequel personne n'écoute.\n\n</details>\n\n## Preuves à rendre\n\n- [ ] `annuaire.py` et ses tests\n- [ ] Sorties du diagnostic pour chaque panne\n- [ ] Rapport comparatif TCP / HTTP\n\n## Réflexion\n\n1. Quelle panne était la plus difficile à distinguer des autres ?\n2. Qu'a changé le fait d'ajouter des délais d'attente partout ?\n\n**HEF-060 — Réseaux**\n"
       }
