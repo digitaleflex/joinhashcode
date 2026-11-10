@@ -73,8 +73,10 @@ export default async function AdminHefPage() {
   const modules = courses.map((course) => {
     const contents = course.sections.flatMap((section) => section.contents)
     const missionContents = course.sections.find((section) => section.title === "Missions")?.contents ?? []
+    // Quiz final uniquement : les quiz éclair sont rattachés aux contenus DOCUMENT des missions.
     const quizQuestions = contents.reduce(
-      (sum, content) => sum + (content.quiz?.questions.length ?? 0),
+      (sum, content) =>
+        sum + (content.type === "QUIZ" ? content.quiz?.questions.length ?? 0 : 0),
       0,
     )
     const slides = contents.filter((content) => content.url?.includes("/hef/slides-pdf/")).length
