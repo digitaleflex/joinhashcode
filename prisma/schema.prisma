@@ -919,6 +919,8 @@ model Content {
   quiz        CourseQuiz?
   mission     Mission?
   forumTopics ForumTopic[]
+  // Questions de quiz dont l'explication renvoie vers cette leçon (#428).
+  conceptQuestions CourseQuestion[] @relation("QuestionConcept")
 
   @@unique([sectionId, order])
   @@index([sectionId])
@@ -978,13 +980,18 @@ model CourseQuestion {
   quizId      String
   quiz        CourseQuiz    @relation(fields: [quizId], references: [id], onDelete: Cascade)
   text        String
+  // Pourquoi la bonne réponse est correcte (#428). Affichée après validation.
   explanation String?
+  // Leçon du cours qui explique la notion (#428) : lien « Revoir la notion ».
+  conceptContentId String?
+  conceptContent   Content?      @relation("QuestionConcept", fields: [conceptContentId], references: [id], onDelete: SetNull)
   order       Int           @default(0)
   options     CourseOption[]
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 
   @@index([quizId])
+  @@index([conceptContentId])
   @@map("question")
 }
 
@@ -994,6 +1001,8 @@ model CourseOption {
   question   CourseQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
   text       String
   isCorrect  Boolean       @default(false)
+  // Pourquoi cette option est juste ou fausse (#428). Affiché après validation.
+  feedback   String?
 
   @@index([questionId])
   @@map("option")
