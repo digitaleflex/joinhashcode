@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { checkRateLimit, mutationLimiter } from "@/lib/ratelimit";
 import { scoreQuiz } from "@/lib/quiz-scoring";
+import { buildQuizReview, lessonHref } from "@/lib/quiz-review";
 
 export const dynamic = "force-dynamic";
 
@@ -30,7 +31,16 @@ export async function POST(
     where: { id: quizId },
     include: {
       questions: {
-        include: { options: true },
+        include: {
+          options: true,
+          conceptContent: {
+            select: {
+              id: true,
+              title: true,
+              section: { select: { course: { select: { slug: true } } } },
+            },
+          },
+        },
         orderBy: { order: "asc" },
       },
     },
@@ -41,6 +51,25 @@ export async function POST(
 
   const { correct, total, score, corrections } = scoreQuiz(quiz.questions, body.answers);
   const passed = score >= quiz.passScore;
+  // Mode examen : explications et feedback ne sont envoyés qu'ici, après validation.
+  const review = buildQuizReview(
+    quiz.questions.map((question) => ({
+      id: question.id,
+      text: question.text,
+      explanation: question.explanation,
+      options: question.options,
+      concept: question.conceptContent
+        ? {
+            href: lessonHref(
+              question.conceptContent.section.course.slug,
+              question.conceptContent.id,
+            ),
+            title: question.conceptContent.title,
+          }
+        : null,
+    })),
+    corrections,
+  );
 
   await prisma.courseQuizAttempt.create({
     data: {
@@ -58,5 +87,6 @@ export async function POST(
     correct,
     total,
     corrections,
+    review,
   });
 }
