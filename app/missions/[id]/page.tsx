@@ -64,7 +64,7 @@ export default async function MissionBriefingPage({
     avgDelay = Math.round(totalDelay / approvedSubmissions.length / (1000 * 60 * 60)) || 1
   }
 
-  const [dbUser, userSquad] = await Promise.all([
+  const [dbUser] = await Promise.all([
     prisma.user.findUnique({
       where: { id: session.user.id },
       include: {
@@ -83,7 +83,6 @@ export default async function MissionBriefingPage({
         },
       },
     }),
-    prisma.member.findFirst({ where: { userId: session.user.id }, select: { id: true } }),
   ])
 
   if (!dbUser) redirect("/signin")
@@ -144,7 +143,7 @@ export default async function MissionBriefingPage({
 
   return (
     <SidebarProvider>
-      <AppSidebar user={dbUser} hasSquad={!!userSquad} />
+      <AppSidebar user={dbUser} />
       <BottomNav />
 
       <SidebarInset className="bg-background">
@@ -197,27 +196,6 @@ export default async function MissionBriefingPage({
                   </div>
                 </div>
 
-                {/* Right: XP reward */}
-                <div className="shrink-0 flex flex-col items-end justify-start">
-                  <div className="text-xs font-mono text-muted-foreground uppercase mb-1">
-                    Récompense
-                  </div>
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <div className="text-4xl sm:text-6xl md:text-7xl font-black font-mono text-primary leading-none cursor-help">
-                          +{mission.xp}
-                        </div>
-                      </TooltipTrigger>
-                      <TooltipContent className="bg-zinc-900 border-white/10 text-xs text-zinc-300 font-mono">
-                        XP de base. Un travail exemplaire peut rapporter un bonus.
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                  <div className="text-xs font-mono text-primary/60 uppercase mt-1">
-                    XP
-                  </div>
-                </div>
               </div>
 
               {/* Meta strip */}
@@ -426,7 +404,6 @@ export default async function MissionBriefingPage({
                           {submission?.qualityLevel && submission.qualityLevel !== "STANDARD" && (
                             <p className="text-xs text-emerald-400/60 mt-1 font-mono">
                               {submission.qualityLevel === "EXEMPLARY" ? "⭐ Travail exemplaire" : "✦ Très bon travail"}
-                              {" · "}+{submission.xpAwarded} XP
                             </p>
                           )}
                         </div>
@@ -495,7 +472,7 @@ export default async function MissionBriefingPage({
                             <GraduationCap className="w-4 h-4 text-primary/60 mt-0.5 shrink-0 group-hover:text-primary transition-colors" />
                             <div className="min-w-0">
                               <p className="text-xs font-medium text-zinc-300 group-hover:text-primary transition-colors truncate">{a.title}</p>
-                              <p className="text-xs font-mono text-zinc-600 mt-0.5">{a.duration} · +{a.xpReward} XP</p>
+                              <p className="text-xs font-mono text-zinc-600 mt-0.5">{a.duration}</p>
                             </div>
                             <ChevronRight className="w-3.5 h-3.5 text-zinc-700 shrink-0 mt-1 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
                           </Link>

@@ -5,7 +5,7 @@ import { Mission, UserProfile } from "@/lib/missions";
 import { COMMUNITY_LINKS } from "@/lib/config";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, Lock, ArrowRight, Zap, ShieldCheck, Globe, MessageSquare, Send, Clock } from "lucide-react";
+import { CheckCircle2, ArrowRight, Zap, ShieldCheck, Globe, MessageSquare, Send, Clock } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -30,19 +30,12 @@ export interface MissionWithStats extends Mission {
 
 type ProgressionStage = "INIT" | "CORE" | "PRO";
 
-function getUserStage(userLevel: number): ProgressionStage {
-  if (userLevel <= 1) return "INIT";
-  if (userLevel <= 3) return "CORE";
-  return "PRO";
-}
-
 const STAGE_CONFIG: Record<ProgressionStage, {
   label: string;
   sublabel: string;
   color: string;
   bgColor: string;
   borderColor: string;
-  requiredLevel: number;
 }> = {
   INIT: {
     label: "Démarrage",
@@ -50,7 +43,6 @@ const STAGE_CONFIG: Record<ProgressionStage, {
     color: "text-primary",
     bgColor: "bg-emerald-950/20",
     borderColor: "border-emerald-500/20",
-    requiredLevel: 1,
   },
   CORE: {
     label: "Progression",
@@ -58,7 +50,6 @@ const STAGE_CONFIG: Record<ProgressionStage, {
     color: "text-primary",
     bgColor: "bg-cyan-950/20",
     borderColor: "border-cyan-500/20",
-    requiredLevel: 2,
   },
   PRO: {
     label: "Approfondissement",
@@ -66,21 +57,14 @@ const STAGE_CONFIG: Record<ProgressionStage, {
     color: "text-primary",
     bgColor: "bg-purple-950/20",
     borderColor: "border-purple-500/20",
-    requiredLevel: 4,
   },
 };
 
-const XP_PER_LEVEL: Record<number, number> = { 1: 1000, 2: 2000, 3: 3000 }
-
 export function MissionsList({
-  userLevel,
-  userXp = 0,
   submissions,
   userClass,
   missions
 }: {
-  userLevel: number;
-  userXp?: number;
   submissions: Record<string, string>; // missionId -> status
   userClass?: string | null;
   missions: MissionWithStats[];
@@ -109,8 +93,10 @@ export function MissionsList({
     };
   }, [availableMissions, typeFilter]);
 
-  const userStage = getUserStage(userLevel);
   const stages: ProgressionStage[] = ["INIT", "CORE", "PRO"];
+  // Étape courante = la première dont tous les labs ne sont pas encore validés.
+  const userStage: ProgressionStage =
+    stages.find((st) => availableMissions.some((m) => m.missionLevel === st && submissions[m.id] !== "APPROVED")) ?? "PRO";
 
   const allTypes = useMemo(() => {
     const types = new Set(availableMissions.map(m => m.type));
@@ -195,11 +181,10 @@ export function MissionsList({
       {stages.map(stage => {
         const config = STAGE_CONFIG[stage];
         const stageMissions = missionsByStage[stage];
-        const isLocked = config.requiredLevel > userLevel;
         const stageTotal = availableMissions.filter(m => m.missionLevel === stage).length;
         const stageCompleted = stageMissions.filter(m => submissions[m.id] === "APPROVED").length;
 
-        if (stageMissions.length === 0 && !isLocked) return null;
+        if (stageMissions.length === 0) return null;
 
         return (
           <section key={stage} className="space-y-4">
@@ -233,29 +218,11 @@ export function MissionsList({
               </div>
             )}
 
-            {isLocked && (
-              <div className="px-4 py-3 bg-zinc-900/40 rounded-xl border border-white/5 space-y-2">
-                <div className="flex items-center gap-2">
-                  <Lock className="size-3 text-zinc-600" />
-                  <span className="text-3xs text-zinc-500 font-mono uppercase tracking-widest">
-                    Niveau {config.requiredLevel} requis (niveau {userLevel} actuel)
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 text-xs-sm font-mono text-zinc-600">
-                  <div className="h-1 flex-1 bg-white/5 rounded-full overflow-hidden">
-                    <div className="h-full bg-primary/50 rounded-full" style={{ width: `${(userXp % 1000) / 10}%` }} />
-                  </div>
-                  <span>{userXp % 1000} / 1000 XP</span>
-                </div>
-              </div>
-            )}
-
-            <div className={cn("grid md:grid-cols-2 gap-6 lg:gap-8", isLocked && "opacity-40 grayscale")}>
+            <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
               {stageMissions.map(mission => (
                 <MissionCard 
                   key={mission.id} 
                   mission={mission} 
-                  userLevel={userLevel} 
                   submissions={submissions}
                   isRecommended={!!lowerClass && (!!mission.targetProfiles?.includes(lowerClass as UserProfile))}
                   onPreview={() => setSelectedMission(mission)}
@@ -271,7 +238,6 @@ export function MissionsList({
         mission={selectedMission}
         isOpen={!!selectedMission}
         onClose={() => setSelectedMission(null)}
-        userLevel={userLevel}
         hasSubmission={selectedMission ? !!submissions[selectedMission.id] : false}
         submissionStatus={selectedMission ? submissions[selectedMission.id] : null}
       />
@@ -281,13 +247,11 @@ export function MissionsList({
 
 function MissionCard({ 
   mission, 
-  userLevel, 
   submissions,
   isRecommended,
   onPreview
 }: { 
   mission: MissionWithStats; 
-  userLevel: number;
   submissions: Record<string, string>;
   isRecommended?: boolean;
   onPreview: () => void;
@@ -298,8 +262,6 @@ function MissionCard({
   const status = submissions[mission.id];
   const isCompleted = status === "APPROVED";
   const isPending = status === "PENDING" || status === "IN_REVIEW" || status === "NEEDS_REVISION";
-  const requiredLevel = mission.requiredLevel ?? 1;
-  const isLocked = userLevel < requiredLevel;
 
   const [socialClicks, setSocialClicks] = useState<Record<string, boolean>>({
     telegram: false, discord: false, whatsapp: false
@@ -373,7 +335,7 @@ function MissionCard({
   return (
     <Card className={cn(
       "relative overflow-hidden transition-all duration-500 rounded-4xl border-white/5 group shadow-2xl flex flex-col",
-      isLocked ? 'opacity-40 grayscale bg-white/1' : 'bg-zinc-900/40 hover:bg-zinc-900/60 hover:border-primary/40'
+      'bg-zinc-900/40 hover:bg-zinc-900/60 hover:border-primary/40'
     )}>
       <CardHeader className="pb-4 shrink-0">
         <div className="flex items-start justify-between mb-4">
@@ -385,9 +347,6 @@ function MissionCard({
             )}
             <Badge className={cn("text-3xs uppercase font-black tracking-wider border", statusBadge.className)}>
               {statusBadge.label}
-            </Badge>
-            <Badge variant="outline" className="text-3xs font-mono border-white/10 text-zinc-500">
-              +{mission.xpReward} XP
             </Badge>
 
             {mission.duration && (
@@ -413,11 +372,7 @@ function MissionCard({
               </Tooltip>
             </TooltipProvider>
           </div>
-          {isLocked ? (
-            <div className="p-2 bg-white/5 rounded-lg border border-white/10">
-              <Lock className="h-3 w-3 text-zinc-600" />
-            </div>
-          ) : isCompleted ? (
+          {isCompleted ? (
             <div className="p-2 bg-emerald-500/10 rounded-lg border border-emerald-500/20">
               <ShieldCheck className="h-4 w-4 text-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
             </div>
@@ -577,7 +532,7 @@ function MissionCard({
             )}
           </div>
 
-          {!isLocked && !isCompleted && !isPending && mission.id !== "social-connection-protocol" && (
+          {!isCompleted && !isPending && mission.id !== "social-connection-protocol" && (
             <Button asChild className="btn-primary-glow w-full h-12 rounded-xl text-xs uppercase font-black tracking-wider gap-2">
               <Link href={`/missions/${mission.id}`}>
                 {mission.type === "INTRO" ? "Me présenter" : "Commencer"}

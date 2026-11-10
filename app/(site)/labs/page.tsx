@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { ArrowRight, Clock, FlaskConical, Zap } from "lucide-react"
+import { ArrowRight, Clock, FlaskConical } from "lucide-react"
 import { SectionHeading } from "@/components/site/section-heading"
 import {
   getPublishedMissions,
@@ -276,7 +276,6 @@ export default async function LabsPage({
                     {a.duration && (
                       <span className="inline-flex items-center gap-1"><Clock className="h-3.5 w-3.5" aria-hidden />{a.duration}</span>
                     )}
-                    <span className="inline-flex items-center gap-1"><Zap className="h-3.5 w-3.5" aria-hidden />{a.xpReward} XP</span>
                   </div>
                 </article>
               ))}

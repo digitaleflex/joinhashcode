@@ -203,7 +203,7 @@ const handleSubmitRetro = async (e: React.FormEvent) => {
             </h3>
             <p className="text-xs text-zinc-400 font-light max-w-xs">
               {isSignalMission 
-                ? "Ton profil est à jour. XP accordés immédiatement." 
+                ? "Ton profil est à jour." 
                 : "Ta soumission est en file d'attente. Un reviewer va l'examiner sous 48h."}
             </p>
           </div>

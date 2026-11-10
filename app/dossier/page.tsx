@@ -95,28 +95,6 @@ export default async function DossierPage({ searchParams }: PageProps) {
         orderBy: { createdAt: 'desc' },
         take: 50
       },
-      members: {
-        include: {
-          organization: {
-            include: {
-              members: {
-                include: {
-                     user: {
-                       select: {
-                         id: true,
-                         name: true,
-                         pseudo: true,
-                         image: true,
-                         class: true,
-                         level: true,
-                       }
-                     }
-                }
-              }
-            }
-          }
-        }
-      }
     },
   }) as {
     id: string;
@@ -153,7 +131,6 @@ export default async function DossierPage({ searchParams }: PageProps) {
     quizResults: { createdAt: Date }[];
     missionSubmissions: any[];
     activityLogs: { id: string; action: string; createdAt: Date }[];
-    members: { organization: { slug: string; name: string; members: { userId: string; user: { id: string; name: string; pseudo: string; image: string | null; class: string | null; level: number } }[] } }[];
   };
 
   if (!dbUser) return null;
@@ -182,86 +159,14 @@ export default async function DossierPage({ searchParams }: PageProps) {
     activityLogs: dbUser.activityLogs,
   };
 
-  const activeOrg = dbUser.members[0]?.organization ?? null;
   const quizResult = dbUser.quizResults?.[0] as { profileType?: string | null; createdAt: Date } | undefined;
-
-  // Fetch squad activity logs if in a squad
-  let squadMembersLogs: Array<{ id: string; action: string; createdAt: Date; user: { name: string; image: string | null; pseudo: string | null } | null }> = [];
-  if (activeOrg) {
-    const squadMemberIds = activeOrg.members.map((m) => m.userId);
-    squadMembersLogs = await prisma.activityLog.findMany({
-      where: {
-        userId: { in: squadMemberIds },
-        action: {
-          in: ["MISSION_SUBMITTED", "MISSION_APPROVED", "SQUAD_CREATED", "SQUAD_JOINED", "LEVEL_UP", "CHECKIN_COMPLETED"],
-        },
-      },
-      include: {
-        user: {
-          select: {
-            name: true,
-            image: true,
-            pseudo: true,
-          },
-        },
-      },
-      orderBy: { createdAt: "desc" },
-      take: 50,
-    });
-  }
-
-  // Fetch viewer's own organization membership to allow direct invitation
-  let viewerSquad = null;
-  let hasSentInvitation = false;
-  if (session && session.user.id !== targetUserId) {
-    const viewerMember = await prisma.member.findFirst({
-      where: { userId: session.user.id },
-      include: {
-        organization: {
-          include: {
-            members: {
-              include: {
-                user: {
-                  select: {
-                    class: true
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    });
-
-    if (viewerMember && ["owner", "admin"].includes(viewerMember.role)) {
-      viewerSquad = {
-        id: viewerMember.organization.id,
-        name: viewerMember.organization.name,
-        role: viewerMember.role,
-        members: viewerMember.organization.members.map((m) => ({
-          userId: m.userId,
-          class: m.user.class
-        }))
-      };
-
-      // Check if invitation has already been sent to this user
-      const existingInvite = await prisma.invitation.findFirst({
-        where: {
-          organizationId: viewerMember.organizationId,
-          email: dbUser.email,
-          status: "pending"
-        }
-      });
-      hasSentInvitation = !!existingInvite;
-    }
-  }
 
   const featureFlags = getFeatureFlags();
 
   return (
     <TourProvider userId={session.user.id} featureFlag={isFeatureEnabled("tour")}>
     <SidebarProvider>
-      <AppSidebar user={user} hasSquad={!!activeOrg} />
+      <AppSidebar user={user} />
       <BottomNav />
       
       <SidebarInset className="bg-background relative overflow-hidden">
@@ -274,12 +179,9 @@ export default async function DossierPage({ searchParams }: PageProps) {
         <main className="flex-1 p-3 sm:p-6 md:p-10 pb-40 md:pb-12 overflow-y-auto scrollbar-none relative z-[var(--z-content)]">
           <DossierView 
             user={user}
-            activeOrg={activeOrg}
             quizResult={quizResult}
             isInspecting={isInspecting}
             isPublic={targetUserId !== session.user.id}
-            viewerSquad={viewerSquad}
-            hasSentInvitation={hasSentInvitation}
             featureFlags={featureFlags}
           />
         </main>

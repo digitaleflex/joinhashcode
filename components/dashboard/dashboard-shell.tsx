@@ -20,7 +20,6 @@ import Link from "next/link"
 import { AppSidebar } from "./app-sidebar"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { UserTopBar } from "./user-topbar"
-import { DailyCheckinWidget } from "./daily-checkin-widget"
 const WelcomeModal = dynamic(() => import("./welcome-modal").then((m) => m.WelcomeModal), { ssr: false })
 const MissionHistory = dynamic(() => import("./mission-history").then((m) => m.MissionHistory), { ssr: false })
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
@@ -33,7 +32,6 @@ import { NextStepCard } from "./next-step-card"
 import { getMemberNextStep } from "@/lib/next-step"
 import type { FirstAction } from "@/lib/first-action"
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
-import type { SquadData } from "@/components/dashboard/squad-journey"
 import type { Activity } from "@/components/landing/activity-feed"
 const ActivityFeed = dynamic(() => import("../landing/activity-feed").then((m) => m.ActivityFeed), { ssr: false })
 
@@ -67,13 +65,10 @@ const PROFILE_CONFIGS: Record<string, { title: string, color: string, gradient: 
 export function DashboardShell({
   user,
   quizResult,
-  squad = null,
-  memberRole,
   recommendedMissions = [],
   fullSubmissions = [],
   feedActivities = [],
   featureFlags: _featureFlags = {},
-  socialProof: _socialProof = { activeMembers: 0, userRank: 0, weeklyCheckins: 0, totalMembers: 0 },
   firstAction,
   firstActionStatus = "not_started",
 }: {
@@ -81,12 +76,9 @@ export function DashboardShell({
   quizResult: { profileType?: string | null } | null,
   submissions?: Record<string, string>,
   fullSubmissions?: DetailedMissionSubmission[],
-  squad?: SquadData | null,
-  memberRole?: string,
   recommendedMissions?: Mission[],
   feedActivities?: Activity[],
   featureFlags?: Record<string, boolean>,
-  socialProof?: { activeMembers: number, userRank: number, weeklyCheckins: number, totalMembers: number },
   firstAction?: FirstAction,
   firstActionStatus?: "not_started" | "started" | "completed",
 }) {
@@ -110,8 +102,8 @@ export function DashboardShell({
     [fullSubmissions, user?.missionsCompletedCount],
   )
 
-  const isNewUser = (user?.missionsCompletedCount ?? 0) === 0 && (user?.currentStreak ?? 0) === 0
-  const hasStarted = (user?.missionsCompletedCount ?? 0) > 0 || (user?.currentStreak ?? 0) > 0
+  const isNewUser = (user?.missionsCompletedCount ?? 0) === 0
+  const hasStarted = (user?.missionsCompletedCount ?? 0) > 0
 
   return (
     <SidebarProvider>
@@ -123,10 +115,10 @@ export function DashboardShell({
         />
       )}
 
-      <AppSidebar user={user} hasSquad={!!squad} />
+      <AppSidebar user={user} />
       <SidebarInset className="bg-background relative bg-gradient-mesh overflow-hidden">
         <div className="scanline"></div>
-        <UserTopBar user={user} squad={squad} memberRole={memberRole} />
+        <UserTopBar user={user} />
 
         <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12 overflow-y-auto scrollbar-none relative z-[var(--z-content)]">
           <div className="max-w-6xl mx-auto space-y-10">
@@ -141,8 +133,7 @@ export function DashboardShell({
                   </h2>
                   <p className="text-sm text-zinc-400 mt-1">
                     {(() => {
-                      if ((user.currentStreak ?? 0) >= 3) return `${user.currentStreak} jours de suite. Continue comme ça.`
-                      if ((user.missionsCompletedCount ?? 0) > 0) return `Tu as complété ${user.missionsCompletedCount} mission${user.missionsCompletedCount > 1 ? 's' : ''}.`
+                      if ((user.missionsCompletedCount ?? 0) > 0) return `Tu as validé ${user.missionsCompletedCount} lab${user.missionsCompletedCount > 1 ? 's' : ''}.`
                       return "5 questions. 1 diagnostic. Maintenant, passe à l'action."
                     })()}
                   </p>
@@ -186,10 +177,6 @@ export function DashboardShell({
                   </div>
                 )}
 
-                {/* Check-in — simple, low friction */}
-                <div id="tour-checkin">
-                  <DailyCheckinWidget isFirstTime={!user.lastCheckin} />
-                </div>
               </>
             )}
 
@@ -201,11 +188,8 @@ export function DashboardShell({
                 {/* Activation Checklist */}
                 <ActivationChecklist
                   user={user}
-                  hasSquad={!!squad}
                   hasSubmission={fullSubmissions.length > 0}
                 />
-
-                {/* Squad + referral gelés (pivot pipeline cyber) */}
 
                 {/* Objectif 90 jours */}
                 {user.mainObjective && (

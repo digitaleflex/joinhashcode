@@ -23,10 +23,9 @@ interface Props {
   analysis: AnalysisResult
   user: UserData
   quizResultId?: string
-  pendingSquad?: string | null
 }
 
-export function ResultPage({ analysis, user, quizResultId, pendingSquad }: Props) {
+export function ResultPage({ analysis, user, quizResultId }: Props) {
   const [selectedSpec, setSelectedSpec] = useState<RecommendedSpecialization | null>(null)
 
   const choiceRef = useRef<HTMLDivElement>(null)
@@ -207,7 +206,7 @@ export function ResultPage({ analysis, user, quizResultId, pendingSquad }: Props
         <div className="flex-1 h-px bg-zinc-800" />
       </div>
 
-      <ResultLocked analysis={analysis} pendingSquad={pendingSquad} />
+      <ResultLocked analysis={analysis} />
     </div>
   )
 }

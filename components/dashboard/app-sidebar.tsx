@@ -32,7 +32,7 @@ import { SidebarUser } from "./sidebar-user"
 import { ThemeToggle } from "./theme-toggle"
 import type { NavUser } from "@/lib/types"
 
-export function AppSidebar({ user, hasSquad: _hasSquad }: { user: NavUser | null; hasSquad?: boolean }) {
+export function AppSidebar({ user }: { user: NavUser | null }) {
   const pathname = usePathname()
   const { data: session } = authClient.useSession()
   const currentUser = (user || session?.user) as NavUser | undefined
@@ -82,7 +82,6 @@ export function AppSidebar({ user, hasSquad: _hasSquad }: { user: NavUser | null
                 </SidebarMenuItem>
               ))}
 
-              {/* SidebarSquad gelé (pivot pipeline cyber) */}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

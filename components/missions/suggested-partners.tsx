@@ -142,7 +142,7 @@ export function SuggestedPartners({ partners }: SuggestedPartnersProps) {
                         </span>
                       </div>
                       <p className="text-sm-plus text-zinc-400 leading-relaxed font-sans">
-                        Fais équipe avec cet agent pour maximiser l&apos;XP, débloquer le badge <span className="font-mono text-primary">Partenaire</span> et partager vos retours de build.
+                        Fais équipe avec ce membre pour partager vos retours de build.
                       </p>
                     </div>
 

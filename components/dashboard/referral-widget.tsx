@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Copy, Check, Users, Zap, Gift } from "lucide-react"
+import { Copy, Check, Users, Gift } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
@@ -41,33 +41,19 @@ export function ReferralWidget() {
     setTimeout(() => setCopied(false), 2000)
   }
 
-  const xpPerReferral = 50
-  const xpEarned = (data?.referralCount ?? 0) * xpPerReferral
-
   return (
     <div className="space-y-4">
       <p className="text-3xs sm:text-xs font-mono uppercase text-zinc-600 flex items-center gap-3">
         Programme de Parrainage
         <div className="h-px bg-white/5 flex-1" />
-        {xpEarned > 0 && (
-          <span className="text-primary font-bold">+{xpEarned} XP gagnés</span>
-        )}
       </p>
 
       <div className="rounded-3xl border border-white/5 bg-zinc-900/60 p-6 space-y-5">
         {/* Stats row */}
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 gap-3">
           <div className="rounded-2xl bg-white/3 border border-white/5 p-3 text-center space-y-1">
             <div className="text-xl font-extrabold text-white tabular-nums">{data?.referralCount ?? 0}</div>
             <div className="text-3xs font-mono text-zinc-600 uppercase">Filleuls</div>
-          </div>
-          <div className="rounded-2xl bg-primary/5 border border-primary/10 p-3 text-center space-y-1">
-            <div className="text-xl font-extrabold text-primary tabular-nums">{xpPerReferral}</div>
-            <div className="text-3xs font-mono text-zinc-600 uppercase">XP / filleul</div>
-          </div>
-          <div className="rounded-2xl bg-white/3 border border-white/5 p-3 text-center space-y-1">
-            <div className="text-xl font-extrabold text-white tabular-nums">{xpEarned}</div>
-            <div className="text-3xs font-mono text-zinc-600 uppercase">XP total</div>
           </div>
         </div>
 
@@ -75,7 +61,7 @@ export function ReferralWidget() {
         <div className="flex items-start gap-3 p-3 rounded-2xl bg-primary/3 border border-primary/10">
           <Gift className="size-4 text-primary shrink-0 mt-0.5" />
           <p className="text-xs text-zinc-400 leading-relaxed">
-            Partage ton lien. Quand un(e) ami(e) rejoint HASHCODE et complète son onboarding, tu gagnes automatiquement <span className="text-primary font-bold">{xpPerReferral} XP</span>.
+            Partage ton lien : chaque personne qui termine son inscription grâce à toi est comptée dans tes filleuls.
           </p>
         </div>
 
@@ -120,11 +106,8 @@ export function ReferralWidget() {
                     </Avatar>
                     <div className="min-w-0">
                       <div className="text-xs font-bold text-white truncate">@{r.pseudo || r.name?.split(" ")[0]}</div>
-                      <div className="text-3xs font-mono text-zinc-600 uppercase">LVL {r.level} · {r.class || "Agent"}</div>
+                      <div className="text-3xs font-mono text-zinc-600 uppercase">{r.class || "Membre"}</div>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-1 text-3xs font-mono text-primary font-bold shrink-0">
-                    <Zap className="size-3" /> +100 XP
                   </div>
                 </div>
               ))}

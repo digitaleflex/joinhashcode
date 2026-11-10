@@ -14,7 +14,6 @@ const ROUTES = [
   "/",
   "/missions",
   "/dashboard",
-  "/squad",
   "/settings",
   "/specialization",
   "/signin",

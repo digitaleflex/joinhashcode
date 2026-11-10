@@ -14,12 +14,6 @@ export const XP_MULTIPLIERS: Record<QualityLevel, number> = {
   EXEMPLARY: 1.5,
 }
 
-export const LEVEL_REQUIREMENT: Record<string, number> = {
-  INIT: 1,
-  CORE: 2,
-  PRO: 3,
-}
-
 export const MISSION_CRITERIA: Record<string, Criterion[]> = {
   CODE: [
     { id: "code-accessible", label: "Lien accessible (repo public ou admin invité)", weight: "REQUIRED" },
@@ -128,21 +122,18 @@ export function computeXp(baseXp: number, qualityLevel: QualityLevel): number {
 
 export function isEligibleReviewer(params: {
   reviewerClass: string | null
-  reviewerLevel: number
   reviewerMissionsCompleted: number
   reviewerId: string
   submissionUserId: string
   missionTargetProfiles: string[]
-  missionRequiredLevel: number
 }): boolean {
   const {
-    reviewerClass, reviewerLevel, reviewerMissionsCompleted,
-    reviewerId, submissionUserId, missionTargetProfiles, missionRequiredLevel,
+    reviewerClass, reviewerMissionsCompleted,
+    reviewerId, submissionUserId, missionTargetProfiles,
   } = params
   if (reviewerId === submissionUserId) return false
   if (!reviewerClass) return false
   if (!missionTargetProfiles.includes(reviewerClass.toLowerCase())) return false
-  if (reviewerLevel < missionRequiredLevel + 1) return false
   if (reviewerMissionsCompleted < 3) return false
   return true
 }

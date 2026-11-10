@@ -55,4 +55,3 @@ export const UpdateSubmissionSchema = z.object({
 
 export type UpdateSubmissionInput = z.infer<typeof UpdateSubmissionSchema>;
 
-export const LEVEL_REQUIREMENT: Record<string, number> = { INIT: 1, CORE: 2, PRO: 3 };

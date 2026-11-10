@@ -192,12 +192,6 @@ export const PATCH = withAdminAuth(async (req, { userId: adminUserId }) => {
           message: `Ton profil HashCode v1 a été validé.`,
           link: "/missions",
         });
-        emailService.sendMissionApproval({
-          email: attempt.user.email,
-          name: attempt.user.name,
-          missionTitle: mission.title,
-          xp: mission.xp,
-        }).catch(() => undefined);
       });
 
       return NextResponse.json({ ok: true, status: "APPROVED", score: finalScore, maxScore });

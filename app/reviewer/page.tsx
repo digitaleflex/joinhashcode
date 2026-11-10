@@ -1,7 +1,7 @@
 import { getSessionSafe } from "@/lib/get-session-safe"
 import { redirect } from "next/navigation"
 import { prisma } from "@/lib/prisma"
-import { isEligibleReviewer, LEVEL_REQUIREMENT } from "@/lib/acceptance-criteria"
+import { isEligibleReviewer } from "@/lib/acceptance-criteria"
 import { AppSidebar } from "@/components/dashboard/app-sidebar"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
@@ -28,12 +28,9 @@ export default async function ReviewerPage() {
       missionsCompletedCount: true,
       currentStreak: true,
       lastCheckinAt: true,
-      members: { select: { organization: { select: { id: true, name: true, slug: true } } } },
     },
   })
   if (!dbUser) redirect("/signin")
-
-  const activeOrg = dbUser.members[0]?.organization ?? null
 
   const sessionUser = {
     id: dbUser.id,
@@ -62,15 +59,12 @@ export default async function ReviewerPage() {
 
   const eligible: Submission[] = pendingSubmissions
     .filter((sub) => {
-      const missionRequiredLevel = LEVEL_REQUIREMENT[sub.mission.missionLevel ?? "INIT"] ?? 1
       return isEligibleReviewer({
         reviewerClass: dbUser.class,
-      reviewerLevel: dbUser.level ?? 1,
       reviewerMissionsCompleted: dbUser.missionsCompletedCount ?? 0,
         reviewerId: dbUser.id,
         submissionUserId: sub.userId,
         missionTargetProfiles: sub.mission.targetProfiles,
-        missionRequiredLevel,
       })
     })
     .map((sub) => ({
@@ -82,7 +76,7 @@ export default async function ReviewerPage() {
 
   return (
     <SidebarProvider>
-      <AppSidebar user={sessionUser} hasSquad={!!activeOrg} />
+      <AppSidebar user={sessionUser} />
       <BottomNav />
       <SidebarInset className="bg-background relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-mesh opacity-40 pointer-events-none" />

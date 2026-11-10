@@ -61,7 +61,6 @@ describe("triggerNotification (Direct DB)", () => {
       type: "MISSION_APPROVED" as const,
       title: "Mission validée : Build a CLI",
       message: "Your submission has been reviewed.",
-      xp: 200,
     };
 
     (prisma.notification.create as any).mockResolvedValue({
@@ -77,7 +76,6 @@ describe("triggerNotification (Direct DB)", () => {
       email: "test@example.com",
       name: "Test User",
       missionTitle: "Build a CLI",
-      xp: 200,
     });
   });
 

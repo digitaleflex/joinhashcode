@@ -1,20 +1,40 @@
 {
-  "$schema": "https://unpkg.com/knip@latest/schema.json",
+  "$schema": "https://unpkg.com/knip@6/schema.json",
   "entry": [
-    "app/**/*.{ts,tsx}",
-    "lib/**/*.ts",
-    "components/**/*.{ts,tsx}",
-    "hooks/**/*.ts",
+    "proxy.ts",
+    "instrumentation.ts",
+    "cluster.mjs",
+    "app/**/{page,layout,route,loading,error,not-found,global-error,template,default,sitemap,robots,opengraph-image}.{ts,tsx}",
+    "app/actions/**/*.ts",
+    "lib/actions/**/*.ts",
+    "prisma/*.ts",
+    "scripts/**/*.{ts,mjs,js}",
+    "playwright.*.config.ts",
     "types/**/*.d.ts"
   ],
-  "project": ["**/*.{ts,tsx}"],
+  "project": [
+    "**/*.{ts,tsx,mjs}"
+  ],
   "ignore": [
-    "eslint.config.mjs",
-    "next.config.mjs",
-    "postcss.config.mjs",
-    "vitest.config.ts",
-    "playwright.config.ts",
-    "prisma/seed.ts",
-    "scripts/**"
-  ]
+    "generated/**"
+  ],
+  "ignoreDependencies": [
+    "@next/eslint-plugin-next",
+    "@typescript-eslint/parser",
+    "eslint-config-next",
+    "postcss-load-config",
+    "sharp",
+    "tailwindcss",
+    "tw-animate-css"
+  ],
+  "ignoreExportsUsedInFile": true,
+  "ignoreIssues": {
+    "components/ui/**": [
+      "exports",
+      "types"
+    ]
+  },
+  "rules": {
+    "types": "off"
+  }
 }

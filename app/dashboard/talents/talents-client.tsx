@@ -6,7 +6,6 @@ import { motion } from "framer-motion"
 import {
   Search, Globe, ChevronRight, Sparkles, TrendingUp, Trophy,
   Cpu, Palette, BarChart3, Users, LayoutGrid, List,
-  Send, Loader2, Check, AlertTriangle, Info,
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
@@ -14,29 +13,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
-import {
-  Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription,
-  DialogFooter, DialogClose,
-} from "@/components/ui/dialog"
-import { toast } from "sonner"
 
-interface SquadMember {
-  userId: string
-  name: string
-  class: string | null
-  tools: string[]
-  level: number
-  scores: { builderScore: number; creatorScore: number; strategistScore: number; catalystScore: number }
-}
-
-interface ViewerSquad {
-  id: string
-  name: string
-  role: string
-  cohesionScore: number
-  memberCount: number
-  members: SquadMember[]
-}
 
 interface Talent {
   id: string
@@ -44,8 +21,7 @@ interface Talent {
   pseudo: string | null
   image: string | null
   class: string | null
-  level: number
-  experience: number
+  missionsCompletedCount: number
   city: string | null
   country: string | null
   bio: string | null
@@ -54,7 +30,6 @@ interface Talent {
   creatorScore: number
   strategistScore: number
   catalystScore: number
-  inSquad: boolean
 }
 
 const CLASS_CONFIGS: Record<string, { label: string; icon: typeof Cpu; color: string; bg: string; border: string; gradient: string }> = {
@@ -132,369 +107,7 @@ function MiniPsychoBars({ scores }: { scores: { builderScore: number; creatorSco
   )
 }
 
-function InviteAnalysisDialog({
-  talent,
-  viewerSquad,
-  open,
-  onOpenChange,
-}: {
-  talent: Talent
-  viewerSquad: ViewerSquad
-  open: boolean
-  onOpenChange: (open: boolean) => void
-}) {
-  const [sending, setSending] = useState(false)
-  const [sent, setSent] = useState(false)
-
-  const targetClass = (talent.class || "unknown").toLowerCase()
-  const cfg = CLASS_CONFIGS[targetClass] || CLASS_CONFIGS.unknown
-  const Icon = cfg.icon || Send
-
-  // Class counts
-  const classCounts: Record<string, number> = {
-    builder: 0, creator: 0, strategist: 0, catalyst: 0, unknown: 0,
-  }
-  viewerSquad.members.forEach((m) => {
-    const cls = (m.class || "unknown").toLowerCase()
-    classCounts[cls] = (classCounts[cls] || 0) + 1
-  })
-
-  const currentCount = classCounts[targetClass] || 0
-  const isOverLimit = currentCount >= 2
-  const missingProfiles = Object.entries(classCounts)
-    .filter(([k, v]) => v === 0 && k !== "unknown")
-    .map(([k]) => CLASS_CONFIGS[k]?.label)
-
-  // Synergy score: how complementary is this talent to the squad
-  const computeSynergyScore = () => {
-    if (!talent.class) return 50
-    const squadSize = viewerSquad.members.length
-    if (squadSize === 0) return 75
-
-    const avgScores = {
-      builder: viewerSquad.members.reduce((s, m) => s + m.scores.builderScore, 0) / squadSize,
-      creator: viewerSquad.members.reduce((s, m) => s + m.scores.creatorScore, 0) / squadSize,
-      strategist: viewerSquad.members.reduce((s, m) => s + m.scores.strategistScore, 0) / squadSize,
-      catalyst: viewerSquad.members.reduce((s, m) => s + m.scores.catalystScore, 0) / squadSize,
-    }
-
-    const talentScores = {
-      builder: talent.builderScore,
-      creator: talent.creatorScore,
-      strategist: talent.strategistScore,
-      catalyst: talent.catalystScore,
-    }
-
-    const dimensions = ["builder", "creator", "strategist", "catalyst"] as const
-    let gapFillScore = 0
-    for (const d of dimensions) {
-      const gap = Math.max(0, avgScores[d] - talentScores[d])
-      gapFillScore += Math.min(gap / 100, 1)
-    }
-
-    const balanceBonus = isOverLimit ? -25 : currentCount === 0 ? 20 : 10
-    const rawScore = Math.min(100, Math.max(0, (1 - gapFillScore / 4) * 60 + 40 + balanceBonus))
-
-    if (isOverLimit) return Math.min(rawScore, 45)
-    return Math.round(rawScore)
-  }
-
-  const synergyScore = computeSynergyScore()
-
-  // Tool overlap analysis
-  const squadTools = new Set(viewerSquad.members.flatMap((m) => m.tools))
-  const talentTools = talent.tools ?? []
-  const newTools = talentTools.filter((t) => !squadTools.has(t))
-  const sharedTools = talentTools.filter((t) => squadTools.has(t))
-  const toolOverlapRate = talentTools.length > 0 ? Math.round((sharedTools.length / talentTools.length) * 100) : 0
-
-  // Coach-style recommendation
-  const getCoachAdvice = () => {
-    if (!talent.class) {
-      return `Profil non classifié — ${talent.name} n'a pas encore complété le quiz. Tu recrutes sur le potentiel, un pari qui peut payer.`
-    }
-
-    const label = cfg.label
-    let advice = `${talent.name} est un profil **${label}**. `
-
-    if (isOverLimit) {
-      advice += `Alerte équilibre : ton escouade a déjà ${currentCount} ${label} (max 2). Ajouter un·e autre risquerait de créer un déséquilibre cognitif. `
-      if (missingProfiles.length > 0) {
-        advice += `L'escouade gagnerait plus à recruter un profil ${missingProfiles.join(" ou ")} pour diversifier les profils.`
-      } else {
-        advice += `Tous les profils sont déjà représentés — privilégie l'agent·e le·plus aligné·e avec la prochaine mission.`
-      }
-      return advice
-    }
-
-    if (currentCount === 0) {
-      advice += `C'est exactement ce qui manque à ton escouade — aucun profil ${label} actuellement. `
-      advice += `Sa perspective unique élargira le champ d'action de l'équipe.`
-    } else {
-      advice += `Ton escouade a ${currentCount} ${label} — ajouter ${talent.name} renforcera ce pôle sans déséquilibrer la dynamique.`
-    }
-
-    if (newTools.length > 0) {
-      advice += ` Côté compétences, ${talent.name} apporte ${newTools.length} nouvel${newTools.length > 1 ? "s" : ""} outil${newTools.length > 1 ? "s" : ""} (${newTools.slice(0, 3).join(", ")}${newTools.length > 3 ? "..." : ""}) que personne ne maîtrise encore dans l'escouade.`
-    }
-
-    return advice
-  }
-
-  const coachAdvice = getCoachAdvice()
-
-  // Synergy color
-  const synergyColor = synergyScore >= 70 ? "text-emerald-400" : synergyScore >= 45 ? "text-amber-400" : "text-red-400"
-  const synergyBg = synergyScore >= 70 ? "bg-emerald-500" : synergyScore >= 45 ? "bg-amber-500" : "bg-red-500"
-
-  const handleConfirm = async () => {
-    setSending(true)
-    try {
-      const res = await fetch("/api/squad/invite", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ targetUserId: talent.id }),
-      })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error || data.message || "Erreur")
-      setSent(true)
-      toast.success(data.message || "Invitation envoyée !")
-    } catch (err: unknown) {
-      toast.error(err instanceof Error ? err.message : "Erreur technique")
-    } finally {
-      setSending(false)
-    }
-  }
-
-  const PROFILE_COLORS: Record<string, string> = {
-    builder: "bg-blue-500", creator: "bg-purple-500",
-    strategist: "bg-amber-500", catalyst: "bg-emerald-500", unknown: "bg-zinc-500",
-  }
-
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md rounded-3xl border-white/10 bg-zinc-950/95 backdrop-blur-xl p-0 gap-0 overflow-hidden">
-        <div className="p-6 space-y-5">
-          <DialogHeader className="space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 w-fit">
-              <Send className="size-3 text-primary" />
-              <span className="text-3xs font-mono font-black uppercase text-primary">Analyse de Recrutement</span>
-            </div>
-            <div className="flex items-center justify-between gap-3">
-              <div className="min-w-0">
-                <DialogTitle className="text-xl font-black uppercase italic tracking-tight text-white">
-                  {talent.name}
-                </DialogTitle>
-                <DialogDescription className="text-xs font-mono text-zinc-500 flex items-center gap-2 mt-1">
-                  <span className={cfg.color}>{cfg.label}</span>
-                  <span>· LV.{talent.level}</span>
-                  <span>· {talent.experience.toLocaleString()} XP</span>
-                </DialogDescription>
-              </div>
-              {/* Synergy gauge */}
-              {talent.class && (
-                <div className="size-16 shrink-0 relative">
-                  <svg className="size-16 -rotate-90" viewBox="0 0 36 36">
-                    <circle cx="18" cy="18" r="15.5" fill="none" stroke="rgb(39 39 42)" strokeWidth="3" />
-                    <circle cx="18" cy="18" r="15.5" fill="none" stroke="currentColor" strokeWidth="3"
-                      strokeDasharray={`${synergyScore * 0.97} 100`}
-                      strokeLinecap="round"
-                      className={synergyColor}
-                    />
-                  </svg>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className={`text-xs font-black font-mono ${synergyColor}`}>{synergyScore}%</span>
-                  </div>
-                </div>
-              )}
-            </div>
-          </DialogHeader>
-
-          {/* Psychometric mini-bars */}
-          <div className="grid grid-cols-4 gap-1.5">
-            {PROFILE_SCORES.map((p) => (
-              <div key={p.key} className="space-y-1">
-                <div className="h-10 rounded-lg bg-zinc-900/80 border border-white/5 relative overflow-hidden">
-                  <div
-                    className={`absolute bottom-0 left-0 right-0 ${p.bar} transition-all duration-500`}
-                    style={{ height: `${talent[p.key]}%` }}
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-xs font-mono font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-                      {talent[p.key]}
-                    </span>
-                  </div>
-                </div>
-                <span className="block text-2xs font-mono text-zinc-600 text-center uppercase tracking-wider">
-                  {p.label.slice(0, 3)}
-                </span>
-              </div>
-            ))}
-          </div>
-
-          {/* Squad composition */}
-          <div className="space-y-2">
-            <span className="text-3xs font-mono font-black uppercase text-zinc-500 tracking-wider">
-              Composition de l&apos;escouade · {viewerSquad.memberCount}/5
-            </span>
-            <div className="space-y-1.5">
-              {Object.entries(CLASS_CONFIGS).filter(([k]) => k !== "unknown").map(([key, c]) => {
-                const count = classCounts[key] || 0
-                const barWidth = Math.min((count / 2) * 100, 100)
-                return (
-                  <div key={key} className="flex items-center gap-2 text-xs font-mono">
-                    <span className={`w-16 ${c.color} font-bold uppercase tracking-wider`}>{c.label}</span>
-                    <div className="flex-1 h-3 rounded-full bg-zinc-900 border border-white/5 overflow-hidden">
-                      <div
-                        className={`h-full rounded-full transition-all duration-500 ${PROFILE_COLORS[key]}`}
-                        style={{ width: `${barWidth}%` }}
-                      />
-                    </div>
-                    <span className="w-4 text-right text-zinc-400 font-bold">{count}</span>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-
-          {/* Tool overlap */}
-          {talentTools.length > 0 && (
-            <div className="space-y-2">
-              <span className="text-3xs font-mono font-black uppercase text-zinc-500 tracking-wider">
-                Compétences {newTools.length > 0 ? `· +${newTools.length} nouvelle${newTools.length > 1 ? "s" : ""}` : ""}
-              </span>
-              <div className="flex flex-wrap gap-1.5">
-                {talentTools.map((tool) => {
-                  const isNew = !squadTools.has(tool)
-                  return (
-                    <span
-                      key={tool}
-                      className={`px-2 py-0.5 rounded-md text-3xs font-mono border ${
-                        isNew
-                          ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-                          : "bg-zinc-800/80 text-zinc-400 border-white/5"
-                      }`}
-                    >
-                      {tool}
-                      {isNew && <span className="ml-1 text-2xs opacity-60">nouveau</span>}
-                    </span>
-                  )
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* Coach advice */}
-          <div className={`rounded-2xl p-4 border ${
-            synergyScore >= 70 ? "bg-emerald-500/10 border-emerald-500/20" :
-            synergyScore >= 45 ? "bg-amber-500/10 border-amber-500/20" :
-            "bg-red-500/10 border-red-500/20"
-          }`}>
-            <div className="flex items-start gap-3">
-              <div className={`mt-0.5 ${
-                synergyScore >= 70 ? "text-emerald-400" :
-                synergyScore >= 45 ? "text-amber-400" :
-                "text-red-400"
-              }`}>
-                {sent ? <Check className="size-5" /> :
-                 synergyScore >= 70 ? <Check className="size-5" /> :
-                 synergyScore >= 45 ? <AlertTriangle className="size-5" /> :
-                 <AlertTriangle className="size-5" />}
-              </div>
-              <div className="space-y-1 min-w-0">
-                <p className={`text-sm-plus font-black uppercase tracking-wider ${
-                  sent ? "text-primary" :
-                  synergyScore >= 70 ? "text-emerald-400" :
-                  synergyScore >= 45 ? "text-amber-400" :
-                  "text-red-400"
-                }`}>
-                  {sent ? "✅ Invitation envoyée !" :
-                   synergyScore >= 70 ? "Recommandé par le Coach IA" :
-                   synergyScore >= 45 ? "À considérer avec précaution" :
-                   "Déconseillé par le Coach IA"}
-                </p>
-                <p className="text-xs text-zinc-400 leading-relaxed font-light">
-                  {coachAdvice}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Synergy bar */}
-          {talent.class && (
-            <div className="space-y-1">
-              <div className="flex justify-between text-xs-sm font-mono text-zinc-600 uppercase tracking-wider">
-                <span>Synergie cognitive</span>
-                <span className={synergyColor}>{synergyScore}%</span>
-              </div>
-              <div className="h-1.5 rounded-full bg-zinc-900 border border-white/5 overflow-hidden">
-                <div
-                  className={`h-full rounded-full transition-all duration-700 ${synergyBg}`}
-                  style={{ width: `${synergyScore}%` }}
-                />
-              </div>
-            </div>
-          )}
-        </div>
-
-        <DialogFooter className="p-4 pt-0 flex gap-2">
-          {sent ? (
-            <>
-              <DialogClose asChild>
-                <Button
-                  variant="outline"
-                  className="flex-1 h-11 rounded-xl text-xs font-bold uppercase tracking-wider border-white/10 bg-white/[0.02] hover:bg-white/5"
-                >
-                  Fermer
-                </Button>
-              </DialogClose>
-              <Button
-                asChild
-                className="flex-1 h-11 rounded-xl text-xs font-bold uppercase tracking-wider btn-primary-glow gap-2"
-              >
-                <Link href={`/dossier?userId=${talent.id}`}>
-                  <Info className="size-4" />
-                  Voir le dossier
-                </Link>
-              </Button>
-            </>
-          ) : (
-            <>
-              <DialogClose asChild>
-                <Button
-                  variant="outline"
-                  className="flex-1 h-11 rounded-xl text-xs font-bold uppercase tracking-wider border-white/10 bg-white/[0.02] hover:bg-white/5"
-                >
-                  Annuler
-                </Button>
-              </DialogClose>
-              <Button
-                onClick={handleConfirm}
-                disabled={sending || sent}
-                className={`flex-1 h-11 rounded-xl text-xs font-bold uppercase tracking-wider gap-2 ${
-                  synergyScore < 45
-                    ? "bg-red-500 hover:bg-red-600 text-white"
-                    : synergyScore < 70
-                    ? "bg-amber-500 hover:bg-amber-600 text-black"
-                    : "btn-primary-glow"
-                }`}
-              >
-                {sending ? (
-                  <Loader2 className="size-4 animate-spin" />
-                ) : (
-                  <Send className="size-4" />
-                )}
-                {sending ? "Envoi..." : "Confirmer l'invitation"}
-              </Button>
-            </>
-          )}
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  )
-}
-
-function TalentCard({ talent, index, viewerSquad }: { talent: Talent; index: number; viewerSquad?: ViewerSquad | null }) {
+function TalentCard({ talent, index }: { talent: Talent; index: number }) {
   const cfg = CLASS_CONFIGS[(talent.class || "unknown").toLowerCase()] || CLASS_CONFIGS.unknown
 
   const scores = { builderScore: talent.builderScore, creatorScore: talent.creatorScore, strategistScore: talent.strategistScore, catalystScore: talent.catalystScore }
@@ -537,15 +150,6 @@ function TalentCard({ talent, index, viewerSquad }: { talent: Talent; index: num
                   </div>
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0">
-                  {!talent.inSquad && (
-                    <Badge
-                      variant="outline"
-                      className="font-mono text-xs-sm uppercase tracking-wider py-1 px-2 rounded-lg border-emerald-500/20 text-emerald-400 bg-emerald-500/5"
-                    >
-                      <Users className="size-2.5 mr-0.5" />
-                      Free
-                    </Badge>
-                  )}
                   <Badge
                     variant="outline"
                     className={`font-mono text-xs-sm uppercase tracking-wider py-1 px-2.5 rounded-lg border-white/5 shrink-0 ${
@@ -561,8 +165,7 @@ function TalentCard({ talent, index, viewerSquad }: { talent: Talent; index: num
 
               <div className="flex items-center justify-between pt-1">
                 <div className="flex items-center gap-3 text-xs font-mono">
-                  <span className="text-zinc-600">LV.{talent.level}</span>
-                  <span className="text-primary font-bold">{talent.experience.toLocaleString()} XP</span>
+                  <span className="text-primary font-bold">{talent.missionsCompletedCount} lab{talent.missionsCompletedCount > 1 ? "s" : ""} validé{talent.missionsCompletedCount > 1 ? "s" : ""}</span>
                 </div>
                 {(talent.city || talent.country) && (
                   <div className="flex items-center gap-1 text-3xs text-zinc-500">
@@ -574,20 +177,16 @@ function TalentCard({ talent, index, viewerSquad }: { talent: Talent; index: num
                 )}
               </div>
 
-              {viewerSquad ? (
-                <InviteDialogForCard talent={talent} viewerSquad={viewerSquad} />
-              ) : (
-                <Button
-                  asChild
-                  variant="outline"
-                  size="sm"
-                  className="w-full h-10 rounded-xl text-xs font-bold uppercase tracking-wider border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10"
-                >
-                  <Link href={`/dossier?userId=${talent.id}`}>
-                    Voir le Dossier <ChevronRight className="size-3 ml-0.5" />
-                  </Link>
-                </Button>
-              )}
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="w-full h-10 rounded-xl text-xs font-bold uppercase tracking-wider border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10"
+              >
+                <Link href={`/dossier?userId=${talent.id}`}>
+                  Voir le Dossier <ChevronRight className="size-3 ml-0.5" />
+                </Link>
+              </Button>
             </CardContent>
           </Card>
         </HoverCardTrigger>
@@ -605,7 +204,7 @@ function TalentCard({ talent, index, viewerSquad }: { talent: Talent; index: num
             </Avatar>
             <div>
               <p className="font-bold text-sm text-white">{talent.name}</p>
-              <p className="font-mono text-3xs text-zinc-500">{displayLabel} · LV.{talent.level}</p>
+              <p className="font-mono text-3xs text-zinc-500">{displayLabel}</p>
             </div>
           </div>
           {talent.bio && (
@@ -631,26 +230,7 @@ function TalentCard({ talent, index, viewerSquad }: { talent: Talent; index: num
   )
 }
 
-function InviteDialogForCard({ talent, viewerSquad }: { talent: Talent; viewerSquad: ViewerSquad }) {
-  const [open, setOpen] = useState(false)
-
-  return (
-    <>
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => setOpen(true)}
-        className="w-full h-10 rounded-xl text-xs font-bold uppercase tracking-wider border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 gap-1.5"
-      >
-        <Send className="size-3" />
-        Inviter dans mon escouade
-      </Button>
-      <InviteAnalysisDialog talent={talent} viewerSquad={viewerSquad} open={open} onOpenChange={setOpen} />
-    </>
-  )
-}
-
-function TalentRow({ talent, viewerSquad }: { talent: Talent; viewerSquad?: ViewerSquad | null }) {
+function TalentRow({ talent }: { talent: Talent }) {
   const cfg = CLASS_CONFIGS[(talent.class || "unknown").toLowerCase()] || CLASS_CONFIGS.unknown
   const Icon = cfg.icon
 
@@ -684,8 +264,7 @@ function TalentRow({ talent, viewerSquad }: { talent: Talent; viewerSquad?: View
               </div>
               <div className="flex items-center gap-3 text-xs font-mono text-zinc-600">
                 <span className="flex items-center gap-1"><Icon className="size-3" />{displayLabel}</span>
-                <span>LV.{talent.level}</span>
-                <span className="text-primary font-bold">{talent.experience.toLocaleString()} XP</span>
+                <span className="text-primary font-bold">{talent.missionsCompletedCount} labs validés</span>
                 {(talent.city || talent.country) && (
                   <span className="hidden md:flex items-center gap-1">
                     <Globe className="size-2.5" />{[talent.city, talent.country].filter(Boolean).join(", ")}
@@ -703,20 +282,16 @@ function TalentRow({ talent, viewerSquad }: { talent: Talent; viewerSquad?: View
           </div>
         </Link>
         <div className="shrink-0">
-          {viewerSquad ? (
-            <InviteDialogForCard talent={talent} viewerSquad={viewerSquad} />
-          ) : (
-            <Link href={`/dossier?userId=${talent.id}`}>
-              <ChevronRight className="size-4 text-zinc-600 hover:text-white transition-colors" />
-            </Link>
-          )}
+          <Link href={`/dossier?userId=${talent.id}`}>
+            <ChevronRight className="size-4 text-zinc-600 hover:text-white transition-colors" />
+          </Link>
         </div>
       </div>
     </motion.div>
   )
 }
 
-export function TalentsClient({ talents, viewerSquad }: { talents: Talent[]; viewerSquad?: ViewerSquad | null }) {
+export function TalentsClient({ talents }: { talents: Talent[] }) {
   const [search, setSearch] = useState("")
   const [selectedClass, setSelectedClass] = useState<string>("all")
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
@@ -732,7 +307,7 @@ export function TalentsClient({ talents, viewerSquad }: { talents: Talent[]; vie
 
       const itemClass = (t.class || "unknown").toLowerCase()
       const matchesClass =
-        selectedClass === "all" || (selectedClass === "free" ? !t.inSquad : itemClass === selectedClass)
+        selectedClass === "all" || itemClass === selectedClass
 
       return matchesSearch && matchesClass
     })
@@ -754,7 +329,7 @@ export function TalentsClient({ talents, viewerSquad }: { talents: Talent[]; vie
   }, [talents])
 
   const topTalents = useMemo(() => {
-    return [...talents].sort((a, b) => b.experience - a.experience).slice(0, 3)
+    return [...talents].sort((a, b) => b.missionsCompletedCount - a.missionsCompletedCount).slice(0, 3)
   }, [talents])
 
   return (
@@ -786,8 +361,7 @@ export function TalentsClient({ talents, viewerSquad }: { talents: Talent[]; vie
             { label: "Stratèges", value: classCounts.strategist, icon: BarChart3, color: "text-amber-400" },
             { label: "Catalyseurs", value: classCounts.catalyst, icon: Users, color: "text-emerald-400" },
             { label: "Initiés", value: classCounts.unknown, icon: Sparkles, color: "text-zinc-400" },
-            { label: "Niveau max", value: Math.max(...talents.map((t) => t.level), 0), icon: TrendingUp, color: "text-[#C5F441]" },
-            { label: "Moy. XP", value: Math.round(talents.reduce((a, t) => a + t.experience, 0) / Math.max(talents.length, 1)), icon: Trophy, color: "text-primary" },
+            { label: "Labs validés", value: talents.reduce((a, t) => a + t.missionsCompletedCount, 0), icon: Trophy, color: "text-primary" },
           ].map((stat) => {
             const Icon = stat.icon
             return (
@@ -839,8 +413,7 @@ export function TalentsClient({ talents, viewerSquad }: { talents: Talent[]; vie
                         <div className="flex items-center gap-2 text-3xs font-mono text-zinc-500">
                           <Icon className="size-3" />
                           <span>{cfg.label}</span>
-                          <span>· LV.{talent.level}</span>
-                          <span>· {talent.experience.toLocaleString()} XP</span>
+                          <span>· {talent.missionsCompletedCount} labs validés</span>
                         </div>
                       </div>
                     </div>
@@ -874,17 +447,6 @@ export function TalentsClient({ talents, viewerSquad }: { talents: Talent[]; vie
           >
               Tous
             </button>
-          <button
-            onClick={() => setSelectedClass("free")}
-            className={`h-10 px-4 rounded-xl text-xs font-bold uppercase tracking-wider transition-all border flex items-center gap-1.5 ${
-              selectedClass === "free"
-                ? "text-emerald-400 bg-emerald-500/10 border-emerald-500/20"
-                : "bg-transparent text-zinc-400 hover:text-white border-white/10 hover:border-white/20"
-            }`}
-          >
-            <Users className="size-3.5" />
-            Free Agent
-          </button>
           {Object.entries(CLASS_CONFIGS).map(([key, cfg]) => {
             const Icon = cfg.icon
             const count = classCounts[key] || 0
@@ -939,13 +501,13 @@ export function TalentsClient({ talents, viewerSquad }: { talents: Talent[]; vie
         {viewMode === "grid" ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {paginatedTalents.map((talent, idx) => (
-              <TalentCard key={talent.id} talent={talent} index={idx} viewerSquad={viewerSquad} />
+              <TalentCard key={talent.id} talent={talent} index={idx} />
             ))}
           </div>
         ) : (
           <div className="space-y-2">
             {paginatedTalents.map((talent) => (
-              <TalentRow key={talent.id} talent={talent} viewerSquad={viewerSquad} />
+              <TalentRow key={talent.id} talent={talent} />
             ))}
           </div>
         )}

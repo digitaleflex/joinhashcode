@@ -21,14 +21,12 @@ export async function GET(req: Request) {
     const [
       userStats,
       missionStats,
-      squadStats,
       profileStats,
       funnelStats,
       growthData,
     ] = await Promise.all([
       getUserStats(startDate, endDate),
       getMissionStats(startDate, endDate),
-      getSquadStats(),
       getProfileStats(),
       getFunnelStats(startDate, endDate),
       getGrowthData(startDate, endDate),
@@ -38,7 +36,6 @@ export async function GET(req: Request) {
       period: { startDate: startDate.toISOString(), endDate: endDate.toISOString(), days },
       users: userStats,
       missions: missionStats,
-      squads: squadStats,
       profiles: profileStats,
       funnel: funnelStats,
       growth: growthData,
@@ -62,17 +59,27 @@ async function getUserStats(startDate: Date, endDate: Date) {
   ] = await Promise.all([
     prisma.user.count(),
     prisma.user.count({ where: { createdAt: { gte: startDate, lte: endDate } } }),
-    prisma.user.count({
-      where: { lastCheckinAt: { gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) } },
-    }),
-    prisma.user.count({ where: { lastCheckinAt: { not: null } } }),
+    // Actif = au moins une action journalisée (activity_log) sur la période.
+    prisma.activityLog.findMany({
+      where: { createdAt: { gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) }, userId: { not: null } },
+      distinct: ["userId"],
+      select: { userId: true },
+    }).then((r) => r.length),
+    prisma.activityLog.findMany({
+      where: { createdAt: { gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) }, userId: { not: null } },
+      distinct: ["userId"],
+      select: { userId: true },
+    }).then((r) => r.length),
     prisma.$queryRaw<{ cohort: Date; total: number; active: number }[]>`
       SELECT 
-        DATE_TRUNC('week', "createdAt") as "cohort",
+        DATE_TRUNC('week', u."createdAt") as "cohort",
         COUNT(*)::int as "total",
-        COUNT(CASE WHEN "lastCheckinAt" IS NOT NULL THEN 1 END)::int as "active"
-      FROM "user"
-      WHERE "createdAt" >= ${startDate}
+        COUNT(*) FILTER (WHERE EXISTS (
+          SELECT 1 FROM "activity_log" a
+          WHERE a."userId" = u."id" AND a."createdAt" > u."createdAt" + INTERVAL '1 day'
+        ))::int as "active"
+      FROM "user" u
+      WHERE u."createdAt" >= ${startDate}
       GROUP BY 1
       ORDER BY 1
     `,
@@ -201,47 +208,6 @@ async function getMissionStats(startDate: Date, endDate: Date) {
   };
 }
 
-async function getSquadStats() {
-  const [
-    totalSquads,
-    activeSquads,
-    cohesionAvg,
-    streakData,
-    memberDistribution,
-  ] = await Promise.all([
-    prisma.organization.count(),
-    prisma.organization.count({ where: { cohesionScore: { gte: 0.5 } } }),
-    prisma.organization.aggregate({ _avg: { cohesionScore: true } }),
-    prisma.organization.findMany({
-      select: { streakCount: true, cohesionScore: true },
-    }),
-    prisma.member.groupBy({ by: ["organizationId"], _count: true }),
-  ]);
-
-  const avgCohesion = cohesionAvg._avg.cohesionScore ?? 0;
-
-  const streakDistribution = {
-    "0": streakData.filter((s) => s.streakCount === 0).length,
-    "1-3": streakData.filter((s) => s.streakCount > 0 && s.streakCount <= 3).length,
-    "4-7": streakData.filter((s) => s.streakCount > 3 && s.streakCount <= 7).length,
-    "8-14": streakData.filter((s) => s.streakCount > 7 && s.streakCount <= 14).length,
-    "15+": streakData.filter((s) => s.streakCount > 14).length,
-  };
-
-  const memberCounts = memberDistribution.map((m) => m._count);
-  const avgMembers = memberCounts.length > 0
-    ? memberCounts.reduce((a, b) => a + b, 0) / memberCounts.length
-    : 0;
-
-  return {
-    total: totalSquads,
-    active: activeSquads,
-    avgCohesion: Math.round(avgCohesion * 100) / 100,
-    avgMembers: Math.round(avgMembers * 10) / 10,
-    streakDistribution,
-  };
-}
-
 async function getProfileStats() {
   const [
     quizResults,
@@ -320,7 +286,7 @@ async function getGrowthData(startDate: Date, endDate: Date) {
   const days = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
   const interval = days <= 7 ? "day" : days <= 30 ? "day" : "week";
 
-  const [signupsRaw, checkinsRaw, submissionsRaw] = await Promise.all([
+  const [signupsRaw, activeRaw, submissionsRaw] = await Promise.all([
     prisma.$queryRaw<{ day: Date; count: number }[]>`
       SELECT DATE_TRUNC('${interval}', "createdAt") as "day", COUNT("id")::int as "count"
       FROM "user"
@@ -329,8 +295,8 @@ async function getGrowthData(startDate: Date, endDate: Date) {
       ORDER BY 1
     `,
     prisma.$queryRaw<{ day: Date; count: number }[]>`
-      SELECT DATE_TRUNC('${interval}', "createdAt") as "day", COUNT("id")::int as "count"
-      FROM "daily_checkin"
+      SELECT DATE_TRUNC('${interval}', "createdAt") as "day", COUNT(DISTINCT "userId")::int as "count"
+      FROM "activity_log"
       WHERE "createdAt" >= ${startDate} AND "createdAt" <= ${endDate}
       GROUP BY 1
       ORDER BY 1
@@ -344,19 +310,19 @@ async function getGrowthData(startDate: Date, endDate: Date) {
     `,
   ]);
 
-  const dataPoints: Record<string, { signups: number; checkins: number; submissions: number }> = {};
+  const dataPoints: Record<string, { signups: number; active: number; submissions: number }> = {};
 
   for (const r of signupsRaw) {
     const key = r.day.toISOString().split("T")[0];
-    dataPoints[key] = { ...(dataPoints[key] || { signups: 0, checkins: 0, submissions: 0 }), signups: r.count };
+    dataPoints[key] = { ...(dataPoints[key] || { signups: 0, active: 0, submissions: 0 }), signups: r.count };
   }
-  for (const r of checkinsRaw) {
+  for (const r of activeRaw) {
     const key = r.day.toISOString().split("T")[0];
-    dataPoints[key] = { ...(dataPoints[key] || { signups: 0, checkins: 0, submissions: 0 }), checkins: r.count };
+    dataPoints[key] = { ...(dataPoints[key] || { signups: 0, active: 0, submissions: 0 }), active: r.count };
   }
   for (const r of submissionsRaw) {
     const key = r.day.toISOString().split("T")[0];
-    dataPoints[key] = { ...(dataPoints[key] || { signups: 0, checkins: 0, submissions: 0 }), submissions: r.count };
+    dataPoints[key] = { ...(dataPoints[key] || { signups: 0, active: 0, submissions: 0 }), submissions: r.count };
   }
 
   return Object.entries(dataPoints)

@@ -1,18 +1,12 @@
 "use client"
 
-import { useState } from "react";
 import {
   Brain,
   Globe,
   ShieldCheck,
   Zap,
-  Users,
-  Flame,
   Target,
-  Info,
-  Mail,
-  Check,
-  Loader2
+  Info
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -27,14 +21,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { toast } from "sonner";
 
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
-
-interface DossierOrg {
-  name: string
-  cohesionScore?: number | null
-}
 
 interface DossierQuizResult {
   profileType?: string | null
@@ -42,18 +30,10 @@ interface DossierQuizResult {
 
 interface DossierViewProps {
   user: UserProfile & { missionSubmissions: DetailedMissionSubmission[]; activityLogs: unknown[] };
-  activeOrg: DossierOrg | null;
   quizResult: DossierQuizResult | null | undefined;
   isPublic?: boolean;
   isPrivate?: boolean;
   isInspecting?: boolean;
-  viewerSquad?: {
-    id: string;
-    name: string;
-    role: string;
-    members: { userId: string; class: string | null }[];
-  } | null;
-  hasSentInvitation?: boolean;
 }
 
 const STATUS_LABELS: Record<string, { label: string; className: string }> = {
@@ -67,58 +47,16 @@ const STATUS_LABELS: Record<string, { label: string; className: string }> = {
 
 export function DossierView({ 
   user, 
-  activeOrg, 
   quizResult, 
   isPublic = false,
   isPrivate = false,
   isInspecting = false,
-  viewerSquad = null,
-  hasSentInvitation = false,
   featureFlags = {}
 }: DossierViewProps & { featureFlags?: Record<string, boolean> }) {
-  const [sendingInvite, setSendingInvite] = useState(false);
-  const [alreadyInvited, setAlreadyInvited] = useState(hasSentInvitation);
-
-  const handleInvite = async () => {
-    const targetClass = user.class?.toLowerCase();
-    const classCount = viewerSquad?.members.filter((m) => m.class?.toLowerCase() === targetClass).length ?? 0;
-    
-    if (classCount >= 2) {
-      const confirmInvite = window.confirm(
-        `Attention : ton escouade compte déjà ${classCount} représentant(s) de la classe "${user.class}". La règle d'équilibre cognitif recommande un maximum de 2 agents par classe. Souhaites-tu tout de même envoyer l'invitation ?`
-      );
-      if (!confirmInvite) return;
-    }
-
-    setSendingInvite(true);
-    try {
-      const res = await fetch("/api/squad/invite", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ targetUserId: user.id }),
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || data.message || "Erreur lors de l'envoi");
-      }
-
-      toast.success(data.message || "Invitation envoyée !");
-      setAlreadyInvited(true);
-    } catch (err: unknown) {
-      toast.error(err instanceof Error ? err.message : "Erreur technique");
-    } finally {
-      setSendingInvite(false);
-    }
-  };
-  
   // Neural Loop Logic: Engagement tips based on stats (Only for private/admin view)
   const engagementTips = [];
   if (!isPublic) {
-    if (user.currentStreak < 3) engagementTips.push("Fais un check-in 3 jours de suite pour créer ta série.");
     if (user.missionSubmissions.length === 0) engagementTips.push("Lance ta première mission pour voir ton profil prendre vie.");
-    if (!activeOrg) engagementTips.push("Rejoins une escouade pour progresser avec les autres.");
-    if (user.experience < 500) engagementTips.push("Atteins 500 XP pour passer au niveau 2.");
   }
 
   return (
@@ -179,12 +117,6 @@ export function DossierView({
                         <span className="text-3xs font-mono font-black text-primary uppercase tracking-tighter">Niveau : {user.technicalLevel}</span>
                     </div>
                   )}
-                  {user.currentStreak > 0 && (
-                    <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-orange-500/10 border border-orange-500/20">
-                        <Flame className="size-3 text-orange-500" />
-                        <span className="text-xs font-mono font-bold text-orange-500">{user.currentStreak} Jours</span>
-                    </div>
-                  )}
               </div>
               <p className="text-zinc-500 max-w-xl italic text-xs sm:text-sm leading-relaxed border-l-2 border-primary/20 pl-4">
                   &quot;{user.bio || "Pas encore de bio. Ajoute une phrase sur toi dans les paramètres."}&quot;
@@ -212,36 +144,6 @@ export function DossierView({
                 </Button>
               )}
 
-                  {viewerSquad && (
-                    <div className="pt-2">
-                      {activeOrg ? (
-                        <Button disabled className="w-full bg-zinc-800 border-white/5 text-zinc-500 font-bold uppercase h-12 rounded-xl text-xs">
-                          Déjà dans une escouade
-                        </Button>
-                      ) : alreadyInvited ? (
-                        <Button disabled className="w-full bg-primary/10 border border-primary/20 text-primary/60 font-bold uppercase h-12 rounded-xl text-xs gap-2">
-                          <Check className="size-4" />
-                          Invitation envoyée
-                        </Button>
-                      ) : (
-                        <Button
-                          onClick={handleInvite}
-                          disabled={sendingInvite}
-                          className="w-full btn-primary-glow font-black uppercase h-12 rounded-xl text-xs gap-2"
-                        >
-                          {sendingInvite ? (
-                            <Loader2 className="size-4 animate-spin" />
-                          ) : (
-                            <>
-                              <Mail className="size-4" />
-                              Inviter dans mon escouade
-                            </>
-                          )}
-                        </Button>
-                       )}
-                     </div>
-                   )}
-
               {!isPublic && engagementTips.length > 0 && (
               <div className="space-y-4" id="tour-dossier-tips">
                    <p className="text-3xs sm:text-xs font-mono uppercase text-zinc-600 flex items-center gap-3">
@@ -260,49 +162,6 @@ export function DossierView({
                    </Card>
               </div>
               )}
-
-              {/* Squad Intel Area */}
-              <div className="space-y-4">
-                  <p className="text-3xs sm:text-xs font-mono uppercase text-zinc-600 flex items-center gap-3">
-                      Infos Équipe
-                      <div className="h-px bg-white/5 flex-1" />
-                  </p>
-                  <Card className="glass-card rounded-3xl sm:rounded-4xl p-5 sm:p-6 space-y-6">
-                      {activeOrg ? (
-                          <>
-                              <div className="flex items-center gap-4">
-                                  <div className="size-10 sm:size-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
-                                      <Users className="size-5 sm:size-6 text-primary" />
-                                  </div>
-                                  <div className="space-y-0.5 min-w-0">
-                                      <div className="text-xs-sm sm:text-3xs font-mono text-zinc-500 uppercase">Équipe Active</div>
-                                      <div className="text-base sm:text-lg font-black text-white uppercase tracking-tighter italic truncate">{activeOrg.name}</div>
-                                  </div>
-                              </div>
-                              
-                              <div className="space-y-2">
-                                  <div className="flex justify-between items-end">
-                                      <span className="text-xs-sm sm:text-3xs font-mono text-zinc-600 uppercase font-black">Cohésion de groupe</span>
-                                      <span className="text-3xs sm:text-xs font-mono text-primary font-black">{((activeOrg.cohesionScore ?? 0) * 100).toFixed(0)}%</span>
-                                   </div>
-                                   <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                                       <div className="h-full bg-primary" style={{ width: `${(activeOrg.cohesionScore ?? 0) * 100}%` }} />
-                                  </div>
-                              </div>
-                          </>
-                      ) : (
-                          <div className="space-y-4 text-center py-4">
-                              <div className="size-10 rounded-full bg-zinc-900 border border-white/5 flex items-center justify-center mx-auto opacity-20">
-                                  <Users className="size-5" />
-                              </div>
-                              <div className="space-y-1">
-                                   <p className="text-3xs font-mono text-zinc-600 uppercase">Aucune Squad</p>
-                                   <p className="text-xs text-zinc-400 font-bold uppercase tracking-tight italic leading-tight">Pas encore d&apos;escouade.</p>
-                               </div>
-                          </div>
-                      )}
-                  </Card>
-              </div>
 
               {/* Social Links Metadata */}
               <Card className="glass-card rounded-3xl sm:rounded-4xl p-6 sm:p-8 space-y-6">

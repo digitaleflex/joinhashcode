@@ -14,33 +14,9 @@ import { QUESTIONS } from "./questions";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-// Common disposable / temp email domains → routed to manual review.
-const DISPOSABLE_DOMAINS = new Set([
-  "mailinator.com",
-  "guerrillamail.com",
-  "10minutemail.com",
-  "tempmail.com",
-  "temp-mail.org",
-  "throwawaymail.com",
-  "yopmail.com",
-  "trashmail.com",
-  "getnada.com",
-  "maildrop.cc",
-  "sharklasers.com",
-  "dispostable.com",
-]);
-
 /** Ordered list of questions visible given the current answers. */
 export function getVisibleQuestions(answers: ProfileAnswers): Question[] {
   return QUESTIONS.filter((q) => !q.condition || q.condition(answers));
-}
-
-/** Index of the current question within the visible list. */
-export function getCurrentIndex(answers: ProfileAnswers, answeredIds: Set<string>): number {
-  const visible = getVisibleQuestions(answers);
-  const firstUnanswered = visible.findIndex((q) => !answeredIds.has(q.id));
-  if (firstUnanswered === -1) return visible.length;
-  return firstUnanswered;
 }
 
 /** Progress 0..1 across the visible question set. */
@@ -50,11 +26,6 @@ export function getProgress(answers: ProfileAnswers, answeredIds: Set<string>): 
   const answered = visible.filter((q) => answeredIds.has(q.id)).length;
   const ratio = answered / visible.length;
   return Math.min(ratio, 0.96);
-}
-
-export function isProfilingComplete(answers: ProfileAnswers, answeredIds: Set<string>): boolean {
-  const visible = getVisibleQuestions(answers);
-  return visible.every((q) => !q.required || answeredIds.has(q.id));
 }
 
 /** Validate an answer for a given question. Returns error message or null. */
@@ -145,14 +116,6 @@ const STYLE_LABELS: Record<LearningStyle, string> = {
   project: "Construction de projet",
 };
 
-const STYLE_LABELS_SHORT: Record<LearningStyle, string> = {
-  practice: "Pratique",
-  path: "Parcours",
-  group: "Groupe",
-  mentor: "Mentor",
-  project: "Projet",
-};
-
 const MENTORING_LABELS: Record<MentoringInterest, string> = {
   no: "Pas pour le moment",
   maybe: "Curieux",
@@ -217,14 +180,13 @@ export function generateProfile(a: ProfileAnswers): GeneratedProfile {
   };
 }
 
-export { EMAIL_RE, DISPOSABLE_DOMAINS };
+export { EMAIL_RE };
 export {
   DOMAIN_LABELS,
   LEVEL_LABELS,
   GOAL_LABELS,
   AVAIL_LABELS,
   STYLE_LABELS,
-  STYLE_LABELS_SHORT,
   MENTORING_LABELS,
   GENDER_LABELS,
 };

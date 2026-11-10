@@ -41,7 +41,7 @@ export function useTourTrigger(userId: string) {
   useEffect(() => {
     if (!userId) return
 
-    // TourProvider est monté sur plusieurs pages (dashboard, missions, squad,
+    // TourProvider est monté sur plusieurs pages (dashboard, missions,
     // dossier). Le tour dashboard ne référence que des sélecteurs du dashboard
     // → ne le déclencher automatiquement que sur /dashboard.
     if (pathname !== "/dashboard") return

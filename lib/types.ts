@@ -1,14 +1,5 @@
 // Hashcode User Profile Types & Enums
 
-export enum UserRole {
-  MEMBER = "MEMBER",
-  BUILDER = "BUILDER",
-  MENTOR = "MENTOR",
-  MODERATOR = "MODERATOR",
-  OPERATOR = "OPERATOR",
-  ADMIN = "ADMIN",
-}
-
 export enum TechnicalLevel {
   BEGINNER = "Débutant",
   INTERMEDIATE = "Intermédiaire",
@@ -36,38 +27,6 @@ export enum MainObjective {
   CREATE_PRODUCTS = "Créer des solutions digitales",
 }
 
-
-export const TECHNICAL_DOMAINS = [
-  "Web",
-  "Cybersecurity",
-  "Cloud",
-  "IA",
-  "Mobile",
-  "Data",
-  "Automation",
-  "UI/UX",
-  "DevOps",
-] as const;
-
-export const TECHNICAL_TOOLS = [
-  "GitHub",
-  "VS Code",
-  "Docker",
-  "Figma",
-  "Cursor",
-  "ChatGPT",
-  "Linux",
-] as const;
-
-export type TechnicalDomain = typeof TECHNICAL_DOMAINS[number];
-export type TechnicalTool = typeof TECHNICAL_TOOLS[number];
-
-export interface BehavioralVitality {
-  builder: number;
-  creator: number;
-  strategist: number;
-  catalyst: number;
-}
 
 export interface BehavioralVibrancy {
   builder: number;
@@ -232,8 +191,6 @@ export type SubDomain =
   | "offensive" | "defensive" | "appsec" | "crypto"
   | "cloud" | "containers" | "iac" | "sre"
   | "ml" | "llm" | "data-eng" | "analytics"
-
-export type PracticeMode = "github" | "ctf_platform" | "learning_platform" | "team"
 
 export const TECH_TREE_V2: Record<PrimaryDomain, {
   subDomains: SubDomain[]

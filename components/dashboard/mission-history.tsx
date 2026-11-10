@@ -89,10 +89,6 @@ export function MissionHistory({ submissions }: MissionHistoryProps) {
                       <Calendar className="h-3 w-3" />
                       {format(new Date(s.createdAt), "dd MMM yyyy", { locale: fr })}
                     </span>
-                    <span className="h-1 w-1 rounded-full bg-zinc-700" />
-                    <span className="text-xs font-mono text-primary font-bold">
-                      +{s.xpAwarded} XP
-                    </span>
                   </div>
                 </div>
               </div>

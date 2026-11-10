@@ -35,10 +35,8 @@ import { BottomNav } from "./bottom-nav"
 import { formatRelativeTime } from "@/lib/dates"
 import { motion, AnimatePresence } from "framer-motion"
 import { toast } from "sonner"
-import { authClient } from "@/lib/auth-client"
 import type { LucideIcon } from "lucide-react"
 import type { UserProfile } from "@/lib/types"
-import type { SquadData } from "@/components/dashboard/squad-journey"
 
 interface NotificationItem {
   id: string
@@ -82,12 +80,8 @@ const typeLabels: Record<string, string> = {
 
 export function NotificationsShell({
   user,
-  squad,
-  memberRole
 }: {
   user: UserProfile
-  squad: SquadData | null
-  memberRole?: string
 }) {
   const queryClient = useQueryClient()
   const [activeTab, setActiveTab] = useState<"inbox" | "saved" | "done">("inbox")
@@ -95,7 +89,6 @@ export function NotificationsShell({
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [typeFilter, setTypeFilter] = useState<string | null>(null)
   const [sortBy, setSortBy] = useState<"newest" | "oldest">("newest")
-  const [processingId, setProcessingId] = useState<string | null>(null)
 
   // Fetch des notifications avec filtres
   const { data, isLoading } = useQuery({
@@ -142,27 +135,6 @@ export function NotificationsShell({
       toast.error("Échec de la mise à jour des notifications")
     }
   })
-
-  // Invitation escouade handler
-  const handleSquadInvitation = async (invitationId: string, action: 'accept' | 'reject', notificationId: string) => {
-    setProcessingId(notificationId)
-    try {
-      if (action === 'accept') {
-        const { error } = await authClient.organization.acceptInvitation({ invitationId })
-        if (error) throw new Error(error.message || "Erreur lors de l'acceptation.")
-        toast.success("Bienvenue dans l'escouade !")
-      } else {
-        await authClient.organization.rejectInvitation({ invitationId })
-        toast.info("Invitation refusée.")
-      }
-      queryClient.invalidateQueries({ queryKey: ["notifications"] })
-      queryClient.invalidateQueries({ queryKey: ["notifications-full"] })
-    } catch (err: unknown) {
-      toast.error(err instanceof Error ? err.message : "Une erreur est survenue")
-    } finally {
-      setProcessingId(null)
-    }
-  }
 
   // Sélection globale
   const handleSelectAll = (checked: boolean) => {
@@ -221,10 +193,10 @@ export function NotificationsShell({
 
   return (
     <SidebarProvider>
-      <AppSidebar user={user} hasSquad={!!squad} />
+      <AppSidebar user={user} />
       <SidebarInset className="bg-background relative bg-gradient-mesh overflow-hidden">
         <div className="scanline"></div>
-        <UserTopBar user={user} squad={squad} memberRole={memberRole} />
+        <UserTopBar user={user} />
 
         <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12 overflow-y-auto scrollbar-none relative z-[var(--z-content)]">
           <div className="max-w-6xl mx-auto space-y-8">
@@ -477,9 +449,6 @@ export function NotificationsShell({
                       <AnimatePresence initial={false}>
                         {notifications.map((notif) => {
                           const Icon = iconMap[notif.type] || Info
-                          const isInvitation = notif.type === "SQUAD_INVITATION"
-                          const invitationId = notif.link?.split("id=")[1]
-                          const isProcessing = processingId === notif.id
                           const isSelected = selectedIds.includes(notif.id)
 
                           return (
@@ -540,29 +509,6 @@ export function NotificationsShell({
                                 </div>
                                 <p className="text-xs text-zinc-400 leading-relaxed max-w-2xl">{notif.message}</p>
 
-                                {/* Gérer les invitations d'escouades spécifiquement */}
-                                {isInvitation && invitationId && (
-                                  <div className="flex items-center gap-2 mt-3 w-full max-w-xs">
-                                    <Button
-                                      size="sm"
-                                      disabled={isProcessing}
-                                      onClick={() => handleSquadInvitation(invitationId, 'accept', notif.id)}
-                                      className="h-8 px-4 bg-primary/20 hover:bg-primary text-primary hover:text-black text-xs font-black uppercase rounded-xl transition-all flex-1"
-                                    >
-                                      {isProcessing ? <Loader2 className="size-3.5 animate-spin" /> : <Check className="size-3.5 mr-1.5" />}
-                                      Accepter
-                                    </Button>
-                                    <Button
-                                      size="sm"
-                                      variant="ghost"
-                                      disabled={isProcessing}
-                                      onClick={() => handleSquadInvitation(invitationId, 'reject', notif.id)}
-                                      className="h-8 px-4 hover:bg-destructive/20 text-muted-foreground hover:text-destructive text-xs font-bold uppercase rounded-xl transition-all"
-                                    >
-                                      Refuser
-                                    </Button>
-                                  </div>
-                                )}
                               </div>
 
                               {/* Hover Actions (GitHub-style actions rapides à droite) */}

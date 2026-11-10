@@ -4,37 +4,9 @@ import { DashboardWithTour } from "@/components/dashboard/dashboard-with-tour";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/generated/prisma/client";
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types";
-import type { SquadData } from "@/components/dashboard/squad-journey";
 import type { Activity } from "@/components/landing/activity-feed";
 import { getFeatureFlags } from "@/lib/feature-flags";
 import { getFirstAction } from "@/lib/first-action";
-
-type MemberPayload = Prisma.MemberGetPayload<{
-  select: {
-    role: true;
-    organization: {
-      select: {
-        id: true;
-        name: true;
-        slug: true;
-        logo: true;
-        cohesionScore: true;
-        streakCount: true;
-        members: {
-          take: 5;
-          select: {
-            id: true;
-            userId: true;
-            role: true;
-            user: {
-              select: { id: true; name: true; email: true; pseudo: true; image: true; class: true };
-            };
-          };
-        };
-      };
-    };
-  };
-}>;
 
 type FeedPayload = Prisma.ActivityLogGetPayload<{
   include: { user: { select: { name: true; city: true; class: true } } };
@@ -52,13 +24,11 @@ export default async function DashboardPage() {
   let dbUser: UserProfile | null = null;
   let quizResult: { profileType?: string | null } | null = null;
   let submissions: DetailedMissionSubmission[] = [];
-  let member: MemberPayload | null = null;
   let feedActivities: Activity[] = [];
-  let socialProof = { activeMembers: 0, userRank: 0, weeklyCheckins: 0, totalMembers: 0 };
   let firstActionStatus: "not_started" | "started" | "completed" = "not_started";
 
   try {
-    const [userData, submissionsData, memberData, feedData, activeCount, weeklyCount, totalMembersCount] = await Promise.all([
+    const [userData, submissionsData, feedData] = await Promise.all([
       // Requête 1 : Profil utilisateur (champs stricts uniquement)
       prisma.user.findUnique({
         where: { id: session.user.id },
@@ -116,62 +86,16 @@ export default async function DashboardPage() {
         orderBy: { createdAt: "desc" },
         take: 10,
       }),
-      // Requête 3 : Squad membership (1 seul, champs minimaux)
-      prisma.member.findFirst({
-        where: { userId: session.user.id },
-        select: {
-          role: true,
-          organization: {
-            select: {
-              id: true,
-              name: true,
-              slug: true,
-              logo: true,
-              cohesionScore: true,
-              streakCount: true,
-              members: {
-                take: 5,
-                select: {
-                  id: true,
-                  userId: true,
-                  role: true,
-                  user: {
-                    select: { id: true, name: true, email: true, pseudo: true, image: true, class: true },
-                  },
-                },
-              },
-            },
-          },
-        },
-      }),
       // Requête 4 : Activity feed (10 derniers événements publics)
       prisma.activityLog.findMany({
         where: {
-          action: { in: ["USER_SIGNUP", "QUIZ_COMPLETED", "MISSION_APPROVED", "SQUAD_JOINED"] },
+          action: { in: ["USER_SIGNUP", "QUIZ_COMPLETED", "MISSION_APPROVED"] },
           userId: { not: null },
         },
         take: 10,
         orderBy: { createdAt: "desc" },
         include: { user: { select: { name: true, city: true, class: true } } },
       }),
-      // Requête 5 : Membres actifs (check-in dans les dernières 24h)
-      prisma.activityLog.findMany({
-        where: {
-          action: "CHECKIN_COMPLETED",
-          createdAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) },
-        },
-        select: { userId: true },
-        distinct: ["userId"],
-      }).catch(() => []),
-      // Requête 6 : Check-ins de l'utilisateur cette semaine
-      prisma.dailyCheckin.count({
-        where: {
-          userId: session.user.id,
-          createdAt: { gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
-        },
-      }).catch(() => 0),
-      // Requête 7 : Total membres
-      prisma.user.count().catch(() => 0),
     ]);
 
     if (!userData) {
@@ -220,7 +144,6 @@ export default async function DashboardPage() {
         ? "started"
         : "not_started";
     submissions = submissionsData as DetailedMissionSubmission[];
-    member = memberData ?? null;
     feedActivities = (feedData ?? []).map((a) => ({
       id: a.id,
       user: { name: a.user!.name, city: a.user!.city, class: a.user!.class },
@@ -228,18 +151,6 @@ export default async function DashboardPage() {
       createdAt: a.createdAt.toISOString(),
     }));
 
-    // Rang de l'utilisateur (après Promise.all car dépend de userData)
-    const userExperience = userData.experience ?? 0;
-    const rankData = await prisma.user.count({
-      where: { experience: { gt: userExperience } },
-    }).catch(() => 0);
-
-    socialProof = {
-      activeMembers: Array.isArray(activeCount) ? activeCount.length : 0,
-      userRank: (typeof rankData === "number" ? rankData : 0) + 1,
-      weeklyCheckins: typeof weeklyCount === "number" ? weeklyCount : 0,
-      totalMembers: typeof totalMembersCount === "number" ? totalMembersCount : 0,
-    };
   } catch (error: unknown) {
     console.error("[DASHBOARD_PAGE] DB fetch failed:", error);
     throw error;
@@ -250,19 +161,6 @@ export default async function DashboardPage() {
     acc[slug] = s.status;
     return acc;
   }, {} as Record<string, string>);
-
-  const squad: SquadData | null = member?.organization
-    ? {
-        ...member.organization,
-        members: member.organization.members.map((m) => ({
-          ...m,
-          user: {
-            ...m.user,
-            pseudo: m.user.pseudo || m.user.name,
-          },
-        })),
-      } as SquadData
-    : null;
 
   if (!dbUser) {
     redirect("/signin");
@@ -279,11 +177,8 @@ export default async function DashboardPage() {
       quizResult={quizResult}
       submissions={submissionsMap}
       fullSubmissions={submissions}
-      squad={squad}
-      memberRole={member?.role ?? undefined}
       feedActivities={feedActivities}
       featureFlags={featureFlags}
-      socialProof={socialProof}
     />
   );
 }

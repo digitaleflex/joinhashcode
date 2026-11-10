@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { describe, it, expect, test, vi } from 'vitest'
-import { SquadJourney } from '@/components/dashboard/squad-journey'
+import { describe, it, expect, vi } from 'vitest'
 
 // Mock better-auth client completely
 vi.mock('@/lib/auth-client', () => ({
@@ -16,9 +15,6 @@ vi.mock('@/lib/auth-client', () => ({
   }
 }))
 
-// Simple mocks for test
-const mockUser = { id: 'user_1' }
-const mockSquad = { id: 'squad_1', name: 'Test Squad' }
 
 describe('Smoke Test', () => {
   it('should pass', () => {
@@ -30,10 +26,4 @@ describe('Smoke Test', () => {
     expect(screen.getByTestId('test')).toHaveTextContent('Hashcode')
   })
 
-  test("affiche l'annonce si elle existe", () => {
-    const squadWithAnnouncement = { ...mockSquad, announcement: "Test annonce" };
-    render(<SquadJourney user={mockUser} squad={squadWithAnnouncement} />);
-    expect(screen.getByText("ANNONCE ÉPINGLÉE")).toBeDefined();
-    expect(screen.getByText("Test annonce")).toBeDefined();
-  });
 })

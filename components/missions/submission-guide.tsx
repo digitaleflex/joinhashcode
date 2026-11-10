@@ -49,8 +49,8 @@ const STEPS = [
   },
   {
     number: "05",
-    title: "Récompense XP",
-    description: "Une fois approuvée, tu reçois les XP de la mission. Un travail exemplaire peut rapporter des XP bonus et un badge spécial.",
+    title: "Preuve validée",
+    description: "Une fois approuvée, ta soumission devient une preuve de compétence visible dans ton Portfolio.",
     icon: Award,
     color: "text-emerald-400",
     bg: "bg-emerald-500/10",

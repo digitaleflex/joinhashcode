@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { isEligibleReviewer, LEVEL_REQUIREMENT } from "@/lib/acceptance-criteria";
+import { isEligibleReviewer } from "@/lib/acceptance-criteria";
 
 export async function GET() {
   try {
@@ -27,15 +27,12 @@ export async function GET() {
     });
 
     const eligible = pendingSubmissions.filter(sub => {
-      const missionRequiredLevel = LEVEL_REQUIREMENT[sub.mission.missionLevel ?? "INIT"] ?? 1;
       return isEligibleReviewer({
         reviewerClass: reviewer.class,
-        reviewerLevel: reviewer.level ?? 1,
         reviewerMissionsCompleted: reviewer.missionsCompletedCount ?? 0,
         reviewerId: reviewer.id,
         submissionUserId: sub.userId,
         missionTargetProfiles: sub.mission.targetProfiles,
-        missionRequiredLevel,
       });
     });
 

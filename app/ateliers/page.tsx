@@ -27,13 +27,10 @@ export default async function AteliersPage() {
   const session = await getSessionSafe()
   if (!session) redirect("/signin")
 
-  const [user, userSquad] = await Promise.all([
-    prisma.user.findUnique({
-      where: { id: session.user.id },
-      select: { id: true, name: true, email: true, image: true, pseudo: true, class: true, role: true, level: true, experience: true },
-    }),
-    prisma.member.findFirst({ where: { userId: session.user.id }, select: { id: true } }),
-  ])
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { id: true, name: true, email: true, image: true, pseudo: true, class: true, role: true, level: true, experience: true },
+  })
   if (!user) redirect("/signin")
 
   const allAteliers = getAllAteliers()
@@ -41,7 +38,7 @@ export default async function AteliersPage() {
 
   return (
     <SidebarProvider>
-      <AppSidebar user={user} hasSquad={!!userSquad} />
+      <AppSidebar user={user} />
       <SidebarInset>
         <UserTopBar user={user} />
         <main className="flex-1 p-4 md:p-10 pb-32 md:pb-12">
@@ -88,7 +85,6 @@ export default async function AteliersPage() {
                         <p className="text-xs text-zinc-500 leading-relaxed line-clamp-2 mb-4">{atelier.description}</p>
                         <div className="flex items-center gap-3 text-xs font-mono text-zinc-600">
                           <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{atelier.duration}</span>
-                          <span className="flex items-center gap-1"><Zap className="w-3 h-3" />+{atelier.xpReward} XP</span>
                           <span className="ml-auto text-zinc-700">{atelier.specializationLabel}</span>
                         </div>
                       </Link>

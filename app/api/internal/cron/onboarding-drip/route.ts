@@ -45,12 +45,10 @@ export async function POST(req: Request) {
     };
 
     const d1 = getWindow(1);
-    const d3 = getWindow(3);
     const d7 = getWindow(7);
 
     const steps = [
       { day: 1, window: d1, action: "ONBOARDING_EMAIL_D1" },
-      { day: 3, window: d3, action: "ONBOARDING_EMAIL_D3" },
       { day: 7, window: d7, action: "ONBOARDING_EMAIL_D7" },
     ] as const;
 
@@ -103,8 +101,6 @@ export async function POST(req: Request) {
               ...basePayload,
               userClass: task.class || "Bâtisseur",
             });
-          } else if (task.day === 3) {
-            await emailService.sendSquadPowerEmail(basePayload);
           } else if (task.day === 7) {
             await emailService.sendDigitalIdentityEmail(basePayload);
           }

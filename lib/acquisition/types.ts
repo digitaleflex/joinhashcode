@@ -100,13 +100,6 @@ export interface Question {
   group: "profil" | "objectifs" | "rythme" | "mentorat" | "contact" | "vision";
 }
 
-export interface AutoControlsResult {
-  accessLane: AccessLane;
-  profileStatus: ProfileStatus;
-  communityStatus: CommunityStatus;
-  reasons: string[];
-}
-
 export interface GeneratedProfile {
   archetype: string;
   archetypeEmoji: string;

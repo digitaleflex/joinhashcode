@@ -2,7 +2,6 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { processReferralReward } from "@/lib/referral";
 import { emailService } from "@/lib/email";
 import { checkRateLimit, mutationLimiter } from "@/lib/ratelimit";
 import { betaVerifySchema } from "@/lib/validation";
@@ -59,9 +58,6 @@ export async function POST(req: Request) {
         data: { betaKeyId: betaKey.id },
       }),
     ]);
-
-    // Reward the referrer if any
-    await processReferralReward(session.user.id);
 
     // Send guidance email
     emailService.sendBetaKeyVerifiedEmail({

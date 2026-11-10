@@ -24,7 +24,6 @@ export function ActivityFeed({ initialActivities }: { initialActivities?: Activi
       case "USER_SIGNUP": return `${profile} à rejoint la communauté`
       case "QUIZ_COMPLETED": return `${profile} a découvert son profil`
       case "MISSION_APPROVED": return `${profile} a validé une mission`
-      case "SQUAD_JOINED": return `${profile} a rejoint une équipe`
       default: return `Action en cours`
     }
   }
@@ -34,7 +33,6 @@ export function ActivityFeed({ initialActivities }: { initialActivities?: Activi
       case "USER_SIGNUP": return "NOUVEAU_MEMBRE"
       case "QUIZ_COMPLETED": return "PROFIL IDENTIFIÉ"
       case "MISSION_APPROVED": return "MISSION ACCOMPLIE"
-      case "SQUAD_JOINED": return "ÉQUIPE FORMÉE"
       default: return "ACTION"
     }
   }
@@ -44,7 +42,6 @@ export function ActivityFeed({ initialActivities }: { initialActivities?: Activi
       case "USER_SIGNUP": return "text-[#B8FF3B]"
       case "QUIZ_COMPLETED": return "text-[#22D3EE]"
       case "MISSION_APPROVED": return "text-[#A855F7]"
-      case "SQUAD_JOINED": return "text-[#F97316]"
       default: return "text-muted-foreground"
     }
   }

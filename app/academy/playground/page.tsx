@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 export const metadata: Metadata = {
   title: "Playground Python — Academy",
   description:
-    "Écris et exécute du Python directement dans ton navigateur : défis HEF, indices, XP et badges.",
+    "Écris et exécute du Python directement dans ton navigateur : défis HEF et indices.",
 }
 
 export default function PlaygroundPage() {

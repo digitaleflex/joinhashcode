@@ -4,7 +4,7 @@ import { Sheet, SheetContent } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { MissionBriefing } from "@/components/missions/mission-briefing"
 import { useRouter } from "next/navigation"
-import { Zap, Clock, ChevronRight, Lock } from "lucide-react"
+import { Clock, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
   Tooltip,
@@ -18,7 +18,6 @@ interface SlideOverMission {
   title: string
   type?: string
   level?: number
-  requiredLevel?: number
   xp?: number
   xpReward?: number
   duration?: string
@@ -33,7 +32,6 @@ interface MissionSlideOverProps {
   mission: SlideOverMission | null
   isOpen: boolean
   onClose: () => void
-  userLevel: number
   hasSubmission?: boolean
   submissionStatus?: string | null
 }
@@ -48,13 +46,11 @@ const TYPE_COLORS: Record<string, string> = {
   INTRO: "text-primary bg-primary/10 border-primary/30",
 }
 
-export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmission, submissionStatus }: MissionSlideOverProps) {
+export function MissionSlideOver({ mission, isOpen, onClose, hasSubmission, submissionStatus }: MissionSlideOverProps) {
   const router = useRouter()
 
   if (!mission) return null
 
-  const requiredLevel = mission.requiredLevel ?? 1;
-  const isLocked = userLevel < requiredLevel;
   const isApproved = submissionStatus === "APPROVED";
   const isPending = submissionStatus === "PENDING" || submissionStatus === "IN_REVIEW" || submissionStatus === "NEEDS_REVISION";
 
@@ -120,19 +116,6 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
 
               {/* Meta */}
               <div className="flex items-center gap-4 text-3xs font-mono text-zinc-500">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <span className="flex items-center gap-1 cursor-help hover:text-primary transition-colors">
-                        <Zap className="size-2.5 text-primary" />
-                        +{mission.xpReward || mission.xp} XP
-                      </span>
-                    </TooltipTrigger>
-                    <TooltipContent className="bg-zinc-900 border-white/10 text-xs text-zinc-300 font-mono">
-                      XP de base récompensant la validation de cette mission.
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
                 {mission.duration && (
                   <span className="flex items-center gap-1">
                     <Clock className="size-2.5" />
@@ -194,14 +177,7 @@ export function MissionSlideOver({ mission, isOpen, onClose, userLevel, hasSubmi
 
         {/* Footer avec CTA */}
         <div className="shrink-0 bg-zinc-950/95 backdrop-blur-xl border-t border-white/5 p-6">
-          {isLocked ? (
-            <div className="flex items-center gap-3 p-4 bg-zinc-900/60 rounded-2xl border border-white/5">
-              <Lock className="size-4 text-zinc-600 shrink-0" />
-              <p className="text-xs text-zinc-500">
-                Niveau {requiredLevel} requis pour accéder à cette mission.
-              </p>
-            </div>
-          ) : isApproved ? (
+          {isApproved ? (
             <div className="flex flex-col gap-3 p-4 bg-emerald-950/20 rounded-2xl border border-emerald-500/20">
               <span className="text-emerald-400 text-sm font-bold text-center">Mission complétée ✓</span>
               <Button

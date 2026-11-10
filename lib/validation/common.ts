@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const PSEUDO_REGEX = /^[a-zA-Z0-9_]{3,20}$/;
-export const SLUG_REGEX = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export const safeUrl = z.string().max(500).optional().nullable().or(z.literal("")).transform(v => v || undefined);
 
@@ -22,12 +21,6 @@ export const imageSchema = z.union([
   }, "Domaine d'image non autorisé."),
   z.string().regex(/^\/uploads\/[a-zA-Z0-9_/-]+\.(jpg|jpeg|png|webp)$/),
 ]).optional().nullable().or(z.literal("")).transform(v => v || undefined);
-
-export const pseudoField = z.string()
-  .regex(PSEUDO_REGEX, "Le pseudo doit contenir entre 3 et 20 caractères (lettres, chiffres et '_' uniquement).")
-  .optional()
-  .nullable()
-  .transform(v => v || undefined);
 
 export const countryField = z.string().min(1).max(100).optional();
 export const cityField = z.string().max(100).optional().nullable().transform(v => v || undefined);

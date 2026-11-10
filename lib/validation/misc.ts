@@ -61,21 +61,6 @@ export const adminBroadcastSchema = z.object({
 
 export type AdminBroadcastInput = z.infer<typeof adminBroadcastSchema>;
 
-// ── Admin: squad disband ──────────────────────────────────────────────────────
-export const adminSquadDisbandSchema = z.object({
-  organizationId: z.string().min(1, "ID d'organisation requis."),
-});
-
-export type AdminSquadDisbandInput = z.infer<typeof adminSquadDisbandSchema>;
-
-// ── Admin: squad transfer ─────────────────────────────────────────────────────
-export const adminSquadTransferSchema = z.object({
-  organizationId: z.string().min(1, "ID d'organisation requis."),
-  targetMemberId: z.string().min(1, "ID du membre cible requis."),
-});
-
-export type AdminSquadTransferInput = z.infer<typeof adminSquadTransferSchema>;
-
 // ── Admin: activity log ───────────────────────────────────────────────────────
 export const adminLogSchema = z.object({
   action: z.string().min(1).max(100),

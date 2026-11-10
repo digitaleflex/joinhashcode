@@ -121,8 +121,8 @@ export async function PATCH(req: Request) {
                 data: {
                   userId: referrer.id,
                   type: "REFERRAL_SUCCESS",
-                  title: "Récompense de parrainage ! 💎",
-                  message: `Ton ami ${session.user.name || "Un nouvel agent"} a rejoint HASHCODE. Tu as reçu +50 XP.`,
+                  title: "Parrainage réussi !",
+                  message: `${session.user.name || "Un nouveau membre"} a rejoint HASHCODE grâce à toi.`,
                   link: "/dashboard",
                 },
               });

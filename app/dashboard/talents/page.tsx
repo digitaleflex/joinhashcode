@@ -109,58 +109,6 @@ export default async function TalentsPage() {
     quizResults: [],
   };
 
-  const activeOrg = dbSessionUser.members[0]?.organization ?? null
-
-  // Fetch viewer's squad membership for invite capabilities
-  const viewerMember = await prisma.member.findFirst({
-    where: { userId: session.user.id },
-    include: {
-      organization: {
-        include: {
-          members: {
-            include: {
-              user: {
-                select: {
-                  id: true,
-                  name: true,
-                  class: true,
-                  tools: true,
-                  builderScore: true,
-                  creatorScore: true,
-                  strategistScore: true,
-                  catalystScore: true,
-                  level: true,
-                  experience: true,
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  });
-
-  const viewerSquad = viewerMember && ["owner", "admin"].includes(viewerMember.role) ? {
-    id: viewerMember.organization.id,
-    name: viewerMember.organization.name,
-    role: viewerMember.role,
-    cohesionScore: viewerMember.organization.cohesionScore,
-    memberCount: viewerMember.organization.members.length,
-    members: viewerMember.organization.members.map((m) => ({
-      userId: m.userId,
-      name: m.user.name,
-      class: m.user.class,
-      tools: m.user.tools ?? [],
-      level: m.user.level ?? 1,
-      scores: {
-        builderScore: m.user.builderScore,
-        creatorScore: m.user.creatorScore,
-        strategistScore: m.user.strategistScore,
-        catalystScore: m.user.catalystScore,
-      }
-    }))
-  } : null;
-
   // Fetch all active, non-banned users in the directory
   const talentsRaw = await prisma.user.findMany({
     where: {
@@ -180,12 +128,9 @@ export default async function TalentsPage() {
       creatorScore: true,
       strategistScore: true,
       catalystScore: true,
-      level: true,
-      experience: true,
       missionsCompletedCount: true,
-      members: { select: { id: true } },
     },
-    orderBy: [{ experience: "desc" }, { level: "desc" }],
+    orderBy: [{ missionsCompletedCount: "desc" }, { createdAt: "asc" }],
   }) as unknown as Array<{
     id: string;
     name: string;
@@ -201,25 +146,20 @@ export default async function TalentsPage() {
     creatorScore: number;
     strategistScore: number;
     catalystScore: number;
-    level: number;
-    experience: number;
     missionsCompletedCount: number;
     referralCount: number;
-    members: { organization: { members: { userId: string }[] } }[];
   }>
 
   const talents = talentsRaw.map((t) => ({
     ...t,
     bio: t.bio ?? null,
     tools: t.tools ?? [],
-    level: t.level ?? 1,
-    experience: t.experience ?? 0,
-    inSquad: t.members.length > 0,
+    missionsCompletedCount: t.missionsCompletedCount ?? 0,
   }))
 
   return (
     <SidebarProvider>
-      <AppSidebar user={sessionUser} hasSquad={!!activeOrg} />
+      <AppSidebar user={sessionUser} />
       <BottomNav />
 
       <SidebarInset className="bg-background relative overflow-hidden">
@@ -230,7 +170,7 @@ export default async function TalentsPage() {
         <UserTopBar user={sessionUser} />
 
         <main className="flex-1 p-3 sm:p-6 md:p-10 pb-40 md:pb-12 overflow-y-auto scrollbar-none relative z-[var(--z-content)]">
-          <TalentsClient talents={talents} viewerSquad={viewerSquad} />
+          <TalentsClient talents={talents} />
         </main>
       </SidebarInset>
     </SidebarProvider>

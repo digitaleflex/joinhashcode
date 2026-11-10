@@ -27,24 +27,6 @@ export const getDashboardTour = (isMobile: boolean): Tour => ({
           },
         ]),
     {
-      icon: "✅",
-      title: "Check-in quotidien",
-      content: "Valide ta présence chaque jour pour maintenir ta série et gagner de l'XP.",
-      selector: "#tour-checkin",
-      side: "bottom",
-      showControls: true,
-      showSkip: true,
-    },
-    {
-      icon: "🏆",
-      title: "Défi hebdomadaire",
-      content: "Un nouveau défi chaque semaine. Complète-le pour des récompenses bonus.",
-      selector: "#tour-weekly",
-      side: "bottom",
-      showControls: true,
-      showSkip: true,
-    },
-    {
       icon: "🎯",
       title: "Missions recommandées",
       content: "Des missions adaptées à ton profil. Commence par la plus urgente.",
@@ -65,7 +47,7 @@ export const getDashboardTour = (isMobile: boolean): Tour => ({
     {
       icon: "📈",
       title: "Ta progression",
-      content: "Suis ton XP, ton niveau et ton grade. Chaque action te rapproche du suivant.",
+      content: "Suis tes labs validés : chacun est une preuve de compétence dans ton Portfolio.",
       selector: "#tour-progression",
       side: "top",
       showControls: true,
@@ -98,30 +80,6 @@ export const missionsTour: Tour = {
   ],
 }
 
-export const squadTour: Tour = {
-  tour: "squad",
-  steps: [
-    {
-      icon: "🚀",
-      title: "Ton équipe",
-      content: "Voici le parcours de ton squad. Suivez votre progression ensemble.",
-      selector: "#tour-squad-journey",
-      side: "bottom",
-      showControls: true,
-      showSkip: true,
-    },
-    {
-      icon: "💬",
-      title: "Chat d'équipe",
-      content: "Échange avec les membres de ton squad en temps réel.",
-      selector: "#tour-squad-chat",
-      side: "left",
-      showControls: true,
-      showSkip: true,
-    },
-  ],
-}
-
 export const dossierTour: Tour = {
   tour: "dossier",
   steps: [
@@ -131,15 +89,6 @@ export const dossierTour: Tour = {
       content: "Des recommandations personnalisées pour progresser plus vite.",
       selector: "#tour-dossier-tips",
       side: "bottom",
-      showControls: true,
-      showSkip: true,
-    },
-    {
-      icon: "📈",
-      title: "Croissance XP",
-      content: "Visualise l'évolution de ton expérience au fil du temps.",
-      selector: "#tour-dossier-xp",
-      side: "top",
       showControls: true,
       showSkip: true,
     },
@@ -158,14 +107,12 @@ export const dossierTour: Tour = {
 export const getAllTours = (isMobile: boolean): Tour[] => [
   getDashboardTour(isMobile),
   missionsTour,
-  squadTour,
   dossierTour,
 ]
 
 export const TOUR_NAMES = {
   DASHBOARD: "dashboard",
   MISSIONS: "missions",
-  SQUAD: "squad",
   DOSSIER: "dossier",
 } as const
 

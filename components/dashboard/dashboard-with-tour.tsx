@@ -4,7 +4,6 @@ import { TourProvider } from "@/components/tour/tour-provider"
 import { isFeatureEnabled } from "@/lib/feature-flags"
 import { DashboardShell } from "./dashboard-shell"
 import type { UserProfile, DetailedMissionSubmission } from "@/lib/types"
-import type { SquadData } from "./squad-journey"
 import type { Activity } from "@/components/landing/activity-feed"
 import type { Mission } from "@/lib/missions"
 import type { FirstAction } from "@/lib/first-action"
@@ -14,12 +13,9 @@ export function DashboardWithTour({
   quizResult,
   submissions,
   fullSubmissions,
-  squad,
-  memberRole,
   recommendedMissions,
   feedActivities,
   featureFlags,
-  socialProof,
   firstAction,
   firstActionStatus,
 }: {
@@ -27,12 +23,9 @@ export function DashboardWithTour({
   quizResult: { profileType?: string | null } | null
   submissions?: Record<string, string>
   fullSubmissions?: DetailedMissionSubmission[]
-  squad?: SquadData | null
-  memberRole?: string
   recommendedMissions?: Mission[]
   feedActivities?: Activity[]
   featureFlags?: Record<string, boolean>
-  socialProof?: { activeMembers: number; userRank: number; weeklyCheckins: number; totalMembers: number }
   firstAction?: FirstAction
   firstActionStatus?: "not_started" | "started" | "completed"
 }) {
@@ -45,12 +38,9 @@ export function DashboardWithTour({
         quizResult={quizResult}
         submissions={submissions}
         fullSubmissions={fullSubmissions}
-        squad={squad}
-        memberRole={memberRole}
         recommendedMissions={recommendedMissions}
         feedActivities={feedActivities}
         featureFlags={featureFlags}
-        socialProof={socialProof}
         firstAction={firstAction}
         firstActionStatus={firstActionStatus}
       />

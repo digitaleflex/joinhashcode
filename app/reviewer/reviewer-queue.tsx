@@ -71,13 +71,10 @@ export function ReviewerQueue({ submissions }: { submissions: Submission[] }) {
                       <div>
                         <p className="text-sm font-semibold">{sub.user.name}</p>
                         <p className="text-xs font-mono text-zinc-500">
-                           LV.{sub.user.level ?? 1} · {sub.user.pseudo && `@${sub.user.pseudo}`}
+                           {sub.user.pseudo && `@${sub.user.pseudo}`}
                         </p>
                       </div>
                     </div>
-                    <Badge variant="outline" className="text-xs font-mono border-zinc-700 text-zinc-400">
-                      +{sub.mission.xp} XP
-                    </Badge>
                   </div>
                 </CardHeader>
                 <CardContent>

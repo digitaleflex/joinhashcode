@@ -16,7 +16,7 @@ export function getWelcomeProfileEmailContent({ name, profileType }: WelcomeProf
         <div class="card-value">${escHtml(profileType.toUpperCase())}</div>
         <div class="card-label">Ton profil HASHCODE</div>
       </div>
-      <p>Ton espace de travail est prêt. Connecte-toi chaque jour pour valider ta présence, gagner tes premiers points d'XP et activer ton multiplicateur de série.</p>
+      <p>Ton espace de travail est prêt. Commence par ta première action : chaque lab validé devient une preuve de compétence dans ton Portfolio.</p>
       <div class="btn-wrap">
         <a href="${APP_URL}/dashboard" class="btn">${escHtml(profile.cta)} →</a>
       </div>

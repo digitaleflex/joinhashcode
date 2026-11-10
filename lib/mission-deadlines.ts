@@ -1,14 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@/generated/prisma/client";
 
-export function isOverdue(mission: {
-  deadline: Date | null;
-  status: string;
-}): boolean {
-  if (!mission.deadline || mission.status !== "PUBLISHED") return false;
-  return new Date() > mission.deadline;
-}
-
 export function getDaysUntilDeadline(mission: {
   deadline: Date | null;
 }): number | null {

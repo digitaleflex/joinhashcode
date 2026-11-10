@@ -28,10 +28,6 @@ export async function GET(req: Request) {
         csv = await exportMissionsCsv(startDate, endDate);
         filename = `analytics-missions-${formatYYYYMMDD()}.csv`;
         break;
-      case "squads":
-        csv = await exportSquadsCsv();
-        filename = `analytics-squads-${formatYYYYMMDD()}.csv`;
-        break;
       case "funnel":
         csv = await exportFunnelCsv(startDate, endDate);
         filename = `analytics-funnel-${formatYYYYMMDD()}.csv`;
@@ -71,17 +67,13 @@ async function exportOverviewCsv(startDate: Date, endDate: Date): Promise<string
     activeUsers30d,
     totalMissions,
     publishedMissions,
-    totalSquads,
-    avgCohesion,
   ] = await Promise.all([
     prisma.user.count(),
     prisma.user.count({ where: { createdAt: { gte: startDate, lte: endDate } } }),
-    prisma.user.count({ where: { lastCheckinAt: { gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) } } }),
-    prisma.user.count({ where: { lastCheckinAt: { not: null } } }),
+    prisma.activityLog.findMany({ where: { createdAt: { gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) }, userId: { not: null } }, distinct: ["userId"], select: { userId: true } }).then((r) => r.length),
+    prisma.activityLog.findMany({ where: { createdAt: { gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) }, userId: { not: null } }, distinct: ["userId"], select: { userId: true } }).then((r) => r.length),
     prisma.mission.count(),
     prisma.mission.count({ where: { status: "PUBLISHED" } }),
-    prisma.organization.count(),
-    prisma.organization.aggregate({ _avg: { cohesionScore: true } }),
   ]);
 
   const rows = [
@@ -94,8 +86,6 @@ async function exportOverviewCsv(startDate: Date, endDate: Date): Promise<string
     ["Retention 30d (%)", totalUsers > 0 ? Math.round((activeUsers30d / totalUsers) * 100) : 0],
     ["Total Missions", totalMissions],
     ["Published Missions", publishedMissions],
-    ["Total Squads", totalSquads],
-    ["Avg Squad Cohesion", Math.round((avgCohesion._avg.cohesionScore ?? 0) * 100) / 100],
     ["Period Start", startDate],
     ["Period End", endDate],
   ];
@@ -146,38 +136,6 @@ async function exportMissionsCsv(startDate: Date, endDate: Date): Promise<string
     s.mission?.difficulty ?? "", s.mission?.xp ?? "",
     s.status, s.xpAwarded, s.createdAt,
   ]);
-
-  return [header.map(escapeCSV).join(","), ...rows.map((r) => r.map(escapeCSV).join(","))].join("\n");
-}
-
-async function exportSquadsCsv(): Promise<string> {
-  const squads = await prisma.organization.findMany({
-    include: {
-      _count: { select: { members: true } },
-      members: { include: { user: { select: { class: true } } } },
-    },
-    orderBy: { cohesionScore: "desc" },
-  });
-
-  const header = [
-    "id", "name", "slug", "membersCount", "cohesionScore",
-    "streakCount", "builders", "creators", "strategists", "catalysts",
-    "isPrivate", "createdAt",
-  ];
-
-  const rows = squads.map((s) => {
-    const classes = s.members.reduce((acc, m) => {
-      if (m.user.class) acc[m.user.class] = (acc[m.user.class] ?? 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
-
-    return [
-      s.id, s.name, s.slug ?? "", s._count.members, s.cohesionScore,
-      s.streakCount, classes.builder ?? 0, classes.creator ?? 0,
-      classes.strategist ?? 0, classes.catalyst ?? 0,
-      s.isPrivate, s.createdAt,
-    ];
-  });
 
   return [header.map(escapeCSV).join(","), ...rows.map((r) => r.map(escapeCSV).join(","))].join("\n");
 }

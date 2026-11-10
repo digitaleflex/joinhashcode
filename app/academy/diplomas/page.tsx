@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { GraduationCap, Award, ShieldCheck, BadgeCheck, FileCheck2, Star } from "lucide-react";
+import { GraduationCap, Award, ShieldCheck, BadgeCheck, FileCheck2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma";
 
@@ -104,14 +104,6 @@ export default async function AcademyDiplomasPage() {
                                                     </p>
                                                 </div>
                                             </div>
-                                            {badge.xpRequired > 0 && (
-                                                <div className="mt-2 flex items-center gap-2">
-                                                    <Star className="size-3 text-primary" />
-                                                    <span className="text-[10px] font-bold text-white/60">
-                                                        {badge.xpRequired} XP requis
-                                                    </span>
-                                                </div>
-                                            )}
                                         </div>
                                     ))}
                                 </div>

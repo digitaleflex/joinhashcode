@@ -1,6 +1,6 @@
 "use client"
 
-import { Check, User, Users, Target, Sparkles, ChevronRight } from "lucide-react"
+import { Check, User, Target, Sparkles, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
@@ -8,11 +8,10 @@ import { motion } from "framer-motion"
 import type { UserProfile } from "@/lib/types"
 interface ActivationChecklistProps {
   user: UserProfile
-  hasSquad: boolean
   hasSubmission: boolean
 }
 
-export function ActivationChecklist({ user, hasSquad, hasSubmission }: ActivationChecklistProps) {
+export function ActivationChecklist({ user, hasSubmission }: ActivationChecklistProps) {
   const steps = [
     {
       id: "quiz",
@@ -20,8 +19,7 @@ export function ActivationChecklist({ user, hasSquad, hasSubmission }: Activatio
       description: "Ton profil psychométrique est actif.",
       icon: Sparkles,
       completed: true,
-      href: "/quiz",
-      xp: 25
+      href: "/quiz"
     },
     {
       id: "profile",
@@ -29,17 +27,7 @@ export function ActivationChecklist({ user, hasSquad, hasSubmission }: Activatio
       description: "Ajoute un pseudo et tes réseaux.",
       icon: User,
       completed: !!user.pseudo && (!!user.githubUrl || !!user.linkedinUrl),
-      href: "/settings",
-      xp: 50
-    },
-    {
-      id: "squad" as const,
-      title: "Escouade rejointe",
-      description: "Rejoins ou crée ta première Squad.",
-      icon: Users,
-      completed: hasSquad,
-      href: "/squad",
-      xp: 50
+      href: "/settings"
     },
     {
       id: "mission",
@@ -47,8 +35,7 @@ export function ActivationChecklist({ user, hasSquad, hasSubmission }: Activatio
       description: "Soumets ta toute première mission.",
       icon: Target,
       completed: hasSubmission,
-      href: "/missions",
-      xp: 100
+      href: "/missions"
     },
     {
       id: "j7-activation",
@@ -56,8 +43,7 @@ export function ActivationChecklist({ user, hasSquad, hasSubmission }: Activatio
       description: "As-tu validé 3 des 5 sous-missions M01 dans les 7 jours ?",
       icon: Target,
       completed: user.j7Activated,
-      href: "/missions",
-      xp: 75
+      href: "/missions"
     }
   ]
 
@@ -122,7 +108,7 @@ export function ActivationChecklist({ user, hasSquad, hasSubmission }: Activatio
             </div>
             <Button asChild variant="ghost" size="sm" className="h-8 text-xs font-mono font-bold text-primary hover:text-primary hover:bg-primary/10">
               <Link href={nextStep.href}>
-                +{nextStep.xp} XP
+                Continuer
                 <ChevronRight className="size-3 ml-1" />
               </Link>
             </Button>

@@ -13,10 +13,9 @@ import { cn } from "@/lib/utils"
 
 interface NeuralScannerProps {
   onComplete: () => void
-  bonusXp?: number
 }
 
-export function NeuralScanner({ onComplete, bonusXp = 5 }: NeuralScannerProps) {
+export function NeuralScanner({ onComplete }: NeuralScannerProps) {
   const [step, setStep] = useState(0)
   const steps = [
     { label: "Connexion en cours...", icon: Radio, delay: 1000 },
@@ -92,22 +91,6 @@ export function NeuralScanner({ onComplete, bonusXp = 5 }: NeuralScannerProps) {
           ))}
         </div>
 
-        <div className="pt-4">
-          <AnimatePresence>
-            {step === 3 && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary"
-              >
-                <Zap className="size-3" />
-                <span className="text-xs font-mono font-bold uppercase tracking-wider">
-                  Bonus : +{bonusXp} XP
-                </span>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
       </div>
 
       <div className="w-full max-w-xs space-y-2">

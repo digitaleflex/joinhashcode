@@ -1,4 +1,23 @@
-# NETTOYAGE_SUIVI.md — Tracker de la Vague 1 (découplage + gel)
+# NETTOYAGE_SUIVI.md — Grand nettoyage (11/2026)
+
+> **Décisions :** D-026 (cyber phare), D-027 (suppression du code gelé), D-028 (gel 6 semaines) — `DOCS/DECISIONS.md`
+> **Branche :** `chore/grand-nettoyage` · **Point de retour :** tag `pre-nettoyage`
+> **Règle :** 1 commit = 1 intention, `pnpm verify:fast` VERT avant chaque commit, `pnpm verify` + build en fin de phase.
+> **Build local :** `REDIS_URL= REDIS_TOKEN= pnpm build` tant que `.env` contient une URL `rediss://` (le client Upstash exige `https://`).
+
+| Phase | Contenu | Statut |
+|---|---|---|
+| 0 | Décisions D-026 → D-028 | ✅ 09/11 |
+| 1 | Hygiène dépôt : racine rangée, `.local/` dé-versionné, AGENTS.md corrigé, 12 dépendances retirées | ✅ 09/11 — outils IA : OpenCode + Claude Code conservés, `.agents/` `.gemini/` supprimés |
+| 2 | Suppression du code gelé — **terminée (09/11)** : libs orphelines, /leaderboard, /guide, check-in, admin core/fraud/mentorat/knowledge-hub/interventions, squads (UI/API/admin/invitations/email J+3), 16+ fichiers orphelins, moteur XP/badges/niveaux et leur affichage, knip réparé. **Bugs corrigés** : labs CORE/PRO verrouillés à vie, relecteur inatteignable, parrainage bloqué (D-029). **Reste ouvert** : `TwoFactorSetup` (brancher ou abandonner), `ateliers` (utilisé par `first-action`), ~45 exports inutilisés (phase 5). `/specialization` est ACTIF | ✅ |
+| 3 | Produit/docs — **terminée (09/11)** : textes UI et emails sans XP/squad/check-in, cron `check-activity` supprimé, parrainage dédoublonné, double email corrigé, métriques admin sur `activity_log`, docs à jour, `TwoFactorSetup` supprimé, ~50 exports morts retirés. `ateliers` conservé (utilisé par la première action). **Reste (fondateur)** : CGU (`app/terms`), planificateur externe (`check-activity`), test manuel du site | ✅ |
+| 4 | Base de données — **préparée (09/11)** sur la branche séparée `chore/phase4-migration` : 11 tables inutilisées supprimées. Procédure : `DOCS/ops/PHASE4_MIGRATION.md`. **Ne pas fusionner** sans sauvegarde, export et feu vert explicite. Lot suivant : colonnes XP/séries de `User` et squad d'`organization` | 🟡 prête |
+| 5 | Garde-fous — **terminée (09/11)** : `knip` en CI (vide), règles D-028 (pas de feature sans H-xx) et « zéro code mort » dans CLAUDE.md / AGENTS.md | ✅ |
+
+---
+
+# Historique — Vague 1 (09/2026)
+
 
 > **Dernière mise à jour :** 2026-09-17 (Vague 1 étape 1 exécutée)
 > **Références :** `DOCS/AUDIT_PIVOT.md` (la carte), `DOCS/PIVOT_CYBER.md` (la vision), EPIC #372, Vague 1 #373

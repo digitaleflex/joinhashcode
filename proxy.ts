@@ -11,11 +11,11 @@
 //   4. Session but no primaryDomain → redirect to /specialization
 // - Protected routes defined in PROTECTED_PATHS array
 // - /admin/* additionally guarded by app/admin/layout.tsx (requires ADMIN/MODERATOR role)
-// - /invite/[slug] is intentionally public — handles its own auth internally
+// - /invite/* (anciens liens de squad) redirige vers /signin
 import { NextResponse, type NextRequest } from "next/server";
 import { getSessionCookie, getCookieCache } from "better-auth/cookies";
 
-const PROTECTED_PATHS = ["/dashboard", "/missions", "/settings", "/squad", "/dossier", "/feedback", "/onboarding", "/quiz", "/reviewer", "/ateliers", "/specialization", "/admin", "/academy/my-courses", "/academy/certificates"];
+const PROTECTED_PATHS = ["/dashboard", "/missions", "/settings", "/dossier", "/feedback", "/onboarding", "/quiz", "/reviewer", "/ateliers", "/specialization", "/admin", "/academy/my-courses", "/academy/certificates"];
 
 export async function proxy(request: NextRequest) {
   if (request.headers.get("x-middleware-subrequest")) {
@@ -34,16 +34,8 @@ export async function proxy(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname;
 
-  // ── PIVOT PIPELINE CYBER (2026-09-17, DOCS/PIVOT_CYBER.md) ─────────────
-  // Gel Vague 1 : modules hors nouvelle vision désactivés au point d'entrée
-  // unique. Fichiers conservés sur disque — suppression réelle en Vague 5 (#377).
-  if (pathname.startsWith("/squad") || pathname.startsWith("/api/squad")) {
-    if (pathname.startsWith("/api/squad")) {
-      return NextResponse.json(
-        { message: "Module gelé pendant le pivot Pipeline Cyber (DOCS/PIVOT_CYBER.md)." },
-        { status: 404 }
-      );
-    }
+  // Squads supprimées (D-027) : les anciens liens /squad/* mènent au dashboard.
+  if (pathname.startsWith("/squad")) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
@@ -164,11 +156,9 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // ⚠️ Les API sont exclues du matcher par défaut (Next.js) — on RAJOUTE
-  // explicitement /api/squad pour que le kill-switch D8 les intercepte.
+  // Les routes API sont exclues : chacune applique sa propre garde d'auth.
   matcher: [
     "/((?!_next/static|_next/image|favicon\.ico|.*\.(?:png|jpg|jpeg|svg|gif|webp|ico|css|woff2?|ttf|eot)|api/).*)",
-    "/api/squad/:path*",
   ],
 };
 

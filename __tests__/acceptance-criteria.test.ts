@@ -70,12 +70,10 @@ describe("computeXp", () => {
 describe("isEligibleReviewer", () => {
   const base = {
     reviewerClass: "builder",
-    reviewerLevel: 2,
     reviewerMissionsCompleted: 3,
     reviewerId: "rev1",
     submissionUserId: "user1",
     missionTargetProfiles: ["builder"],
-    missionRequiredLevel: 1,
   }
 
   it("returns true for eligible reviewer", () => {
@@ -90,8 +88,8 @@ describe("isEligibleReviewer", () => {
     expect(isEligibleReviewer({ ...base, reviewerClass: "creator" })).toBe(false)
   })
 
-  it("returns false if level not high enough", () => {
-    expect(isEligibleReviewer({ ...base, reviewerLevel: 1 })).toBe(false)
+  it("does not depend on level: 3 validated labs are enough", () => {
+    expect(isEligibleReviewer({ ...base, reviewerMissionsCompleted: 3 })).toBe(true)
   })
 
   it("returns false if fewer than 3 missions completed", () => {

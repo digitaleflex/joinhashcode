@@ -106,7 +106,7 @@ export function ResultScores({ analysis, user }: Props) {
         <div className="flex-1 min-w-0">
           <p className="font-semibold text-white truncate">{displayName}</p>
           <p className="text-sm text-zinc-500">
-            {user.memberNumber ? `Membre #${String(user.memberNumber).padStart(4, '0')} · ` : ''}Niveau {user.level ?? 1} · {user.experience ?? 0} XP
+            {user.memberNumber ? `Membre #${String(user.memberNumber).padStart(4, '0')}` : ''}
           </p>
         </div>
         <span
