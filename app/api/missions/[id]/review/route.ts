@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 import { safeAfter as after } from "@/lib/after";
 import { z } from "zod";
 import {
-  getCriteriaForMission,
+  getReviewCriteria,
   computeQualityLevel,
   computeXp,
   getMissingRequiredCriteria,
@@ -65,7 +65,7 @@ export async function POST(
       return NextResponse.json({ message: "Cette soumission n'est pas en cours de revue." }, { status: 400 });
     }
 
-    const missionCriteria = getCriteriaForMission(submission.mission.category);
+    const missionCriteria = getReviewCriteria(submission.mission);
     const missingRequired = getMissingRequiredCriteria(missionCriteria, criteria);
     const allRequiredPassed = missingRequired.length === 0;
 

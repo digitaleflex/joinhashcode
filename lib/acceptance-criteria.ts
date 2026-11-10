@@ -104,6 +104,22 @@ export function getCriteriaForMission(category: string): Criterion[] {
   return MISSION_CRITERIA[category.toUpperCase()] ?? MISSION_CRITERIA.GENERAL
 }
 
+/**
+ * Critères de revue d'une mission : ceux du labo (`acceptanceCriteria`) s'il en
+ * définit, sinon la grille générique de sa catégorie. Source unique pour l'UI
+ * de revue et la validation serveur (#424 : un labo HEF n'est jamais jugé sur
+ * la grille CODE générique quand il a ses propres critères).
+ */
+export function getReviewCriteria(mission: { category: string; acceptanceCriteria?: unknown }): Criterion[] {
+  const labCriteria = Array.isArray(mission.acceptanceCriteria)
+    ? mission.acceptanceCriteria.filter((c): c is string => typeof c === "string" && c.trim().length > 0)
+    : []
+  if (labCriteria.length > 0) {
+    return labCriteria.map((label, i) => ({ id: `lab-${i}`, label, weight: "REQUIRED" as const }))
+  }
+  return getCriteriaForMission(mission.category)
+}
+
 export function computeQualityLevel(
   criteria: Criterion[],
   checked: Record<string, boolean>

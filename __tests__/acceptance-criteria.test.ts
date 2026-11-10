@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest"
 import {
   getCriteriaForMission,
+  getReviewCriteria,
   computeQualityLevel,
   computeXp,
   isEligibleReviewer,
@@ -16,6 +17,20 @@ describe("getCriteriaForMission", () => {
   it("falls back to GENERAL for unknown category", () => {
     const criteria = getCriteriaForMission("UNKNOWN")
     expect(criteria.some(c => c.id === "general-proof")).toBe(true)
+  })
+})
+
+describe("getReviewCriteria (#424)", () => {
+  it("uses the lab's own acceptance criteria when present", () => {
+    const criteria = getReviewCriteria({ category: "CODE", acceptanceCriteria: ["Les tests passent", "  ", "Mesures avant/après"] })
+    expect(criteria.map(c => c.label)).toEqual(["Les tests passent", "Mesures avant/après"])
+    expect(criteria.every(c => c.weight === "REQUIRED")).toBe(true)
+    expect(criteria.some(c => c.id === "code-commits")).toBe(false)
+  })
+
+  it("falls back to the category grid when the lab defines no criteria", () => {
+    expect(getReviewCriteria({ category: "CODE", acceptanceCriteria: [] }).some(c => c.id === "code-readme")).toBe(true)
+    expect(getReviewCriteria({ category: "BUSINESS", acceptanceCriteria: null }).length).toBeGreaterThan(0)
   })
 })
 
