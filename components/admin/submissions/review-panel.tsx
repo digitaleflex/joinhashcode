@@ -3,7 +3,7 @@
 import { Check, X, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { getCriteriaForMission, computeQualityLevel } from "@/lib/acceptance-criteria"
+import { getReviewCriteria, computeQualityLevel } from "@/lib/acceptance-criteria"
 import { SubmissionContent } from "./submission-content"
 
 interface SubmissionUser {
@@ -89,11 +89,7 @@ export function ReviewPanel({
 }: ReviewPanelProps) {
   const isProcessing = processingId === submission.id
   const artifacts = submission.artifacts ?? []
-  const laboCriteria = (submission.mission.acceptanceCriteria ?? []).filter(Boolean)
-  const criteria =
-    laboCriteria.length > 0
-      ? laboCriteria.map((label, i) => ({ id: `lab-${i}`, label, weight: "REQUIRED" as const }))
-      : getCriteriaForMission(submission.mission.category)
+  const criteria = getReviewCriteria(submission.mission)
   const rejectedCount = Object.values(artifactDecisions).filter(d => d.status === "REJECTED").length
 
   return (
@@ -102,7 +98,7 @@ export function ReviewPanel({
         <div>
           <h2 className="font-bold text-lg">{submission.mission.title}</h2>
           <p className="text-xs text-muted-foreground font-mono mt-1">
-            {submission.user.name} · LVL {submission.user.level}
+            {submission.user.name}
           </p>
         </div>
         <button
@@ -277,7 +273,7 @@ export function ReviewPanel({
 
       <div className="space-y-3">
         <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
-          {laboCriteria.length > 0 ? "Critères du labo" : "Rubrique d'évaluation"}
+          {criteria[0]?.id.startsWith("lab-") ? "Critères du labo" : "Rubrique d'évaluation"}
         </p>
         {criteria.map(criterion => (
           <button
