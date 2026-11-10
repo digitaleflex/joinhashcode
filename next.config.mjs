@@ -52,16 +52,35 @@ const nextConfig = {
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || ""
     const isLocal = appUrl.includes("localhost") || appUrl.includes("127.0.0.1") || process.env.NODE_ENV !== "production"
 
+    // Allowlist CSP (#442). Chaque domaine externe correspond à un usage réel :
+    // - Pyodide (worker du playground Python, public/playground/worker.js) :
+    //   chargé depuis jsDelivr, limité au chemin de la version épinglée.
+    // - CodeMirror 5 (public/playground/index.html) : cdnjs, limité à la version.
+    // - Google Fonts : polices Inter / JetBrains Mono du playground.
+    //   (L'app principale passe par next/font, auto-hébergé.)
+    // - Cloudflare Web Analytics : beacon injecté par le proxy Cloudflare.
+    // - Images distantes : avatars OAuth (Google, GitHub) et QR codes,
+    //   identiques à images.remotePatterns ci-dessus.
+    // Les intégrations externes (LLM, sandbox, calendrier) passent par le serveur :
+    // aucun domaine tiers dans connect-src, aucun iframe tiers dans frame-src.
+    const PYODIDE_CDN = "https://cdn.jsdelivr.net/npm/pyodide@0.26.4/"
+    const CODEMIRROR_CDN = "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/"
+    const REMOTE_IMAGE_HOSTS = nextConfig.images.remotePatterns
+      .map(({ protocol, hostname }) => `${protocol}://${hostname}`)
+      .join(" ")
+
     htmlHeaders.push({
       key: "Content-Security-Policy",
       value: [
         "default-src 'self'",
-        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com",
-        "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com",
-        "img-src 'self' data: blob: lh3.googleusercontent.com avatars.githubusercontent.com api.qrserver.com",
-        "font-src 'self' data: https://cdn.jsdelivr.net https://fonts.gstatic.com",
-        "connect-src 'self' https://cloudflareinsights.com https://cdn.jsdelivr.net https://*.pyodide.org https://pypi.org",
+        // 'unsafe-inline' : scripts inline de Next sans nonce. 'unsafe-eval' : Pyodide (WebAssembly + FFI).
+        `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com ${PYODIDE_CDN} ${CODEMIRROR_CDN}`,
+        `style-src 'self' 'unsafe-inline' ${CODEMIRROR_CDN} https://fonts.googleapis.com`,
+        `img-src 'self' data: blob: ${REMOTE_IMAGE_HOSTS}`,
+        "font-src 'self' data: https://fonts.gstatic.com",
+        `connect-src 'self' https://cloudflareinsights.com ${PYODIDE_CDN}`,
         "worker-src 'self' blob:",
+        "object-src 'none'",
         "frame-src 'self'",
         "frame-ancestors 'self'",
         "base-uri 'self'",

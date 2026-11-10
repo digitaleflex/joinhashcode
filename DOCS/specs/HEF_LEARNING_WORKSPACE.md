@@ -713,12 +713,25 @@ Affiche :
 
 ### 10.3 CSP et sécurité
 
-Actuellement :
+Allowlist actuelle (#442, `next.config.mjs`, verrouillée par `__tests__/csp-headers.test.ts`) :
 
-```text
-frame-src 'self'
-connect-src 'self' https://cloudflareinsights.com https://cdn.jsdelivr.net https://*.pyodide.org https://pypi.org
-```
+| Domaine autorisé | Directives | Usage réel |
+|---|---|---|
+| `https://cdn.jsdelivr.net/npm/pyodide@0.26.4/` | `script-src`, `connect-src` | Pyodide (worker `public/playground/worker.js`) |
+| `https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/` | `script-src`, `style-src` | CodeMirror 5 de `public/playground/index.html` |
+| `https://fonts.googleapis.com`, `https://fonts.gstatic.com` | `style-src`, `font-src` | Polices du playground (l'app passe par `next/font`, auto-hébergé) |
+| `https://static.cloudflareinsights.com`, `https://cloudflareinsights.com` | `script-src`, `connect-src` | Beacon Cloudflare Web Analytics, injecté par le proxy |
+| `https://lh3.googleusercontent.com`, `https://avatars.githubusercontent.com`, `https://api.qrserver.com` | `img-src` | Avatars OAuth et QR codes (dérivé de `images.remotePatterns`) |
+
+Directives fermées : `default-src 'self'`, `object-src 'none'`, `frame-src 'self'`,
+`frame-ancestors 'self'`, `base-uri 'self'`, `form-action 'self'`. Retirés par #442 :
+`https://*.pyodide.org` et `https://pypi.org` (micropip non utilisé), jsDelivr et cdnjs
+sans chemin (n'importe quel paquet npm aurait pu être chargé), jsDelivr dans
+`style-src`/`font-src` (inutilisé). PostHog est appelé côté serveur (`lib/analytics.ts`),
+il n'a donc rien à faire dans `connect-src`.
+
+Toute bibliothèque CDN est épinglée par version dans la CSP : changer la version de
+Pyodide ou de CodeMirror impose de mettre à jour `next.config.mjs` dans le même commit.
 
 Pour embarquer des outils, il faudra :
 
