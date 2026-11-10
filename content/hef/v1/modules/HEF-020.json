@@ -1,6 +1,6 @@
 {
   "version": "v1",
-  "generatedAt": "2026-11-04T00:10:55.086Z",
+  "generatedAt": "2026-11-10T00:53:22.333Z",
   "source": {
     "repository": "letriplenesty-ai/hashcode-engineering-foundations",
     "module": "HEF-020"
@@ -23,6 +23,132 @@
         "durationMinutes": 65,
         "badge": "Architecte du rangement",
         "slidesUrl": "/hef/slides-pdf/HEF-020/01-modele-abstrait-adt.pdf",
+        "flashQuiz": {
+          "xp": 15,
+          "passScore": 80,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Un ADT décrit une structure par :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "ses opérations",
+                  "isCorrect": true
+                },
+                {
+                  "text": "son code interne",
+                  "isCorrect": false
+                },
+                {
+                  "text": "sa taille mémoire",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 2,
+              "text": "L'interface d'une structure, c'est :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "comment elle est faite à l'intérieur",
+                  "isCorrect": false
+                },
+                {
+                  "text": "ce qu'on peut faire avec",
+                  "isCorrect": true
+                },
+                {
+                  "text": "son nom de fichier",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 3,
+              "text": "Pour choisir une structure, on commence par :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "choisir la plus récente",
+                  "isCorrect": false
+                },
+                {
+                  "text": "utiliser toujours une liste",
+                  "isCorrect": false
+                },
+                {
+                  "text": "lister les opérations les plus fréquentes",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 4,
+              "text": "🔁 *Révision HEF-010, mission 08* : Un cas limite typique est :",
+              "revisionOf": {
+                "module": "HEF-010",
+                "mission": 8
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "la liste vide",
+                  "isCorrect": true
+                },
+                {
+                  "text": "la liste moyenne",
+                  "isCorrect": false
+                },
+                {
+                  "text": "le cas heureux",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 5,
+              "text": "🔁 *Révision HEF-010, mission 03* : Un contrat comprend :",
+              "revisionOf": {
+                "module": "HEF-010",
+                "mission": 3
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "uniquement un nom",
+                  "isCorrect": false
+                },
+                {
+                  "text": "préconditions et postconditions",
+                  "isCorrect": true
+                },
+                {
+                  "text": "du code",
+                  "isCorrect": false
+                }
+              ]
+            }
+          ]
+        },
+        "reflection": {
+          "xp": 10,
+          "intro": null,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Quelle opération fais-tu le plus souvent dans ton rangement quotidien ? Est-il adapté ?"
+            },
+            {
+              "order": 2,
+              "text": "Quel changement d'implémentation pourrais-tu faire sans que personne ne s'en aperçoive ?"
+            }
+          ]
+        },
         "body": "![Ranger l'information : le modèle abstrait](/hef/parcours/hef020-m01.svg)\n\n<img src=\"/hef/personnages/kodi.svg\" alt=\"Kodi, ton guide pour cette mission\" width=\"96\" align=\"right\">\n\n\n> **Avant de choisir comment stocker, on décide ce qu'on veut pouvoir faire.**\n\n⏱️ Durée : environ 65 minutes · 🎓 Niveau : débutant · 🏅 Badge : **Architecte du rangement**\n\n---\n\n## 🎬 L'histoire\n\nHashBox grandit : 5 000 membres, 200 missions, des milliers de résultats de quiz. Kodi stocke tout dans une seule grande liste Python. Chaque recherche devient lente, chaque ajout provoque des erreurs.\n\n> « Tu mélanges deux questions, dit Sam. *Qu'est-ce que je veux faire avec mes données ?* et *comment je les range en mémoire ?* Commence par la première. »\n\n**Cette mission introduit l'idée la plus importante du module : séparer ce qu'on veut faire de comment on le fait.**\n\n---\n\n## 🎯 Ta mission\n\nÀ la fin, **je serai capable de** :\n\n- [ ] définir une structure de données avec mes mots\n- [ ] distinguer un type abstrait (ADT) de son implémentation\n- [ ] décrire une structure par ses opérations\n- [ ] dire quelles opérations sont coûteuses ou rapides\n- [ ] choisir une structure à partir des opérations nécessaires\n\n---\n\n## 🧩 Défi d'échauffement (5 XP)\n\nPense à ta **bibliothèque** (ou à une liste de courses, ou à ton téléphone). Quelles actions fais-tu le plus souvent : ajouter, retrouver, supprimer, parcourir, trier ? Classe-les par fréquence. Selon ce classement, comment organiserais-tu les objets ?\n\n---\n\n## 💡 Le concept\n\n### Structure de données\n\nUne **structure de données** est une façon d'organiser l'information en mémoire pour que certaines opérations soient simples et rapides.\n\nAnalogie : une cuisine. Les couteaux sur un aimant (accès rapide), les conserves au fond du placard (peu utilisées). Le rangement dépend de l'usage.\n\n### Type abstrait de données (ADT)\n\nUn **ADT** décrit une structure par son **comportement** (ses opérations), sans dire comment elle est faite à l'intérieur.\n\n| ADT | Opérations typiques |\n|---|---|\n| **Liste** | ajouter, lire à une position, supprimer, parcourir |\n| **Pile** | empiler, dépiler, regarder le sommet |\n| **File** | enfiler, défiler |\n| **Dictionnaire** | associer une clé à une valeur, retrouver par clé |\n| **Ensemble** | ajouter, tester l'appartenance |\n\n### Interface et implémentation\n\n- L'**interface** : ce qu'on peut faire (les opérations et leurs règles).\n- L'**implémentation** : comment c'est fait (tableau, liste chaînée, arbre…).\n\nOn peut changer l'implémentation sans changer le code qui utilise l'interface. C'est le même principe que les contrats de la mission « Fonctions » du module HEF-010.\n\n```python\nclass CompteurDeVisites:\n    \"\"\"Interface: enregistrer(page), total(page). Rien sur l'implémentation.\"\"\"\n    def __init__(self):\n        self._visites = {}          # implémentation cachée\n\n    def enregistrer(self, page):\n        self._visites[page] = self._visites.get(page, 0) + 1\n\n    def total(self, page):\n        return self._visites.get(page, 0)\n\nc = CompteurDeVisites()\nc.enregistrer(\"accueil\")\nc.enregistrer(\"accueil\")\nprint(c.total(\"accueil\"))   # 2\n```\n\nOn pourrait remplacer le dictionnaire par une liste de couples : le code qui utilise `CompteurDeVisites` ne changerait pas.\n\n### Le vocabulaire des coûts\n\nPour chaque opération, on se demande : combien d'étapes ? Est-ce constant, ou proportionnel à la taille ? On formalisera cela dans HEF-030 (complexité).\n\n> 🧠 **Astuce** : choisis la structure en commençant par la liste des opérations les plus fréquentes.\n\n---\n\n## 🔍 Exemple pas à pas\n\n**Besoin** : garder les 3 dernières pages visitées par un membre.\n\n**1. Opérations** : ajouter une page, oublier la plus ancienne si on dépasse 3, lire les 3 pages.\n\n**2. Choix d'ADT** : une **file** de taille limitée.\n\n**3. Interface**\n\n```python\nclass Historique:\n    \"\"\"Garde les n derniers éléments.\"\"\"\n    def __init__(self, taille):\n        self._taille = taille\n        self._elements = []\n\n    def ajouter(self, page):\n        self._elements.append(page)\n        if len(self._elements) > self._taille:\n            self._elements.pop(0)\n\n    def contenu(self):\n        return list(self._elements)\n\nh = Historique(3)\nfor p in [\"a\", \"b\", \"c\", \"d\"]:\n    h.ajouter(p)\nprint(h.contenu())   # ['b', 'c', 'd']\n```\n\n**4. Ce qu'on remarque** : l'utilisateur de `Historique` ignore que c'est une liste. Si demain on utilise une autre structure plus efficace, `ajouter` et `contenu` restent les mêmes.\n\n---\n\n## ✍️ À toi, avec aide (10 XP)\n\nDécris l'ADT **« Panier »** d'une boutique de formations :\n\n1. Liste ses opérations (au moins 4).\n2. Pour chacune, écris une phrase de contrat.\n3. Écris une classe `Panier` en Python avec ces opérations (implémentation libre).\n\n<details>\n<summary>💡 Indice 1</summary>\n\nOpérations possibles : ajouter, retirer, vider, compter, total.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nContrat de `retirer` : que se passe-t-il si la formation n'est pas dans le panier ?\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nUne liste ou un dictionnaire convient comme implémentation.\n\n</details>\n\n<details>\n<summary>✅ Réponse</summary>\n\n```python\nclass Panier:\n    \"\"\"Ajouter/retirer des formations (par nom) avec leur prix.\"\"\"\n    def __init__(self):\n        self._articles = {}          # nom -> prix\n\n    def ajouter(self, nom, prix):\n        self._articles[nom] = prix   # remplace si déjà présent\n\n    def retirer(self, nom):\n        self._articles.pop(nom, None)  # sans erreur si absent\n\n    def compter(self):\n        return len(self._articles)\n\n    def total(self):\n        return sum(self._articles.values())\n\np = Panier()\np.ajouter(\"HEF-000\", 20)\np.ajouter(\"HEF-010\", 30)\np.retirer(\"HEF-000\")\nprint(p.compter(), p.total())   # 1 30\n```\n\n</details>\n\n---\n\n## 🚀 À toi, en solo (20 XP)\n\nChoisis **trois situations** de ta vie (ou d'une appli que tu aimes) et pour chacune :\n\n1. liste les opérations nécessaires ;\n2. nomme l'ADT le plus adapté (liste, pile, file, dictionnaire, ensemble) ;\n3. écris l'interface en une phrase par opération.\n\nExemple de situations : historique de navigation, annuaire de contacts, file d'attente à une caisse.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\nExemples de bonnes réponses : historique de navigation → **pile** (retour = dépiler) ; annuaire → **dictionnaire** (nom → numéro) ; file à la caisse → **file** (premier arrivé, premier servi). Une bonne réponse nomme les opérations *avant* de nommer la structure.\n\n</details>\n\n---\n\n## ⚠️ Pièges classiques\n\n| Piège | Pourquoi c'est un problème | Comment l'éviter |\n|---|---|---|\n| **Choisir la structure avant l'usage** | Mauvais choix, tout ralentit | Lister d'abord les opérations |\n| **Exposer l'implémentation** | Le code utilisateur dépend d'un détail | Passer par des méthodes |\n| **ADT flou** | Chacun interprète autrement | Écrire le contrat de chaque opération |\n| **Tout mettre dans une liste** | Recherches lentes | Se demander : qu'est-ce que je fais le plus souvent ? |\n\n---\n\n## 🐉 Mini-boss (40 XP)\n\nTu conçois le **carnet de mentors** de HashBox. Besoins : ajouter un mentor, le retrouver par son nom, le supprimer, lister les mentors disponibles un jour donné.\n\n1. Écris l'interface (opérations + contrat).\n2. Implémente une première version avec une **liste de dictionnaires**.\n3. Implémente une seconde version avec un **dictionnaire nom → mentor**.\n4. Vérifie avec les mêmes tests que les deux versions se comportent pareil.\n5. Dis laquelle serait plus rapide pour « retrouver par nom » et pourquoi.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\nUn bon travail : les deux classes ont la même interface (`ajouter`, `trouver`, `supprimer`, `disponibles`) ; un seul fichier de tests s'applique aux deux ; la version dictionnaire retrouve par nom sans parcourir toute la liste. L'explication évoque que la liste doit être parcourue élément par élément alors que le dictionnaire accède directement par la clé.\n\n</details>\n\n---\n\n## ⚡ Quiz éclair (15 XP si 4/5 ou plus)\n\n**1.** Un ADT décrit une structure par :\n- A. ses opérations\n- B. son code interne\n- C. sa taille mémoire\n\n**2.** L'interface d'une structure, c'est :\n- A. comment elle est faite à l'intérieur\n- B. ce qu'on peut faire avec\n- C. son nom de fichier\n\n**3.** Pour choisir une structure, on commence par :\n- A. choisir la plus récente\n- B. utiliser toujours une liste\n- C. lister les opérations les plus fréquentes\n\n**4.** 🔁 *Révision HEF-010, mission 08* : Un cas limite typique est :\n- A. la liste vide\n- B. la liste moyenne\n- C. le cas heureux\n\n**5.** 🔁 *Révision HEF-010, mission 03* : Un contrat comprend :\n- A. uniquement un nom\n- B. préconditions et postconditions\n- C. du code\n\n<details>\n<summary>✅ Réponses</summary>\n\n1. **A**.\n2. **B**.\n3. **C**.\n4. **A**.\n5. **B**.\n\n</details>\n\n---\n\n## 🪞 Je réfléchis (10 XP)\n\n1. Quelle opération fais-tu le plus souvent dans ton rangement quotidien ? Est-il adapté ?\n2. Quel changement d'implémentation pourrais-tu faire sans que personne ne s'en aperçoive ?\n\n---\n\n## 🎒 À retenir\n\n1. Une structure de données organise l'information pour des opérations précises.\n2. Un ADT se décrit par ses opérations.\n3. Interface ≠ implémentation.\n4. On choisit une structure selon l'usage.\n5. Un bon contrat évite les malentendus.\n\n```mermaid\nflowchart LR\n    T([\"Ranger l'information : le modèle…\"])\n    T --> R1[\"1. Une structure de données organise l'information pour des opérations…\"]\n    T --> R2[\"2. Un ADT se décrit par ses opérations.\"]\n    T --> R3[\"3. Interface ≠ implémentation.\"]\n    T --> R4[\"4. On choisit une structure selon l'usage.\"]\n    T --> R5[\"5. Un bon contrat évite les malentendus.\"]\n```\n\n**Description du schéma** : la mission au centre, reliée aux cinq idées à retenir.\n\n---\n\n## 🏅 Récompenses\n\nTotal possible : **100 XP** · 🏅 Badge **Architecte du rangement**\n\n---\n\n[Mission 02 — Tableaux et listes chaînées](./02-tableaux-et-listes-chainees.md) →\n\n**HEF-020 — Structures de données**\n"
       },
       {
@@ -32,6 +158,132 @@
         "durationMinutes": 75,
         "badge": "Maillon fort",
         "slidesUrl": "/hef/slides-pdf/HEF-020/02-tableaux-et-listes-chainees.pdf",
+        "flashQuiz": {
+          "xp": 15,
+          "passScore": 80,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Dans un tableau, lire l'élément d'indice 5 est :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "proportionnel à la taille",
+                  "isCorrect": false
+                },
+                {
+                  "text": "impossible",
+                  "isCorrect": false
+                },
+                {
+                  "text": "immédiat",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 2,
+              "text": "Dans une liste chaînée, atteindre le 5e élément :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "demande de suivre les maillons",
+                  "isCorrect": true
+                },
+                {
+                  "text": "est immédiat",
+                  "isCorrect": false
+                },
+                {
+                  "text": "est impossible",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 3,
+              "text": "Insérer au début d'un grand tableau est :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "gratuit",
+                  "isCorrect": false
+                },
+                {
+                  "text": "coûteux (décalage)",
+                  "isCorrect": true
+                },
+                {
+                  "text": "impossible",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 4,
+              "text": "🔁 *Révision mission 01* : Un ADT décrit :",
+              "revisionOf": {
+                "module": null,
+                "mission": 1
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "son code interne",
+                  "isCorrect": false
+                },
+                {
+                  "text": "sa couleur",
+                  "isCorrect": false
+                },
+                {
+                  "text": "ses opérations",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 5,
+              "text": "🔁 *Révision HEF-010, mission 03* : Une précondition :",
+              "revisionOf": {
+                "module": "HEF-010",
+                "mission": 3
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "ce que l'appelant doit fournir",
+                  "isCorrect": true
+                },
+                {
+                  "text": "la valeur de retour",
+                  "isCorrect": false
+                },
+                {
+                  "text": "un test",
+                  "isCorrect": false
+                }
+              ]
+            }
+          ]
+        },
+        "reflection": {
+          "xp": 10,
+          "intro": null,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Dans quelles situations de ta vie préfères-tu un accès direct, et dans lesquelles une chaîne ?"
+            },
+            {
+              "order": 2,
+              "text": "Quel est le piège le plus facile à oublier dans les listes chaînées ?"
+            }
+          ]
+        },
         "body": "![Tableaux et listes chaînées](/hef/parcours/hef020-m02.svg)\n\n<img src=\"/hef/personnages/maya.svg\" alt=\"Maya, ton guide pour cette mission\" width=\"96\" align=\"right\">\n\n\n> **Deux façons de ranger des éléments en ligne : une rangée de cases, ou une chaîne de maillons.**\n\n⏱️ Durée : environ 75 minutes · 🎓 Niveau : débutant · 🏅 Badge : **Maillon fort**\n\n---\n\n## 🎬 L'histoire\n\nKodi doit gérer la **liste d'attente** d'une formation : on y ajoute des membres en fin de liste, parfois au milieu pour les prioritaires, et on retire ceux qui abandonnent.\n\nIl utilise une liste Python. Tout marche, jusqu'à 200 000 inscrits : insérer au début devient très lent.\n\n> « Il faut savoir ce qu'il y a *derrière* cette liste », dit Sam.\n\n**Tu découvres les deux grandes familles de structures linéaires.**\n\n---\n\n## 🎯 Ta mission\n\nÀ la fin, **je serai capable de** :\n\n- [ ] expliquer comment un tableau stocke ses éléments\n- [ ] expliquer le principe d'une liste chaînée\n- [ ] comparer accès, insertion et suppression des deux\n- [ ] implémenter une liste chaînée simple\n- [ ] choisir l'une ou l'autre selon l'usage\n\n---\n\n## 🧩 Défi d'échauffement (5 XP)\n\nImagine deux façons d'organiser 10 personnes :\n\n- **A** : elles sont assises sur un banc numéroté de 0 à 9 ;\n- **B** : elles forment une chaîne, chacune tient la main de la suivante, et tu ne connais que la première.\n\nPour trouver la personne n°7, laquelle des deux est la plus rapide ? Et pour insérer quelqu'un au milieu ?\n\n---\n\n## 💡 Le concept\n\n### Le tableau\n\nUn **tableau** range ses éléments dans des cases **contiguës** en mémoire, numérotées à partir de 0.\n\n```text\nindice :   0    1    2    3    4\nvaleur : [ 12 ][ 7 ][ 25 ][ 3 ][ 18 ]\n```\n\n- **Accès par indice** : immédiat. L'ordinateur calcule l'adresse directement.\n- **Insertion/suppression au milieu** : il faut décaler tous les éléments suivants.\n- **Ajout à la fin** : rapide en général.\n\nLa `list` de Python est un tableau dynamique (elle s'agrandit quand il le faut).\n\n### La liste chaînée\n\nUne **liste chaînée** est une suite de **maillons**. Chaque maillon contient une valeur et une **référence** vers le suivant.\n\n```text\ntête → [12 | •]→ [7 | •]→ [25 | •]→ [3 | None]\n```\n\n- **Accès au n-ième** : il faut suivre les maillons un par un.\n- **Insertion/suppression** (si on est déjà au bon endroit) : on modifie juste des références, sans décaler.\n- **Mémoire** : chaque maillon coûte un peu plus (valeur + référence).\n\n```python\nclass Maillon:\n    def __init__(self, valeur, suivant=None):\n        self.valeur = valeur\n        self.suivant = suivant\n\nclass ListeChainee:\n    def __init__(self):\n        self.tete = None\n\n    def ajouter_debut(self, valeur):\n        self.tete = Maillon(valeur, self.tete)\n\n    def vers_liste(self):\n        resultat, courant = [], self.tete\n        while courant is not None:\n            resultat.append(courant.valeur)\n            courant = courant.suivant\n        return resultat\n```\n\n### Comparaison\n\n| Opération | Tableau | Liste chaînée |\n|---|---|---|\n| Lire le n-ième | rapide | lent (il faut parcourir) |\n| Ajouter au début | lent (décalage) | rapide |\n| Ajouter à la fin | rapide | rapide si on garde la fin, sinon lent |\n| Insérer au milieu | lent (décalage) | rapide une fois la position atteinte |\n| Mémoire | compacte | plus gourmande |\n\n> 🧠 **Astuce** : en pratique, un tableau est le bon choix par défaut. La liste chaînée est utile pour ses insertions/suppressions locales rapides.\n\n---\n\n## 🔍 Exemple pas à pas\n\n**Problème** : insérer un membre prioritaire en 2e position dans `[\"Ada\", \"Bob\", \"Cléo\"]`.\n\n**Avec un tableau (liste Python)** : `liste.insert(1, \"Prio\")`. Les éléments suivants sont décalés d'une case.\n\n**Avec une liste chaînée** : on se place sur le maillon de \"Ada\", puis :\n\n```python\nclass Maillon:\n    def __init__(self, valeur, suivant=None):\n        self.valeur = valeur\n        self.suivant = suivant\n\ndef inserer_apres(maillon, valeur):\n    maillon.suivant = Maillon(valeur, maillon.suivant)\n\ndef vers_liste(tete):\n    r, c = [], tete\n    while c is not None:\n        r.append(c.valeur)\n        c = c.suivant\n    return r\n\ntete = Maillon(\"Ada\", Maillon(\"Bob\", Maillon(\"Cléo\")))\ninserer_apres(tete, \"Prio\")\nprint(vers_liste(tete))   # ['Ada', 'Prio', 'Bob', 'Cléo']\n```\n\n**Étapes** : (1) créer le nouveau maillon qui pointe vers \"Bob\", (2) faire pointer \"Ada\" vers le nouveau maillon. **Aucun décalage.** L'ordre des deux étapes compte : si on change d'abord \"Ada\", on perd \"Bob\".\n\n---\n\n## ✍️ À toi, avec aide (10 XP)\n\nComplète la méthode `ajouter_fin` d'une liste chaînée (avec `tete`). Si la liste est vide, le nouveau maillon devient la tête. Sinon, on parcourt jusqu'au dernier maillon (celui dont `suivant` est `None`).\n\nTeste : ajouter 1, 2, 3 donne `[1, 2, 3]`.\n\n<details>\n<summary>💡 Indice 1</summary>\n\nCas particulier : `self.tete is None`.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nParcours avec `courant = self.tete` tant que `courant.suivant is not None`.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nÀ la sortie de la boucle, `courant` est le dernier maillon : `courant.suivant = Maillon(valeur)`.\n\n</details>\n\n<details>\n<summary>✅ Réponse</summary>\n\n```python\nclass Maillon:\n    def __init__(self, valeur, suivant=None):\n        self.valeur = valeur\n        self.suivant = suivant\n\nclass ListeChainee:\n    def __init__(self):\n        self.tete = None\n\n    def ajouter_fin(self, valeur):\n        nouveau = Maillon(valeur)\n        if self.tete is None:\n            self.tete = nouveau\n            return\n        courant = self.tete\n        while courant.suivant is not None:\n            courant = courant.suivant\n        courant.suivant = nouveau\n\n    def vers_liste(self):\n        r, c = [], self.tete\n        while c is not None:\n            r.append(c.valeur)\n            c = c.suivant\n        return r\n\nl = ListeChainee()\nfor x in (1, 2, 3):\n    l.ajouter_fin(x)\nprint(l.vers_liste())   # [1, 2, 3]\n```\n\n</details>\n\n---\n\n## 🚀 À toi, en solo (20 XP)\n\nAjoute à `ListeChainee` :\n\n1. `supprimer(valeur)` : retire le premier maillon contenant la valeur (ne fait rien si absente) ;\n2. `longueur()` ;\n3. `inverser()` : retourne la liste sur place, en changeant les références.\n\nTeste sur des listes vides, à un élément et à plusieurs éléments. Cas piège : supprimer la tête.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\nclass Maillon:\n    def __init__(self, valeur, suivant=None):\n        self.valeur = valeur\n        self.suivant = suivant\n\nclass ListeChainee:\n    def __init__(self):\n        self.tete = None\n\n    def ajouter_debut(self, v):\n        self.tete = Maillon(v, self.tete)\n\n    def vers_liste(self):\n        r, c = [], self.tete\n        while c is not None:\n            r.append(c.valeur)\n            c = c.suivant\n        return r\n\n    def supprimer(self, valeur):\n        if self.tete is None:\n            return\n        if self.tete.valeur == valeur:\n            self.tete = self.tete.suivant\n            return\n        c = self.tete\n        while c.suivant is not None and c.suivant.valeur != valeur:\n            c = c.suivant\n        if c.suivant is not None:\n            c.suivant = c.suivant.suivant\n\n    def longueur(self):\n        n, c = 0, self.tete\n        while c is not None:\n            n += 1\n            c = c.suivant\n        return n\n\n    def inverser(self):\n        precedent, courant = None, self.tete\n        while courant is not None:\n            suivant = courant.suivant\n            courant.suivant = precedent\n            precedent, courant = courant, suivant\n        self.tete = precedent\n\nl = ListeChainee()\nfor x in (3, 2, 1):\n    l.ajouter_debut(x)\nl.supprimer(1)\nl.inverser()\nprint(l.vers_liste(), l.longueur())   # [3, 2] 2\n```\n\n</details>\n\n---\n\n## ⚠️ Pièges classiques\n\n| Piège | Pourquoi c'est un problème | Comment l'éviter |\n|---|---|---|\n| **Perdre le reste de la chaîne** | On écrase une référence avant de la sauvegarder | Sauvegarder `suivant` avant de modifier |\n| **Oublier la tête vide** | `AttributeError` sur `None` | Traiter le cas liste vide en premier |\n| **Utiliser une liste chaînée pour lire par indice** | Chaque lecture parcourt la chaîne | Choisir un tableau si on lit par position |\n| **Confondre indice et valeur** | Mauvais élément modifié | Nommer clairement `i` et `valeur` |\n\n---\n\n## 🐉 Mini-boss (40 XP)\n\nCompare **concrètement** tableau et liste chaînée.\n\n1. Implémente `ListeChainee` avec `ajouter_debut`, `ajouter_fin`, `lire(i)`, `supprimer_debut`.\n2. Mesure avec `time.perf_counter()` : (a) 20 000 insertions au début, (b) 20 000 lectures de la position 10 000, pour une `list` Python et pour ta liste chaînée.\n3. Remplis un tableau des temps.\n4. Conclus : pour quel usage chaque structure gagne-t-elle ?\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\nLes insertions au début : `list.insert(0, x)` est lente (décalage de tout), la liste chaînée est rapide. Les lectures par indice : la `list` est immédiate, la liste chaînée est lente (parcours). Conclusion attendue : tableau pour lire par position et parcourir ; liste chaînée pour insertions/suppressions fréquentes en tête.\n\n</details>\n\n---\n\n## ⚡ Quiz éclair (15 XP si 4/5 ou plus)\n\n**1.** Dans un tableau, lire l'élément d'indice 5 est :\n- A. proportionnel à la taille\n- B. impossible\n- C. immédiat\n\n**2.** Dans une liste chaînée, atteindre le 5e élément :\n- A. demande de suivre les maillons\n- B. est immédiat\n- C. est impossible\n\n**3.** Insérer au début d'un grand tableau est :\n- A. gratuit\n- B. coûteux (décalage)\n- C. impossible\n\n**4.** 🔁 *Révision mission 01* : Un ADT décrit :\n- A. son code interne\n- B. sa couleur\n- C. ses opérations\n\n**5.** 🔁 *Révision HEF-010, mission 03* : Une précondition :\n- A. ce que l'appelant doit fournir\n- B. la valeur de retour\n- C. un test\n\n<details>\n<summary>✅ Réponses</summary>\n\n1. **C**.\n2. **A**.\n3. **B**.\n4. **C**.\n5. **A**.\n\n</details>\n\n---\n\n## 🪞 Je réfléchis (10 XP)\n\n1. Dans quelles situations de ta vie préfères-tu un accès direct, et dans lesquelles une chaîne ?\n2. Quel est le piège le plus facile à oublier dans les listes chaînées ?\n\n---\n\n## 🎒 À retenir\n\n1. Tableau : cases contiguës, accès direct, décalage à l'insertion.\n2. Liste chaînée : maillons reliés, insertion locale rapide, accès lent.\n3. Les cas particuliers : liste vide, tête, fin.\n4. Le tableau est le choix par défaut.\n5. On choisit selon les opérations les plus fréquentes.\n\n```mermaid\nflowchart LR\n    T([\"Tableaux et listes chaînées\"])\n    T --> R1[\"1. Tableau : cases contiguës, accès direct, décalage à l'insertion.\"]\n    T --> R2[\"2. Liste chaînée : maillons reliés, insertion locale rapide, accès lent.\"]\n    T --> R3[\"3. Les cas particuliers : liste vide, tête, fin.\"]\n    T --> R4[\"4. Le tableau est le choix par défaut.\"]\n    T --> R5[\"5. On choisit selon les opérations les plus fréquentes.\"]\n```\n\n**Description du schéma** : la mission au centre, reliée aux cinq idées à retenir.\n\n---\n\n## 🏅 Récompenses\n\nTotal possible : **100 XP** · 🏅 Badge **Maillon fort**\n\n---\n\n← [Mission 01 — Ranger l'information : le modèle abstrait](./01-modele-abstrait-adt.md) · [Mission 03 — Piles et files](./03-piles-et-files.md) →\n\n**HEF-020 — Structures de données**\n"
       },
       {
@@ -41,6 +293,132 @@
         "durationMinutes": 70,
         "badge": "Maître de la file",
         "slidesUrl": "/hef/slides-pdf/HEF-020/03-piles-et-files.pdf",
+        "flashQuiz": {
+          "xp": 15,
+          "passScore": 80,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Une pile suit la règle :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "premier arrivé, premier sorti",
+                  "isCorrect": false
+                },
+                {
+                  "text": "dernier arrivé, premier sorti",
+                  "isCorrect": true
+                },
+                {
+                  "text": "aléatoire",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 2,
+              "text": "Une file suit la règle :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "dernier arrivé, premier sorti",
+                  "isCorrect": false
+                },
+                {
+                  "text": "aléatoire",
+                  "isCorrect": false
+                },
+                {
+                  "text": "premier arrivé, premier sorti",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 3,
+              "text": "Pour vérifier des parenthèses, on utilise :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "une pile",
+                  "isCorrect": true
+                },
+                {
+                  "text": "une file",
+                  "isCorrect": false
+                },
+                {
+                  "text": "un tri",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 4,
+              "text": "🔁 *Révision mission 02* : Insérer au début d'un grand tableau est :",
+              "revisionOf": {
+                "module": null,
+                "mission": 2
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "gratuit",
+                  "isCorrect": false
+                },
+                {
+                  "text": "coûteux (décalage)",
+                  "isCorrect": true
+                },
+                {
+                  "text": "impossible",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 5,
+              "text": "🔁 *Révision mission 01* : Un ADT se décrit par :",
+              "revisionOf": {
+                "module": null,
+                "mission": 1
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "son code interne",
+                  "isCorrect": false
+                },
+                {
+                  "text": "sa couleur",
+                  "isCorrect": false
+                },
+                {
+                  "text": "ses opérations",
+                  "isCorrect": true
+                }
+              ]
+            }
+          ]
+        },
+        "reflection": {
+          "xp": 10,
+          "intro": null,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Où, dans ta journée, vis-tu une file ? Une pile ?"
+            },
+            {
+              "order": 2,
+              "text": "Quelle fonctionnalité de tes applications préférées repose sur une pile ?"
+            }
+          ]
+        },
         "body": "![Piles et files](/hef/parcours/hef020-m03.svg)\n\n<img src=\"/hef/personnages/sam.svg\" alt=\"Sam, ton guide pour cette mission\" width=\"96\" align=\"right\">\n\n\n> **Dernier arrivé, premier sorti… ou premier arrivé, premier sorti. Deux règles, mille usages.**\n\n⏱️ Durée : environ 70 minutes · 🎓 Niveau : débutant · 🏅 Badge : **Maître de la file**\n\n---\n\n## 🎬 L'histoire\n\nL'éditeur de HashBox a besoin d'un bouton **« Annuler »**. Et le service d'envoi des e-mails doit traiter les messages dans l'ordre où ils arrivent.\n\n> « Ce sont deux structures différentes avec deux règles différentes, dit Sam. Une pile pour l'annulation, une file pour les e-mails. »\n\n**Dans cette mission, tu apprends deux structures simples qui sont partout dans les logiciels.**\n\n---\n\n## 🎯 Ta mission\n\nÀ la fin, **je serai capable de** :\n\n- [ ] décrire la règle d'une pile (LIFO) et d'une file (FIFO)\n- [ ] implémenter une pile et une file en Python\n- [ ] utiliser une pile pour vérifier des parenthèses\n- [ ] reconnaître les usages réels de chacune\n- [ ] expliquer pourquoi `list.pop(0)` est un mauvais choix pour une file\n\n---\n\n## 🧩 Défi d'échauffement (5 XP)\n\nPense à une **pile d'assiettes** et à une **file d'attente à la boulangerie**. Dans chaque cas : où ajoute-t-on ? D'où retire-t-on ? Quelle personne ou assiette sort en premier ? Trouve un exemple informatique pour chacune.\n\n---\n\n## 💡 Le concept\n\n### La pile (stack) — LIFO\n\n**LIFO** : *Last In, First Out*. Le dernier arrivé est le premier sorti.\n\nOpérations : `empiler` (ajouter au sommet), `depiler` (retirer le sommet), `sommet` (regarder sans retirer), `est_vide`.\n\nUsages : bouton « Annuler », historique de navigation, appels de fonctions (la pile d'appels de la récursion !), vérification de parenthèses.\n\n```python\nclass Pile:\n    def __init__(self):\n        self._elements = []\n    def empiler(self, x):\n        self._elements.append(x)\n    def depiler(self):\n        if not self._elements:\n            raise IndexError(\"pile vide\")\n        return self._elements.pop()\n    def sommet(self):\n        return self._elements[-1]\n    def est_vide(self):\n        return len(self._elements) == 0\n```\n\n### La file (queue) — FIFO\n\n**FIFO** : *First In, First Out*. Le premier arrivé est le premier servi.\n\nOpérations : `enfiler` (ajouter à l'arrière), `defiler` (retirer de l'avant), `est_vide`.\n\nUsages : file d'impression, envoi d'e-mails, requêtes à traiter, parcours en largeur (on y reviendra).\n\nEn Python, on utilise `collections.deque` : ajouter et retirer aux deux extrémités sont rapides.\n\n```python\nfrom collections import deque\n\nclass File:\n    def __init__(self):\n        self._elements = deque()\n    def enfiler(self, x):\n        self._elements.append(x)\n    def defiler(self):\n        if not self._elements:\n            raise IndexError(\"file vide\")\n        return self._elements.popleft()\n    def est_vide(self):\n        return len(self._elements) == 0\n```\n\n> ⚠️ `liste.pop(0)` retire au début d'une liste Python mais décale tous les éléments : lent sur de grandes files. Préfère `deque`.\n\n### Parenthèses équilibrées\n\nPour vérifier `([]{})` : on empile les ouvrantes, et à chaque fermante on dépile en vérifiant qu'elles correspondent. À la fin, la pile doit être vide.\n\n---\n\n## 🔍 Exemple pas à pas\n\n**Problème** : le texte `\"{[()]}\"` est-il bien parenthésé ? Et `\"{[(])}\"` ?\n\n```python\ndef equilibre(texte):\n    paires = {\")\": \"(\", \"]\": \"[\", \"}\": \"{\"}\n    pile = []\n    for c in texte:\n        if c in \"([{\":\n            pile.append(c)\n        elif c in \")]}\":\n            if not pile or pile.pop() != paires[c]:\n                return False\n    return len(pile) == 0\n\nprint(equilibre(\"{[()]}\"))   # True\nprint(equilibre(\"{[(])}\"))   # False\n```\n\n**Trace pour `{[(])}`** :\n\n| Lu | Action | Pile |\n|---|---|---|\n| `{` | empiler | `{` |\n| `[` | empiler | `{ [` |\n| `(` | empiler | `{ [ (` |\n| `]` | dépiler `(` : ≠ `[` | échec ! |\n\n**Pourquoi la pile ?** La dernière ouvrante doit être la première fermée : c'est exactement LIFO.\n\n---\n\n## ✍️ À toi, avec aide (10 XP)\n\nImplémente un **historique avec Annuler/Rétablir** : `Editeur` avec `ecrire(texte)` (ajoute au contenu), `annuler()` (retire la dernière écriture), `contenu()`.\n\nUtilise une pile des écritures. Teste : écrire \"a\", \"b\", \"c\" → contenu \"abc\" ; annuler → \"ab\".\n\n<details>\n<summary>💡 Indice 1</summary>\n\nGarde une pile des textes écrits.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\n`annuler` dépile le dernier texte ; si la pile est vide, ne fait rien.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\n`contenu` concatène les éléments de la pile.\n\n</details>\n\n<details>\n<summary>✅ Réponse</summary>\n\n```python\nclass Editeur:\n    def __init__(self):\n        self._ecritures = []\n\n    def ecrire(self, texte):\n        self._ecritures.append(texte)\n\n    def annuler(self):\n        if self._ecritures:\n            self._ecritures.pop()\n\n    def contenu(self):\n        return \"\".join(self._ecritures)\n\ne = Editeur()\nfor t in (\"a\", \"b\", \"c\"):\n    e.ecrire(t)\ne.annuler()\nprint(e.contenu())   # ab\n```\n\n</details>\n\n---\n\n## 🚀 À toi, en solo (20 XP)\n\nSimule le **guichet de support** de HashBox avec une file : `Guichet` avec `arriver(nom)`, `servir()` (renvoie le nom du suivant ou `None`), `en_attente()` (nombre).\n\nPuis écris `simuler(arrivees, services)` où `arrivees` est une liste de noms et `services` un nombre de personnes servies, et renvoie la liste des servis dans l'ordre.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\nfrom collections import deque\n\nclass Guichet:\n    def __init__(self):\n        self._file = deque()\n    def arriver(self, nom):\n        self._file.append(nom)\n    def servir(self):\n        return self._file.popleft() if self._file else None\n    def en_attente(self):\n        return len(self._file)\n\ndef simuler(arrivees, services):\n    g = Guichet()\n    for nom in arrivees:\n        g.arriver(nom)\n    servis = []\n    for _ in range(services):\n        s = g.servir()\n        if s is not None:\n            servis.append(s)\n    return servis\n\nprint(simuler([\"Ada\", \"Bob\", \"Cléo\"], 2))   # ['Ada', 'Bob']\n```\n\n</details>\n\n---\n\n## ⚠️ Pièges classiques\n\n| Piège | Pourquoi c'est un problème | Comment l'éviter |\n|---|---|---|\n| **Dépiler une pile vide** | `IndexError` | Tester `est_vide` ou lever une erreur claire |\n| **Utiliser `pop(0)` pour une grande file** | Très lent | Utiliser `deque` |\n| **Confondre LIFO et FIFO** | Ordre de traitement inversé | Dessiner un exemple avant de choisir |\n| **Oublier de vérifier la pile vide à la fin** | `\"((\"` passerait pour correct | Toujours `len(pile) == 0` à la fin |\n\n---\n\n## 🐉 Mini-boss (40 XP)\n\nÉcris un **évaluateur d'expressions en notation polonaise inverse (RPN)** : `\"3 4 + 2 *\"` se lit « 3 plus 4, fois 2 » = 14.\n\nRègle : on lit les éléments ; un nombre est empilé ; un opérateur (`+ - * /`) dépile deux nombres, calcule et empile le résultat.\n\n1. Écris `evaluer_rpn(texte)`.\n2. Teste `\"3 4 + 2 *\"` → 14, `\"5 1 2 + 4 * + 3 -\"` → 14.\n3. Gère les erreurs : pile insuffisante, division par zéro (message clair).\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\ndef evaluer_rpn(texte):\n    pile = []\n    for jeton in texte.split():\n        if jeton in \"+-*/\" and len(jeton) == 1:\n            if len(pile) < 2:\n                raise ValueError(\"expression invalide\")\n            b, a = pile.pop(), pile.pop()\n            if jeton == \"+\": pile.append(a + b)\n            elif jeton == \"-\": pile.append(a - b)\n            elif jeton == \"*\": pile.append(a * b)\n            else:\n                if b == 0:\n                    raise ZeroDivisionError(\"division par zéro\")\n                pile.append(a / b)\n        else:\n            pile.append(float(jeton))\n    if len(pile) != 1:\n        raise ValueError(\"expression invalide\")\n    return pile[0]\n\nprint(evaluer_rpn(\"3 4 + 2 *\"))             # 14.0\nprint(evaluer_rpn(\"5 1 2 + 4 * + 3 -\"))     # 14.0\n```\nAttention à l'ordre `b, a = pile.pop(), pile.pop()` : le premier dépilé est l'opérande de droite.\n\n</details>\n\n---\n\n## ⚡ Quiz éclair (15 XP si 4/5 ou plus)\n\n**1.** Une pile suit la règle :\n- A. premier arrivé, premier sorti\n- B. dernier arrivé, premier sorti\n- C. aléatoire\n\n**2.** Une file suit la règle :\n- A. dernier arrivé, premier sorti\n- B. aléatoire\n- C. premier arrivé, premier sorti\n\n**3.** Pour vérifier des parenthèses, on utilise :\n- A. une pile\n- B. une file\n- C. un tri\n\n**4.** 🔁 *Révision mission 02* : Insérer au début d'un grand tableau est :\n- A. gratuit\n- B. coûteux (décalage)\n- C. impossible\n\n**5.** 🔁 *Révision mission 01* : Un ADT se décrit par :\n- A. son code interne\n- B. sa couleur\n- C. ses opérations\n\n<details>\n<summary>✅ Réponses</summary>\n\n1. **B**.\n2. **C**.\n3. **A**.\n4. **B**.\n5. **C**.\n\n</details>\n\n---\n\n## 🪞 Je réfléchis (10 XP)\n\n1. Où, dans ta journée, vis-tu une file ? Une pile ?\n2. Quelle fonctionnalité de tes applications préférées repose sur une pile ?\n\n---\n\n## 🎒 À retenir\n\n1. Pile = LIFO, file = FIFO.\n2. Pile : annulation, appels de fonctions, parenthèses.\n3. File : tâches à traiter dans l'ordre.\n4. `deque` pour une file efficace en Python.\n5. Toujours gérer le cas pile/file vide.\n\n```mermaid\nflowchart LR\n    T([\"Piles et files\"])\n    T --> R1[\"1. Pile = LIFO, file = FIFO.\"]\n    T --> R2[\"2. Pile : annulation, appels de fonctions, parenthèses.\"]\n    T --> R3[\"3. File : tâches à traiter dans l'ordre.\"]\n    T --> R4[\"4. deque pour une file efficace en Python.\"]\n    T --> R5[\"5. Toujours gérer le cas pile/file vide.\"]\n```\n\n**Description du schéma** : la mission au centre, reliée aux cinq idées à retenir.\n\n---\n\n## 🏅 Récompenses\n\nTotal possible : **100 XP** · 🏅 Badge **Maître de la file**\n\n---\n\n← [Mission 02 — Tableaux et listes chaînées](./02-tableaux-et-listes-chainees.md) · [Mission 04 — Tables de hachage : retrouver sans chercher](./04-tables-de-hachage.md) →\n\n**HEF-020 — Structures de données**\n"
       },
       {
@@ -50,6 +428,132 @@
         "durationMinutes": 75,
         "badge": "Magicien du hachage",
         "slidesUrl": "/hef/slides-pdf/HEF-020/04-tables-de-hachage.pdf",
+        "flashQuiz": {
+          "xp": 15,
+          "passScore": 80,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Une collision, c'est :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "deux clés dans la même case",
+                  "isCorrect": true
+                },
+                {
+                  "text": "une panne",
+                  "isCorrect": false
+                },
+                {
+                  "text": "un doublon de valeurs",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 2,
+              "text": "Une table de hachage permet de retrouver par clé en temps :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "proportionnel à la taille",
+                  "isCorrect": false
+                },
+                {
+                  "text": "quasi constant en moyenne",
+                  "isCorrect": true
+                },
+                {
+                  "text": "impossible",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 3,
+              "text": "Une clé de dictionnaire doit être :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "modifiable",
+                  "isCorrect": false
+                },
+                {
+                  "text": "une liste",
+                  "isCorrect": false
+                },
+                {
+                  "text": "hachable (immuable)",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 4,
+              "text": "🔁 *Révision mission 03* : Une pile suit la règle :",
+              "revisionOf": {
+                "module": null,
+                "mission": 3
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "dernier arrivé, premier sorti",
+                  "isCorrect": true
+                },
+                {
+                  "text": "premier arrivé, premier sorti",
+                  "isCorrect": false
+                },
+                {
+                  "text": "aléatoire",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 5,
+              "text": "🔁 *Révision mission 02* : Dans une liste chaînée, atteindre le 5e élément :",
+              "revisionOf": {
+                "module": null,
+                "mission": 2
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "est immédiat",
+                  "isCorrect": false
+                },
+                {
+                  "text": "demande de suivre les maillons",
+                  "isCorrect": true
+                },
+                {
+                  "text": "est impossible",
+                  "isCorrect": false
+                }
+              ]
+            }
+          ]
+        },
+        "reflection": {
+          "xp": 10,
+          "intro": null,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Quelle situation de ta vie ressemble à une table de hachage (un « numéro » qui te mène directement au bon endroit) ?"
+            },
+            {
+              "order": 2,
+              "text": "Pourquoi la qualité de la fonction de hachage compte-t-elle autant ?"
+            }
+          ]
+        },
         "body": "![Tables de hachage : retrouver sans chercher](/hef/parcours/hef020-m04.svg)\n\n<img src=\"/hef/personnages/leo.svg\" alt=\"Léo, ton guide pour cette mission\" width=\"96\" align=\"right\">\n\n\n> **Comment retrouver une valeur presque instantanément, sans parcourir toute la collection ?**\n\n⏱️ Durée : environ 75 minutes · 🎓 Niveau : débutant · 🏅 Badge : **Magicien du hachage**\n\n---\n\n## 🎬 L'histoire\n\nHashBox a maintenant 2 millions de comptes. Quand un membre se connecte, le serveur doit retrouver son compte à partir de son identifiant. Avec une liste, c'est trop lent. Pourtant, le dictionnaire Python y arrive en un clin d'œil.\n\n> « Ce n'est pas de la magie, dit Sam. C'est une idée très maligne. Elle s'appelle le hachage. »\n\n**Tu découvres la structure la plus utilisée de l'informatique moderne.**\n\n---\n\n## 🎯 Ta mission\n\nÀ la fin, **je serai capable de** :\n\n- [ ] expliquer le principe d'une table de hachage\n- [ ] décrire ce qu'est une fonction de hachage\n- [ ] expliquer une collision et une façon de la gérer\n- [ ] implémenter une petite table de hachage\n- [ ] dire ce qui rend une clé utilisable (hachable)\n\n---\n\n## 🧩 Défi d'échauffement (5 XP)\n\nUne bibliothèque a 10 000 livres. Au lieu de les ranger par ordre alphabétique, on décide : **le livre va dans l'étagère numéro (somme des lettres du titre) modulo 100**. Comment retrouves-tu un livre ? Que se passe-t-il quand deux livres tombent sur la même étagère ?\n\n---\n\n## 💡 Le concept\n\n### L'idée\n\nUne **table de hachage** (*hash table*) associe des **clés** à des **valeurs** et permet de retrouver une valeur à partir de sa clé en un temps quasi constant.\n\nPrincipe :\n\n1. On a un tableau de **cases** (appelées *seaux*, *buckets*).\n2. Une **fonction de hachage** transforme la clé en un nombre.\n3. Ce nombre, modulo le nombre de cases, donne **l'indice** où ranger la valeur.\n\n```text\nclé \"ada\"  ──hachage──▶ 9234 ──mod 8──▶ case 2\nclé \"bob\"  ──hachage──▶ 1007 ──mod 8──▶ case 7\n```\n\n### Les collisions\n\nDeux clés différentes peuvent tomber dans la même case : c'est une **collision**. C'est inévitable (il y a plus de clés possibles que de cases).\n\nSolution courante : le **chaînage**. Chaque case contient une petite liste de couples (clé, valeur).\n\n```python\nclass TableHachage:\n    def __init__(self, nb_cases=8):\n        self._cases = [[] for _ in range(nb_cases)]\n\n    def _indice(self, cle):\n        return hash(cle) % len(self._cases)\n\n    def mettre(self, cle, valeur):\n        case = self._cases[self._indice(cle)]\n        for i, (k, _) in enumerate(case):\n            if k == cle:\n                case[i] = (cle, valeur)\n                return\n        case.append((cle, valeur))\n\n    def lire(self, cle, defaut=None):\n        for k, v in self._cases[self._indice(cle)]:\n            if k == cle:\n                return v\n        return defaut\n```\n\n### Pourquoi c'est rapide\n\nSi la fonction de hachage répartit bien les clés, chaque case contient très peu d'éléments : on regarde une case, pas toute la collection.\n\nSi trop d'éléments s'entassent, on **agrandit** la table (on la reconstruit avec plus de cases). Ce rééquilibrage s'appelle le *rehachage*.\n\n### Clés hachables\n\nUne clé doit avoir un hachage qui **ne change pas** : nombres, textes, tuples de valeurs immuables. Une **liste** Python ne peut pas servir de clé (elle est modifiable).\n\n> 🧠 **À retenir** : un dictionnaire Python (`dict`) est une table de hachage. Quand tu écris `d[\"ada\"]`, tout ce mécanisme travaille pour toi.\n\n---\n\n## 🔍 Exemple pas à pas\n\n**Problème** : compter combien de fois chaque mot apparaît dans un texte.\n\n```python\ndef compter_mots(texte):\n    compteur = {}\n    for mot in texte.lower().split():\n        compteur[mot] = compteur.get(mot, 0) + 1\n    return compteur\n\nprint(compter_mots(\"le chat et le chien et le loup\"))\n# {'le': 3, 'chat': 1, 'et': 2, 'chien': 1, 'loup': 1}\n```\n\n**Sans table de hachage**, il faudrait pour chaque mot parcourir la liste des mots déjà vus. Avec le dictionnaire, chaque mise à jour est quasi instantanée.\n\n**Une collision en pratique** avec 4 cases :\n\n| Clé | Indice calculé | Contenu de la case |\n|---|---|---|\n| \"a\" | 1 | [(\"a\", 5)] |\n| \"e\" | 1 (collision) | [(\"a\", 5), (\"e\", 9)] |\n| \"b\" | 2 | [(\"b\", 7)] |\n\nPour lire `\"e\"` : on calcule l'indice 1, puis on parcourt les 2 éléments de la case.\n\n---\n\n## ✍️ À toi, avec aide (10 XP)\n\nAjoute à la classe `TableHachage` : `supprimer(cle)` et `taille()` (nombre de couples). Vérifie avec 100 clés pour qu'il y ait des collisions avec 8 cases.\n\n<details>\n<summary>💡 Indice 1</summary>\n\n`supprimer` : trouve la case avec `_indice`, cherche la clé, retire le couple.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\n`taille` : somme des longueurs de toutes les cases.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nTest : mets 100 clés, supprime 40, vérifie `taille() == 60` et que les clés supprimées renvoient la valeur par défaut.\n\n</details>\n\n<details>\n<summary>✅ Réponse</summary>\n\n```python\nclass TableHachage:\n    def __init__(self, nb_cases=8):\n        self._cases = [[] for _ in range(nb_cases)]\n\n    def _indice(self, cle):\n        return hash(cle) % len(self._cases)\n\n    def mettre(self, cle, valeur):\n        case = self._cases[self._indice(cle)]\n        for i, (k, _) in enumerate(case):\n            if k == cle:\n                case[i] = (cle, valeur)\n                return\n        case.append((cle, valeur))\n\n    def lire(self, cle, defaut=None):\n        for k, v in self._cases[self._indice(cle)]:\n            if k == cle:\n                return v\n        return defaut\n\n    def supprimer(self, cle):\n        case = self._cases[self._indice(cle)]\n        for i, (k, _) in enumerate(case):\n            if k == cle:\n                case.pop(i)\n                return True\n        return False\n\n    def taille(self):\n        return sum(len(c) for c in self._cases)\n\nt = TableHachage()\nfor i in range(100):\n    t.mettre(i, i * i)\nfor i in range(40):\n    t.supprimer(i)\nassert t.taille() == 60\nassert t.lire(10) is None\nassert t.lire(50) == 2500\nprint(\"ok\")\n```\n\n</details>\n\n---\n\n## 🚀 À toi, en solo (20 XP)\n\nAjoute à `TableHachage` l'**agrandissement automatique** : quand `taille() > 2 × nombre_de_cases`, double le nombre de cases et replace tous les couples.\n\nVérifie que, après 1 000 insertions, la case la plus remplie contient peu d'éléments (affiche le maximum). Compare avec 8 cases fixes.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\nclass TableHachage:\n    def __init__(self, nb_cases=8):\n        self._cases = [[] for _ in range(nb_cases)]\n        self._n = 0\n\n    def _indice(self, cle):\n        return hash(cle) % len(self._cases)\n\n    def _agrandir(self):\n        anciennes = self._cases\n        self._cases = [[] for _ in range(len(anciennes) * 2)]\n        for case in anciennes:\n            for k, v in case:\n                self._cases[self._indice(k)].append((k, v))\n\n    def mettre(self, cle, valeur):\n        case = self._cases[self._indice(cle)]\n        for i, (k, _) in enumerate(case):\n            if k == cle:\n                case[i] = (cle, valeur)\n                return\n        case.append((cle, valeur))\n        self._n += 1\n        if self._n > 2 * len(self._cases):\n            self._agrandir()\n\n    def plus_remplie(self):\n        return max(len(c) for c in self._cases)\n\nt = TableHachage()\nfor i in range(1000):\n    t.mettre(i, i)\nprint(len(t._cases), t.plus_remplie())\nassert t.plus_remplie() < 15\n```\nSans agrandissement, avec 8 cases, la case la plus remplie contiendrait environ 125 éléments : on retomberait sur une recherche lente.\n\n</details>\n\n---\n\n## ⚠️ Pièges classiques\n\n| Piège | Pourquoi c'est un problème | Comment l'éviter |\n|---|---|---|\n| **Utiliser une liste comme clé** | `TypeError: unhashable` | Utiliser un tuple ou un texte |\n| **Croire que l'ordre est garanti par le hachage** | Le hachage ne trie pas | Utiliser d'autres structures si l'ordre compte |\n| **Mauvaise fonction de hachage** | Tout tombe dans la même case, retour à une recherche lente | Une bonne répartition est essentielle |\n| **Oublier de comparer les clés dans la case** | Mauvaise valeur renvoyée en cas de collision | Toujours comparer `k == cle` |\n\n---\n\n## 🐉 Mini-boss (40 XP)\n\nConstruis un **mini-moteur de recherche** : à partir d'une liste de documents (textes courts), crée un **index inversé** : dictionnaire `mot → ensemble des numéros de documents contenant ce mot`.\n\n1. Écris `construire_index(documents)`.\n2. Écris `chercher(index, mot)` et `chercher_tous(index, mots)` (documents contenant **tous** les mots).\n3. Teste avec 5 documents de ton choix, dont un cas sans résultat.\n4. Explique pourquoi c'est bien plus rapide que de relire tous les documents à chaque recherche.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\ndef construire_index(documents):\n    index = {}\n    for numero, texte in enumerate(documents):\n        for mot in set(texte.lower().split()):\n            index.setdefault(mot, set()).add(numero)\n    return index\n\ndef chercher(index, mot):\n    return index.get(mot.lower(), set())\n\ndef chercher_tous(index, mots):\n    ensembles = [chercher(index, m) for m in mots]\n    return set.intersection(*ensembles) if ensembles else set()\n\ndocs = [\"le chat dort\", \"le chien court\", \"le chat court vite\", \"un oiseau vole\", \"chat et chien\"]\nidx = construire_index(docs)\nprint(chercher(idx, \"chat\"))                    # {0, 2, 4}\nprint(chercher_tous(idx, [\"chat\", \"court\"]))    # {2}\nprint(chercher(idx, \"poisson\"))                 # set()\n```\nLa construction se fait une fois ; chaque recherche est ensuite une lecture dans le dictionnaire au lieu d'une relecture de tous les textes.\n\n</details>\n\n---\n\n## ⚡ Quiz éclair (15 XP si 4/5 ou plus)\n\n**1.** Une collision, c'est :\n- A. deux clés dans la même case\n- B. une panne\n- C. un doublon de valeurs\n\n**2.** Une table de hachage permet de retrouver par clé en temps :\n- A. proportionnel à la taille\n- B. quasi constant en moyenne\n- C. impossible\n\n**3.** Une clé de dictionnaire doit être :\n- A. modifiable\n- B. une liste\n- C. hachable (immuable)\n\n**4.** 🔁 *Révision mission 03* : Une pile suit la règle :\n- A. dernier arrivé, premier sorti\n- B. premier arrivé, premier sorti\n- C. aléatoire\n\n**5.** 🔁 *Révision mission 02* : Dans une liste chaînée, atteindre le 5e élément :\n- A. est immédiat\n- B. demande de suivre les maillons\n- C. est impossible\n\n<details>\n<summary>✅ Réponses</summary>\n\n1. **A**.\n2. **B**.\n3. **C**.\n4. **A**.\n5. **B**.\n\n</details>\n\n---\n\n## 🪞 Je réfléchis (10 XP)\n\n1. Quelle situation de ta vie ressemble à une table de hachage (un « numéro » qui te mène directement au bon endroit) ?\n2. Pourquoi la qualité de la fonction de hachage compte-t-elle autant ?\n\n---\n\n## 🎒 À retenir\n\n1. Table de hachage = clés → valeurs, via une fonction de hachage.\n2. Indice = hachage modulo nombre de cases.\n3. Collisions inévitables, gérées par chaînage.\n4. On agrandit la table quand elle se remplit.\n5. Les clés doivent être hachables.\n\n```mermaid\nflowchart LR\n    T([\"Tables de hachage : retrouver sans…\"])\n    T --> R1[\"1. Table de hachage = clés → valeurs, via une fonction de hachage.\"]\n    T --> R2[\"2. Indice = hachage modulo nombre de cases.\"]\n    T --> R3[\"3. Collisions inévitables, gérées par chaînage.\"]\n    T --> R4[\"4. On agrandit la table quand elle se remplit.\"]\n    T --> R5[\"5. Les clés doivent être hachables.\"]\n```\n\n**Description du schéma** : la mission au centre, reliée aux cinq idées à retenir.\n\n---\n\n## 🏅 Récompenses\n\nTotal possible : **100 XP** · 🏅 Badge **Magicien du hachage**\n\n---\n\n← [Mission 03 — Piles et files](./03-piles-et-files.md) · [Mission 05 — Ensembles et dictionnaires](./05-ensembles-et-dictionnaires.md) →\n\n**HEF-020 — Structures de données**\n"
       },
       {
@@ -59,6 +563,132 @@
         "durationMinutes": 70,
         "badge": "Maître des clés",
         "slidesUrl": "/hef/slides-pdf/HEF-020/05-ensembles-et-dictionnaires.pdf",
+        "flashQuiz": {
+          "xp": 15,
+          "passScore": 80,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Un ensemble contient :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "des doublons",
+                  "isCorrect": false
+                },
+                {
+                  "text": "des couples clé-valeur",
+                  "isCorrect": false
+                },
+                {
+                  "text": "des éléments sans doublons",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 2,
+              "text": "`a & b` donne :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "les éléments communs",
+                  "isCorrect": true
+                },
+                {
+                  "text": "tous les éléments",
+                  "isCorrect": false
+                },
+                {
+                  "text": "les éléments de a seulement",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 3,
+              "text": "Pour regrouper des éléments par catégorie, on utilise souvent :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "une pile",
+                  "isCorrect": false
+                },
+                {
+                  "text": "un dictionnaire de listes",
+                  "isCorrect": true
+                },
+                {
+                  "text": "un tri",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 4,
+              "text": "🔁 *Révision mission 04* : Une collision, c'est :",
+              "revisionOf": {
+                "module": null,
+                "mission": 4
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "une panne",
+                  "isCorrect": false
+                },
+                {
+                  "text": "un doublon de valeurs",
+                  "isCorrect": false
+                },
+                {
+                  "text": "deux clés dans la même case",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 5,
+              "text": "🔁 *Révision mission 04* : Une clé de dictionnaire doit être :",
+              "revisionOf": {
+                "module": null,
+                "mission": 4
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "hachable",
+                  "isCorrect": true
+                },
+                {
+                  "text": "modifiable",
+                  "isCorrect": false
+                },
+                {
+                  "text": "une liste",
+                  "isCorrect": false
+                }
+              ]
+            }
+          ]
+        },
+        "reflection": {
+          "xp": 10,
+          "intro": null,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Quel problème de ta vie se résout bien par union, intersection ou différence ?"
+            },
+            {
+              "order": 2,
+              "text": "Quelle structure utilises-tu naturellement pour noter « qui a quoi » ?"
+            }
+          ]
+        },
         "body": "![Ensembles et dictionnaires](/hef/parcours/hef020-m05.svg)\n\n<img src=\"/hef/personnages/kodi.svg\" alt=\"Kodi, ton guide pour cette mission\" width=\"96\" align=\"right\">\n\n\n> **Savoir si quelque chose est présent, associer des valeurs, combiner des groupes : trois besoins, deux structures.**\n\n⏱️ Durée : environ 70 minutes · 🎓 Niveau : débutant · 🏅 Badge : **Maître des clés**\n\n---\n\n## 🎬 L'histoire\n\nMaya prépare une campagne : elle veut **les membres inscrits à HEF-000 mais pas encore à HEF-010**, et **ceux qui sont inscrits aux deux**. Kodi commence à écrire deux boucles imbriquées.\n\n> « Tu as un ensemble de membres pour chaque cours, dit Sam. Les mathématiques des ensembles font ça en une ligne. »\n\n**Tu utilises maintenant les structures à base de hachage pour résoudre des problèmes concrets.**\n\n---\n\n## 🎯 Ta mission\n\nÀ la fin, **je serai capable de** :\n\n- [ ] utiliser un ensemble pour tester la présence et éliminer les doublons\n- [ ] utiliser union, intersection et différence\n- [ ] utiliser un dictionnaire pour associer et compter\n- [ ] regrouper des éléments dans un dictionnaire de listes\n- [ ] choisir entre liste, ensemble et dictionnaire\n\n---\n\n## 🧩 Défi d'échauffement (5 XP)\n\nTu as deux listes d'invités : celle de ta famille et celle de tes collègues. Certaines personnes sont dans les deux. Comment trouves-tu : (a) tous les invités sans doublons ? (b) ceux qui sont dans les deux listes ? (c) ceux qui sont uniquement collègues ? Décris ta méthode.\n\n---\n\n## 💡 Le concept\n\n### L'ensemble (set)\n\nUn **ensemble** est une collection **sans doublons** et **sans ordre**. Tester si un élément est présent est quasi instantané (c'est une table de hachage sans valeurs).\n\n```python\na = {1, 2, 3, 4}\nb = {3, 4, 5}\n\nprint(a | b)    # union : {1, 2, 3, 4, 5}\nprint(a & b)    # intersection : {3, 4}\nprint(a - b)    # différence : {1, 2}\nprint(a ^ b)    # éléments dans l'un ou l'autre, pas les deux : {1, 2, 5}\nprint(3 in a)   # True\n```\n\n### Le dictionnaire (dict)\n\nUn **dictionnaire** associe une **clé** à une **valeur**.\n\n```python\nnotes = {\"Ada\": 15, \"Bob\": 12}\nnotes[\"Cléo\"] = 17            # ajouter\nprint(notes[\"Ada\"])           # lire\nprint(notes.get(\"Zoé\", 0))    # lire avec valeur par défaut\ndel notes[\"Bob\"]              # supprimer\nfor nom, note in notes.items():\n    print(nom, note)\n```\n\n### Trois motifs très utiles\n\n1. **Compter** : `compteur[x] = compteur.get(x, 0) + 1`\n2. **Regrouper** : `groupes.setdefault(cle, []).append(x)`\n3. **Indexer** : construire un dictionnaire pour retrouver vite un objet par son identifiant.\n\n### Quelle structure choisir ?\n\n| Besoin | Structure |\n|---|---|\n| Garder l'ordre, accepter les doublons | liste |\n| « Est-ce présent ? », supprimer les doublons | ensemble |\n| Associer une valeur à une clé | dictionnaire |\n| Opérations de groupes (communs, différences) | ensembles |\n\n> ⚠️ Dans un ensemble, l'ordre n'est pas garanti. Ne t'appuie jamais dessus.\n\n---\n\n## 🔍 Exemple pas à pas\n\n**Problème de Maya** : membres de HEF-000 pas encore inscrits à HEF-010, et ceux inscrits aux deux.\n\n```python\nhef000 = {\"Ada\", \"Bob\", \"Cléo\", \"Dan\"}\nhef010 = {\"Cléo\", \"Dan\", \"Eve\"}\n\nprint(sorted(hef000 - hef010))   # ['Ada', 'Bob']  (à relancer)\nprint(sorted(hef000 & hef010))   # ['Cléo', 'Dan'] (déjà dans les deux)\nprint(sorted(hef000 | hef010))   # tous les membres concernés\n```\n\n**Regrouper** les membres par cours :\n\n```python\ninscriptions = [(\"Ada\", \"HEF-000\"), (\"Bob\", \"HEF-000\"), (\"Cléo\", \"HEF-010\")]\npar_cours = {}\nfor membre, cours in inscriptions:\n    par_cours.setdefault(cours, []).append(membre)\nprint(par_cours)   # {'HEF-000': ['Ada', 'Bob'], 'HEF-010': ['Cléo']}\n```\n\n**Gain** : aucune boucle imbriquée, et le code se lit comme la question de Maya.\n\n---\n\n## ✍️ À toi, avec aide (10 XP)\n\nVoici les langages parlés dans trois équipes :\n\n```text\nequipe_a = {\"français\", \"anglais\", \"espagnol\"}\nequipe_b = {\"anglais\", \"arabe\"}\nequipe_c = {\"français\", \"arabe\", \"portugais\"}\n```\n\nTrouve : (1) les langues parlées par au moins une équipe ; (2) celles parlées par **toutes** les équipes ; (3) celles parlées **uniquement** par l'équipe A.\n\n<details>\n<summary>💡 Indice 1</summary>\n\n(1) est une union de trois ensembles.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\n(2) est une intersection des trois.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\n(3) est A moins (B union C).\n\n</details>\n\n<details>\n<summary>✅ Réponse</summary>\n\n```python\nequipe_a = {\"français\", \"anglais\", \"espagnol\"}\nequipe_b = {\"anglais\", \"arabe\"}\nequipe_c = {\"français\", \"arabe\", \"portugais\"}\n\nprint(sorted(equipe_a | equipe_b | equipe_c))\nprint(sorted(equipe_a & equipe_b & equipe_c))    # [] : aucune\nprint(sorted(equipe_a - (equipe_b | equipe_c)))  # ['espagnol']\n```\n\n</details>\n\n---\n\n## 🚀 À toi, en solo (20 XP)\n\nÉcris `anagrammes(mots)` qui regroupe les mots qui sont des anagrammes les uns des autres. Exemple : `[\"chien\", \"niche\", \"chat\", \"tach\", \"chine\"]` → groupes `{chien, niche, chine}` et `{chat, tach}`.\n\nIdée : deux mots sont des anagrammes s'ils ont les mêmes lettres une fois triées. Utilise cette « signature » comme clé de dictionnaire.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\ndef anagrammes(mots):\n    groupes = {}\n    for mot in mots:\n        signature = \"\".join(sorted(mot))\n        groupes.setdefault(signature, []).append(mot)\n    return [g for g in groupes.values() if len(g) > 1]\n\nprint(anagrammes([\"chien\", \"niche\", \"chat\", \"tach\", \"chine\", \"loup\"]))\n# [['chien', 'niche', 'chine'], ['chat', 'tach']]\n```\n\n</details>\n\n---\n\n## ⚠️ Pièges classiques\n\n| Piège | Pourquoi c'est un problème | Comment l'éviter |\n|---|---|---|\n| **Compter l'ordre dans un ensemble** | L'ordre n'est pas garanti | Trier avec `sorted()` pour afficher |\n| **Modifier un dictionnaire en le parcourant** | Erreur ou comportement imprévu | Parcourir une copie : `list(d)` |\n| **Clé absente** | `KeyError` | Utiliser `.get()` ou `setdefault()` |\n| **Choisir une liste pour « est présent ? »** | Lent sur grandes données | Utiliser un ensemble |\n\n---\n\n## 🐉 Mini-boss (40 XP)\n\n**Recommandation de cours.** Données : pour chaque membre, l'ensemble des cours terminés.\n\n```text\ntermines = {\n  \"Ada\": {\"HEF-000\", \"HEF-010\"},\n  \"Bob\": {\"HEF-000\"},\n  \"Cléo\": {\"HEF-000\", \"HEF-010\", \"HEF-020\"},\n}\n```\n\n1. `popularite(termines)` : dictionnaire cours → nombre de membres.\n2. `membres_similaires(termines, nom)` : membres qui ont terminé au moins un cours en commun avec `nom`.\n3. `recommandations(termines, nom)` : cours terminés par les membres similaires mais pas par `nom`, triés par popularité décroissante.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\ndef popularite(termines):\n    c = {}\n    for cours in termines.values():\n        for x in cours:\n            c[x] = c.get(x, 0) + 1\n    return c\n\ndef membres_similaires(termines, nom):\n    moi = termines[nom]\n    return {autre for autre, cours in termines.items() if autre != nom and moi & cours}\n\ndef recommandations(termines, nom):\n    pop = popularite(termines)\n    candidats = set()\n    for autre in membres_similaires(termines, nom):\n        candidats |= termines[autre]\n    candidats -= termines[nom]\n    return sorted(candidats, key=lambda c: -pop[c])\n\ntermines = {\"Ada\": {\"HEF-000\", \"HEF-010\"}, \"Bob\": {\"HEF-000\"}, \"Cléo\": {\"HEF-000\", \"HEF-010\", \"HEF-020\"}}\nprint(recommandations(termines, \"Bob\"))   # ['HEF-010', 'HEF-020']\n```\n\n</details>\n\n---\n\n## ⚡ Quiz éclair (15 XP si 4/5 ou plus)\n\n**1.** Un ensemble contient :\n- A. des doublons\n- B. des couples clé-valeur\n- C. des éléments sans doublons\n\n**2.** `a & b` donne :\n- A. les éléments communs\n- B. tous les éléments\n- C. les éléments de a seulement\n\n**3.** Pour regrouper des éléments par catégorie, on utilise souvent :\n- A. une pile\n- B. un dictionnaire de listes\n- C. un tri\n\n**4.** 🔁 *Révision mission 04* : Une collision, c'est :\n- A. une panne\n- B. un doublon de valeurs\n- C. deux clés dans la même case\n\n**5.** 🔁 *Révision mission 04* : Une clé de dictionnaire doit être :\n- A. hachable\n- B. modifiable\n- C. une liste\n\n<details>\n<summary>✅ Réponses</summary>\n\n1. **C**.\n2. **A**.\n3. **B**.\n4. **C**.\n5. **A**.\n\n</details>\n\n---\n\n## 🪞 Je réfléchis (10 XP)\n\n1. Quel problème de ta vie se résout bien par union, intersection ou différence ?\n2. Quelle structure utilises-tu naturellement pour noter « qui a quoi » ?\n\n---\n\n## 🎒 À retenir\n\n1. Ensemble : sans doublons, test de présence rapide.\n2. Union `|`, intersection `&`, différence `-`.\n3. Dictionnaire : clé → valeur.\n4. Motifs : compter, regrouper, indexer.\n5. Choisir selon le besoin : ordre, présence, association.\n\n```mermaid\nflowchart LR\n    T([\"Ensembles et dictionnaires\"])\n    T --> R1[\"1. Ensemble : sans doublons, test de présence rapide.\"]\n    T --> R2[\"2. Union , intersection &, différence -.\"]\n    T --> R3[\"3. Dictionnaire : clé → valeur.\"]\n    T --> R4[\"4. Motifs : compter, regrouper, indexer.\"]\n    T --> R5[\"5. Choisir selon le besoin : ordre, présence, association.\"]\n```\n\n**Description du schéma** : la mission au centre, reliée aux cinq idées à retenir.\n\n---\n\n## 🏅 Récompenses\n\nTotal possible : **100 XP** · 🏅 Badge **Maître des clés**\n\n---\n\n← [Mission 04 — Tables de hachage : retrouver sans chercher](./04-tables-de-hachage.md) · [Mission 06 — Arbres et arbres de recherche](./06-arbres-et-bst.md) →\n\n**HEF-020 — Structures de données**\n"
       },
       {
@@ -68,6 +698,132 @@
         "durationMinutes": 80,
         "badge": "Jardinier de données",
         "slidesUrl": "/hef/slides-pdf/HEF-020/06-arbres-et-bst.pdf",
+        "flashQuiz": {
+          "xp": 15,
+          "passScore": 80,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Dans un BST, le sous-arbre de gauche contient :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "des valeurs plus grandes",
+                  "isCorrect": false
+                },
+                {
+                  "text": "des valeurs plus petites",
+                  "isCorrect": true
+                },
+                {
+                  "text": "des valeurs au hasard",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 2,
+              "text": "Un parcours en ordre d'un BST donne :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "les valeurs inversées",
+                  "isCorrect": false
+                },
+                {
+                  "text": "les feuilles",
+                  "isCorrect": false
+                },
+                {
+                  "text": "les valeurs triées",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 3,
+              "text": "Un BST déséquilibré a une recherche :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "lente (comme une liste)",
+                  "isCorrect": true
+                },
+                {
+                  "text": "très rapide",
+                  "isCorrect": false
+                },
+                {
+                  "text": "impossible",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 4,
+              "text": "🔁 *Révision mission 04* : Une table de hachage associe :",
+              "revisionOf": {
+                "module": null,
+                "mission": 4
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "des nœuds à des feuilles",
+                  "isCorrect": false
+                },
+                {
+                  "text": "des clés à des valeurs",
+                  "isCorrect": true
+                },
+                {
+                  "text": "des listes à des tris",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 5,
+              "text": "🔁 *Révision mission 05* : `a & b` pour deux ensembles donne :",
+              "revisionOf": {
+                "module": null,
+                "mission": 5
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "tous les éléments",
+                  "isCorrect": false
+                },
+                {
+                  "text": "les éléments de a seulement",
+                  "isCorrect": false
+                },
+                {
+                  "text": "les éléments communs",
+                  "isCorrect": true
+                }
+              ]
+            }
+          ]
+        },
+        "reflection": {
+          "xp": 10,
+          "intro": null,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Quelle hiérarchie de ta vie ressemble à un arbre ?"
+            },
+            {
+              "order": 2,
+              "text": "Pourquoi l'ordre d'insertion compte-t-il dans un BST ?"
+            }
+          ]
+        },
         "body": "![Arbres et arbres de recherche](/hef/parcours/hef020-m06.svg)\n\n<img src=\"/hef/personnages/maya.svg\" alt=\"Maya, ton guide pour cette mission\" width=\"96\" align=\"right\">\n\n\n> **Quand les données sont organisées en niveaux, un arbre s'impose.**\n\n⏱️ Durée : environ 80 minutes · 🎓 Niveau : débutant · 🏅 Badge : **Jardinier de données**\n\n---\n\n## 🎬 L'histoire\n\nLe catalogue de formations de HashBox est organisé en catégories, sous-catégories, cours, chapitres. Kodi veut aussi un **annuaire trié** qui reste rapide même quand on ajoute des membres en continu.\n\n> « Les deux problèmes se résolvent avec des arbres, dit Sam. Un arbre général pour la hiérarchie, un arbre de recherche pour l'annuaire. »\n\n**Tu découvres une structure qui te servira dans presque tous les domaines de l'informatique.**\n\n---\n\n## 🎯 Ta mission\n\nÀ la fin, **je serai capable de** :\n\n- [ ] décrire un arbre avec racine, nœud, feuille, hauteur\n- [ ] parcourir un arbre récursivement\n- [ ] expliquer la règle d'un arbre binaire de recherche\n- [ ] insérer et rechercher dans un BST\n- [ ] expliquer pourquoi un BST déséquilibré devient lent\n\n---\n\n## 🧩 Défi d'échauffement (5 XP)\n\nDessine l'arbre généalogique de ta famille (sur 3 générations ou plus). Qui est la « racine » ? Qui sont les « feuilles » ? Comment compterais-tu tous les descendants d'une personne ?\n\n---\n\n## 💡 Le concept\n\n### Vocabulaire\n\nUn **arbre** est composé de **nœuds** reliés. Il y a une **racine** (en haut) et chaque nœud a des **enfants**. Un nœud sans enfant est une **feuille**. La **hauteur** est la longueur du plus long chemin de la racine à une feuille.\n\n```mermaid\nflowchart TD\n    A[Racine] --> B[Cours]\n    A --> C[Projets]\n    B --> D[HEF-000]\n    B --> E[HEF-010]\n```\n\n**Description du schéma** : la racine a deux enfants, « Cours » et « Projets ». « Cours » a deux enfants, HEF-000 et HEF-010, qui sont des feuilles.\n\n### Parcours récursif\n\nUn arbre est une structure **récursive** : chaque enfant est lui-même un arbre. Les algorithmes s'écrivent naturellement avec la récursion.\n\n```python\nclass Noeud:\n    def __init__(self, valeur, enfants=None):\n        self.valeur = valeur\n        self.enfants = enfants or []\n\ndef compter(noeud):\n    return 1 + sum(compter(e) for e in noeud.enfants)\n\ndef hauteur(noeud):\n    if not noeud.enfants:\n        return 0\n    return 1 + max(hauteur(e) for e in noeud.enfants)\n```\n\n### Arbre binaire de recherche (BST)\n\nUn **arbre binaire** a au plus 2 enfants (gauche, droit). Un **BST** respecte une règle :\n\n> Pour chaque nœud, tout ce qui est dans le sous-arbre de **gauche** est **plus petit**, tout ce qui est à **droite** est **plus grand**.\n\nCette règle permet de chercher comme en recherche binaire : à chaque nœud, on élimine la moitié.\n\n```python\nclass Arbre:\n    def __init__(self):\n        self.racine = None\n\n    def inserer(self, valeur):\n        self.racine = self._inserer(self.racine, valeur)\n\n    def _inserer(self, noeud, valeur):\n        if noeud is None:\n            return [valeur, None, None]    # [valeur, gauche, droite]\n        if valeur < noeud[0]:\n            noeud[1] = self._inserer(noeud[1], valeur)\n        elif valeur > noeud[0]:\n            noeud[2] = self._inserer(noeud[2], valeur)\n        return noeud\n\n    def contient(self, valeur):\n        n = self.racine\n        while n is not None:\n            if valeur == n[0]:\n                return True\n            n = n[1] if valeur < n[0] else n[2]\n        return False\n```\n\n### Parcours en ordre : trier gratuitement\n\nParcourir gauche → nœud → droite d'un BST donne les valeurs **dans l'ordre croissant**.\n\n### Le danger : l'arbre déséquilibré\n\nSi on insère `1, 2, 3, 4, 5` dans cet ordre, l'arbre devient une chaîne : la hauteur est n et la recherche redevient lente. Les **arbres équilibrés** (AVL, rouge-noir) corrigent cela automatiquement ; on retient l'idée sans les implémenter.\n\n---\n\n## 🔍 Exemple pas à pas\n\n**Problème** : construire un BST avec `[50, 30, 70, 20, 40, 60, 80]` et lister les valeurs triées.\n\n```python\nclass Arbre:\n    def __init__(self):\n        self.racine = None\n\n    def inserer(self, valeur):\n        self.racine = self._inserer(self.racine, valeur)\n\n    def _inserer(self, noeud, valeur):\n        if noeud is None:\n            return [valeur, None, None]\n        if valeur < noeud[0]:\n            noeud[1] = self._inserer(noeud[1], valeur)\n        elif valeur > noeud[0]:\n            noeud[2] = self._inserer(noeud[2], valeur)\n        return noeud\n\n    def en_ordre(self):\n        resultat = []\n        def visiter(n):\n            if n is None:\n                return\n            visiter(n[1])\n            resultat.append(n[0])\n            visiter(n[2])\n        visiter(self.racine)\n        return resultat\n\na = Arbre()\nfor v in (50, 30, 70, 20, 40, 60, 80):\n    a.inserer(v)\nprint(a.en_ordre())   # [20, 30, 40, 50, 60, 70, 80]\n```\n\n**Arbre obtenu** :\n\n```text\n        50\n      /    \\\n    30      70\n   /  \\    /  \\\n  20  40  60  80\n```\n\nPour chercher 60 : 50 → à droite → 70 → à gauche → 60. **3 comparaisons** pour 7 valeurs.\n\n---\n\n## ✍️ À toi, avec aide (10 XP)\n\nÉcris deux fonctions sur l'arbre `Arbre` de l'exemple :\n\n1. `hauteur()` : hauteur de l'arbre (arbre vide : -1, un seul nœud : 0).\n2. `minimum()` : la plus petite valeur (aller toujours à gauche).\n\nTeste avec les valeurs `[50, 30, 70, 20, 40, 60, 80]` (hauteur 2, minimum 20) puis avec `[1, 2, 3, 4]` (hauteur 3).\n\n<details>\n<summary>💡 Indice 1</summary>\n\nLa hauteur d'un nœud vaut 1 + max(hauteur gauche, hauteur droite).\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nPour un nœud vide, renvoie -1.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nLe minimum : descends à gauche tant que possible.\n\n</details>\n\n<details>\n<summary>✅ Réponse</summary>\n\n```python\nclass Arbre:\n    def __init__(self):\n        self.racine = None\n\n    def inserer(self, valeur):\n        self.racine = self._inserer(self.racine, valeur)\n\n    def _inserer(self, noeud, valeur):\n        if noeud is None:\n            return [valeur, None, None]\n        if valeur < noeud[0]:\n            noeud[1] = self._inserer(noeud[1], valeur)\n        elif valeur > noeud[0]:\n            noeud[2] = self._inserer(noeud[2], valeur)\n        return noeud\n\n    def hauteur(self):\n        def h(n):\n            if n is None:\n                return -1\n            return 1 + max(h(n[1]), h(n[2]))\n        return h(self.racine)\n\n    def minimum(self):\n        n = self.racine\n        while n[1] is not None:\n            n = n[1]\n        return n[0]\n\na = Arbre()\nfor v in (50, 30, 70, 20, 40, 60, 80):\n    a.inserer(v)\nprint(a.hauteur(), a.minimum())   # 2 20\n\nb = Arbre()\nfor v in (1, 2, 3, 4):\n    b.inserer(v)\nprint(b.hauteur())                # 3\n```\n\n</details>\n\n---\n\n## 🚀 À toi, en solo (20 XP)\n\nDans l'arbre `Noeud` (enfants multiples), écris :\n\n1. `chemin(noeud, cible)` : renvoie la liste des valeurs de la racine jusqu'à la cible, ou `None` si absente ;\n2. `afficher(noeud)` : affiche l'arbre avec une indentation par niveau.\n\nTeste sur l'arbre du catalogue : racine « Catalogue », enfants « Fondations » (HEF-000, HEF-010) et « Systèmes » (HEF-040).\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\nclass Noeud:\n    def __init__(self, valeur, enfants=None):\n        self.valeur = valeur\n        self.enfants = enfants or []\n\ndef chemin(noeud, cible):\n    if noeud.valeur == cible:\n        return [noeud.valeur]\n    for e in noeud.enfants:\n        c = chemin(e, cible)\n        if c is not None:\n            return [noeud.valeur] + c\n    return None\n\ndef afficher(noeud, niveau=0):\n    print(\"  \" * niveau + str(noeud.valeur))\n    for e in noeud.enfants:\n        afficher(e, niveau + 1)\n\ncatalogue = Noeud(\"Catalogue\", [\n    Noeud(\"Fondations\", [Noeud(\"HEF-000\"), Noeud(\"HEF-010\")]),\n    Noeud(\"Systèmes\", [Noeud(\"HEF-040\")]),\n])\nprint(chemin(catalogue, \"HEF-040\"))   # ['Catalogue', 'Systèmes', 'HEF-040']\nafficher(catalogue)\n```\n\n</details>\n\n---\n\n## ⚠️ Pièges classiques\n\n| Piège | Pourquoi c'est un problème | Comment l'éviter |\n|---|---|---|\n| **Oublier le cas de l'arbre vide** | Erreur sur `None` | Traiter `None` en premier |\n| **Insérer dans l'ordre trié** | L'arbre devient une chaîne, lent | Mélanger ou utiliser un arbre équilibré |\n| **Doublons dans un BST** | Règle ambiguë | Décider : ignorer, compter, ou placer à droite |\n| **Confondre hauteur et nombre de nœuds** | Mauvaise estimation du coût | La hauteur est la longueur du plus long chemin |\n\n---\n\n## 🐉 Mini-boss (40 XP)\n\nÉcris un **annuaire de membres** basé sur un BST où chaque nœud contient `(nom, ville)`.\n\n1. `ajouter(nom, ville)` (si le nom existe, mets à jour la ville) ;\n2. `chercher(nom)` ;\n3. `lister()` : tous les membres triés par nom ;\n4. `entre(a, b)` : membres dont le nom est entre `a` et `b` (inclus) ;\n5. Compare la hauteur obtenue en insérant 500 noms triés et 500 noms mélangés.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\nUn bon travail réutilise la structure du BST avec un nœud `[cle, valeur, gauche, droite]`. `entre(a, b)` fait un parcours en ordre qui ne descend pas dans les sous-arbres inutiles. La comparaison montre une hauteur de ~499 pour les noms triés et de l'ordre de 20 pour les noms mélangés.\n\n</details>\n\n---\n\n## ⚡ Quiz éclair (15 XP si 4/5 ou plus)\n\n**1.** Dans un BST, le sous-arbre de gauche contient :\n- A. des valeurs plus grandes\n- B. des valeurs plus petites\n- C. des valeurs au hasard\n\n**2.** Un parcours en ordre d'un BST donne :\n- A. les valeurs inversées\n- B. les feuilles\n- C. les valeurs triées\n\n**3.** Un BST déséquilibré a une recherche :\n- A. lente (comme une liste)\n- B. très rapide\n- C. impossible\n\n**4.** 🔁 *Révision mission 04* : Une table de hachage associe :\n- A. des nœuds à des feuilles\n- B. des clés à des valeurs\n- C. des listes à des tris\n\n**5.** 🔁 *Révision mission 05* : `a & b` pour deux ensembles donne :\n- A. tous les éléments\n- B. les éléments de a seulement\n- C. les éléments communs\n\n<details>\n<summary>✅ Réponses</summary>\n\n1. **B**.\n2. **C**.\n3. **A**.\n4. **B**.\n5. **C**.\n\n</details>\n\n---\n\n## 🪞 Je réfléchis (10 XP)\n\n1. Quelle hiérarchie de ta vie ressemble à un arbre ?\n2. Pourquoi l'ordre d'insertion compte-t-il dans un BST ?\n\n---\n\n## 🎒 À retenir\n\n1. Arbre = nœuds, racine, feuilles, hauteur.\n2. Les algorithmes d'arbres sont naturellement récursifs.\n3. BST : gauche plus petit, droite plus grand.\n4. Parcours en ordre = valeurs triées.\n5. Un arbre déséquilibré perd son avantage.\n\n---\n\n## 🏅 Récompenses\n\nTotal possible : **100 XP** · 🏅 Badge **Jardinier de données**\n\n---\n\n← [Mission 05 — Ensembles et dictionnaires](./05-ensembles-et-dictionnaires.md) · [Mission 07 — Tas et files de priorité](./07-heaps-et-files-de-priorite.md) →\n\n**HEF-020 — Structures de données**\n"
       },
       {
@@ -77,6 +833,132 @@
         "durationMinutes": 70,
         "badge": "Chef de la priorité",
         "slidesUrl": "/hef/slides-pdf/HEF-020/07-heaps-et-files-de-priorite.pdf",
+        "flashQuiz": {
+          "xp": 15,
+          "passScore": 80,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Dans un tas-min, la racine est :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "le plus petit élément",
+                  "isCorrect": true
+                },
+                {
+                  "text": "le plus grand",
+                  "isCorrect": false
+                },
+                {
+                  "text": "au hasard",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 2,
+              "text": "Une file de priorité retire toujours :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "le premier arrivé",
+                  "isCorrect": false
+                },
+                {
+                  "text": "l'élément de plus haute priorité",
+                  "isCorrect": true
+                },
+                {
+                  "text": "le dernier arrivé",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 3,
+              "text": "`heapq` en Python est un :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "tas-max",
+                  "isCorrect": false
+                },
+                {
+                  "text": "arbre de recherche",
+                  "isCorrect": false
+                },
+                {
+                  "text": "tas-min",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 4,
+              "text": "🔁 *Révision mission 06* : Dans un BST, le sous-arbre de gauche contient :",
+              "revisionOf": {
+                "module": null,
+                "mission": 6
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "des valeurs plus petites",
+                  "isCorrect": true
+                },
+                {
+                  "text": "des valeurs plus grandes",
+                  "isCorrect": false
+                },
+                {
+                  "text": "des valeurs au hasard",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 5,
+              "text": "🔁 *Révision mission 05* : Un ensemble contient :",
+              "revisionOf": {
+                "module": null,
+                "mission": 5
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "des doublons",
+                  "isCorrect": false
+                },
+                {
+                  "text": "des éléments sans doublons",
+                  "isCorrect": true
+                },
+                {
+                  "text": "des couples clé-valeur",
+                  "isCorrect": false
+                }
+              ]
+            }
+          ]
+        },
+        "reflection": {
+          "xp": 10,
+          "intro": null,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Dans quelles situations de ta vie les priorités changent-elles en cours de route ?"
+            },
+            {
+              "order": 2,
+              "text": "Pourquoi trier toute la liste à chaque nouvelle arrivée serait-il un gaspillage ?"
+            }
+          ]
+        },
         "body": "![Tas et files de priorité](/hef/parcours/hef020-m07.svg)\n\n<img src=\"/hef/personnages/sam.svg\" alt=\"Sam, ton guide pour cette mission\" width=\"96\" align=\"right\">\n\n\n> **Quand ce n'est pas le premier arrivé mais le plus urgent qui doit passer d'abord.**\n\n⏱️ Durée : environ 70 minutes · 🎓 Niveau : débutant · 🏅 Badge : **Chef de la priorité**\n\n---\n\n## 🎬 L'histoire\n\nLe support de HashBox reçoit des tickets. Certains sont critiques (« le site est en panne »), d'autres mineurs (« une faute de frappe »). Une file classique les traiterait dans l'ordre d'arrivée, ce qui serait dangereux.\n\n> « Tu as besoin d'une file de priorité, dit Sam. Et la meilleure façon de la fabriquer, c'est un tas. »\n\n**Tu découvres comment obtenir toujours le plus important élément, très vite.**\n\n---\n\n## 🎯 Ta mission\n\nÀ la fin, **je serai capable de** :\n\n- [ ] expliquer ce qu'est une file de priorité\n- [ ] décrire un tas (heap) et son invariant\n- [ ] utiliser `heapq` en Python\n- [ ] trouver les k plus grands éléments avec un tas\n- [ ] choisir entre tri complet et tas\n\n---\n\n## 🧩 Défi d'échauffement (5 XP)\n\nAux urgences, les patients sont soignés selon la gravité, pas selon l'ordre d'arrivée. Si 100 patients arrivent au fil de la journée, comment maintiens-tu en permanence la liste de qui soigner ensuite ? Trier à chaque arrivée te paraît-il efficace ?\n\n---\n\n## 💡 Le concept\n\n### File de priorité\n\nUne **file de priorité** (*priority queue*) permet d'**ajouter** un élément avec une priorité et de **retirer toujours celui de plus haute priorité**.\n\n### Le tas (heap)\n\nUn **tas-min** est un arbre binaire où **chaque parent est plus petit (ou égal) que ses enfants**. Le plus petit élément est donc toujours à la **racine**.\n\n```mermaid\nflowchart TD\n    A[1] --> B[3]\n    A --> C[2]\n    B --> D[7]\n    B --> E[5]\n    C --> F[4]\n```\n\n**Description du schéma** : un tas-min. La racine (1) est inférieure à ses enfants (3 et 2). Chaque nœud est plus petit que ses enfants : 3 < 7 et 5, 2 < 4.\n\nL'invariant rend le minimum accessible tout de suite. À l'ajout et au retrait, on **répare** localement le tas en échangeant des éléments le long d'un chemin, ce qui coûte de l'ordre de la hauteur de l'arbre, soit environ log₂(n).\n\nOn stocke le tas dans un **tableau** : les enfants de l'élément `i` sont aux positions `2i+1` et `2i+2`.\n\n### `heapq` en Python\n\n```python\nimport heapq\n\ntas = []\nheapq.heappush(tas, 5)\nheapq.heappush(tas, 1)\nheapq.heappush(tas, 3)\nprint(heapq.heappop(tas))   # 1 (le plus petit)\nprint(tas[0])               # 3 (le prochain)\n```\n\nPour des priorités : on pousse des tuples `(priorité, élément)`. Le plus petit nombre sort en premier ; pour avoir « le plus urgent d'abord », utilise 1 pour le plus urgent.\n\n### Les k meilleurs éléments\n\nPour obtenir les 3 plus grands parmi 1 million, trier tout coûte cher. Un tas de taille 3 suffit : `heapq.nlargest(3, donnees)`.\n\n> 🧠 **Astuce** : tas = « je veux seulement le plus petit (ou le plus grand), tout le temps, pendant que des éléments arrivent ».\n\n---\n\n## 🔍 Exemple pas à pas\n\n**Problème** : traiter des tickets par urgence, `1` = critique.\n\n```python\nimport heapq\n\ntickets = []\nheapq.heappush(tickets, (3, \"faute de frappe\"))\nheapq.heappush(tickets, (1, \"site en panne\"))\nheapq.heappush(tickets, (2, \"paiement refusé\"))\n\nwhile tickets:\n    urgence, texte = heapq.heappop(tickets)\n    print(urgence, texte)\n# 1 site en panne\n# 2 paiement refusé\n# 3 faute de frappe\n```\n\n**Si deux tickets ont la même urgence** ? Python compare alors le texte, ce qui marche pour des textes mais pas pour des objets quelconques. Astuce : ajouter un compteur d'arrivée `(urgence, numero, ticket)` pour garantir un ordre stable et éviter la comparaison des objets.\n\n```python\nimport heapq, itertools\n\ncompteur = itertools.count()\ntas = []\nfor urgence, texte in [(2, \"b\"), (1, \"a\"), (2, \"c\")]:\n    heapq.heappush(tas, (urgence, next(compteur), texte))\nprint([heapq.heappop(tas)[2] for _ in range(3)])   # ['a', 'b', 'c']\n```\n\n---\n\n## ✍️ À toi, avec aide (10 XP)\n\nUn serveur reçoit `[7, 2, 9, 4, 1, 8, 3]`. Utilise un tas pour afficher les **3 plus petits** nombres dans l'ordre sans trier toute la liste.\n\nPuis donne la liste après avoir fait seulement `heapify` : que contient `tas[0]` ?\n\n<details>\n<summary>💡 Indice 1</summary>\n\n`heapq.heapify(liste)` transforme une liste en tas sur place.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\n`heapq.heappop` retire le plus petit.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nLe premier élément du tableau d'un tas-min est le minimum.\n\n</details>\n\n<details>\n<summary>✅ Réponse</summary>\n\n```python\nimport heapq\n\ndonnees = [7, 2, 9, 4, 1, 8, 3]\ntas = list(donnees)\nheapq.heapify(tas)\nprint(tas[0])                                       # 1\nprint([heapq.heappop(tas) for _ in range(3)])       # [1, 2, 3]\nprint(heapq.nsmallest(3, donnees))                  # [1, 2, 3]\n```\n\n</details>\n\n---\n\n## 🚀 À toi, en solo (20 XP)\n\nÉcris `top_k(flux, k)` qui renvoie les `k` plus grands éléments d'une suite de nombres **en ne gardant jamais plus de k éléments en mémoire** (le flux peut être très long).\n\nIdée : garde un tas-min de taille `k` ; si un nouvel élément est plus grand que le minimum du tas, remplace-le. Teste : `top_k([5, 1, 9, 3, 7, 8, 2], 3)` → `[7, 8, 9]` (dans l'ordre croissant).\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\nimport heapq\n\ndef top_k(flux, k):\n    tas = []\n    for x in flux:\n        if len(tas) < k:\n            heapq.heappush(tas, x)\n        elif x > tas[0]:\n            heapq.heapreplace(tas, x)\n    return sorted(tas)\n\nprint(top_k([5, 1, 9, 3, 7, 8, 2], 3))   # [7, 8, 9]\nprint(top_k(range(1000000), 3))          # [999997, 999998, 999999]\n```\nMémoire : `k` éléments. Chaque élément coûte au plus de l'ordre de log k opérations.\n\n</details>\n\n---\n\n## ⚠️ Pièges classiques\n\n| Piège | Pourquoi c'est un problème | Comment l'éviter |\n|---|---|---|\n| **Croire que le tas est entièrement trié** | Seule la racine est garantie | Ne lire que `tas[0]` et utiliser `heappop` |\n| **Tas-min vs tas-max** | `heapq` est un tas-min | Pour un max, pousser les valeurs négatives |\n| **Comparer des objets sans ordre** | `TypeError` en cas d'égalité de priorité | Ajouter un compteur dans le tuple |\n| **Modifier un élément déjà dans le tas** | L'invariant se casse | Retirer puis réinsérer |\n\n---\n\n## 🐉 Mini-boss (40 XP)\n\nConstruis un **planificateur de tâches** pour HashBox.\n\n1. `Planificateur` avec `ajouter(nom, priorite)` et `suivante()` (la plus urgente, et à priorité égale la plus ancienne) ;\n2. `changer_priorite(nom, p)` : approche « paresseuse » (on ajoute une nouvelle entrée et on ignore l'ancienne à la sortie) ;\n3. Teste : 5 tâches, une qui change de priorité, une qui est annulée.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\nimport heapq, itertools\n\nclass Planificateur:\n    def __init__(self):\n        self._tas = []\n        self._actuel = {}                    # nom -> (priorite, numero)\n        self._compteur = itertools.count()\n\n    def ajouter(self, nom, priorite):\n        numero = next(self._compteur)\n        self._actuel[nom] = (priorite, numero)\n        heapq.heappush(self._tas, (priorite, numero, nom))\n\n    changer_priorite = ajouter\n\n    def annuler(self, nom):\n        self._actuel.pop(nom, None)\n\n    def suivante(self):\n        while self._tas:\n            priorite, numero, nom = heapq.heappop(self._tas)\n            if self._actuel.get(nom) == (priorite, numero):\n                del self._actuel[nom]\n                return nom\n        return None\n\np = Planificateur()\np.ajouter(\"sauvegarde\", 3); p.ajouter(\"panne\", 1); p.ajouter(\"mail\", 2)\np.changer_priorite(\"mail\", 0); p.annuler(\"sauvegarde\")\nprint(p.suivante(), p.suivante(), p.suivante())   # mail panne None\n```\n\n</details>\n\n---\n\n## ⚡ Quiz éclair (15 XP si 4/5 ou plus)\n\n**1.** Dans un tas-min, la racine est :\n- A. le plus petit élément\n- B. le plus grand\n- C. au hasard\n\n**2.** Une file de priorité retire toujours :\n- A. le premier arrivé\n- B. l'élément de plus haute priorité\n- C. le dernier arrivé\n\n**3.** `heapq` en Python est un :\n- A. tas-max\n- B. arbre de recherche\n- C. tas-min\n\n**4.** 🔁 *Révision mission 06* : Dans un BST, le sous-arbre de gauche contient :\n- A. des valeurs plus petites\n- B. des valeurs plus grandes\n- C. des valeurs au hasard\n\n**5.** 🔁 *Révision mission 05* : Un ensemble contient :\n- A. des doublons\n- B. des éléments sans doublons\n- C. des couples clé-valeur\n\n<details>\n<summary>✅ Réponses</summary>\n\n1. **A**.\n2. **B**.\n3. **C**.\n4. **A**.\n5. **B**.\n\n</details>\n\n---\n\n## 🪞 Je réfléchis (10 XP)\n\n1. Dans quelles situations de ta vie les priorités changent-elles en cours de route ?\n2. Pourquoi trier toute la liste à chaque nouvelle arrivée serait-il un gaspillage ?\n\n---\n\n## 🎒 À retenir\n\n1. File de priorité : toujours le plus important d'abord.\n2. Tas : arbre où parent ≤ enfants, stocké dans un tableau.\n3. `heapq` = tas-min en Python.\n4. Un tas de taille k donne les k meilleurs sans tout trier.\n5. Ajouter un compteur évite de comparer des objets.\n\n---\n\n## 🏅 Récompenses\n\nTotal possible : **100 XP** · 🏅 Badge **Chef de la priorité**\n\n---\n\n← [Mission 06 — Arbres et arbres de recherche](./06-arbres-et-bst.md) · [Mission 08 — Graphes : modéliser les relations](./08-graphes-et-representations.md) →\n\n**HEF-020 — Structures de données**\n"
       },
       {
@@ -86,6 +968,132 @@
         "durationMinutes": 75,
         "badge": "Cartographe",
         "slidesUrl": "/hef/slides-pdf/HEF-020/08-graphes-et-representations.pdf",
+        "flashQuiz": {
+          "xp": 15,
+          "passScore": 80,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Dans un graphe, une arête relie :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "deux graphes",
+                  "isCorrect": false
+                },
+                {
+                  "text": "un sommet à lui-même uniquement",
+                  "isCorrect": false
+                },
+                {
+                  "text": "deux sommets",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 2,
+              "text": "Pour un graphe avec peu d'arêtes, la meilleure représentation est :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "la liste d'adjacence",
+                  "isCorrect": true
+                },
+                {
+                  "text": "la matrice",
+                  "isCorrect": false
+                },
+                {
+                  "text": "aucune",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 3,
+              "text": "« A est prérequis de B » se modélise par un graphe :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "non orienté seulement",
+                  "isCorrect": false
+                },
+                {
+                  "text": "orienté",
+                  "isCorrect": true
+                },
+                {
+                  "text": "sans sommets",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 4,
+              "text": "🔁 *Révision mission 07* : Un tas-min a pour racine :",
+              "revisionOf": {
+                "module": null,
+                "mission": 7
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "le plus grand",
+                  "isCorrect": false
+                },
+                {
+                  "text": "un élément au hasard",
+                  "isCorrect": false
+                },
+                {
+                  "text": "le plus petit élément",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 5,
+              "text": "🔁 *Révision mission 06* : Un parcours en ordre d'un BST donne :",
+              "revisionOf": {
+                "module": null,
+                "mission": 6
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "les valeurs triées",
+                  "isCorrect": true
+                },
+                {
+                  "text": "les valeurs inversées",
+                  "isCorrect": false
+                },
+                {
+                  "text": "les feuilles",
+                  "isCorrect": false
+                }
+              ]
+            }
+          ]
+        },
+        "reflection": {
+          "xp": 10,
+          "intro": null,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Quel réseau de ta vie (amis, collègues, trajets) aimerais-tu modéliser ?"
+            },
+            {
+              "order": 2,
+              "text": "Qu'est-ce qui rend un problème « de graphe » ?"
+            }
+          ]
+        },
         "body": "![Graphes : modéliser les relations](/hef/parcours/hef020-m08.svg)\n\n<img src=\"/hef/personnages/leo.svg\" alt=\"Léo, ton guide pour cette mission\" width=\"96\" align=\"right\">\n\n\n> **Réseaux sociaux, cartes routières, dépendances de cours : tout ce qui est « relié à » est un graphe.**\n\n⏱️ Durée : environ 75 minutes · 🎓 Niveau : débutant · 🏅 Badge : **Cartographe**\n\n---\n\n## 🎬 L'histoire\n\nHashBox veut ajouter un réseau de **mentorat** : chaque membre peut suivre d'autres membres, et on veut proposer « des gens que tu pourrais connaître ». Il faut aussi ordonner les cours selon leurs **prérequis**.\n\n> « Ce sont des problèmes de relations, dit Sam. Des listes ne suffisent pas, des arbres non plus. Il te faut des graphes. »\n\n**Tu apprends à modéliser n'importe quel réseau de relations.**\n\n---\n\n## 🎯 Ta mission\n\nÀ la fin, **je serai capable de** :\n\n- [ ] définir sommet, arête, orienté/non orienté, pondéré\n- [ ] modéliser un problème réel sous forme de graphe\n- [ ] représenter un graphe avec une liste d'adjacence\n- [ ] représenter un graphe avec une matrice d'adjacence\n- [ ] comparer les deux représentations\n\n---\n\n## 🧩 Défi d'échauffement (5 XP)\n\nDessine le réseau de **cinq personnes** (toi inclus) : trace un trait entre deux personnes qui se connaissent. Ensuite, réponds : qui a le plus de relations ? Existe-t-il quelqu'un d'isolé ? Comment ferais-tu pour qu'un ordinateur retienne ton dessin ?\n\n---\n\n## 💡 Le concept\n\n### Vocabulaire\n\nUn **graphe** est un ensemble de **sommets** (nœuds) reliés par des **arêtes**.\n\n| Type | Signification | Exemple |\n|---|---|---|\n| **Non orienté** | La relation est réciproque | « est ami avec » |\n| **Orienté** | La relation a un sens | « suit », « est prérequis de » |\n| **Pondéré** | Chaque arête a un coût | distance, durée |\n\nLe **degré** d'un sommet est le nombre d'arêtes qui y touchent. Un **chemin** est une suite de sommets reliés. Un **cycle** est un chemin qui revient à son point de départ.\n\n> Un arbre est un graphe particulier : connexe et sans cycle.\n\n### Modéliser\n\nLa première compétence : transformer un problème en graphe.\n\n| Problème | Sommets | Arêtes |\n|---|---|---|\n| Carte routière | villes | routes (pondérées par la distance) |\n| Réseau social | personnes | amitiés ou abonnements |\n| Prérequis de cours | cours | « A doit précéder B » (orienté) |\n| Pages web | pages | liens |\n\n### Liste d'adjacence\n\nPour chaque sommet, on garde la liste de ses voisins.\n\n```python\ngraphe = {\n    \"Ada\": [\"Bob\", \"Cléo\"],\n    \"Bob\": [\"Ada\"],\n    \"Cléo\": [\"Ada\", \"Dan\"],\n    \"Dan\": [\"Cléo\"],\n}\n```\n\n### Matrice d'adjacence\n\nUn tableau carré : la case `[i][j]` vaut 1 s'il existe une arête de i vers j, 0 sinon.\n\n```text\n        Ada Bob Cléo Dan\nAda      0   1    1    0\nBob      1   0    0    0\nCléo     1   0    0    1\nDan      0   0    1    0\n```\n\n### Quelle représentation ?\n\n| Critère | Liste d'adjacence | Matrice |\n|---|---|---|\n| Mémoire | proportionnelle aux arêtes | proportionnelle au carré des sommets |\n| Voisins d'un sommet | immédiat | parcourir une ligne |\n| « A est-il relié à B ? » | parcourir la liste de A | immédiat |\n| Graphe clairsemé (peu d'arêtes) | idéal | gaspillage |\n\nEn pratique, la **liste d'adjacence** est le choix par défaut.\n\n---\n\n## 🔍 Exemple pas à pas\n\n**Problème** : à partir d'une liste d'amitiés, construire le graphe, puis proposer des « amis d'amis ».\n\n```python\ndef construire(amities):\n    g = {}\n    for a, b in amities:\n        g.setdefault(a, set()).add(b)\n        g.setdefault(b, set()).add(a)\n    return g\n\ndef amis_d_amis(g, personne):\n    proposes = set()\n    for ami in g[personne]:\n        proposes |= g[ami]\n    return sorted(proposes - g[personne] - {personne})\n\ng = construire([(\"Ada\", \"Bob\"), (\"Ada\", \"Cléo\"), (\"Cléo\", \"Dan\"), (\"Bob\", \"Eve\")])\nprint(sorted(g[\"Ada\"]))        # ['Bob', 'Cléo']\nprint(amis_d_amis(g, \"Ada\"))   # ['Dan', 'Eve']\n```\n\n**Idée clé** : on a choisi des ensembles comme voisinage, car on teste souvent « est-il déjà mon ami ? » et on veut éviter les doublons.\n\n---\n\n## ✍️ À toi, avec aide (10 XP)\n\nVoici les prérequis de cours (A → B signifie « A doit précéder B ») :\n\n```text\nHEF-000 → HEF-010\nHEF-010 → HEF-020\nHEF-010 → HEF-030\nHEF-020 → HEF-030\n```\n\n1. Construis le graphe **orienté** en liste d'adjacence.\n2. Écris `prerequis_directs(graphe, cours)` qui renvoie les cours qui précèdent directement un cours.\n3. Quel est le degré sortant de HEF-010 ?\n\n<details>\n<summary>💡 Indice 1</summary>\n\nDans un graphe orienté, on n'ajoute l'arête que dans un sens.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nPour les prérequis directs, cherche les sommets dont la liste contient le cours.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nLe degré sortant est la taille de la liste de HEF-010.\n\n</details>\n\n<details>\n<summary>✅ Réponse</summary>\n\n```python\ngraphe = {\n    \"HEF-000\": [\"HEF-010\"],\n    \"HEF-010\": [\"HEF-020\", \"HEF-030\"],\n    \"HEF-020\": [\"HEF-030\"],\n    \"HEF-030\": [],\n}\n\ndef prerequis_directs(graphe, cours):\n    return sorted(c for c, suivants in graphe.items() if cours in suivants)\n\nprint(prerequis_directs(graphe, \"HEF-030\"))   # ['HEF-010', 'HEF-020']\nprint(len(graphe[\"HEF-010\"]))                 # 2\n```\n\n</details>\n\n---\n\n## 🚀 À toi, en solo (20 XP)\n\nÉcris `en_matrice(graphe)` qui convertit une liste d'adjacence (dictionnaire) en matrice, et `en_liste(sommets, matrice)` qui fait l'inverse.\n\nTeste que `en_liste(*en_matrice(g))` redonne `g` (listes triées). Puis calcule, pour 1 000 sommets et 3 000 arêtes, la mémoire (nombre de cases) des deux représentations.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\ndef en_matrice(graphe):\n    sommets = sorted(graphe)\n    indice = {s: i for i, s in enumerate(sommets)}\n    m = [[0] * len(sommets) for _ in sommets]\n    for s, voisins in graphe.items():\n        for v in voisins:\n            m[indice[s]][indice[v]] = 1\n    return sommets, m\n\ndef en_liste(sommets, matrice):\n    return {s: [sommets[j] for j, x in enumerate(matrice[i]) if x] for i, s in enumerate(sommets)}\n\ng = {\"a\": [\"b\", \"c\"], \"b\": [\"a\"], \"c\": [\"a\"]}\nassert {k: sorted(v) for k, v in en_liste(*en_matrice(g)).items()} == g\nprint(\"matrice :\", 1000 * 1000, \"cases ; liste :\", 3000 * 2, \"entrées\")\n```\nLa matrice coûte 1 million de cases pour seulement 3 000 arêtes (liste : 6 000 entrées pour un graphe non orienté).\n\n</details>\n\n---\n\n## ⚠️ Pièges classiques\n\n| Piège | Pourquoi c'est un problème | Comment l'éviter |\n|---|---|---|\n| **Oublier l'arête retour** | Un graphe non orienté devient orienté | Ajouter les deux sens |\n| **Sommet absent du dictionnaire** | `KeyError` | Inclure tous les sommets, même isolés |\n| **Matrice pour un graphe clairsemé** | Mémoire gaspillée | Liste d'adjacence |\n| **Mal choisir les sommets** | Modèle illisible | Se demander : qu'est-ce qui est relié à quoi ? |\n\n---\n\n## 🐉 Mini-boss (40 XP)\n\nModélise le **réseau de mentorat** de HashBox.\n\nDonnées : liste de couples `(mentor, élève)`.\n\n1. Construis un graphe orienté.\n2. Calcule le **degré sortant** (nombre d'élèves) de chaque mentor et le **degré entrant** (nombre de mentors) de chaque élève.\n3. Trouve les mentors sans élève, et les élèves sans mentor.\n4. Trouve le mentor qui a le plus d'élèves.\n5. Vérifie qu'il n'y a pas de couple « A mentor de B et B mentor de A ».\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\ndef analyser(couples):\n    g, entrants = {}, {}\n    for m, e in couples:\n        g.setdefault(m, set()).add(e)\n        g.setdefault(e, set())\n        entrants.setdefault(e, set()).add(m)\n        entrants.setdefault(m, set())\n    sortant = {s: len(v) for s, v in g.items()}\n    entrant = {s: len(v) for s, v in entrants.items()}\n    sans_eleve = sorted(s for s, d in sortant.items() if d == 0)\n    sans_mentor = sorted(s for s, d in entrant.items() if d == 0)\n    meilleur = max(sortant, key=sortant.get)\n    reciproques = sorted((a, b) for a in g for b in g[a] if a in g[b] and a < b)\n    return sortant, entrant, sans_eleve, sans_mentor, meilleur, reciproques\n\ncouples = [(\"Ada\", \"Bob\"), (\"Ada\", \"Cléo\"), (\"Bob\", \"Dan\")]\nprint(analyser(couples))\n```\n\n</details>\n\n---\n\n## ⚡ Quiz éclair (15 XP si 4/5 ou plus)\n\n**1.** Dans un graphe, une arête relie :\n- A. deux graphes\n- B. un sommet à lui-même uniquement\n- C. deux sommets\n\n**2.** Pour un graphe avec peu d'arêtes, la meilleure représentation est :\n- A. la liste d'adjacence\n- B. la matrice\n- C. aucune\n\n**3.** « A est prérequis de B » se modélise par un graphe :\n- A. non orienté seulement\n- B. orienté\n- C. sans sommets\n\n**4.** 🔁 *Révision mission 07* : Un tas-min a pour racine :\n- A. le plus grand\n- B. un élément au hasard\n- C. le plus petit élément\n\n**5.** 🔁 *Révision mission 06* : Un parcours en ordre d'un BST donne :\n- A. les valeurs triées\n- B. les valeurs inversées\n- C. les feuilles\n\n<details>\n<summary>✅ Réponses</summary>\n\n1. **C**.\n2. **A**.\n3. **B**.\n4. **C**.\n5. **A**.\n\n</details>\n\n---\n\n## 🪞 Je réfléchis (10 XP)\n\n1. Quel réseau de ta vie (amis, collègues, trajets) aimerais-tu modéliser ?\n2. Qu'est-ce qui rend un problème « de graphe » ?\n\n---\n\n## 🎒 À retenir\n\n1. Graphe = sommets + arêtes.\n2. Orienté, pondéré, degré, chemin, cycle.\n3. Modéliser, c'est choisir sommets et arêtes.\n4. Liste d'adjacence : choix par défaut.\n5. Matrice : test d'arête immédiat, mémoire en carré.\n\n```mermaid\nflowchart LR\n    T([\"Graphes : modéliser les relations\"])\n    T --> R1[\"1. Graphe = sommets + arêtes.\"]\n    T --> R2[\"2. Orienté, pondéré, degré, chemin, cycle.\"]\n    T --> R3[\"3. Modéliser, c'est choisir sommets et arêtes.\"]\n    T --> R4[\"4. Liste d'adjacence : choix par défaut.\"]\n    T --> R5[\"5. Matrice : test d'arête immédiat, mémoire en carré.\"]\n```\n\n**Description du schéma** : la mission au centre, reliée aux cinq idées à retenir.\n\n---\n\n## 🏅 Récompenses\n\nTotal possible : **100 XP** · 🏅 Badge **Cartographe**\n\n---\n\n← [Mission 07 — Tas et files de priorité](./07-heaps-et-files-de-priorite.md) · [Mission 09 — Explorer un graphe : DFS et BFS](./09-parcours-dfs-bfs.md) →\n\n**HEF-020 — Structures de données**\n"
       },
       {
@@ -95,6 +1103,132 @@
         "durationMinutes": 80,
         "badge": "Explorateur·rice",
         "slidesUrl": "/hef/slides-pdf/HEF-020/09-parcours-dfs-bfs.pdf",
+        "flashQuiz": {
+          "xp": 15,
+          "passScore": 80,
+          "questions": [
+            {
+              "order": 1,
+              "text": "BFS utilise :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "une pile uniquement",
+                  "isCorrect": false
+                },
+                {
+                  "text": "une file",
+                  "isCorrect": true
+                },
+                {
+                  "text": "un tas",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 2,
+              "text": "BFS trouve dans un graphe non pondéré :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "le chemin le plus long",
+                  "isCorrect": false
+                },
+                {
+                  "text": "un chemin au hasard",
+                  "isCorrect": false
+                },
+                {
+                  "text": "le plus court chemin en nombre d'arêtes",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 3,
+              "text": "Pour ne pas boucler dans un cycle, on garde :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "un ensemble des sommets déjà vus",
+                  "isCorrect": true
+                },
+                {
+                  "text": "une copie du graphe",
+                  "isCorrect": false
+                },
+                {
+                  "text": "rien",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 4,
+              "text": "🔁 *Révision mission 08* : Pour un graphe avec peu d'arêtes, la meilleure représentation est :",
+              "revisionOf": {
+                "module": null,
+                "mission": 8
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "la matrice",
+                  "isCorrect": false
+                },
+                {
+                  "text": "la liste d'adjacence",
+                  "isCorrect": true
+                },
+                {
+                  "text": "aucune",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 5,
+              "text": "🔁 *Révision mission 07* : Une file de priorité retire toujours :",
+              "revisionOf": {
+                "module": null,
+                "mission": 7
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "le premier arrivé",
+                  "isCorrect": false
+                },
+                {
+                  "text": "le dernier arrivé",
+                  "isCorrect": false
+                },
+                {
+                  "text": "l'élément de plus haute priorité",
+                  "isCorrect": true
+                }
+              ]
+            }
+          ]
+        },
+        "reflection": {
+          "xp": 10,
+          "intro": null,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Dans ta recherche du chat, quelle stratégie as-tu choisie spontanément ?"
+            },
+            {
+              "order": 2,
+              "text": "Dans quels problèmes de ta vie la distance « en nombre d'étapes » compte-t-elle ?"
+            }
+          ]
+        },
         "body": "![Explorer un graphe : DFS et BFS](/hef/parcours/hef020-m09.svg)\n\n<img src=\"/hef/personnages/kodi.svg\" alt=\"Kodi, ton guide pour cette mission\" width=\"96\" align=\"right\">\n\n\n> **Pour trouver un chemin, vérifier une connexion ou explorer un réseau, il faut un plan de parcours.**\n\n⏱️ Durée : environ 80 minutes · 🎓 Niveau : débutant · 🏅 Badge : **Explorateur·rice**\n\n---\n\n## 🎬 L'histoire\n\nDans le réseau de mentorat, Maya demande : **« Combien de relations séparent Ada de Dan ? »** Et aussi : **« Tous les membres sont-ils connectés entre eux ? »**\n\n> « Il te faut une méthode pour visiter les sommets sans tourner en rond », dit Sam.\n\n**Tu apprends les deux parcours fondamentaux, qui servent partout (cartes, jeux, internet, compilation).**\n\n---\n\n## 🎯 Ta mission\n\nÀ la fin, **je serai capable de** :\n\n- [ ] expliquer le parcours en largeur (BFS) et en profondeur (DFS)\n- [ ] implémenter BFS avec une file\n- [ ] implémenter DFS avec une pile ou la récursion\n- [ ] trouver le plus court chemin dans un graphe non pondéré\n- [ ] détecter les composantes connexes\n\n---\n\n## 🧩 Défi d'échauffement (5 XP)\n\nTu cherches ton chat dans un grand immeuble. Deux stratégies : (A) tu vérifies **tous les appartements de l'étage** avant de monter à l'étage suivant ; (B) tu **entres dans le premier appartement** et tu explores toutes ses pièces avant d'aller voir le suivant. Laquelle trouve plus vite un chat qui est proche de l'entrée ? Laquelle explore plus loin d'un coup ?\n\n---\n\n## 💡 Le concept\n\n### Le problème du parcours\n\nVisiter tous les sommets accessibles depuis un sommet de départ, **sans visiter deux fois le même** (sinon on boucle dans les cycles). On garde un ensemble des sommets **déjà vus**.\n\n### BFS — parcours en largeur\n\nOn visite d'abord tous les voisins, puis les voisins des voisins… par **cercles concentriques**. On utilise une **file**.\n\n```python\nfrom collections import deque\n\ndef bfs(graphe, depart):\n    vus = {depart}\n    file = deque([depart])\n    ordre = []\n    while file:\n        s = file.popleft()\n        ordre.append(s)\n        for v in graphe[s]:\n            if v not in vus:\n                vus.add(v)\n                file.append(v)\n    return ordre\n```\n\n**Propriété magique** : dans un graphe non pondéré, BFS trouve les **plus courts chemins** (en nombre d'arêtes).\n\n### DFS — parcours en profondeur\n\nOn s'enfonce le plus loin possible, puis on revient. On utilise une **pile** (ou la récursion, qui utilise la pile d'appels).\n\n```python\ndef dfs(graphe, depart, vus=None):\n    if vus is None:\n        vus = set()\n    vus.add(depart)\n    ordre = [depart]\n    for v in graphe[depart]:\n        if v not in vus:\n            ordre += dfs(graphe, v, vus)\n    return ordre\n```\n\n### Quand utiliser quoi ?\n\n| Besoin | Parcours |\n|---|---|\n| Plus court chemin (non pondéré) | BFS |\n| Niveaux, distance | BFS |\n| Détecter des cycles, composantes, ordre topologique | DFS |\n| Explorer toutes les possibilités (labyrinthe, puzzle) | DFS |\n\n### Composantes connexes\n\nUne **composante connexe** est un groupe de sommets reliés entre eux. Pour les trouver : lancer un parcours depuis chaque sommet non encore vu.\n\n---\n\n## 🔍 Exemple pas à pas\n\n**Problème** : distance (nombre de relations) entre deux membres.\n\n```python\nfrom collections import deque\n\ndef distance(graphe, a, b):\n    if a == b:\n        return 0\n    vus = {a}\n    file = deque([(a, 0)])\n    while file:\n        s, d = file.popleft()\n        for v in graphe[s]:\n            if v == b:\n                return d + 1\n            if v not in vus:\n                vus.add(v)\n                file.append((v, d + 1))\n    return None        # pas de chemin\n\ng = {\n    \"Ada\": [\"Bob\", \"Cléo\"], \"Bob\": [\"Ada\", \"Eve\"],\n    \"Cléo\": [\"Ada\", \"Dan\"], \"Dan\": [\"Cléo\"],\n    \"Eve\": [\"Bob\"], \"Zoé\": [],\n}\nprint(distance(g, \"Ada\", \"Dan\"))    # 2\nprint(distance(g, \"Ada\", \"Eve\"))    # 2\nprint(distance(g, \"Ada\", \"Zoé\"))    # None\n```\n\n**Pourquoi BFS fonctionne** : les sommets sont découverts par ordre croissant de distance. La première fois qu'on atteint `b`, c'est par le chemin le plus court.\n\n---\n\n## ✍️ À toi, avec aide (10 XP)\n\nÉcris `composantes(graphe)` qui renvoie la liste des groupes de sommets connectés. Teste sur :\n\n```text\n{\"a\": [\"b\"], \"b\": [\"a\"], \"c\": [], \"d\": [\"e\"], \"e\": [\"d\"]}\n```\n\nLe résultat doit contenir 3 groupes : `{a, b}`, `{c}`, `{d, e}`.\n\n<details>\n<summary>💡 Indice 1</summary>\n\nGarde un ensemble `vus` global.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nPour chaque sommet non vu, lance un parcours (BFS ou DFS) qui collecte les sommets atteints.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nAjoute chaque groupe à la liste de résultats.\n\n</details>\n\n<details>\n<summary>✅ Réponse</summary>\n\n```python\nfrom collections import deque\n\ndef composantes(graphe):\n    vus, groupes = set(), []\n    for depart in graphe:\n        if depart in vus:\n            continue\n        groupe = set()\n        file = deque([depart])\n        vus.add(depart)\n        while file:\n            s = file.popleft()\n            groupe.add(s)\n            for v in graphe[s]:\n                if v not in vus:\n                    vus.add(v)\n                    file.append(v)\n        groupes.append(groupe)\n    return groupes\n\ng = {\"a\": [\"b\"], \"b\": [\"a\"], \"c\": [], \"d\": [\"e\"], \"e\": [\"d\"]}\nres = composantes(g)\nassert sorted(map(sorted, res)) == [[\"a\", \"b\"], [\"c\"], [\"d\", \"e\"]]\nprint(res)\n```\n\n</details>\n\n---\n\n## 🚀 À toi, en solo (20 XP)\n\n**Labyrinthe.** Une grille est une liste de textes (`#` = mur, `.` = libre, `S` = départ, `E` = arrivée). Écris `plus_court_chemin(grille)` qui renvoie le nombre de pas minimal de S à E (ou `None`).\n\n```text\n[\"S.#\",\n \".##\",\n \"..E\"]\n```\nRésultat attendu : 4.\n\nIndice : les sommets sont les cases libres ; les voisins sont haut, bas, gauche, droite.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\nfrom collections import deque\n\ndef plus_court_chemin(grille):\n    h, l = len(grille), len(grille[0])\n    for i in range(h):\n        for j in range(l):\n            if grille[i][j] == \"S\":\n                depart = (i, j)\n    file = deque([(depart, 0)])\n    vus = {depart}\n    while file:\n        (i, j), d = file.popleft()\n        if grille[i][j] == \"E\":\n            return d\n        for di, dj in ((1, 0), (-1, 0), (0, 1), (0, -1)):\n            ni, nj = i + di, j + dj\n            if 0 <= ni < h and 0 <= nj < l and grille[ni][nj] != \"#\" and (ni, nj) not in vus:\n                vus.add((ni, nj))\n                file.append(((ni, nj), d + 1))\n    return None\n\nprint(plus_court_chemin([\"S.#\", \".##\", \"..E\"]))   # 4\nprint(plus_court_chemin([\"S#E\"]))                 # None\n```\n\n</details>\n\n---\n\n## ⚠️ Pièges classiques\n\n| Piège | Pourquoi c'est un problème | Comment l'éviter |\n|---|---|---|\n| **Oublier l'ensemble des sommets vus** | Boucle infinie dans les cycles | Marquer chaque sommet visité |\n| **Marquer trop tard dans BFS** | Un sommet est mis plusieurs fois dans la file | Marquer au moment de l'ajout |\n| **Récursion profonde (DFS)** | `RecursionError` sur un très grand graphe | Utiliser une pile explicite |\n| **BFS sur un graphe pondéré** | Le plus court en arêtes n'est pas le moins coûteux | Utiliser un algorithme dédié (Dijkstra) |\n\n---\n\n## 🐉 Mini-boss (40 XP)\n\n**Ordre des cours.** À partir du graphe des prérequis, écris `ordre_topologique(graphe)` qui renvoie une liste de cours telle que chaque cours apparaît **après** ses prérequis, ou lève une erreur s'il y a un **cycle**.\n\nTeste sur le graphe de la mission 08 (HEF-000 → HEF-010 → HEF-020 → HEF-030), puis ajoute une arête HEF-030 → HEF-000 : l'erreur doit apparaître.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\ndef ordre_topologique(graphe):\n    etat = {}          # 1 = en cours, 2 = terminé\n    resultat = []\n\n    def visiter(s):\n        if etat.get(s) == 2:\n            return\n        if etat.get(s) == 1:\n            raise ValueError(\"cycle détecté\")\n        etat[s] = 1\n        for v in graphe[s]:\n            visiter(v)\n        etat[s] = 2\n        resultat.append(s)\n\n    for s in graphe:\n        visiter(s)\n    return resultat[::-1]\n\ng = {\"HEF-000\": [\"HEF-010\"], \"HEF-010\": [\"HEF-020\", \"HEF-030\"], \"HEF-020\": [\"HEF-030\"], \"HEF-030\": []}\nprint(ordre_topologique(g))   # ['HEF-000', 'HEF-010', 'HEF-020', 'HEF-030']\ng[\"HEF-030\"] = [\"HEF-000\"]\ntry:\n    ordre_topologique(g)\nexcept ValueError as e:\n    print(e)                  # cycle détecté\n```\n\n</details>\n\n---\n\n## ⚡ Quiz éclair (15 XP si 4/5 ou plus)\n\n**1.** BFS utilise :\n- A. une pile uniquement\n- B. une file\n- C. un tas\n\n**2.** BFS trouve dans un graphe non pondéré :\n- A. le chemin le plus long\n- B. un chemin au hasard\n- C. le plus court chemin en nombre d'arêtes\n\n**3.** Pour ne pas boucler dans un cycle, on garde :\n- A. un ensemble des sommets déjà vus\n- B. une copie du graphe\n- C. rien\n\n**4.** 🔁 *Révision mission 08* : Pour un graphe avec peu d'arêtes, la meilleure représentation est :\n- A. la matrice\n- B. la liste d'adjacence\n- C. aucune\n\n**5.** 🔁 *Révision mission 07* : Une file de priorité retire toujours :\n- A. le premier arrivé\n- B. le dernier arrivé\n- C. l'élément de plus haute priorité\n\n<details>\n<summary>✅ Réponses</summary>\n\n1. **B**.\n2. **C**.\n3. **A**.\n4. **B**.\n5. **C**.\n\n</details>\n\n---\n\n## 🪞 Je réfléchis (10 XP)\n\n1. Dans ta recherche du chat, quelle stratégie as-tu choisie spontanément ?\n2. Dans quels problèmes de ta vie la distance « en nombre d'étapes » compte-t-elle ?\n\n---\n\n## 🎒 À retenir\n\n1. Parcourir sans revisiter : ensemble des sommets vus.\n2. BFS : file, niveaux, plus courts chemins non pondérés.\n3. DFS : pile/récursion, exploration en profondeur.\n4. Composantes connexes : un parcours par groupe.\n5. Ordre topologique : DFS qui détecte aussi les cycles.\n\n```mermaid\nflowchart LR\n    T([\"Explorer un graphe : DFS et BFS\"])\n    T --> R1[\"1. Parcourir sans revisiter : ensemble des sommets vus.\"]\n    T --> R2[\"2. BFS : file, niveaux, plus courts chemins non pondérés.\"]\n    T --> R3[\"3. DFS : pile/récursion, exploration en profondeur.\"]\n    T --> R4[\"4. Composantes connexes : un parcours par groupe.\"]\n    T --> R5[\"5. Ordre topologique : DFS qui détecte aussi les cycles.\"]\n```\n\n**Description du schéma** : la mission au centre, reliée aux cinq idées à retenir.\n\n---\n\n## 🏅 Récompenses\n\nTotal possible : **100 XP** · 🏅 Badge **Explorateur·rice**\n\n---\n\n← [Mission 08 — Graphes : modéliser les relations](./08-graphes-et-representations.md) · [Mission 10 — Choisir, prouver, comparer](./10-choix-invariants-compromis.md) →\n\n**HEF-020 — Structures de données**\n"
       },
       {
@@ -104,6 +1238,132 @@
         "durationMinutes": 80,
         "badge": "Ingénieur·e des données",
         "slidesUrl": "/hef/slides-pdf/HEF-020/10-choix-invariants-compromis.pdf",
+        "flashQuiz": {
+          "xp": 15,
+          "passScore": 80,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Pour choisir une structure, on commence par :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "lister les opérations et leur fréquence",
+                  "isCorrect": true
+                },
+                {
+                  "text": "choisir la plus récente",
+                  "isCorrect": false
+                },
+                {
+                  "text": "utiliser une liste",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 2,
+              "text": "Un invariant de structure est :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "un commentaire",
+                  "isCorrect": false
+                },
+                {
+                  "text": "une propriété toujours vraie",
+                  "isCorrect": true
+                },
+                {
+                  "text": "un test unique",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 3,
+              "text": "Un test de propriété :",
+              "revisionOf": null,
+              "explanation": null,
+              "options": [
+                {
+                  "text": "vérifie un seul exemple",
+                  "isCorrect": false
+                },
+                {
+                  "text": "remplace le code",
+                  "isCorrect": false
+                },
+                {
+                  "text": "vérifie une règle sur beaucoup d'entrées aléatoires",
+                  "isCorrect": true
+                }
+              ]
+            },
+            {
+              "order": 4,
+              "text": "🔁 *Révision mission 09* : BFS trouve dans un graphe non pondéré :",
+              "revisionOf": {
+                "module": null,
+                "mission": 9
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "le plus court chemin en nombre d'arêtes",
+                  "isCorrect": true
+                },
+                {
+                  "text": "le chemin le plus long",
+                  "isCorrect": false
+                },
+                {
+                  "text": "un chemin au hasard",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "order": 5,
+              "text": "🔁 *Révision mission 04* : Une table de hachage associe :",
+              "revisionOf": {
+                "module": null,
+                "mission": 4
+              },
+              "explanation": null,
+              "options": [
+                {
+                  "text": "des nœuds à des feuilles",
+                  "isCorrect": false
+                },
+                {
+                  "text": "des clés à des valeurs",
+                  "isCorrect": true
+                },
+                {
+                  "text": "des listes à des tris",
+                  "isCorrect": false
+                }
+              ]
+            }
+          ]
+        },
+        "reflection": {
+          "xp": 10,
+          "intro": null,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Quel besoin réel de ta vie professionnelle ou scolaire pourrait être traité avec les structures du module ?"
+            },
+            {
+              "order": 2,
+              "text": "Quelle structure te semblait étrangère au début et te paraît maintenant évidente ?"
+            }
+          ]
+        },
         "body": "![Choisir, prouver, comparer](/hef/parcours/hef020-m10.svg)\n\n<img src=\"/hef/personnages/maya.svg\" alt=\"Maya, ton guide pour cette mission\" width=\"96\" align=\"right\">\n\n\n> **La vraie compétence : choisir la bonne structure, expliquer pourquoi, et prouver qu'elle tient ses promesses.**\n\n⏱️ Durée : environ 80 minutes · 🎓 Niveau : débutant · 🏅 Badge : **Ingénieur·e des données**\n\n---\n\n## 🎬 L'histoire\n\nDernière mission du module. Maya donne à Kodi trois besoins, et lui demande de choisir **la** bonne structure pour chacun, avec des preuves :\n\n1. un historique des 1 000 dernières actions ;\n2. une recherche de membres par préfixe de nom (« Mar… ») ;\n3. un classement en temps réel des 10 meilleurs scores.\n\n> « Pas d'intuition seule, dit Sam. Les opérations, les coûts, les invariants. »\n\n**Tu rassembles tout le module dans une démarche de choix.**\n\n---\n\n## 🎯 Ta mission\n\nÀ la fin, **je serai capable de** :\n\n- [ ] lister les opérations et leur fréquence pour un besoin\n- [ ] comparer plusieurs structures sur des critères précis\n- [ ] énoncer l'invariant d'une structure\n- [ ] écrire des tests de propriétés pour une structure\n- [ ] justifier un choix par un compromis\n\n---\n\n## 🧩 Défi d'échauffement (5 XP)\n\nTu dois stocker **les 100 000 produits d'une boutique**. Écris trois opérations que tu feras (rechercher par nom, lister par prix, ajouter…). Pour chacune, quelle structure du module te vient en tête ? Une seule structure suffit-elle ?\n\n---\n\n## 💡 Le concept\n\n### La démarche en 5 étapes\n\n1. **Opérations** : quelles actions, avec quelle fréquence ?\n2. **Contraintes** : taille des données, ordre, doublons, mémoire.\n3. **Candidates** : 2 ou 3 structures plausibles.\n4. **Comparaison** : coût des opérations clés, simplicité, mémoire.\n5. **Preuve** : invariant et tests.\n\n### Tableau de synthèse\n\n| Structure | Lire par position | Chercher une valeur | Ajouter | Retirer | Ordre ? |\n|---|---|---|---|---|---|\n| Tableau (`list`) | rapide | lent | fin : rapide | milieu : lent | oui |\n| Liste chaînée | lent | lent | début : rapide | rapide si position connue | oui |\n| Pile / file | : | : | rapide | rapide (une extrémité) | LIFO / FIFO |\n| Dictionnaire / ensemble | : | rapide | rapide | rapide | non garanti |\n| BST équilibré | : | rapide (log n) | rapide (log n) | rapide (log n) | trié |\n| Tas | : | min : immédiat | rapide (log n) | min : rapide | partiel |\n| Graphe | : | selon parcours | : | : | : |\n\n### Les invariants\n\nUn **invariant de structure** est une propriété qui doit toujours être vraie :\n\n| Structure | Invariant |\n|---|---|\n| Pile | on retire toujours le dernier ajouté |\n| BST | gauche < nœud < droite |\n| Tas-min | parent ≤ enfants |\n| Ensemble | pas de doublons |\n\nPour le vérifier, on écrit une fonction `verifier_invariant()` et on l'appelle dans les tests, après chaque opération.\n\n### Les tests de propriétés\n\nAu lieu d'exemples fixes, on teste des **propriétés** sur beaucoup d'entrées aléatoires :\n\n- insérer puis retirer tous les éléments d'un tas donne une liste triée ;\n- le parcours en ordre d'un BST est trié ;\n- une pile rend les éléments dans l'ordre inverse de leur entrée.\n\n```python\nimport heapq, random\n\nfor _ in range(300):\n    donnees = [random.randint(-100, 100) for _ in range(random.randint(0, 20))]\n    tas = []\n    for x in donnees:\n        heapq.heappush(tas, x)\n    sortie = [heapq.heappop(tas) for _ in range(len(tas))]\n    assert sortie == sorted(donnees)\nprint(\"propriété du tas vérifiée\")\n```\n\n> 🧠 **Astuce** : combiner deux structures est courant. Un dictionnaire + une liste ou un tas résout souvent des besoins qu'une seule ne couvre pas.\n\n---\n\n## 🔍 Exemple pas à pas\n\n**Besoin 1 : historique des 1 000 dernières actions.**\n\nOpérations : ajouter (très fréquent), lire toutes les actions (rare). Taille bornée.\nCandidat : `deque(maxlen=1000)` : l'ajout supprime automatiquement la plus ancienne.\n\n**Besoin 2 : recherche par préfixe.**\n\nOpérations : trouver tous les noms commençant par « Mar ». Candidats : liste triée + recherche binaire sur le préfixe, ou BST. Le choix : liste triée et `bisect`.\n\n```python\nimport bisect\n\nnoms = sorted([\"Marie\", \"Marc\", \"Maya\", \"Omar\", \"Sara\", \"Marion\"])\n\ndef par_prefixe(noms_tries, prefixe):\n    debut = bisect.bisect_left(noms_tries, prefixe)\n    fin = bisect.bisect_left(noms_tries, prefixe + \"\\uffff\")\n    return noms_tries[debut:fin]\n\nprint(par_prefixe(noms, \"Mar\"))   # ['Marc', 'Marie', 'Marion']\n```\n\n**Besoin 3 : classement des 10 meilleurs.**\n\nOpération : un nouveau score arrive ; on veut toujours les 10 meilleurs. Candidat : tas-min de taille 10 (mission 07).\n\n**Tableau de décision** :\n\n| Besoin | Structure | Raison |\n|---|---|---|\n| Historique | `deque(maxlen=1000)` | ajout rapide, taille bornée automatiquement |\n| Préfixe | liste triée + `bisect` | recherche binaire, résultat contigu |\n| Top 10 | tas-min de taille 10 | seul le minimum du tas compte |\n\n---\n\n## ✍️ À toi, avec aide (10 XP)\n\nPour chaque besoin, remplis : opérations, structure, raison.\n\n1. Vérifier si un e-mail est déjà inscrit (100 000 e-mails, ajouts fréquents).\n2. Annuler les dernières actions d'un éditeur.\n3. Servir les demandes dans l'ordre d'arrivée.\n4. Trouver le plus court trajet entre deux stations de métro.\n\n<details>\n<summary>💡 Indice 1</summary>\n\nPour 1, pense à « est-il présent ? » rapide.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nPour 2 et 3, pense à LIFO et FIFO.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nPour 4, c'est un problème de relations avec distance en nombre d'arrêts.\n\n</details>\n\n<details>\n<summary>✅ Réponse</summary>\n\n1. Présence rapide, ajouts → **ensemble** (ou dictionnaire).\n2. Dernier ajouté, premier annulé → **pile**.\n3. Premier arrivé, premier servi → **file** (`deque`).\n4. Stations reliées → **graphe** (liste d'adjacence) + **BFS**.\n\n</details>\n\n---\n\n## 🚀 À toi, en solo (20 XP)\n\nÉcris une classe `Classement` qui garde les **N meilleurs scores** avec le nom du joueur.\n\n- `ajouter(nom, score)` ;\n- `top()` renvoie la liste `[(nom, score), …]` du meilleur au moins bon ;\n- un score d'un joueur existant n'est retenu que s'il améliore le sien.\n\nAjoute `verifier_invariant()` (au plus N entrées, pas de doublon de joueur) et un test de propriétés sur 300 séquences aléatoires comparées à une version naïve.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\n```python\nimport random\n\nclass Classement:\n    def __init__(self, n):\n        self.n = n\n        self._scores = {}\n\n    def ajouter(self, nom, score):\n        if nom not in self._scores or score > self._scores[nom]:\n            self._scores[nom] = score\n        if len(self._scores) > self.n:\n            pire = min(self._scores, key=lambda k: (self._scores[k], k))\n            del self._scores[pire]\n\n    def top(self):\n        return sorted(self._scores.items(), key=lambda x: (-x[1], x[0]))\n\n    def verifier_invariant(self):\n        assert len(self._scores) <= self.n\n\ndef naif(n, evenements):\n    meilleur = {}\n    for nom, s in evenements:\n        meilleur[nom] = max(meilleur.get(nom, s), s)\n    return sorted(meilleur.items(), key=lambda x: (-x[1], x[0]))[:n]\n\nfor _ in range(300):\n    evs = [(random.choice(\"abcdef\"), random.randint(0, 20)) for _ in range(random.randint(0, 15))]\n    c = Classement(3)\n    for e in evs:\n        c.ajouter(*e)\n        c.verifier_invariant()\n    attendu = naif(3, evs)\n    assert [s for _, s in c.top()] == [s for _, s in attendu]\nprint(\"ok\")\n```\nRemarque : on compare les scores (pas les noms) car en cas d'égalité entre joueurs hors du top, le départage peut varier.\n\n</details>\n\n---\n\n## ⚠️ Pièges classiques\n\n| Piège | Pourquoi c'est un problème | Comment l'éviter |\n|---|---|---|\n| **Choisir par habitude** | Toujours une liste, même quand c'est lent | Lister d'abord les opérations |\n| **Optimiser trop tôt** | Complexité inutile pour 50 éléments | Mesurer avant de complexifier |\n| **Oublier l'invariant** | Bug silencieux | Écrire `verifier_invariant()` et l'appeler dans les tests |\n| **Une seule structure à tout faire** | Compromis forcé | Combiner (dictionnaire + tas, etc.) |\n\n---\n\n## 🐉 Mini-boss (60 XP)\n\n**Projet final du module — dossier de choix.** Pour **chacun des cinq besoins** ci-dessous, produis une fiche d'une demi-page :\n\n1. file d'attente d'un support client (priorité aux clients premium) ;\n2. correcteur orthographique (« ce mot existe-t-il ? ») ;\n3. suggestion « membres que tu pourrais connaître » ;\n4. historique de navigation avec retour arrière ;\n5. agenda où l'on cherche les rendez-vous entre deux dates.\n\nChaque fiche : opérations et fréquence, structure choisie et alternative écartée, invariant, coût attendu, un petit code de démonstration avec test.\n\n<details>\n<summary>✅ Pistes de correction</summary>\n\nPistes : (1) tas avec compteur d'arrivée ; (2) ensemble de mots ; (3) graphe + amis d'amis (BFS à distance 2) ; (4) deux piles (arrière/avant) ; (5) liste triée par date + `bisect`, ou BST. Une bonne fiche justifie le choix par les opérations les plus fréquentes et nomme honnêtement ce qu'on perd.\n\n</details>\n\n---\n\n## ⚡ Quiz éclair (15 XP si 4/5 ou plus)\n\n**1.** Pour choisir une structure, on commence par :\n- A. lister les opérations et leur fréquence\n- B. choisir la plus récente\n- C. utiliser une liste\n\n**2.** Un invariant de structure est :\n- A. un commentaire\n- B. une propriété toujours vraie\n- C. un test unique\n\n**3.** Un test de propriété :\n- A. vérifie un seul exemple\n- B. remplace le code\n- C. vérifie une règle sur beaucoup d'entrées aléatoires\n\n**4.** 🔁 *Révision mission 09* : BFS trouve dans un graphe non pondéré :\n- A. le plus court chemin en nombre d'arêtes\n- B. le chemin le plus long\n- C. un chemin au hasard\n\n**5.** 🔁 *Révision mission 04* : Une table de hachage associe :\n- A. des nœuds à des feuilles\n- B. des clés à des valeurs\n- C. des listes à des tris\n\n<details>\n<summary>✅ Réponses</summary>\n\n1. **A**.\n2. **B**.\n3. **C**.\n4. **A**.\n5. **B**.\n\n</details>\n\n---\n\n## 🪞 Je réfléchis (10 XP)\n\n1. Quel besoin réel de ta vie professionnelle ou scolaire pourrait être traité avec les structures du module ?\n2. Quelle structure te semblait étrangère au début et te paraît maintenant évidente ?\n\n---\n\n## 🎒 À retenir\n\n1. On choisit une structure à partir des opérations et de leur fréquence.\n2. Comparer sur coûts, mémoire, simplicité.\n3. L'invariant dit ce qui doit toujours être vrai.\n4. Les tests de propriétés couvrent beaucoup de cas.\n5. Combiner des structures est normal.\n\n```mermaid\nflowchart LR\n    T([\"Choisir, prouver, comparer\"])\n    T --> R1[\"1. On choisit une structure à partir des opérations et de leur fréquence.\"]\n    T --> R2[\"2. Comparer sur coûts, mémoire, simplicité.\"]\n    T --> R3[\"3. L'invariant dit ce qui doit toujours être vrai.\"]\n    T --> R4[\"4. Les tests de propriétés couvrent beaucoup de cas.\"]\n    T --> R5[\"5. Combiner des structures est normal.\"]\n```\n\n**Description du schéma** : la mission au centre, reliée aux cinq idées à retenir.\n\n---\n\n## 🏅 Récompenses\n\nTotal possible : **120 XP** · 🏅 Badge **Ingénieur·e des données**\n\n---\n\n← [Mission 09 — Explorer un graphe : DFS et BFS](./09-parcours-dfs-bfs.md)\n\n## 🎉 Félicitations\n\nTu as terminé **HEF-020 — Structures de données**. Tu sais décrire une structure par ses opérations, en implémenter les principales, choisir la bonne selon l'usage, et prouver qu'elle tient ses promesses.\n\n→ Prochain module : **HEF-030 — Complexité**\n\n**HEF-020 — Structures de données**\n"
       }
     ],
@@ -129,6 +1389,20 @@
           "`lister` trié est immédiat avec le BST (parcours en ordre) mais demande un tri avec les autres.",
           "Insérer dans l'ordre alphabétique rend le BST très lent : tu le constates et l'expliques."
         ],
+        "reflection": {
+          "xp": null,
+          "intro": null,
+          "questions": [
+            {
+              "order": 1,
+              "text": "Quelle opération a décidé de ton choix final ?"
+            },
+            {
+              "order": 2,
+              "text": "Quelle hypothèse sur l'usage réel pourrait inverser ta recommandation ?"
+            }
+          ]
+        },
         "sourcePath": "03-Labs/lab-01.md",
         "body": "> Résoudre le même besoin avec plusieurs structures et prouver les conséquences.\n\n## Scénario\n\nHashBox doit gérer un annuaire de 50 000 membres. Les opérations : ajouter, retrouver par identifiant, lister dans l'ordre alphabétique, supprimer. L'équipe hésite entre une liste, un dictionnaire et un arbre de recherche.\n\n## Objectif\n\nImplémenter le même annuaire avec trois structures différentes, vérifier qu'elles se comportent identiquement, puis mesurer lesquelles gagnent sur chaque opération.\n\n## Environnement\n\nPython 3.10 ou plus. Éditeur et terminal. Pas de bibliothèque externe.\n\n## État de départ\n\nUn fichier `annuaire.py` vide. Une interface à respecter : `ajouter(id, nom)`, `trouver(id)`, `supprimer(id)`, `lister()` (trié par nom).\n\n## Tâches\n\n1. Écris l'interface (contrat de chaque opération, cas limites).\n2. Implémente `AnnuaireListe` (liste de couples).\n3. Implémente `AnnuaireDict` (dictionnaire id → nom).\n4. Implémente `AnnuaireBST` (arbre de recherche trié par nom).\n5. Écris une suite de tests commune aux trois, dont un test aléatoire de 500 séquences d'opérations.\n6. Mesure chaque opération avec 1 000, 10 000 et 50 000 membres.\n7. Rédige un tableau comparatif et une recommandation argumentée.\n\n## Observations attendues\n\n- Les trois implémentations réussissent les mêmes tests.\n- `trouver` est nettement plus rapide avec le dictionnaire sur de grandes tailles.\n- `lister` trié est immédiat avec le BST (parcours en ordre) mais demande un tri avec les autres.\n- Insérer dans l'ordre alphabétique rend le BST très lent : tu le constates et l'expliques.\n\n## Validation\n\nLes tests passent sur les trois classes. Les mesures sont reproductibles : les ordres de grandeur sont identiques d'une exécution à l'autre.\n\n## Indices\n\n<details>\n<summary>💡 Indice 1</summary>\n\nFais d'abord marcher la liste, elle sert de référence.\n\n</details>\n\n<details>\n<summary>💡 Indice 2</summary>\n\nPour le BST, trie le résultat de la liste pour vérifier `lister()`.\n\n</details>\n\n<details>\n<summary>💡 Indice 3</summary>\n\nMélange les noms avec `random.shuffle` avant l'insertion dans le BST.\n\n</details>\n\n## Preuves à rendre\n\n- [ ] `annuaire.py` avec les trois classes et leurs contrats\n- [ ] Tests, dont le test aléatoire\n- [ ] Tableau des temps et recommandation (10 lignes)\n\n## Réflexion\n\n1. Quelle opération a décidé de ton choix final ?\n2. Quelle hypothèse sur l'usage réel pourrait inverser ta recommandation ?\n\n**HEF-020 — Structures de données**\n"
       }

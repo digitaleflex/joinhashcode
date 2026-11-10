@@ -60,6 +60,28 @@ describe("artefacts HEF", () => {
     }
   });
 
+  it("embarque les 845 questions de quiz éclair et les 338 de réflexion", () => {
+    const missions = modules.flatMap((m) => m.missions);
+    const flash = missions.flatMap((m) => m.flashQuiz?.questions ?? []);
+    const reflection = missions.flatMap((m) => m.reflection?.questions ?? []);
+    expect(flash).toHaveLength(845);
+    expect(reflection).toHaveLength(338);
+    for (const mission of missions) {
+      expect(mission.flashQuiz.questions).toHaveLength(5);
+      expect(mission.reflection.questions).toHaveLength(2);
+    }
+    for (const question of flash) {
+      const correct = question.options.filter((o: { isCorrect: boolean }) => o.isCorrect);
+      expect(correct).toHaveLength(1);
+    }
+  });
+
+  it("garde les réponses du quiz éclair dans un bloc replié du corps", () => {
+    for (const mission of modules.flatMap((m) => m.missions)) {
+      expect(mission.body).toMatch(/<details>\s*<summary>[^<]*Réponses/);
+    }
+  });
+
   it("conserve les 4 phases du programme", () => {
     const phases = [...new Set(modules.map((m) => m.phase))].sort();
     expect(phases).toEqual([1, 2, 3, 4]);

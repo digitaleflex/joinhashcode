@@ -12,6 +12,7 @@
  */
 import { readFile, writeFile, mkdir, readdir } from "node:fs/promises";
 import path from "node:path";
+import { parseFlashQuiz, parseReflection } from "./mission-sections.mjs";
 
 const PHASE_BY_BLOCK = {
   "01-Foundations": 1,
@@ -129,6 +130,8 @@ async function parseChapters(dir, code) {
       durationMinutes: meta.durationMinutes,
       badge: meta.badge,
       slidesUrl: `/hef/slides-pdf/${code}/${name.replace(/\.md$/, "")}.pdf`,
+      flashQuiz: parseFlashQuiz(body),
+      reflection: parseReflection(body),
       body: `![${title}](/hef/parcours/${code.toLowerCase().replace("-", "")}-m${String(index + 1).padStart(2, "0")}.svg)\n\n${rewriteAssets(stripTitle(body))}`,
     });
   }
@@ -185,6 +188,7 @@ async function parseLabs(dir) {
         ...listItems(sectionText(body, "Observations attendues")),
         ...listItems(sectionText(body, "Validation")),
       ],
+      reflection: parseReflection(body),
       sourcePath: `03-Labs/${name}`,
       body: rewriteAssets(stripTitle(body)),
     });
@@ -328,9 +332,16 @@ async function main() {
     resources: await parseResources(dir),
   };
 
+  // Idempotence : si le contenu n'a pas changé, on garde l'horodatage précédent
+  // pour qu'une régénération à source identique ne produise aucun diff.
+  const previous = await readIfExists(out);
+  const previousPayload = previous ? JSON.parse(previous) : null;
+  const unchanged =
+    previousPayload && JSON.stringify(previousPayload.module) === JSON.stringify(moduleData);
+
   const payload = {
     version: "v1",
-    generatedAt: new Date().toISOString(),
+    generatedAt: unchanged ? previousPayload.generatedAt : new Date().toISOString(),
     source: {
       repository: "letriplenesty-ai/hashcode-engineering-foundations",
       module: code,
