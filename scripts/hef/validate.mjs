@@ -47,6 +47,8 @@ if (JSON.stringify(codes) !== JSON.stringify(EXPECTED_CODES)) {
 }
 
 let totalMissions = 0;
+let totalFlashQuestions = 0;
+let totalReflectionQuestions = 0;
 const pillars = new Set();
 
 for (const { file, data } of modules) {
@@ -80,6 +82,26 @@ for (const { file, data } of modules) {
     if (mission.body.includes("10-Assets/")) {
       errors.push(`${prefix} mission ${mission.slug} contient un chemin 10-Assets`);
     }
+
+    const flash = mission.flashQuiz?.questions ?? [];
+    totalFlashQuestions += flash.length;
+    if (flash.length !== 5) {
+      errors.push(`${prefix} mission ${mission.slug} : ${flash.length} questions de quiz éclair (attendu 5)`);
+    }
+    for (const question of flash) {
+      const correct = question.options.filter((option) => option.isCorrect).length;
+      if (correct !== 1) {
+        errors.push(
+          `${prefix} mission ${mission.slug} quiz éclair Q${question.order} a ${correct} bonne(s) réponse(s) (attendu 1)`,
+        );
+      }
+    }
+
+    const reflection = mission.reflection?.questions ?? [];
+    totalReflectionQuestions += reflection.length;
+    if (reflection.length !== 2) {
+      errors.push(`${prefix} mission ${mission.slug} : ${reflection.length} questions de réflexion (attendu 2)`);
+    }
   }
 
   if (!data.labs || data.labs.length === 0) {
@@ -88,6 +110,9 @@ for (const { file, data } of modules) {
     for (const lab of data.labs) {
       if (!lab.deliverables || lab.deliverables.length === 0) {
         errors.push(`${prefix} lab ${lab.slug} sans livrables`);
+      }
+      if ((lab.reflection?.questions ?? []).length !== 2) {
+        errors.push(`${prefix} lab ${lab.slug} sans ses 2 questions de réflexion`);
       }
     }
   }
@@ -131,6 +156,12 @@ if (pillars.size !== EXPECTED_CODES.length) {
 if (totalMissions !== 169) {
   errors.push(`${totalMissions} missions au total (attendu 169)`);
 }
+if (totalFlashQuestions !== 845) {
+  errors.push(`${totalFlashQuestions} questions de quiz éclair au total (attendu 845)`);
+}
+if (totalReflectionQuestions !== 338) {
+  errors.push(`${totalReflectionQuestions} questions de réflexion au total (attendu 338)`);
+}
 
 if (errors.length > 0) {
   console.error(`❌ HEF validation: ${errors.length} erreur(s)`);
@@ -140,5 +171,6 @@ if (errors.length > 0) {
 }
 
 console.log(
-  `✅ HEF validation: ${modules.length} modules, ${totalMissions} missions, 169 slides, 17 quiz.`,
+  `✅ HEF validation: ${modules.length} modules, ${totalMissions} missions, 169 slides, 17 quiz, ` +
+    `${totalFlashQuestions} questions de quiz éclair, ${totalReflectionQuestions} questions de réflexion.`,
 );
