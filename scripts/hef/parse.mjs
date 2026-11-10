@@ -332,9 +332,16 @@ async function main() {
     resources: await parseResources(dir),
   };
 
+  // Idempotence : si le contenu n'a pas changé, on garde l'horodatage précédent
+  // pour qu'une régénération à source identique ne produise aucun diff.
+  const previous = await readIfExists(out);
+  const previousPayload = previous ? JSON.parse(previous) : null;
+  const unchanged =
+    previousPayload && JSON.stringify(previousPayload.module) === JSON.stringify(moduleData);
+
   const payload = {
     version: "v1",
-    generatedAt: new Date().toISOString(),
+    generatedAt: unchanged ? previousPayload.generatedAt : new Date().toISOString(),
     source: {
       repository: "letriplenesty-ai/hashcode-engineering-foundations",
       module: code,
