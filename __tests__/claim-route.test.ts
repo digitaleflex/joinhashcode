@@ -66,11 +66,31 @@ describe("POST /api/missions/[id]/claim", () => {
     })
   })
 
-  it("refuse un membre ordinaire tant que le mode concierge est actif", async () => {
-    mocks.userFind.mockResolvedValue({ id: "rev", name: "R", email: "r@x.test", role: "USER", missionsCompletedCount: 9 })
+  it("laisse un pair ayant validé 3 labs prendre en charge, sans profil psychométrique", async () => {
+    mocks.userFind.mockResolvedValue({ id: "rev", name: "R", email: "r@x.test", role: "USER", missionsCompletedCount: 3 })
+    const res = await call()
+
+    expect(res.status).toBe(200)
+    expect(mocks.submissionUpdate).toHaveBeenCalledWith({
+      where: { id: "s1", status: "PENDING" },
+      data: { status: "IN_REVIEW", reviewerId: "rev", reviewerType: "PEER" },
+    })
+  })
+
+  it("refuse un membre qui n'a validé que 2 labs", async () => {
+    mocks.userFind.mockResolvedValue({ id: "rev", name: "R", email: "r@x.test", role: "USER", missionsCompletedCount: 2 })
     const res = await call()
 
     expect(res.status).toBe(403)
+    expect((await res.json()).message).toMatch(/au moins 3 labs/)
+    expect(mocks.submissionUpdate).not.toHaveBeenCalled()
+  })
+
+  it("réserve les labs PRO à l'admin, même pour un pair éligible", async () => {
+    mocks.userFind.mockResolvedValue({ id: "rev", name: "R", email: "r@x.test", role: "USER", missionsCompletedCount: 9 })
+    mocks.submissionFind.mockResolvedValue(pending({ mission: { title: "Lab PRO", missionLevel: "PRO" } }))
+
+    expect((await call()).status).toBe(400)
     expect(mocks.submissionUpdate).not.toHaveBeenCalled()
   })
 

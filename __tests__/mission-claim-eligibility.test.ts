@@ -39,14 +39,14 @@ vi.mock("@/lib/activity-log", () => ({
   logActivity: vi.fn(),
 }));
 
-describe("Mission Claim API - Concierge Mode", () => {
+describe("Mission Claim API - éligibilité des relecteurs (D-029)", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it("should return 403 if user is a MEMBER", async () => {
+  it("should return 403 if a MEMBER has not validated 3 labs", async () => {
     (auth.api.getSession as any).mockResolvedValue({ user: { id: "user1" } });
-    (prisma.user.findUnique as any).mockResolvedValue({ id: "user1", role: "MEMBER" });
+    (prisma.user.findUnique as any).mockResolvedValue({ id: "user1", role: "MEMBER", missionsCompletedCount: 1 });
     (prisma.missionSubmission.findUnique as any).mockResolvedValue({ id: "sub1" }); // Mock submission
     
     const req = new Request("http://localhost/api/missions/sub1/claim", {
@@ -56,6 +56,6 @@ describe("Mission Claim API - Concierge Mode", () => {
     const res = await POST(req, { params: Promise.resolve({ id: "sub1" }) });
     expect(res.status).toBe(403);
     const body = await res.text();
-    expect(body).toContain("réservé à la modération");
+    expect(body).toContain("au moins 3 labs");
   });
 });

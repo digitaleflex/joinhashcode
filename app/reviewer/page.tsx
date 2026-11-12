@@ -1,7 +1,7 @@
 import { getSessionSafe } from "@/lib/get-session-safe"
 import { redirect } from "next/navigation"
 import { prisma } from "@/lib/prisma"
-import { isEligibleReviewer } from "@/lib/acceptance-criteria"
+import { getClaimDecision } from "@/lib/review-access"
 import { AppSidebar } from "@/components/dashboard/app-sidebar"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
@@ -58,13 +58,7 @@ export default async function ReviewerPage() {
   })
 
   const eligible: Submission[] = pendingSubmissions
-    .filter((sub) => {
-      return isEligibleReviewer({
-        reviewerMissionsCompleted: dbUser.missionsCompletedCount ?? 0,
-        reviewerId: dbUser.id,
-        submissionUserId: sub.userId,
-      })
-    })
+    .filter((sub) => getClaimDecision({ reviewer: dbUser, submission: sub }).ok)
     .map((sub) => ({
       id: sub.id,
       mission: sub.mission,
