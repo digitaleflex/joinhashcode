@@ -112,6 +112,11 @@ export function DossierView({
                         @{user.pseudo}
                     </Badge>
                   )}
+                  {!isPublic && user.pseudo && (
+                    <Link href={`/u/${user.pseudo}`} className="text-3xs sm:text-xs font-mono text-primary hover:underline uppercase tracking-wider">
+                      Voir mon profil public →
+                    </Link>
+                  )}
                   {user.technicalLevel && (
                     <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-primary/10 border border-primary/20">
                         <span className="text-3xs font-mono font-black text-primary uppercase tracking-tighter">Niveau : {user.technicalLevel}</span>
