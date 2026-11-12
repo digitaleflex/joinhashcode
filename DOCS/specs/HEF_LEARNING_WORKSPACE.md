@@ -1,5 +1,7 @@
 # Spécification — Espace d'apprentissage immersif HEF
 
+> **Statut (12/11/2026) : non implémentée et hors périmètre (D-030).** Cette spécification décrit un module du futur « Command Center » ; aucune implémentation n'est prévue pendant l'engagement de 90 jours (`DOCS/PRODUCT_VISION.md`). Conservée pour mémoire. Les issues « HEF Learning Workspace » (#425 à #444) ont été fermées en `not_planned` lors du nettoyage (#481), à l'exception de #440, recadrée en « Evidence minimal » ; seul le socle HEF déjà livré est conservé.
+
 > Date : 2026-11-05
 > Périmètre : parcours HEF (17 modules, 169 missions, 17 labos, 17 projets, 17 évaluations finales)
 > Objectif : un seul espace, sans quitter le site, pour apprendre, pratiquer, être corrigé,

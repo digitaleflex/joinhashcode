@@ -1,5 +1,7 @@
 # HashCode Command Center — Vision
 
+> **Statut (12/11/2026) : non implémentée et hors périmètre (D-030).** Les modules d'administration gelés ont été supprimés (D-027). Aucune implémentation n'est prévue pendant l'engagement de 90 jours (`DOCS/PRODUCT_VISION.md`). Conservée pour mémoire.
+
 > Document de vision pour le futur back-office. Ne pas implémenter avant la phase Build suivante.
 > Priorité actuelle : Learn (bêta-tests, validation d'hypothèses).
 

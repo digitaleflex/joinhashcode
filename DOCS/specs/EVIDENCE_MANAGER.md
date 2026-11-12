@@ -1,5 +1,7 @@
 # Spécification fonctionnelle — Evidence & Portfolio Manager
 
+> **Statut (12/11/2026) : remplacée par une version minimale (D-030).** Les preuves sont des soumissions `APPROVED` lues par `lib/evidence.ts` et affichées sur `/u/[pseudo]` (issues #440, #455, #456), sans nouvelle table. Ne sont **pas** retenus : `Skill` / `SkillEvidence`, les niveaux Explorer → Mentor (contraires à D-029), l'export PDF et le « Locker ». Conservée pour mémoire.
+
 > ## ⚠️ NOTE DE CADRAGE — 2026-09-16 (à lire AVANT d'implémenter)
 >
 > Ce spec est bon et complet. Confronté au code réel et à `PRODUCT_VISION.md`,
