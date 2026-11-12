@@ -12,6 +12,7 @@ export function getOnboardingCompletedEmailContent({ name }: OnboardingCompleted
       <p><strong>Place à la pratique.</strong> Choisis ton premier lab et livre une première action concrète : elle sera relue par un pair et deviendra ta première preuve.</p>
       <div class="btn-wrap">
         <a href="${APP_URL}/missions" class="btn">Choisir mon premier lab →</a>
+
       </div>
       <hr class="divider">
       <p class="note">Tu peux aussi, quand tu veux, faire le quiz de profil depuis tes paramètres.</p>

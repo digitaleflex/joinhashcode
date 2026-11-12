@@ -31,7 +31,7 @@ export function HomeLabs() {
               </div>
             </div>
           ))}
-          <p className="px-1 text-xs leading-relaxed text-muted-foreground">Le catalogue des activités évolue. La page Labs affiche les missions, défis et ateliers effectivement publiés.</p>
+          <p className="px-1 text-xs leading-relaxed text-muted-foreground">Le catalogue des activités évolue. La page Labs affiche les missions et défis effectivement publiés.</p>
         </div>
       </div>
     </section>

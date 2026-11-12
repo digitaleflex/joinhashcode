@@ -12,6 +12,7 @@ export function getWelcomeEmailContent({ name }: WelcomeEmailParams) {
       <p>Choisis un lab, livre une action concrète et fais-la relire par un pair. C'est ainsi que tes compétences deviennent visibles et vérifiables.</p>
       <div class="btn-wrap">
         <a href="${APP_URL}/missions" class="btn">Choisir mon premier lab →</a>
+
       </div>
       <hr class="divider">
       <p class="note">Tu avances à ton rythme : tu peux soumettre ton travail quand il est prêt.</p>

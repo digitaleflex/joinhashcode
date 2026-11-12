@@ -4,7 +4,7 @@ import { SectionHeading } from "@/components/site/section-heading"
 
 const FORMS = [
   { icon: FileCheck2, title: "Réalisations examinées", text: "Les travaux soumis peuvent être relus et évalués selon les critères de l'activité concernée." },
-  { icon: UserCheck, title: "Profils publics volontaires", text: "Les membres qui le souhaitent peuvent rendre visibles leur profil et leurs réalisations validées." },
+  { icon: UserCheck, title: "Profils publics volontaires", text: "Les membres qui le souhaitent peuvent rendre visibles leur profil et leurs preuves de missions validées." },
   { icon: Award, title: "Certificats vérifiables", text: "Les certificats sont liés aux parcours et validations officiellement délivrés par l'Academy." },
 ]
 
