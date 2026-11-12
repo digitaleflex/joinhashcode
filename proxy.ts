@@ -125,7 +125,6 @@ export async function proxy(request: NextRequest) {
     }
 
     const needsOnboarding = !user.currentSituation;
-    const needsQuiz = user.currentSituation && !user.class;
     const needsSpecialization = user.class && !user.primaryDomain;
     const isSpecializationPath = pathname.startsWith("/specialization");
     const isOnboardingPath = pathname.startsWith("/onboarding");
@@ -134,8 +133,6 @@ export async function proxy(request: NextRequest) {
     if (isProtectedPath && !pathname.startsWith("/api") && !pathname.includes(".")) {
       if (needsOnboarding && !isOnboardingPath && !isQuizPath) {
         nextResponse = NextResponse.redirect(new URL("/onboarding", request.url));
-      } else if (needsQuiz && !isQuizPath && !isOnboardingPath) {
-        nextResponse = NextResponse.redirect(new URL("/quiz", request.url));
       } else if (needsSpecialization && !isSpecializationPath && !isQuizPath && !isOnboardingPath) {
         nextResponse = NextResponse.redirect(new URL("/specialization", request.url));
       }
@@ -143,11 +140,8 @@ export async function proxy(request: NextRequest) {
       if (isSpecializationPath && !needsSpecialization) {
         nextResponse = NextResponse.redirect(new URL("/dashboard", request.url));
       } else if (isOnboardingPath && !needsOnboarding) {
-        // Onboarding terminé → quiz si pas encore de class, sinon dashboard.
-        // (évite le détour /dashboard → /quiz qui peut faire penser à une boucle)
-        nextResponse = NextResponse.redirect(new URL(user.class ? "/dashboard" : "/quiz", request.url));
-      } else if (isQuizPath && !needsQuiz) {
-        nextResponse = NextResponse.redirect(new URL("/missions", request.url));
+        // Onboarding terminé → dashboard (quiz optionnel, accessible depuis Paramètres).
+        nextResponse = NextResponse.redirect(new URL("/dashboard", request.url));
       }
     }
   }

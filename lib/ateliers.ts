@@ -179,6 +179,3 @@ export function getAllAteliers(): Atelier[] {
   return Object.values(ateliersMap)
 }
 
-export function getAteliersForMission(missionSlug: string): Atelier[] {
-  return Object.values(ateliersMap).filter((a) => a.missionSlugs.includes(missionSlug))
-}

@@ -11,7 +11,7 @@ export function getOnboardingCompletedEmailContent({ name }: OnboardingCompleted
       <p>Merci pour ces informations. Elles vont nous permettre de personnaliser ton expérience.</p>
       <p><strong>Place à la découverte.</strong> Un quiz de 3 minutes va révéler ton profil de bâtisseur parmi 4 classes. Ce n'est pas un test — c'est un miroir.</p>
       <div class="btn-wrap">
-        <a href="${APP_URL}/quiz" class="btn">Découvrir mon profil →</a>
+        <a href="${APP_URL}/missions" class="btn">Découvrir mon profil →</a>
       </div>
       <hr class="divider">
       <p class="note">Réponds instinctivement. Il n'y a pas de bonne ou de mauvaise réponse.</p>
