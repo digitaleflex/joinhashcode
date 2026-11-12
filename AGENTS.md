@@ -22,15 +22,18 @@ pnpm exec vitest run __tests__/smoke.test.tsx
 
 ## Architecture
 
-HASHCODE is a Next.js 16 App Router app for AI-driven tech talent profiling and community matching — targeting African tech communities. Users complete an onboarding flow and psychometric quiz, get classified into one of four profiles (Builder, Creator, Strategist, Catalyst), then join a corresponding community (Guild).
+JoinHashCode (HASHCODE) est une application Next.js 16 (App Router) de formation et de communauté pour les talents tech francophones d'Afrique. **Mission unique (D-030, `DOCS/DECISIONS.md`) : le dossier de preuves vérifiées d'un analyste cyber junior.** La boucle critique est *lab → relecture par un pair → preuve publique* (`/u/[pseudo]`). Trois domaines sont présentés (web, cybersécurité, IA appliquée), mais seule la cybersécurité reçoit du développement (D-026). Il n'y a ni XP, ni niveaux, ni badges, ni squads (D-027, D-029). Le quiz psychométrique (4 profils) est **facultatif**. Vision : `DOCS/PRODUCT_VISION.md` ; vocabulaire : `DOCS/GLOSSAIRE.md`.
 
 ### Routing & Middleware
 
-Route groups live under `/app`. The middleware at `proxy.ts` enforces a three-stage funnel:
+Route groups live under `/app`. Le middleware `proxy.ts` applique le funnel suivant (D-030) :
 
-1. No session → redirect to `/signin`
-2. Session but no `currentSituation` → redirect to `/onboarding`
-3. ~~Session but no `class` assigned → redirect to `/quiz`~~ — **removed (D-030)**: the quiz is optional; `/quiz` stays reachable until taken
+1. Pas de session → `/signin`
+2. Session sans `currentSituation` → `/onboarding`
+3. Onboarding terminé → `/dashboard`. **Le quiz n'est plus une étape** : `/quiz` reste accessible tant qu'il n'a pas été passé (`canTakeQuiz`) et redirige vers `/missions` ensuite.
+4. Seulement pour un membre qui a passé le quiz (`class`) mais n'a pas de `primaryDomain` → `/specialization`. Les autres choisissent leur domaine depuis la carte « première action » du dashboard.
+
+Redirections historiques : `/squad*` → `/dashboard`, `/ateliers*` → `/missions` (ateliers fusionnés dans les Labs), `/beta-access` → `/onboarding`.
 
 Protected routes: see `PROTECTED_PATHS` in `proxy.ts` (source of truth — includes `/academy/my-courses` and `/academy/certificates`). Any new private page must be added there; `pnpm verify` fails if a private route returns 200.
 
@@ -46,7 +49,7 @@ Better Auth (`lib/auth.ts`) with Prisma adapter, NextCookies session storage. Pr
 
 PostgreSQL auto-hébergé sur un VPS Hostinger avec Docker, accessible via Prisma 7 avec `@prisma/adapter-pg`. Singleton client in `lib/prisma.ts`. `DATABASE_URL` pointe vers le conteneur PostgreSQL du VPS. `DIRECT_URL` pour les migrations directes.
 
-The `User` model is the central data structure — it holds psychometric scores (`builderScore`, `creatorScore`, `strategistScore`, `catalystScore`), behavioral vectors, community data, and progression all in one table. Key related models: `QuizResult`, `Mission`, `MissionSubmission`, `Organization`, `Member`, `ActivityLog`.
+The `User` model is the central data structure — il porte le profil, les liens publics, `missionsCompletedCount` (la mesure de progression : les labs validés) et, **seulement si le membre a passé le quiz facultatif**, les scores psychométriques (`builderScore`, `creatorScore`, `strategistScore`, `catalystScore`) et `class`. Des colonnes de l'ancienne gamification (XP, niveau, séries) existent encore dans le schéma jusqu'à leur suppression (CLEAN-05, #476) : ne rien construire dessus. Key related models: `QuizResult`, `Mission`, `MissionSubmission`, `Organization`, `Member`, `ActivityLog`.
 
 **ActivityLog** (`prisma/schema.prisma` → `activity_log` table): append-only event trail for every significant user action. Never throws — failures are swallowed so a log error never breaks a request. Use `logActivity()` from `lib/activity-log.ts`.
 
@@ -57,7 +60,7 @@ logActivity({ userId, action: "QUIZ_COMPLETED", entity: "quiz_result", entityId,
 
 Tracked actions: `ONBOARDING_COMPLETED`, `QUIZ_COMPLETED`, `POST_QUIZ_COMPLETED`, `MISSION_CLAIMED`, `MISSION_APPROVED`, `ADMIN_SUBMISSION_REVIEWED`, `EMAIL_OPT_OUT`. Add new actions to the `ActivityAction` union in `lib/activity-log.ts`.
 
-> **After any schema change:** run `npx prisma db push` to apply the migration and regenerate the client. The `(prisma as any).activityLog` cast in `lib/activity-log.ts` can be removed once the client is regenerated.
+> **Après tout changement de schéma :** `pnpm exec prisma migrate dev --name <description>` (la production applique `prisma migrate deploy`, donc `db push` seul ne suffit pas ; voir `DOCS/MIGRATIONS.md`). Ne jamais réinitialiser, tronquer ou supprimer de données sans confirmation explicite.
 
 ### UI Stack
 
@@ -124,6 +127,44 @@ REST endpoints under `app/api/`:
 | `internal/cron/release-claims/` | POST      | internal        | Release stale peer-review claims                                      |
 | `internal/cron/onboarding-drip/`| POST      | internal        | Onboarding drip email sequence                                        |
 | `internal/cron/purge-data/`     | POST      | internal        | Purge stale data                                                      |
+| `academy/courses/`              | GET       | —              | List published Academy courses |
+| `academy/progress/`             | POST      | session        | Save lesson progress (completion, note, checklist) |
+| `academy/quizzes/[quizId]/attempt/` | POST      | session        | Score an Academy quiz attempt (corrections returned after validation) |
+| `admin/a11y/audit/`             | GET/POST  | ADMIN/MOD      | Run / read the accessibility audit |
+| `admin/analytics/export/`       | GET       | ADMIN/MOD      | Export analytics (CSV) |
+| `admin/analytics/funnel/`       | GET       | ADMIN/MOD      | Activation funnel stages |
+| `admin/analytics/overview/`     | GET       | ADMIN/MOD      | Analytics overview (KPI) |
+| `admin/missions/[id]/analytics/` | GET       | ADMIN/MOD      | Analytics of one mission |
+| `admin/missions/[id]/assign/`   | POST/DELETE| ADMIN/MOD      | Assign / unassign a mission to members |
+| `admin/missions/[id]/audit/`    | GET       | ADMIN/MOD      | Audit trail of one mission |
+| `admin/missions/[id]/duplicate/` | POST      | ADMIN/MOD      | Duplicate a mission |
+| `admin/missions/[id]/export/`   | GET       | ADMIN/MOD      | Export one mission (JSON) |
+| `admin/missions/[id]/participants/` | GET       | ADMIN/MOD      | List participants of a mission |
+| `admin/missions/[id]/snapshots/` | GET/POST  | ADMIN/MOD      | List / create versioned snapshots |
+| `admin/missions/[id]/webhooks/` | GET/POST  | ADMIN/MOD      | Outbound mission webhooks (no UI; removal tracked in CLEAN-06, #477) |
+| `admin/missions/[id]/webhooks/[webhookId]/` | PATCH/DELETE| ADMIN/MOD      | Update / delete an outbound mission webhook |
+| `admin/missions/bulk/`          | POST      | ADMIN/MOD      | Bulk mission operations |
+| `admin/missions/export/`        | GET       | ADMIN/MOD      | Export all missions |
+| `admin/missions/import/`        | POST      | ADMIN/MOD      | Import missions (JSON) |
+| `admin/missions/review/`        | GET       | ADMIN/MOD      | Admin review queue |
+| `admin/missions/review/[id]/claim/` | POST      | ADMIN/MOD      | Admin claim of a submission (separate from the member `missions/[id]/claim`) |
+| `admin/missions/snapshots/[id]/restore/` | POST      | ADMIN/MOD      | Restore a mission snapshot |
+| `admin/profile-content/`        | GET/POST  | ADMIN/MOD      | Psychometric profile content (to be removed with the quiz, CLEAN-04) |
+| `admin/profile-content/[id]/`   | PATCH/DELETE| ADMIN/MOD      | Update / delete a profile content |
+| `admin/specializations/`        | GET/POST  | ADMIN/MOD      | Specializations editor (to be removed with the quiz, CLEAN-04) |
+| `admin/specializations/[id]/`   | PATCH/DELETE| ADMIN/MOD      | Update / delete a specialization |
+| `admin/users/[id]/remind/`      | POST      | ADMIN/MOD      | Send an activation reminder email (max one per 24 h) |
+| `admin/users/search/`           | GET       | ADMIN/MOD      | Search members |
+| `auth/[...all]/`                | GET/POST  | —              | Better Auth catch-all handler |
+| `auth/beta-verify/`             | POST      | session        | Verify a beta key |
+| `auth/middleware-session/`      | GET       | cookie         | Fresh session data read by `proxy.ts` (not for clients) |
+| `internal/cron/close-overdue-missions/` | POST      | internal       | Close missions past their deadline |
+| `internal/cron/mission-deadline-reminders/` | POST      | internal       | Remind members of upcoming deadlines |
+| `internal/cron/publish-scheduled-missions/` | POST      | internal       | Publish scheduled missions |
+| `internal/cron/review-sla/`     | POST      | internal       | Notify when a claimed review exceeds 48 h |
+| `me/first-action/`              | GET/POST  | session        | First action of the dashboard (started / completed events) |
+| `missions/[id]/upload/`         | POST      | session        | Upload a file artifact for a submission |
+| `quiz/retry/`                   | POST      | session        | Retry the optional psychometric quiz |
 
 ### Squads (supprimées) → futures Promotions
 
@@ -132,6 +173,10 @@ Les squads ont été supprimées du produit (D-027, 11/2026) : plus de pages, d'
 ### Progression : preuves, pas de points
 
 XP, niveaux, badges et check-in ont été retirés (D-029). Aucun lab n'est verrouillé par niveau ; un membre devient éligible relecteur après **3 labs validés** (`isEligibleReviewer` dans `lib/acceptance-criteria.ts`). La mesure de progression est le nombre de labs validés (`User.missionsCompletedCount`).
+
+**Relecture par un pair (D-029, D-030).** La prise en charge d'une soumission est ouverte à la modération et à tout membre ayant validé 3 labs (`getClaimDecision` dans `lib/review-access.ts`, source unique pour la route `missions/[id]/claim`, la file `/reviewer` et la page `/reviewer/submissions/[submissionId]`). On ne relit jamais sa propre soumission ; les labs PRO sont réservés à l'admin ; les labs CORE relus par un pair passent en `PENDING_ADMIN` et attendent la confirmation de l'admin. Le cron `release-claims` libère les prises en charge abandonnées.
+
+**Preuves publiques.** Une preuve est une soumission `APPROVED` (`lib/evidence.ts`, `getPublicEvidence`) affichée sur `/u/[pseudo]` ; elle n'a pas de table propre et n'expose aucun champ interne.
 
 ### Environment Variables
 
@@ -163,6 +208,9 @@ The repo uses `.env.development` and `.env.production` for environment-specific 
 | `lib/activity-log.ts`                    | Fire-and-forget activity logger — instrument new routes here |
 | `lib/prisma.ts`                          | Prisma singleton client                                      |
 | `lib/missions.ts`                        | Mission data and scoring logic                               |
+| `lib/review-access.ts`                   | Qui peut prendre en charge une soumission (relecture par un pair) |
+| `lib/evidence.ts`                        | Preuves publiques dérivées des soumissions APPROVED          |
+| `DOCS/DECISIONS.md`                      | Décisions produit ; D-030 fixe la mission unique et le périmètre |
 | `prisma/schema.prisma`                   | Full data model                                              |
 | `components/auth/signin-form.tsx`        | Sign-in form (reads `?callbackURL` for invite redirects)     |
 | `components/dashboard/app-sidebar.tsx`   | Main nav — add new routes here                               |
