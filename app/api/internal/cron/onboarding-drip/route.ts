@@ -99,7 +99,7 @@ export async function POST(req: Request) {
           if (task.day === 1) {
             await emailService.sendMissionProtocolEmail({
               ...basePayload,
-              userClass: task.class || "Bâtisseur",
+              userClass: task.class,
             });
           } else if (task.day === 7) {
             await emailService.sendDigitalIdentityEmail(basePayload);

@@ -65,4 +65,26 @@ describe('Onboarding Drip Cron', () => {
       userClass: 'BUILDER',
     });
   });
+
+  it('ne fabrique aucun profil pour un membre sans quiz (D-030)', async () => {
+    vi.mocked(prisma.user.findMany)
+      .mockResolvedValueOnce([
+        { id: 'user-2', email: 'user2@test.com', name: 'User 2', class: null },
+      ] as any) // Day 1
+      .mockResolvedValueOnce([]); // Day 7
+
+    const req = new Request('http://localhost', {
+      method: 'POST',
+      headers: { 'authorization': `Bearer ${CRON_SECRET}` },
+    });
+
+    const res = await POST(req);
+
+    expect(res.status).toBe(200);
+    expect(emailService.sendMissionProtocolEmail).toHaveBeenCalledWith({
+      email: 'user2@test.com',
+      name: 'User 2',
+      userClass: null,
+    });
+  });
 });
