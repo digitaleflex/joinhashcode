@@ -42,7 +42,7 @@ The app is built with Next.js 16 (App Router, React 19), Prisma 7 on PostgreSQL 
 - **HEF curriculum** (HashCode Engineering Foundations: 17 modules, labs and projects): the source of truth is an external repo. `scripts/hef/parse.mjs` turns it into versioned JSON in `content/hef/v1/`. `prisma/seed-hef.ts` imports that JSON idempotently, and `pnpm hef:validate` checks its integrity. Assets go in `public/hef/`. Never commit videos or PPTX sources.
 - **Server Actions** live in `app/actions/` (the quiz, for example) and `lib/actions/`. Zod schemas live in `lib/schemas/` and `lib/validation/`.
 - **Activity log**: call `logActivity()` from `lib/activity-log.ts` fire-and-forget. Never `await` it on the critical path; it swallows its own errors. New action names go in the `ActivityAction` union.
-- **Public API v1** is under `app/api/v1` and documented in `docs/API_V1.md`. Product decisions, specs and audits are in `DOCS/`, with `DECISIONS.md` and `MIGRATIONS.md` as the key files.
+- Product decisions, specs and audits are in `DOCS/`, with `DECISIONS.md` and `MIGRATIONS.md` as the key files. `D-030` fixes the single mission (the cyber-junior proof dossier) and the scope.
 
 ## Rules
 
