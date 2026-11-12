@@ -105,7 +105,7 @@ export function QuizPlayer({
               : "border-orange-400/25 bg-orange-400/[0.06]",
           )}
         >
-          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+          <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
             Résultat
           </p>
           <p className="mt-2 text-2xl font-black text-white">
@@ -163,7 +163,7 @@ export function QuizPlayer({
                       >
                         <span
                           className={cn(
-                            "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-[10px] font-bold",
+                            "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-xs font-bold",
                             selected || (result && isCorrectOption)
                               ? "border-primary bg-primary text-primary-foreground"
                               : "border-border text-muted-foreground",

@@ -116,13 +116,13 @@ export function FirstActionCard({
       />
 
       <div className="relative flex flex-wrap items-center justify-between gap-3">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-zinc-400">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 font-mono text-xs font-bold uppercase tracking-[0.16em] text-zinc-400">
           <Sparkles className="h-3 w-3 text-primary" aria-hidden />
           Première action
         </span>
         <span
           className={cn(
-            "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em]",
+            "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 font-mono text-xs font-bold uppercase tracking-[0.12em]",
             meta.className,
           )}
         >
@@ -167,7 +167,7 @@ export function FirstActionCard({
               <div key={step} className="flex flex-1 items-center gap-2 last:flex-none">
                 <span
                   className={cn(
-                    "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-[10px] font-bold",
+                    "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-xs font-bold",
                     reached
                       ? "border-primary bg-primary text-primary-foreground"
                       : "border-white/15 bg-white/[0.02] text-zinc-600",

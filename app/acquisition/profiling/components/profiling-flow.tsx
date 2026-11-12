@@ -374,7 +374,7 @@ export function ProfilingFlow({ onComplete, onBack }: ProfilingFlowProps) {
           Couvre : CGU + traitement du profil + envoi de l'email d'accès
           (transactionnel). Le marketing exigerait un opt-in séparé. */}
       {step === visible.length - 1 && (
-        <p className="mt-6 max-w-md mx-auto text-[10px] leading-normal text-muted-foreground font-medium text-center px-1 select-none">
+        <p className="mt-6 max-w-md mx-auto text-xs leading-normal text-muted-foreground font-medium text-center px-1 select-none">
           En continuant, tu acceptes nos{" "}
           <Link
             href="/terms"

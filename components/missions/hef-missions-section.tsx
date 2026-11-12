@@ -29,7 +29,7 @@ export function HefMissionsSection({
     <section className="space-y-5">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-primary">
+          <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-primary">
             Parcours HEF
           </p>
           <h2 className="mt-1 text-2xl font-black tracking-tight text-white">
@@ -61,15 +61,15 @@ export function HefMissionsSection({
               className="group flex h-full flex-col rounded-2xl border border-border bg-card p-5 transition-colors hover:border-primary/40"
             >
               <div className="flex items-center justify-between gap-3">
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-primary">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 font-mono text-xs font-bold uppercase tracking-wider text-primary">
                   <Icon className="h-3 w-3" aria-hidden />
                   {isProject ? "Projet" : "Lab"}
                 </span>
-                <Badge className={`border font-mono text-[10px] ${status.className}`}>
+                <Badge className={`border font-mono text-xs ${status.className}`}>
                   {status.label}
                 </Badge>
               </div>
-              <p className="mt-3 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+              <p className="mt-3 font-mono text-xs uppercase tracking-widest text-muted-foreground">
                 {moduleCode}
               </p>
               <h3 className="mt-1 text-sm font-bold leading-snug text-foreground group-hover:text-primary">

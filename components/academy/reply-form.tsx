@@ -56,7 +56,7 @@ export function ReplyForm({ topicId }: ReplyFormProps) {
                 <Button
                     type="submit"
                     disabled={isPending || !content.trim()}
-                    className="rounded-xl font-black text-[10px] uppercase tracking-widest"
+                    className="rounded-xl font-black text-xs uppercase tracking-widest"
                 >
                     {isPending ? (
                         <>

@@ -270,7 +270,7 @@ export default async function MissionBriefingPage({
                           : "mb-10 rounded-2xl border border-primary/20 bg-primary/[0.05] p-5"
                 }
               >
-                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+                <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
                   Prochaine étape
                 </p>
                 <p className="mt-2 text-sm font-bold text-white">

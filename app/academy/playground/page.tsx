@@ -11,7 +11,7 @@ export default function PlaygroundPage() {
     <main className="bg-background">
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
         <div className="mb-6">
-          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
+          <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-primary">
             Academy
           </p>
           <h1 className="mt-2 text-3xl font-black tracking-tight text-foreground sm:text-4xl">

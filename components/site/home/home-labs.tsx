@@ -25,7 +25,7 @@ export function HomeLabs() {
                 <format.icon className="h-5 w-5 text-primary" aria-hidden />
               </div>
               <div>
-                <p className="font-mono text-[10px] font-bold uppercase tracking-widest text-primary">Format 0{index + 1}</p>
+                <p className="font-mono text-xs font-bold uppercase tracking-widest text-primary">Format 0{index + 1}</p>
                 <h3 className="mt-1 font-syne text-lg font-bold text-foreground">{format.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{format.text}</p>
               </div>

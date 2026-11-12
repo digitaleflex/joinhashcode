@@ -10,7 +10,7 @@ export function HomeFinalCta() {
           <div className="absolute -bottom-24 -left-16 h-64 w-64 rounded-full bg-primary-foreground/10 blur-[80px]" />
         </div>
         <div className="relative">
-          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-primary-foreground/75">Le prochain pas t'appartient</p>
+          <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-primary-foreground/75">Le prochain pas t'appartient</p>
           <h2 className="mx-auto mt-4 max-w-2xl font-syne text-3xl font-bold text-primary-foreground sm:text-5xl">Tes prochaines compétences commencent ici.</h2>
           <p className="mx-auto mt-5 max-w-xl leading-relaxed text-primary-foreground/90">Choisis un domaine, découvre les activités disponibles et commence à construire des réalisations dont tu peux être fier.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">

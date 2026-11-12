@@ -99,7 +99,7 @@ export default async function AcademyProgrammePage() {
                                             <Icon className="size-6" />
                                         </div>
                                         <div className="space-y-0.5">
-                                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">
+                                            <span className="text-xs font-black uppercase tracking-[0.2em] text-primary">
                                                 Phase {phase.number}
                                             </span>
                                             <h2 className="text-3xl font-black text-foreground tracking-tight">
@@ -141,7 +141,7 @@ export default async function AcademyProgrammePage() {
                                                 {pillar.concepts.slice(0, 4).map((concept) => (
                                                     <span
                                                         key={concept}
-                                                        className="text-[10px] font-bold bg-muted text-muted-foreground px-2.5 py-1 rounded-full"
+                                                        className="text-xs font-bold bg-muted text-muted-foreground px-2.5 py-1 rounded-full"
                                                     >
                                                         {concept}
                                                     </span>
@@ -149,7 +149,7 @@ export default async function AcademyProgrammePage() {
                                             </div>
                                         </div>
                                         <div className="flex items-center justify-between mt-auto pt-2 border-t border-border">
-                                            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                                            <span className="text-xs font-black uppercase tracking-widest text-muted-foreground">
                                                 Projet : {pillar.project ?? "—"}
                                             </span>
                                             <ArrowRight className="size-4 text-primary -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all" />
@@ -181,14 +181,14 @@ export default async function AcademyProgrammePage() {
                         {PROGRESSION_STEPS.map((step, i) => (
                             <div key={step.step} className="bg-card rounded-3xl border border-border p-6 space-y-3">
                                 <div className="flex items-center justify-between">
-                                    <span className="text-[10px] font-black uppercase tracking-widest text-primary">
+                                    <span className="text-xs font-black uppercase tracking-widest text-primary">
                                         Étape {i + 1}
                                     </span>
                                     <CheckCircle2 className="size-5 text-primary/40" />
                                 </div>
                                 <h3 className="text-lg font-black text-foreground">{step.step}</h3>
                                 <p className="text-sm text-muted-foreground font-medium">{step.label}</p>
-                                <span className="inline-flex text-[10px] font-bold bg-muted text-muted-foreground px-2.5 py-1 rounded-full">
+                                <span className="inline-flex text-xs font-bold bg-muted text-muted-foreground px-2.5 py-1 rounded-full">
                                     {step.validation}
                                 </span>
                             </div>

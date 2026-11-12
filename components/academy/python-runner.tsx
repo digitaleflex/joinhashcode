@@ -251,7 +251,7 @@ export function PythonRunner({
     <section className="mt-10 rounded-3xl border border-border bg-card p-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-primary">
+          <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-primary">
             Atelier Python
           </p>
           <h2 className="mt-1 flex items-center gap-2 text-lg font-bold text-foreground">
@@ -261,7 +261,7 @@ export function PythonRunner({
         </div>
         <span
           className={cn(
-            "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-wider",
+            "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-xs font-bold uppercase tracking-wider",
             status === "ready"
               ? "border-emerald-400/25 bg-emerald-400/10 text-emerald-300"
               : status === "error"

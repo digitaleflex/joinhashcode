@@ -203,7 +203,7 @@ export default async function LabsPage({
                   ) : (
                     <span className="text-xs text-muted-foreground">Sans cours</span>
                   )}
-                  <span className="rounded bg-muted px-2 py-0.5 font-mono text-[10px] font-bold uppercase text-muted-foreground">
+                  <span className="rounded bg-muted px-2 py-0.5 font-mono text-xs font-bold uppercase text-muted-foreground">
                     {m.category}
                   </span>
                   <span className="font-mono text-[11px] text-muted-foreground">

@@ -37,7 +37,7 @@ export default function ProgramsPage() {
               <h2 className="mt-7 font-syne text-2xl font-bold text-foreground">{domain.title}</h2>
               <p className="mt-3 min-h-24 text-sm leading-relaxed text-muted-foreground">{domain.text}</p>
               <div className="mt-7 border-t border-border pt-5">
-                <h3 className="text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground">Axes d'exploration</h3>
+                <h3 className="text-xs font-bold uppercase tracking-[0.16em] text-muted-foreground">Axes d'exploration</h3>
                 <ul className="mt-4 space-y-3">
                   {domain.topics.map((topic) => (
                     <li key={topic} className="flex items-start gap-2.5 text-sm leading-relaxed text-muted-foreground">
@@ -63,7 +63,7 @@ export default function ProgramsPage() {
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid gap-8 rounded-3xl border border-border bg-card p-7 sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
-            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-primary">Une progression unifiée</p>
+            <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-primary">Une progression unifiée</p>
             <h2 className="mt-3 max-w-2xl font-syne text-2xl font-bold text-foreground sm:text-3xl">Pas trois plateformes. Un seul espace pour évoluer.</h2>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
               Tu conserves un compte, un profil et un parcours cohérent. Les ressources et activités concrètement publiées sont accessibles depuis l'Academy et les Labs ; leur disponibilité varie selon les domaines et les étapes de développement.

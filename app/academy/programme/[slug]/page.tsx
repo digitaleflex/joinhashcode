@@ -88,7 +88,7 @@ async function PhaseView({ number }: { number: number }) {
                             <Icon className="size-6" />
                         </div>
                         <div className="min-w-0 flex-1 space-y-0.5">
-                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">
+                            <span className="text-xs font-black uppercase tracking-[0.2em] text-primary">
                                 Phase {phase.number}
                             </span>
                             <h1 className="text-3xl sm:text-4xl md:text-6xl font-black text-foreground tracking-tight leading-tight break-words">
@@ -137,7 +137,7 @@ async function PhaseView({ number }: { number: number }) {
                                     {pillar.concepts.slice(0, 4).map((concept) => (
                                         <span
                                             key={concept}
-                                            className="text-[10px] font-bold bg-muted text-muted-foreground px-2.5 py-1 rounded-full"
+                                            className="text-xs font-bold bg-muted text-muted-foreground px-2.5 py-1 rounded-full"
                                         >
                                             {concept}
                                         </span>
@@ -145,7 +145,7 @@ async function PhaseView({ number }: { number: number }) {
                                 </div>
                             </div>
                             <div className="flex items-center justify-between mt-auto pt-2 border-t border-border">
-                                <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                                <span className="text-xs font-black uppercase tracking-widest text-muted-foreground">
                                     Projet : {pillar.project ?? "—"}
                                 </span>
                                 <ArrowRight className="size-4 text-primary -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all" />
@@ -193,7 +193,7 @@ async function PillarView({ slug }: { slug: string }) {
                             {String(pillar.level).padStart(2, "0")}
                         </span>
                         <div className="min-w-0 flex-1 space-y-0.5">
-                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">
+                            <span className="text-xs font-black uppercase tracking-[0.2em] text-primary">
                                 Pilier {pillar.level} • Phase {pillar.phase.number} — {pillar.phase.title}
                             </span>
                             <h1 className="text-3xl sm:text-4xl md:text-6xl font-black text-foreground tracking-tight leading-tight break-words">
@@ -268,13 +268,13 @@ async function PillarView({ slug }: { slug: string }) {
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div className="bg-card rounded-3xl border border-border p-8 space-y-3">
-                                <span className="text-[10px] font-black uppercase tracking-widest text-primary">
+                                <span className="text-xs font-black uppercase tracking-widest text-primary">
                                     Projet
                                 </span>
                                 <p className="text-lg font-black text-foreground leading-snug">{pillar.project ?? "—"}</p>
                             </div>
                             <div className="bg-card rounded-3xl border border-border p-8 space-y-3">
-                                <span className="text-[10px] font-black uppercase tracking-widest text-primary">
+                                <span className="text-xs font-black uppercase tracking-widest text-primary">
                                     Livrable attendu
                                 </span>
                                 <p className="text-lg font-black text-foreground leading-snug">{pillar.deliverable ?? "—"}</p>
@@ -298,7 +298,7 @@ async function PillarView({ slug }: { slug: string }) {
                                     key={section}
                                     className="inline-flex items-center gap-2 text-xs font-bold bg-card border border-border text-foreground px-4 py-2.5 rounded-full"
                                 >
-                                    <span className="w-5 h-5 bg-secondary rounded-full flex items-center justify-center text-[10px] text-primary">
+                                    <span className="w-5 h-5 bg-secondary rounded-full flex items-center justify-center text-xs text-primary">
                                         {i + 1}
                                     </span>
                                     {section}
@@ -332,7 +332,7 @@ async function PillarView({ slug }: { slug: string }) {
                                             <p className="text-xs text-muted-foreground font-medium">{step.label}</p>
                                         </div>
                                     </div>
-                                    <span className="inline-flex self-start sm:self-auto text-[10px] font-bold bg-secondary text-muted-foreground px-3 py-1.5 rounded-full">
+                                    <span className="inline-flex self-start sm:self-auto text-xs font-bold bg-secondary text-muted-foreground px-3 py-1.5 rounded-full">
                                         {step.validation}
                                     </span>
                                 </div>

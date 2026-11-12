@@ -117,7 +117,7 @@ export async function generateMetadata({ params }: CoursePageProps): Promise<Met
                             <span className="text-sm font-black text-muted-foreground">{course.instructor.name?.charAt(0) || "H"}</span>
                         </div>
                         <div>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Formateur</p>
+                            <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">Formateur</p>
                             <p className="text-sm font-black text-foreground">{course.instructor.name || "HashCode Team"}</p>
                         </div>
                     </div>
@@ -187,7 +187,7 @@ export async function generateMetadata({ params }: CoursePageProps): Promise<Met
                 <div>
                     <div className="sticky top-8 p-8 border border-border rounded-[2.5rem] bg-card shadow-xl shadow-slate-100/50">
                         <div className="text-center mb-8 space-y-1">
-                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Note moyenne</p>
+                            <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">Note moyenne</p>
                             <div className="flex items-center justify-center gap-2">
                                 <Star className="size-6 text-primary fill-primary" />
                                 <p className="text-3xl font-black text-foreground">

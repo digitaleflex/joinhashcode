@@ -39,7 +39,7 @@ export function SiteFooter() {
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
             {Object.entries(FOOTER_LINKS).map(([title, links]) => (
               <div key={title} className="space-y-3">
-                <h2 className="text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground">{title}</h2>
+                <h2 className="text-xs font-bold uppercase tracking-[0.16em] text-muted-foreground">{title}</h2>
                 <ul className="space-y-2.5">
                   {links.map((link) => (
                     <li key={link.href}>
