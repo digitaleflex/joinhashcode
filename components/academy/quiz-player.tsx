@@ -1,9 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { CheckCircle2, Loader2, RotateCcw, XCircle } from "lucide-react";
+import Link from "next/link";
+import { BookOpen, CheckCircle2, Lightbulb, Loader2, RotateCcw, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import type { QuestionReview } from "@/lib/quiz-review";
 
 interface QuizOption {
   id: string;
@@ -28,6 +30,8 @@ interface QuizResult {
     correctOptionId: string | null;
     isCorrect: boolean;
   }>;
+  /** Explications et feedback, reçus seulement après validation (mode examen). */
+  review?: QuestionReview[];
 }
 
 export function QuizPlayer({
@@ -87,6 +91,8 @@ export function QuizPlayer({
 
   const correctionFor = (questionId: string) =>
     result?.corrections.find((correction) => correction.questionId === questionId);
+  const reviewFor = (questionId: string) =>
+    result?.review?.find((review) => review.questionId === questionId);
 
   return (
     <div className="space-y-6">
@@ -119,6 +125,7 @@ export function QuizPlayer({
       <ol className="space-y-6">
         {questions.map((question, index) => {
           const correction = correctionFor(question.id);
+          const review = reviewFor(question.id);
           return (
             <li key={question.id} className="rounded-2xl border border-border bg-card p-5">
               <p className="text-sm font-bold leading-relaxed text-foreground">
@@ -130,48 +137,89 @@ export function QuizPlayer({
                   const selected = answers[question.id] === option.id;
                   const isCorrectOption = result?.corrections.find((c) => c.questionId === question.id)?.correctOptionId === option.id;
                   const wrongSelection = Boolean(result && selected && !correction?.isCorrect);
+                  const optionFeedback = review?.optionFeedback.find(
+                    (item) => item.optionId === option.id,
+                  )?.feedback;
 
                   return (
-                    <button
-                      key={option.id}
-                      type="button"
-                      disabled={Boolean(result) || submitting}
-                      onClick={() =>
-                        setAnswers((current) => ({ ...current, [question.id]: option.id }))
-                      }
-                      className={cn(
-                        "flex w-full items-center gap-3 rounded-xl border px-4 py-3 text-left text-sm transition-colors",
-                        "disabled:cursor-default",
-                        result && isCorrectOption
-                          ? "border-emerald-400/40 bg-emerald-400/10 text-emerald-100"
-                          : wrongSelection
-                            ? "border-red-400/40 bg-red-400/10 text-red-100"
-                            : selected
-                              ? "border-primary/50 bg-primary/10 text-foreground"
-                              : "border-border bg-background/40 text-muted-foreground hover:border-primary/30 hover:text-foreground",
-                      )}
-                    >
-                      <span
+                    <div key={option.id}>
+                      <button
+                        type="button"
+                        disabled={Boolean(result) || submitting}
+                        onClick={() =>
+                          setAnswers((current) => ({ ...current, [question.id]: option.id }))
+                        }
                         className={cn(
-                          "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-[10px] font-bold",
-                          selected || (result && isCorrectOption)
-                            ? "border-primary bg-primary text-primary-foreground"
-                            : "border-border text-muted-foreground",
+                          "flex w-full items-center gap-3 rounded-xl border px-4 py-3 text-left text-sm transition-colors",
+                          "disabled:cursor-default",
+                          result && isCorrectOption
+                            ? "border-emerald-400/40 bg-emerald-400/10 text-emerald-100"
+                            : wrongSelection
+                              ? "border-red-400/40 bg-red-400/10 text-red-100"
+                              : selected
+                                ? "border-primary/50 bg-primary/10 text-foreground"
+                                : "border-border bg-background/40 text-muted-foreground hover:border-primary/30 hover:text-foreground",
                         )}
                       >
-                        {String.fromCharCode(65 + question.options.indexOf(option))}
-                      </span>
-                      <span className="flex-1">{option.text}</span>
-                      {result && isCorrectOption && (
-                        <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" aria-hidden />
+                        <span
+                          className={cn(
+                            "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-[10px] font-bold",
+                            selected || (result && isCorrectOption)
+                              ? "border-primary bg-primary text-primary-foreground"
+                              : "border-border text-muted-foreground",
+                          )}
+                        >
+                          {String.fromCharCode(65 + question.options.indexOf(option))}
+                        </span>
+                        <span className="flex-1">{option.text}</span>
+                        {result && isCorrectOption && (
+                          <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" aria-hidden />
+                        )}
+                        {wrongSelection && (
+                          <XCircle className="h-4 w-4 shrink-0 text-red-400" aria-hidden />
+                        )}
+                      </button>
+                      {optionFeedback && (
+                        <p
+                          className={cn(
+                            "mt-1 pl-12 pr-4 text-xs leading-relaxed",
+                            isCorrectOption ? "text-emerald-300/90" : "text-muted-foreground",
+                          )}
+                        >
+                          {optionFeedback}
+                        </p>
                       )}
-                      {wrongSelection && (
-                        <XCircle className="h-4 w-4 shrink-0 text-red-400" aria-hidden />
-                      )}
-                    </button>
+                    </div>
                   );
                 })}
               </div>
+              {review && (
+                <div
+                  className={cn(
+                    "mt-4 space-y-2 rounded-xl border px-4 py-3 text-sm",
+                    correction?.isCorrect
+                      ? "border-emerald-400/20 bg-emerald-400/[0.04]"
+                      : "border-orange-400/20 bg-orange-400/[0.04]",
+                  )}
+                >
+                  <p className="font-semibold text-foreground">{review.comment}</p>
+                  {review.explanation && (
+                    <p className="flex gap-2 leading-relaxed text-muted-foreground">
+                      <Lightbulb className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+                      <span>{review.explanation}</span>
+                    </p>
+                  )}
+                  {review.concept && (
+                    <Link
+                      href={review.concept.href}
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline"
+                    >
+                      <BookOpen className="h-3.5 w-3.5" aria-hidden />
+                      Revoir la notion : {review.concept.title}
+                    </Link>
+                  )}
+                </div>
+              )}
             </li>
           );
         })}

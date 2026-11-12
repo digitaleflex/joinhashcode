@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma"
 import { getSessionSafe } from "@/lib/get-session-safe"
 import { MarkdownContent } from "@/components/academy/markdown-content"
 import { QuizPlayer } from "@/components/academy/quiz-player"
+import { toPlayerQuestions } from "@/lib/quiz-review"
 import { LessonWorkspace } from "@/components/academy/lesson-workspace"
 import { PythonRunner } from "@/components/academy/python-runner"
 import { LessonToc } from "@/components/academy/lesson-toc"
@@ -191,14 +192,7 @@ export default async function LessonPage({
                 quizId={content.quiz.id}
                 contentId={content.id}
                 initialPassScore={content.quiz.passScore}
-                questions={content.quiz.questions.map((question) => ({
-                  id: question.id,
-                  text: question.text,
-                  options: question.options.map((option) => ({
-                    id: option.id,
-                    text: option.text,
-                  })),
-                }))}
+                questions={toPlayerQuestions(content.quiz.questions)}
               />
             ) : content.body ? (
               <MarkdownContent>{content.body}</MarkdownContent>

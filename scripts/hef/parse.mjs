@@ -13,6 +13,7 @@
 import { readFile, writeFile, mkdir, readdir } from "node:fs/promises";
 import path from "node:path";
 import { parseFlashQuiz, parseReflection } from "./mission-sections.mjs";
+import { parseAnswerKey } from "./answer-key.mjs";
 
 const PHASE_BY_BLOCK = {
   "01-Foundations": 1,
@@ -227,20 +228,19 @@ async function parseAssessment(dir) {
     }
   }
 
-  // Answer key: `1. **A**` inside the "Réponses" details block.
-  const answers = {};
+  // Answer key: `1. **A**` inside the "Réponses" details block, optionally
+  // enriched with an explanation, per-option feedback and a concept (#428).
   const answersBlock = body.match(/<summary>[^<]*Réponses[^<]*<\/summary>([\s\S]*?)<\/details>/i);
-  if (answersBlock) {
-    for (const line of answersBlock[1].matchAll(/^\s*(\d+)\.\s*\*\*([A-Z])\*\*/gm)) {
-      answers[Number(line[1])] = line[2];
-    }
-  }
+  const answers = answersBlock ? parseAnswerKey(answersBlock[1]) : {};
 
   for (const question of questions) {
-    const correct = answers[question.order];
-    if (correct) {
-      const option = question.options.find((o) => o.letter === correct);
-      if (option) option.isCorrect = true;
+    const key = answers[question.order];
+    if (!key) continue;
+    question.explanation = key.explanation;
+    question.conceptMission = key.conceptMission;
+    for (const option of question.options) {
+      option.isCorrect = option.letter === key.letter;
+      option.feedback = key.feedback[option.letter] ?? null;
     }
   }
 
@@ -254,7 +254,15 @@ async function parseAssessment(dir) {
             questions: questions.map((q) => ({
               order: q.order,
               text: q.text,
-              options: q.options.map((o) => ({ text: o.text, isCorrect: o.isCorrect })),
+              // Clés absentes tant que la source n'a pas de corrigé enrichi :
+              // les JSON déjà générés restent identiques.
+              ...(q.explanation ? { explanation: q.explanation } : {}),
+              ...(q.conceptMission ? { conceptMission: q.conceptMission } : {}),
+              options: q.options.map((o) => ({
+                text: o.text,
+                isCorrect: o.isCorrect,
+                ...(o.feedback ? { feedback: o.feedback } : {}),
+              })),
             })),
           }
         : null,

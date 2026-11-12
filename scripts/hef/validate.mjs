@@ -49,6 +49,10 @@ if (JSON.stringify(codes) !== JSON.stringify(EXPECTED_CODES)) {
 let totalMissions = 0;
 let totalFlashQuestions = 0;
 let totalReflectionQuestions = 0;
+let totalQuestions = 0;
+let explainedQuestions = 0;
+let wrongOptions = 0;
+let wrongOptionsWithFeedback = 0;
 const pillars = new Set();
 
 for (const { file, data } of modules) {
@@ -140,6 +144,22 @@ for (const { file, data } of modules) {
       errors.push(`${prefix} ${questions.length} questions (attendu 8)`);
     }
     for (const question of questions) {
+      // Couverture des explications (#428) : signalée, pas encore bloquante.
+      totalQuestions += 1;
+      if (question.explanation) explainedQuestions += 1;
+      for (const option of question.options) {
+        if (option.isCorrect) continue;
+        wrongOptions += 1;
+        if (option.feedback) wrongOptionsWithFeedback += 1;
+      }
+      if (
+        question.conceptMission != null &&
+        (question.conceptMission < 1 || question.conceptMission > data.missions.length)
+      ) {
+        errors.push(
+          `${prefix} question ${question.order} renvoie à la mission ${question.conceptMission} (inexistante)`,
+        );
+      }
       const correct = question.options.filter((option) => option.isCorrect).length;
       if (correct !== 1) {
         errors.push(
@@ -173,4 +193,8 @@ if (errors.length > 0) {
 console.log(
   `✅ HEF validation: ${modules.length} modules, ${totalMissions} missions, 169 slides, 17 quiz, ` +
     `${totalFlashQuestions} questions de quiz éclair, ${totalReflectionQuestions} questions de réflexion.`,
+);
+console.log(
+  `ℹ️  Corrections quiz (#428) : ${explainedQuestions}/${totalQuestions} questions expliquées, ` +
+    `${wrongOptionsWithFeedback}/${wrongOptions} mauvaises options avec feedback.`,
 );

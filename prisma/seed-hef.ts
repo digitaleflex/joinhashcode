@@ -41,7 +41,9 @@ interface HefQuizQuestion {
   order: number;
   text: string;
   explanation?: string | null;
-  options: Array<{ text: string; isCorrect: boolean }>;
+  // Optionnel (#428) : n° de la mission qui explique la notion.
+  conceptMission?: number | null;
+  options: Array<{ text: string; isCorrect: boolean; feedback?: string | null }>;
 }
 
 interface HefQuiz {
@@ -228,6 +230,8 @@ async function syncQuiz(
   contentId: string,
   level: HefModule["level"],
   source: HefQuiz,
+  // Mission n → leçon (#428) : relie une question à la notion qu'elle évalue.
+  missionContentIds?: Map<number, string>,
 ): Promise<number> {
   const quiz = await db.courseQuiz.upsert({
     where: { contentId },
@@ -243,11 +247,15 @@ async function syncQuiz(
         quizId: quiz.id,
         text: question.text,
         explanation: question.explanation ?? null,
+        conceptContentId: question.conceptMission
+          ? (missionContentIds?.get(question.conceptMission) ?? null)
+          : null,
         order: question.order,
         options: {
           create: question.options.map((option) => ({
             text: option.text,
             isCorrect: option.isCorrect,
+            feedback: option.feedback ?? null,
           })),
         },
       },
@@ -427,6 +435,8 @@ export async function seedHef(db: Db): Promise<HefCounts> {
     // Missions
     const missionsSection = await upsertSection(db, course.id, "Missions", 1);
     counts.sections += 1;
+    // Mission n → leçon, pour relier une question de quiz à sa notion (#428).
+    const missionContentIds = new Map<number, string>();
     for (const [index, mission] of module.missions.entries()) {
       const missionContent = await upsertContent(
         db,
@@ -434,6 +444,7 @@ export async function seedHef(db: Db): Promise<HefCounts> {
         { ...mission, url: mission.slidesUrl },
         index + 1,
       );
+      missionContentIds.set(index + 1, missionContent.id);
       counts.contents += 1;
 
       // Quiz éclair : rattaché au contenu de la mission elle-même (1 Content ↔
@@ -494,6 +505,7 @@ export async function seedHef(db: Db): Promise<HefCounts> {
           quizContent.id,
           module.level,
           module.assessment.quiz,
+          missionContentIds,
         );
         counts.quizzes += 1;
       }
