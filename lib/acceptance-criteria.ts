@@ -136,22 +136,22 @@ export function computeXp(baseXp: number, qualityLevel: QualityLevel): number {
   return Math.round(baseXp * XP_MULTIPLIERS[qualityLevel])
 }
 
+/** Nombre de labs validés à partir duquel un membre peut relire (D-029). */
+export const MIN_VALIDATED_LABS_TO_REVIEW = 3
+
+/**
+ * Un membre peut relire s'il a validé au moins 3 labs et ne relit pas sa propre
+ * soumission (D-029). Aucune condition de profil psychométrique : le quiz est
+ * facultatif (D-030), un membre qui ne l'a pas passé doit pouvoir relire.
+ */
 export function isEligibleReviewer(params: {
-  reviewerClass: string | null
   reviewerMissionsCompleted: number
   reviewerId: string
   submissionUserId: string
-  missionTargetProfiles: string[]
 }): boolean {
-  const {
-    reviewerClass, reviewerMissionsCompleted,
-    reviewerId, submissionUserId, missionTargetProfiles,
-  } = params
+  const { reviewerMissionsCompleted, reviewerId, submissionUserId } = params
   if (reviewerId === submissionUserId) return false
-  if (!reviewerClass) return false
-  if (!missionTargetProfiles.includes(reviewerClass.toLowerCase())) return false
-  if (reviewerMissionsCompleted < 3) return false
-  return true
+  return reviewerMissionsCompleted >= MIN_VALIDATED_LABS_TO_REVIEW
 }
 
 export function getMissingRequiredCriteria(
