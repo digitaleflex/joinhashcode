@@ -1,12 +1,12 @@
 import { prisma } from "@/lib/prisma";
 
+type QualityLevel = "STANDARD" | "HIGH" | "EXEMPLARY" | null;
+
 /**
  * Evidence publique dérivée des soumissions de missions APPROVED.
  *
  * Pas de nouvelle table : on lit directement `MissionSubmission` (source de vérité)
  * avec ses artefacts et sa dernière review. Aucun champ interne n'est exposé.
- *
- * @returns Liste de preuves publiques pour un membre donné.
  */
 export interface PublicEvidence {
   id: string;
@@ -18,7 +18,7 @@ export interface PublicEvidence {
     missionLevel?: string | null;
   };
   status: "APPROVED";
-  qualityLevel: "STANDARD" | "HIGH" | "EXEMPLARY" | null;
+  qualityLevel: QualityLevel;
   validatedAt: Date;
   artifacts: Array<{
     id: string;
@@ -30,7 +30,7 @@ export interface PublicEvidence {
   }>;
   review: {
     feedback: string | null;
-    qualityLevel: "STANDARD" | "HIGH" | "EXEMPLARY" | null;
+    qualityLevel: QualityLevel;
     createdAt: Date;
   } | null;
 }
@@ -84,7 +84,7 @@ export async function getPublicEvidence(userId: string): Promise<PublicEvidence[
     missionId: sub.missionId,
     mission: sub.mission,
     status: "APPROVED" as const,
-    qualityLevel: sub.qualityLevel,
+    qualityLevel: sub.qualityLevel as QualityLevel,
     validatedAt: sub.updatedAt,
     artifacts: sub.artifacts
       .filter((a) => a.status !== "REJECTED")
@@ -99,7 +99,7 @@ export async function getPublicEvidence(userId: string): Promise<PublicEvidence[
     review: sub.reviews[0]
       ? {
           feedback: sub.reviews[0].feedback,
-          qualityLevel: sub.reviews[0].qualityLevel,
+          qualityLevel: sub.reviews[0].qualityLevel as QualityLevel,
           createdAt: sub.reviews[0].createdAt,
         }
       : null,
