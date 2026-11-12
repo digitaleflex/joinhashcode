@@ -82,12 +82,6 @@ export default function MissionBriefingLoading() {
 
                 {/* Requirements */}
                 <Skeleton className="h-48 w-full rounded-2xl bg-muted" />
-
-                {/* Ateliers */}
-                <Skeleton className="h-48 w-full rounded-2xl bg-muted" />
-
-                {/* Partners */}
-                <Skeleton className="h-48 w-full rounded-2xl bg-muted" />
               </div>
             </div>
           </div>

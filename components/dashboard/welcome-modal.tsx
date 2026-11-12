@@ -225,7 +225,7 @@ export function WelcomeModal({ userId, userName, userClass }: {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-3xs font-mono text-zinc-500 uppercase tracking-widest">Cette semaine</p>
-                        <p className="text-sm font-bold text-white">Premier atelier de spécialisation (45 min)</p>
+                        <p className="text-sm font-bold text-white">Ton premier lab</p>
                       </div>
                     </motion.div>
 
