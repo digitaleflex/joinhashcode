@@ -4,11 +4,11 @@
 // ROUTING STRATEGY (Single Middleware Architecture):
 // - This file (proxy.ts) is the ONLY middleware handling auth redirects
 // - No separate middleware.ts exists in source (Next.js 15 uses this convention)
-// - Three-stage funnel enforced here:
+// - Funnel enforced here (D-030 : le quiz psychométrique n'est plus une étape obligatoire,
+//   il reste accessible sur /quiz) :
 //   1. No session → redirect to /signin
 //   2. Session but no currentSituation → redirect to /onboarding
-//   3. Session but no class assigned → redirect to /quiz
-//   4. Session but no primaryDomain → redirect to /specialization
+//   3. Session with a class (quiz passé) but no primaryDomain → redirect to /specialization
 // - Protected routes defined in PROTECTED_PATHS array
 // - /admin/* additionally guarded by app/admin/layout.tsx (requires ADMIN/MODERATOR role)
 // - /invite/* (anciens liens de squad) redirige vers /signin
@@ -125,7 +125,9 @@ export async function proxy(request: NextRequest) {
     }
 
     const needsOnboarding = !user.currentSituation;
-    const needsQuiz = user.currentSituation && !user.class;
+    // Le quiz est facultatif (D-030) : on ne l'impose plus, on l'autorise seulement
+    // tant qu'il n'a pas été passé.
+    const canTakeQuiz = user.currentSituation && !user.class;
     const needsSpecialization = user.class && !user.primaryDomain;
     const isSpecializationPath = pathname.startsWith("/specialization");
     const isOnboardingPath = pathname.startsWith("/onboarding");
@@ -134,8 +136,6 @@ export async function proxy(request: NextRequest) {
     if (isProtectedPath && !pathname.startsWith("/api") && !pathname.includes(".")) {
       if (needsOnboarding && !isOnboardingPath && !isQuizPath) {
         nextResponse = NextResponse.redirect(new URL("/onboarding", request.url));
-      } else if (needsQuiz && !isQuizPath && !isOnboardingPath) {
-        nextResponse = NextResponse.redirect(new URL("/quiz", request.url));
       } else if (needsSpecialization && !isSpecializationPath && !isQuizPath && !isOnboardingPath) {
         nextResponse = NextResponse.redirect(new URL("/specialization", request.url));
       }
@@ -143,10 +143,9 @@ export async function proxy(request: NextRequest) {
       if (isSpecializationPath && !needsSpecialization) {
         nextResponse = NextResponse.redirect(new URL("/dashboard", request.url));
       } else if (isOnboardingPath && !needsOnboarding) {
-        // Onboarding terminé → quiz si pas encore de class, sinon dashboard.
-        // (évite le détour /dashboard → /quiz qui peut faire penser à une boucle)
-        nextResponse = NextResponse.redirect(new URL(user.class ? "/dashboard" : "/quiz", request.url));
-      } else if (isQuizPath && !needsQuiz) {
+        // Onboarding terminé → dashboard (le quiz n'est plus une étape du parcours).
+        nextResponse = NextResponse.redirect(new URL("/dashboard", request.url));
+      } else if (isQuizPath && !canTakeQuiz) {
         nextResponse = NextResponse.redirect(new URL("/missions", request.url));
       }
     }

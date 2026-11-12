@@ -162,16 +162,16 @@ export function DashboardShell({
                     <p className="text-lg font-bold text-white">
                       {user.mainObjective
                         ? `${user.mainObjective} — développer une expertise concrète`
-                        : "Complète ton diagnostic pour débloquer tes missions"}
+                        : "Choisis ton premier lab pour construire ta première preuve"}
                     </p>
                     <p className="text-sm text-zinc-400 mt-1">
                       {user.mainObjective
                         ? "Chaque mission te rapproche de ton objectif."
-                        : "5 minutes pour découvrir ton profil et accéder à ton parcours."}
+                        : "Livre une action concrète et fais-la valider par un pair."}
                     </p>
                     <Button className="mt-4 btn-primary-glow" asChild>
-                      <Link href={user.mainObjective ? "/missions" : "/quiz"}>
-                        {user.mainObjective ? "Voir les missions →" : "Faire le quiz →"}
+                      <Link href="/missions">
+                        {user.mainObjective ? "Voir les missions →" : "Voir les labs →"}
                       </Link>
                     </Button>
                   </div>
