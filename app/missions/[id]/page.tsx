@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma"
 import { notFound, redirect } from "next/navigation"
 import {
   ChevronLeft, CheckCircle2, Award, Shield, Rocket,
-  Clock, Layers, GitBranch, Lock, Info, GraduationCap, ChevronRight
+  Clock, Layers, GitBranch, Lock, Info
 } from "lucide-react"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
@@ -16,7 +16,6 @@ import { OnboardingWorkflow } from "@/components/missions/onboarding-workflow"
 import { MissionBriefing } from "@/components/missions/mission-briefing"
 import { SubmissionTimeline, type TimelineProps } from "@/components/missions/submission-timeline"
 import { SubmissionGuide } from "@/components/missions/submission-guide"
-import { getAteliersForMission } from "@/lib/ateliers"
 import { getStepMissionDef } from "@/lib/mission-engine"
 import { getMissionStatusMeta } from "@/lib/mission-status"
 import {
@@ -408,40 +407,6 @@ export default async function MissionBriefingPage({
                     </ul>
                   </div>
                 )}
-
-                {/* Related Ateliers card */}
-                {(() => {
-                  const relatedAteliers = getAteliersForMission(mission.slug || mission.id)
-                  if (relatedAteliers.length === 0) return null
-                  return (
-                    <div className="rounded-2xl border border-primary/15 bg-primary/[0.02] overflow-hidden">
-                      <div className="px-5 py-4 border-b border-border/30">
-                        <div className="flex items-center gap-2">
-                          <GraduationCap className="w-4 h-4 text-primary" />
-                          <span className="text-xs font-mono uppercase text-muted-foreground">
-                            Atelier{relatedAteliers.length > 1 ? "s" : ""} recommandé{relatedAteliers.length > 1 ? "s" : ""}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="p-5 space-y-3">
-                        {relatedAteliers.map((a) => (
-                          <Link
-                            key={a.slug}
-                            href={`/ateliers/${a.slug}`}
-                            className="group flex items-start gap-3 p-3 rounded-xl hover:bg-primary/[0.05] transition-all duration-200"
-                          >
-                            <GraduationCap className="w-4 h-4 text-primary/60 mt-0.5 shrink-0 group-hover:text-primary transition-colors" />
-                            <div className="min-w-0">
-                              <p className="text-xs font-medium text-zinc-300 group-hover:text-primary transition-colors truncate">{a.title}</p>
-                              <p className="text-xs font-mono text-zinc-600 mt-0.5">{a.duration}</p>
-                            </div>
-                            <ChevronRight className="w-3.5 h-3.5 text-zinc-700 shrink-0 mt-1 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  )
-                })()}
 
               </div>
             </div>

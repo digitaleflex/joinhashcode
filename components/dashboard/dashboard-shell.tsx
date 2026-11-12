@@ -202,7 +202,7 @@ export function DashboardShell({
                         {user.mainObjective} — développer une expertise concrète
                       </p>
                       <p className="text-sm text-zinc-400 mt-1">
-                        Chaque atelier, projet et mission te rapproche de cette cible.
+                        Chaque lab validé te rapproche de cette cible.
                       </p>
                     </div>
 

@@ -15,7 +15,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getSessionCookie, getCookieCache } from "better-auth/cookies";
 
-const PROTECTED_PATHS = ["/dashboard", "/missions", "/settings", "/dossier", "/feedback", "/onboarding", "/quiz", "/reviewer", "/ateliers", "/specialization", "/admin", "/academy/my-courses", "/academy/certificates"];
+const PROTECTED_PATHS = ["/dashboard", "/missions", "/settings", "/dossier", "/feedback", "/onboarding", "/quiz", "/reviewer", "/specialization", "/admin", "/academy/my-courses", "/academy/certificates"];
 
 export async function proxy(request: NextRequest) {
   if (request.headers.get("x-middleware-subrequest")) {
@@ -37,6 +37,11 @@ export async function proxy(request: NextRequest) {
   // Squads supprimées (D-027) : les anciens liens /squad/* mènent au dashboard.
   if (pathname.startsWith("/squad")) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
+
+  // Ateliers fusionnés dans les Labs (D-030) : les anciens liens /ateliers/* mènent au catalogue de Labs.
+  if (pathname.startsWith("/ateliers")) {
+    return NextResponse.redirect(new URL("/missions", request.url));
   }
 
   const isProtectedPath = PROTECTED_PATHS.some((p) => pathname.startsWith(p));

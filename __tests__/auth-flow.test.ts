@@ -47,6 +47,13 @@ describe("Middleware Auth & Onboarding Funnel", () => {
     vi.clearAllMocks();
   });
 
+  it("redirige les anciens liens /ateliers/* vers le catalogue de Labs (ateliers fusionnés, D-030)", async () => {
+    const res = await middleware(createRequest("/ateliers/linux-cloud-basics"));
+
+    expect(res?.status).toBe(307);
+    expect(res?.headers.get("location")).toBe("http://localhost:3000/missions");
+  });
+
   it("should redirect to /signin if no session on protected path", async () => {
     (global.fetch as any).mockResolvedValue({
       ok: true,

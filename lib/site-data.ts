@@ -156,27 +156,6 @@ export function sortMissionsForCompactView<
   )
 }
 
-export async function getActiveAteliers() {
-  return safe([], () =>
-    prisma.atelier.findMany({
-      where: { isActive: true },
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        duration: true,
-        icon: true,
-        category: true,
-        profile: true,
-        specializationLabel: true,
-        xpReward: true,
-      },
-      orderBy: { order: "asc" },
-      take: 50,
-    })
-  )
-}
-
 export async function getPublishedInterventions() {
   return safe([], () =>
     prisma.intervention.findMany({
