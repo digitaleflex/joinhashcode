@@ -20,7 +20,7 @@
 
 > **Décision :** D-030 (mission unique : dossier de preuves vérifiées d'un analyste cyber junior francophone) — `DOCS/DECISIONS.md`
 > **Test de tri :** est-ce que ça raccourcit le chemin vers la première preuve publique ? Sinon, ça sort.
-> **Point de retour :** tag `pre-nettoyage-2` (commit `da0bd23`) · **Branche :** `claude/exciting-maxwell-4r95bk`
+> **Point de retour :** commit `da0bd23` (tag local `pre-nettoyage-2` ; le push du tag est refusé par le proxy) · **Branche :** `claude/exciting-maxwell-4r95bk`
 > **Règles :** 1 commit = 1 zone ; `tsc` + `eslint` + `knip` verts avant chaque commit ; aucune donnée supprimée sans export et sauvegarde (CLAUDE.md règle 1).
 > **Environnement :** `DIRECT_URL` et `DATABASE_URL` factices suffisent pour `prisma generate`, `tsc` et `knip`.
 
@@ -28,22 +28,28 @@
 |---|---|---|
 | 0 | D-030, H20, H21, tag `pre-nettoyage-2` | ✅ 12/11 |
 | 1 | Base de données : fusion de `chore/phase4-migration` (11 tables) **avec export et sauvegarde préalables** | ⬜ |
-| 2 | **Bloc A** — hors périmètre, sans lien avec la boucle (ci-dessous) | 🔄 |
+| 2 | **Bloc A** — vérifié zone par zone (ci-dessous) : 1 zone supprimée, 5 reclassées en conservation, décision ou bloc B | 🔄 |
 | 3 | **Bloc B** — après découplage : sortir le quiz du funnel (`proxy.ts`), fusionner Ateliers dans Labs, remplacer les missions 01-03 codées en dur, résidus de gamification, réduire le dashboard | ⬜ |
 | 4 | Backlog GitHub : fermer #425-#444 sauf #440 et #436 (recadrées), #457, #459, #460, #463, #464, #465 en `not_planned` avec renvoi vers D-030 | ⬜ |
 | 5 | Dépôts : archiver `hashcode-learning-platform` et `hashcode-profiling-engine` (après accord) | ⬜ |
 | 6 | **Construire** : écrire les 5 labs cyber SOC N1, livrer #455 et #456 | ⬜ |
 
-## Bloc A — détail
+## Bloc A — détail (vérifié zone par zone : liens entrants, données écrites, tests)
 
-| Zone | Taille mesurée | Statut |
+| Zone | Verdict après vérification | Statut |
 |---|---|---|
-| `app/acquisition`, `lib/acquisition`, `app/actions/acquisition` (tunnel de profilage de prospects) | ~2 470 l. | ⬜ |
-| `academy/my-courses`, `programme`, `paths`, `diplomas` | ~1 500 l. | ⬜ |
-| Admin : `parcours`, `contenus`, `analytics`, `notifications`, `operations`, `keys`, `ux-poll`, `feedback` (+ routes API) | ~2 700 l. | ⬜ |
-| Vitrines `talents` et `dashboard/talents` | à mesurer | ⬜ |
-| `app/api/v1`, webhooks, `feed`, `public`, `docs/API_V1.md` — **seulement si aucun client externe** | à mesurer | ⬜ (à confirmer) |
-| `components/tour` | 344 l. | ⬜ |
+| Sondage UX (admin, 2 routes API, lib, schéma Zod, test) | Orphelin : le bandeau n'existe plus, plus rien n'appelle l'API | ✅ `1c20063` |
+| `app/acquisition`, `lib/acquisition`, `app/actions/acquisition` | **À CONSERVER.** Funnel reboot importé (ROADMAP ✅ 100 %), crée de vrais comptes, renvoie vers WhatsApp (D-020, D-022), sondé par `verify.sh` et les e2e. À réévaluer seulement par décision | ⛔ conservé |
+| `academy/programme`, `paths`, `diplomas`, `certificates`, `playground` | **Imbriqué** : indexé dans `sitemap.ts`, sondé par `verify.sh` et les e2e, alimenté par `seed-academy.ts` (exécuté 2× en CI). `programme` et `paths` sont la vitrine publique des domaines (D-024, maintenue par D-030). Décision requise | ⏸ décision |
+| `academy/my-courses` | **À CONSERVER.** C'est l'écran « Mes cours » de l'apprenant (seul `/new` est réservé aux admins) | ⛔ conservé |
+| Admin `analytics`, `feedback` | **À CONSERVER.** Mesure des KPI et lecture des retours des sessions utilisateurs (D-028) | ⛔ conservé |
+| Admin `keys`, `operations` | **À CONSERVER.** Clés bêta utilisées par l'authentification ; relances email | ⛔ conservé |
+| Admin `contenus`, `parcours`, `notifications` | **→ bloc B.** `contenus` édite le contenu des profils et ateliers, `parcours` les spécialisations avec XP ; ils appellent des routes API qui resteraient orphelines (`profile-content`, `ateliers`, `specializations`) | ➡ B |
+| Vitrines `talents` / `dashboard/talents`, API v1 / webhooks / feed / public, `components/tour` | Pas encore vérifiés | ⬜ |
+
+> **Leçon :** la liste initiale du bloc A (~7 600 lignes) était une estimation faite sans lire le code. Après vérification, une seule zone était réellement isolée. Règle ajoutée : aucune suppression sans avoir listé les liens entrants, les données écrites et les tests qui en dépendent.
+
+> **Test connu en échec, préexistant :** `__tests__/db-connection.test.ts` exige une vraie base PostgreSQL (`ECONNREFUSED` sans elle). Identique avant le nettoyage.
 
 ---
 
