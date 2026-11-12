@@ -28,7 +28,6 @@ export function Footer() {
             <div className="space-y-4">
               <h4 className="text-xs font-mono font-bold text-muted-foreground uppercase tracking-wider">Navigation</h4>
               <ul className="space-y-2">
-                <li><Link href="/quiz" className="text-xs font-bold text-muted-foreground hover:text-primary transition-colors">Lancer le quiz</Link></li>
                 <li><Link href="/signin" className="text-xs font-bold text-muted-foreground hover:text-primary transition-colors">Accès membre</Link></li>
                 <li><Link href="/missions" className="text-xs font-bold text-muted-foreground hover:text-primary transition-colors">Catalogue missions</Link></li>
                 <li><Link href="/talent" className="text-xs font-bold text-muted-foreground hover:text-primary transition-colors">Talents</Link></li>

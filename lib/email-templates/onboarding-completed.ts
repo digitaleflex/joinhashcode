@@ -9,17 +9,18 @@ export function getOnboardingCompletedEmailContent({ name }: OnboardingCompleted
   const content = `
       <h1>Génial, <span class="accent">${escHtml(firstName)}</span>. Ton profil est créé.</h1>
       <p>Merci pour ces informations. Elles vont nous permettre de personnaliser ton expérience.</p>
-      <p><strong>Place à la découverte.</strong> Un quiz de 3 minutes va révéler ton profil de bâtisseur parmi 4 classes. Ce n'est pas un test — c'est un miroir.</p>
+      <p><strong>Place à la pratique.</strong> Choisis ton premier lab et livre une première action concrète : elle sera relue par un pair et deviendra ta première preuve.</p>
       <div class="btn-wrap">
-        <a href="${APP_URL}/missions" class="btn">Découvrir mon profil →</a>
+        <a href="${APP_URL}/missions" class="btn">Choisir mon premier lab →</a>
+
       </div>
       <hr class="divider">
-      <p class="note">Réponds instinctivement. Il n'y a pas de bonne ou de mauvaise réponse.</p>
+      <p class="note">Tu peux aussi, quand tu veux, faire le quiz de profil depuis tes paramètres.</p>
     `;
 
-  const html = generateEmailTemplate(content, "Profil créé ! Prêt à découvrir ton profil de bâtisseur ?");
+  const html = generateEmailTemplate(content, "Profil créé ! Prêt pour ton premier lab ?");
   return {
-    subject: `Ton profil est créé — prêt à découvrir qui tu es ?`,
+    subject: `Ton profil est créé — prêt pour ton premier lab ?`,
     html,
     text: stripHtml(content),
   };

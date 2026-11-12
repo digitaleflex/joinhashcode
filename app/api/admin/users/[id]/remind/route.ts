@@ -24,7 +24,6 @@ export const POST = withAdminAuth(async (req, admin) => {
       name: true,
       email: true,
       currentSituation: true,
-      class: true,
       primaryDomain: true,
       firstActionStartedAt: true,
       emailStatus: true,
@@ -69,11 +68,9 @@ export const POST = withAdminAuth(async (req, admin) => {
 
   const step: OpsReminderStep = !user.currentSituation
     ? "onboarding"
-    : !user.class
-      ? "quiz"
-      : !user.primaryDomain
-        ? "domain"
-        : "activation";
+    : !user.primaryDomain
+      ? "domain"
+      : "activation";
 
   // Un lien de désabonnement signé accompagne chaque relance. Le token est
   // généré une seule fois puis réutilisé.
