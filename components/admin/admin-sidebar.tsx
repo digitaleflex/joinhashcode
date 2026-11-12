@@ -54,8 +54,8 @@ import { authClient } from "@/lib/auth-client"
 // ── PIVOT PIPELINE CYBER (DOCS/PIVOT_CYBER.md, 2026-09-17) ──────────────
 // Nav admin réorientée : pilotage du pipeline (users, labs, evidences,
 // parcours) uniquement. Les modules génériques (fraud, core, mentorat,
-// interventions, knowledge-hub, contenus, squads, ux-poll, analytics,
-// ateliers) sont gelés — routes intouchées, suppression en Vague 5 (#377).
+// interventions, knowledge-hub, contenus, squads, ux-poll, analytics)
+// sont gelés — routes intouchées, suppression en Vague 5 (#377).
 const navGroups = [
   {
     label: "Pilotage",
