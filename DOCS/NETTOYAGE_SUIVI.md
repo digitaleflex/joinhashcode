@@ -29,7 +29,7 @@
 | 0 | D-030, H20, H21, tag `pre-nettoyage-2` | ✅ 12/11 |
 | 1 | Base de données : fusion de `chore/phase4-migration` (11 tables) **avec export et sauvegarde préalables** | ⬜ |
 | 2 | **Bloc A** — vérifié zone par zone (ci-dessous) : 4 zones supprimées (sondage UX, Vivier connecté, API v1, API publique talent), les autres conservées, reportées au bloc B ou en attente de décision (`programme`/`paths`/`diplomas`) ou de contrôle en base (webhooks sortants) | ✅ 12/11 |
-| 3 | **Bloc B** — après découplage : sortir le quiz du funnel (`proxy.ts`), fusionner Ateliers dans Labs, remplacer les missions 01-03 codées en dur, résidus de gamification, réduire le dashboard | ⬜ |
+| 3 | **Bloc B** — après découplage : sortir le quiz du funnel (`proxy.ts`), fusionner Ateliers dans Labs, remplacer les missions 01-03 codées en dur, résidus de gamification, réduire le dashboard | 🔄 B1 quiz : étape 1 faite (voir ci-dessous) |
 | 4 | Backlog GitHub : fermer #425-#444 sauf #440 et #436 (recadrées), #457, #459, #460, #463, #464, #465 en `not_planned` avec renvoi vers D-030 | ⬜ |
 | 5 | Dépôts : archiver `hashcode-learning-platform` et `hashcode-profiling-engine` (après accord) | ⬜ |
 | 6 | **Construire** : écrire les 5 labs cyber SOC N1, livrer #455 et #456 | ⬜ |
@@ -58,6 +58,16 @@
 > **Leçon :** la liste initiale du bloc A (~7 600 lignes) était une estimation faite sans lire le code. Après vérification, une seule zone était réellement isolée. Règle ajoutée : aucune suppression sans avoir listé les liens entrants, les données écrites et les tests qui en dépendent.
 
 > **Test connu en échec, préexistant :** `__tests__/db-connection.test.ts` exige une vraie base PostgreSQL (`ECONNREFUSED` sans elle). Identique avant le nettoyage.
+
+## Bloc B — détail
+
+### B1 — Quiz psychométrique
+| Étape | Contenu | Statut |
+|---|---|---|
+| 1 | Sortir le quiz du parcours obligatoire (`proxy.ts`, onboarding, repli de connexion, message du dashboard, tests). **Aucun code du quiz supprimé** ; `/quiz` reste accessible | ✅ voir `git log` (`refactor(funnel)`) |
+| 2 | Retirer les invitations vers `/quiz` : nav et pied de page de la landing, emails `welcome`, `onboarding-completed` et `ops-reminder`, bouton de `ProfileTab`, étape « Calibration terminée » de `activation-checklist`, `sitemap.ts`, `a11y-audit.ts`. **Touche le KPI « Landing → Quiz »** : à décider avant | ⏸ décision |
+| 3 | Mesurer H2 et H4 sur les 20 sessions utilisateurs, puis décider de la suppression du code (~3 200 l. : `components/quiz`, `lib/questions`, `analysis`, `profile-content`, `/quiz`, `/specialization`, `app/api/quiz`, `QuizResult`) | ⬜ après les sessions |
+| ⚠ | « Matchmaking Alpha » (`app/missions/[id]/page.tsx`) suggère des partenaires par classe complémentaire : reliquat des squads à retirer | ⬜ |
 
 ---
 
