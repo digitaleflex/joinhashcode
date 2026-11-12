@@ -88,9 +88,9 @@ function NavActions() {
             size="sm"
             className="h-8 rounded-lg bg-primary px-3 sm:px-4 text-3xs sm:text-xs font-bold text-primary-foreground hover:bg-primary/90 shadow-md shadow-primary/10 transition-all hover:scale-105 active:scale-95 uppercase"
           >
-            <Link href="/quiz" className="flex items-center gap-1.5">
-              <span className="hidden sm:inline">Se profiler</span>
-              <span className="sm:hidden">Quiz</span>
+            <Link href="/signin" className="flex items-center gap-1.5">
+              <span className="hidden sm:inline">Commencer</span>
+              <span className="sm:hidden">Commencer</span>
               <ArrowRight className="h-3 w-3" />
             </Link>
           </Button>

@@ -1,6 +1,6 @@
 "use client"
 
-import { Check, User, Target, Sparkles, ChevronRight } from "lucide-react"
+import { Check, User, Target, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
@@ -13,14 +13,6 @@ interface ActivationChecklistProps {
 
 export function ActivationChecklist({ user, hasSubmission }: ActivationChecklistProps) {
   const steps = [
-    {
-      id: "quiz",
-      title: "Calibration terminée",
-      description: "Ton profil psychométrique est actif.",
-      icon: Sparkles,
-      completed: true,
-      href: "/quiz"
-    },
     {
       id: "profile",
       title: "Identité configurée",
