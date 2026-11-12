@@ -136,7 +136,6 @@ export default async function AdminPage() {
         activeRecently={active7d}
         quizTotal={quizTotal}
         parcoursDemarres={usersWithOnboarding}
-        ateliersSuivis={null}
         projetsEnCours={pendingMissions}
         evidencesValidees={approvedMissions}
         objectifsAtteints={null}

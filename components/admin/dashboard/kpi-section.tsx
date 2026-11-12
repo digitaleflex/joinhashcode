@@ -1,5 +1,5 @@
 import {
-  Activity, BarChart3, Route, GraduationCap, Target, FileCheck,
+  Activity, BarChart3, Route, Target, FileCheck,
   HeartHandshake, Shield, Zap,
 } from "lucide-react"
 
@@ -8,7 +8,6 @@ interface KpiSectionProps {
   activeRecently: number
   quizTotal: number
   parcoursDemarres: number | null
-  ateliersSuivis: number | null
   projetsEnCours: number | null
   evidencesValidees: number | null
   objectifsAtteints: number | null
@@ -51,7 +50,6 @@ export function KpiSection({
   activeRecently,
   quizTotal,
   parcoursDemarres,
-  ateliersSuivis,
   projetsEnCours,
   evidencesValidees,
   objectifsAtteints,
@@ -64,7 +62,6 @@ export function KpiSection({
     { label: "Membres actifs (7j)", value: activeRecently, icon: Activity, color: "text-primary", sub: `sur ${userCount} inscrits` },
     { label: "Quiz terminés", value: quizTotal, icon: BarChart3, color: "text-primary" },
     { label: "Parcours démarrés", value: parcoursDemarres, icon: Route, color: "text-primary" },
-    { label: "Ateliers suivis (7j)", value: ateliersSuivis, icon: GraduationCap, color: "text-primary" },
     { label: "Projets en cours", value: projetsEnCours, icon: Target, color: "text-primary" },
     { label: "Évidences validées", value: evidencesValidees, icon: FileCheck, color: "text-emerald-400" },
     { label: "Objectifs 90j atteints", value: objectifsAtteints, icon: Zap, color: "text-yellow-400" },

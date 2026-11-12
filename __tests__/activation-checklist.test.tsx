@@ -12,7 +12,7 @@ vi.mock('@/lib/features', () => ({
 }));
 
 describe('ActivationChecklist Component', () => {
-  // User with only quiz completed (no pseudo, no squad, no submission)
+  // Membre sans pseudo ni soumission : aucune étape complétée
   const mockUser = {
     pseudo: '',
     githubUrl: null,
@@ -25,8 +25,8 @@ describe('ActivationChecklist Component', () => {
     
     // Header
     expect(screen.getByText('progression')).toBeDefined();
-    // 1/4 completed (only quiz) — 5 steps, only quiz est completed
-    expect(screen.getByText(/1 \/ 4 ÉTAPES/)).toBeDefined();
+    // Le quiz n'est plus une étape (D-030) : 3 étapes, aucune complétée
+    expect(screen.getByText(/0 \/ 3 ÉTAPES/)).toBeDefined();
     // Next step is profile
     expect(screen.getByText(/Prochaine étape : Identité configurée/)).toBeDefined();
   });
@@ -49,13 +49,13 @@ describe('ActivationChecklist Component', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it('shows 1/5 progress for incomplete user', () => {
-    // User with only quiz completed
+  it('shows 0/3 progress for incomplete user', () => {
+    // Membre sans pseudo ni soumission
     const incompleteUser = { pseudo: '', githubUrl: null, linkedinUrl: null, j7Activated: false };
     render(<ActivationChecklist user={incompleteUser as UserProfile} hasSubmission={false} />);
     
-    // 1/4 completed (only quiz)
-    expect(screen.getByText(/1 \/ 4 ÉTAPES/)).toBeDefined();
+    // Aucune étape complétée
+    expect(screen.getByText(/0 \/ 3 ÉTAPES/)).toBeDefined();
     // Next step is profile
     expect(screen.getByText(/Prochaine étape : Identité configurée/)).toBeDefined();
   });

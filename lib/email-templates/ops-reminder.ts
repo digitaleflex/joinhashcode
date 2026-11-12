@@ -1,6 +1,6 @@
 import { APP_URL, escHtml, generateEmailTemplate, stripHtml } from "./base";
 
-export type OpsReminderStep = "onboarding" | "quiz" | "domain" | "activation";
+export type OpsReminderStep = "onboarding" | "domain" | "activation";
 
 const STEPS: Record<
   OpsReminderStep,
@@ -12,17 +12,11 @@ const STEPS: Record<
     cta: "Terminer mon inscription",
     href: "/onboarding",
   },
-  quiz: {
-    title: "Découvre ton profil HashCode",
-    body: "Le diagnostic permet de comprendre tes forces et de te proposer une direction adaptée.",
-    cta: "Faire mon diagnostic",
-    href: "/quiz",
-  },
   domain: {
     title: "Choisis ton domaine",
     body: "Web, cybersécurité ou IA appliquée : choisis ton terrain de progression pour débloquer ta première action.",
     cta: "Choisir mon domaine",
-    href: "/specialization",
+    href: "/dashboard",
   },
   activation: {
     title: "Ta première action t'attend",

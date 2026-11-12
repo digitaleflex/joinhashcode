@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { isEligibleReviewer } from "@/lib/acceptance-criteria";
+import { getClaimDecision } from "@/lib/review-access";
 
 export async function GET() {
   try {
@@ -12,7 +12,7 @@ export async function GET() {
 
     const reviewer = await prisma.user.findUnique({
       where: { id: session.user.id },
-      select: { id: true, class: true, level: true, missionsCompletedCount: true },
+      select: { id: true, role: true, missionsCompletedCount: true },
     });
 
     if (!reviewer) return NextResponse.json({ message: "Utilisateur non trouvé" }, { status: 404 });
@@ -26,15 +26,7 @@ export async function GET() {
       orderBy: { createdAt: "asc" },
     });
 
-    const eligible = pendingSubmissions.filter(sub => {
-      return isEligibleReviewer({
-        reviewerClass: reviewer.class,
-        reviewerMissionsCompleted: reviewer.missionsCompletedCount ?? 0,
-        reviewerId: reviewer.id,
-        submissionUserId: sub.userId,
-        missionTargetProfiles: sub.mission.targetProfiles,
-      });
-    });
+    const eligible = pendingSubmissions.filter(sub => getClaimDecision({ reviewer, submission: sub }).ok);
 
     return NextResponse.json(eligible);
   } catch (error: unknown) {

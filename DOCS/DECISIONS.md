@@ -91,3 +91,22 @@
 | D-027 | **Le code gelé (D-015) est supprimé, pas conservé.** Squads (UI/API), leaderboard, guide, spécialisation, check-in, admin core/fraud/mentorat/knowledge-hub/interventions/squads, libs gamification. Le plugin better-auth `organization` est conservé (D-016, futures Promotions). Les **données** restent en base jusqu'à la phase 4 (export + sauvegarde avant toute migration destructive). Point de retour : tag git `pre-nettoyage`. | ~8 500 lignes gelées jamais supprimées depuis 09/2026 (Vague 5 #377 non exécutée) ; du code gelé coûte en maintenance, en lecture et en surface d'attaque. | 09/11/2026 | Eurin | ✅ Actée |
 | D-028 | **Gel des fonctionnalités pendant 6 semaines après le nettoyage.** Aucune nouvelle fonctionnalité sans une hypothèse `H-xx` qu'elle teste ; priorité aux sessions utilisateurs (objectif : 20) et au remplissage de `HYPOTHESES.md` / `FRICTIONS.md`. | Le produit n'a pas encore été confronté à ses utilisateurs ; le ratio code/utilisateurs est inversé. | 09/11/2026 | Eurin | ✅ Actée |
 | D-029 | **Plus de verrou par niveau.** Tous les labs sont accessibles ; l'éligibilité relecteur = 3 labs validés (plus de condition de niveau). L'XP, les niveaux et les badges sont retirés du produit. | Depuis le découplage XP de 09/2026, plus aucune action ne faisait monter de niveau : les labs CORE/PRO (13 modules HEF sur 17) et le rôle de relecteur étaient inaccessibles aux nouveaux membres. Cohérent avec D-020 (l'accès est libre, le statut se gagne par la preuve). | 09/11/2026 | Eurin | ✅ Actée |
+
+
+---
+
+## Focus unique — 12/11/2026
+
+| ID | Décision | Justification | Date | Responsable | Statut |
+|---|---|---|---|---|---|
+| D-030 | **Mission unique : le dossier de preuves vérifiées d'un analyste cyber junior francophone.** Boucle critique : lab cyber (niveau SOC N1) → soumission → relecture par un pair (repli : le fondateur) → preuve publique inspectable sur `/u/[pseudo]` (livrable, critères, relecteur, date). Tout ce qui ne raccourcit pas le chemin vers la première preuve est supprimé ou gelé. Web et IA restent présentés publiquement (D-024) mais ne reçoivent plus aucun développement ; D-026 est renforcée : seul le chemin critique de la boucle est développé. Le quiz psychométrique sort du chemin critique (à tester : H2, H4). | Étude de marché (`PIVOT_CYBER.md` §2) : pénurie cyber, 30 000+ postes non pourvus en France avec recrutement SOC N1 à distance, aucun concurrent francophone à la fois gratuit, communautaire, à validation humaine et relié à l'emploi. Le moat n'est ni le code ni le contenu mais le registre public de preuves et le réseau d'employeurs (`PIVOT_CYBER.md` §5). Trois changements de cap en 8 semaines (D-014 le 17/09, D-024 le 31/10, D-026 le 09/11) sans observation utilisateur nouvelle ; 0 entretien employeur ; les 19 hypothèses testent la solution, aucune ne teste le problème. | 12/11/2026 | Eurin | ✅ Actée |
+
+### Conséquences d'exécution de D-030
+- **Engagement de 90 jours (12/11/2026 → 10/02/2027)** : aucun changement de promesse, de domaine phare ou de périmètre avant cette date, sauf si le critère d'arrêt ci-dessous est atteint.
+- **Règle anti-pivot** : toute décision qui modifie la promesse, le domaine phare ou le périmètre doit citer au moins 10 observations utilisateurs (`APPRENTISSAGES.md`) ou 5 entretiens employeurs. Une décision actée ne peut pas être inversée avant 90 jours.
+- **Critère de réussite** : au moins 10 membres avec une preuve publique ET au moins 2 employeurs sur 5 interrogés qui déclarent qu'ils présélectionneraient sur ce type de dossier (H20, H21).
+- **Critère d'arrêt** : moins de 2 employeurs sur 5 intéressés = problème invalidé ; on revoit la cible avant d'ajouter du code.
+- **Cible employeurs** : « analyste SOC N1 », jamais « OSINT » en accroche (`PIVOT_CYBER.md` §3 : les clients disent fraude, vérification, diligence).
+- **Backlog** : toute issue qui ne sert pas la boucle critique est fermée en `not_planned` avec renvoi vers D-030. Les issues #457, #459, #460, #463, #464 et #465 en font partie.
+- **Nettoyage** : la liste de ce qui sort du périmètre est suivie dans `DOCS/NETTOYAGE_SUIVI.md`. Aucune donnée n'est supprimée sans export et sauvegarde préalables.
+- **Ce que D-030 ne change pas** : D-024 et D-025 (périmètre public), D-027 à D-029 (pas de gamification, gel des fonctionnalités, labs sans verrou).

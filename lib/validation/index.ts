@@ -25,5 +25,5 @@ export type { UpdateUserInput } from "./user";
 export { contactSchema, statusSchema, CONTACT_TYPES } from "./feedback";
 export type { ContactInput, StatusUpdateInput } from "./feedback";
 
-export { betaVerifySchema, quizFeedbackSchema, uxPollSchema, notificationBulkSchema, adminKeyGenSchema, adminBroadcastSchema, adminLogSchema } from "./misc";
-export type { BetaVerifyInput, QuizFeedbackInput, UxPollInput, NotificationBulkInput, AdminKeyGenInput, AdminBroadcastInput, AdminLogInput } from "./misc";
+export { betaVerifySchema, quizFeedbackSchema, notificationBulkSchema, adminKeyGenSchema, adminBroadcastSchema, adminLogSchema } from "./misc";
+export type { BetaVerifyInput, QuizFeedbackInput, NotificationBulkInput, AdminKeyGenInput, AdminBroadcastInput, AdminLogInput } from "./misc";
