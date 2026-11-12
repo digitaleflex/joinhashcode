@@ -16,6 +16,37 @@
 
 ---
 
+# Nettoyage n°2 — Focus D-030 (11/2026)
+
+> **Décision :** D-030 (mission unique : dossier de preuves vérifiées d'un analyste cyber junior francophone) — `DOCS/DECISIONS.md`
+> **Test de tri :** est-ce que ça raccourcit le chemin vers la première preuve publique ? Sinon, ça sort.
+> **Point de retour :** tag `pre-nettoyage-2` (commit `da0bd23`) · **Branche :** `claude/exciting-maxwell-4r95bk`
+> **Règles :** 1 commit = 1 zone ; `tsc` + `eslint` + `knip` verts avant chaque commit ; aucune donnée supprimée sans export et sauvegarde (CLAUDE.md règle 1).
+> **Environnement :** `DIRECT_URL` et `DATABASE_URL` factices suffisent pour `prisma generate`, `tsc` et `knip`.
+
+| Phase | Contenu | Statut |
+|---|---|---|
+| 0 | D-030, H20, H21, tag `pre-nettoyage-2` | ✅ 12/11 |
+| 1 | Base de données : fusion de `chore/phase4-migration` (11 tables) **avec export et sauvegarde préalables** | ⬜ |
+| 2 | **Bloc A** — hors périmètre, sans lien avec la boucle (ci-dessous) | 🔄 |
+| 3 | **Bloc B** — après découplage : sortir le quiz du funnel (`proxy.ts`), fusionner Ateliers dans Labs, remplacer les missions 01-03 codées en dur, résidus de gamification, réduire le dashboard | ⬜ |
+| 4 | Backlog GitHub : fermer #425-#444 sauf #440 et #436 (recadrées), #457, #459, #460, #463, #464, #465 en `not_planned` avec renvoi vers D-030 | ⬜ |
+| 5 | Dépôts : archiver `hashcode-learning-platform` et `hashcode-profiling-engine` (après accord) | ⬜ |
+| 6 | **Construire** : écrire les 5 labs cyber SOC N1, livrer #455 et #456 | ⬜ |
+
+## Bloc A — détail
+
+| Zone | Taille mesurée | Statut |
+|---|---|---|
+| `app/acquisition`, `lib/acquisition`, `app/actions/acquisition` (tunnel de profilage de prospects) | ~2 470 l. | ⬜ |
+| `academy/my-courses`, `programme`, `paths`, `diplomas` | ~1 500 l. | ⬜ |
+| Admin : `parcours`, `contenus`, `analytics`, `notifications`, `operations`, `keys`, `ux-poll`, `feedback` (+ routes API) | ~2 700 l. | ⬜ |
+| Vitrines `talents` et `dashboard/talents` | à mesurer | ⬜ |
+| `app/api/v1`, webhooks, `feed`, `public`, `docs/API_V1.md` — **seulement si aucun client externe** | à mesurer | ⬜ (à confirmer) |
+| `components/tour` | 344 l. | ⬜ |
+
+---
+
 # Historique — Vague 1 (09/2026)
 
 
