@@ -8,7 +8,7 @@ export interface NavItem {
   tooltip: string
 }
 
-// Navigation membre alignée sur D-024 : Parcours → Labs → Portfolio → Vivier.
+// Navigation membre alignée sur D-024 et D-030 : Parcours → Labs → Portfolio.
 // Les entrées gelées (/guide, /squad, /leaderboard) restent hors navigation.
 export const mainNavItems: NavItem[] = [
   { href: "/dashboard", label: "Mon Parcours", icon: Layout, tooltip: "Ta prochaine étape du parcours." },

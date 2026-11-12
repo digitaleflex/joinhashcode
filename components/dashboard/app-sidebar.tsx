@@ -31,6 +31,7 @@ import { mainNavItems } from "./sidebar-nav-config"
 import { SidebarUser } from "./sidebar-user"
 import { ThemeToggle } from "./theme-toggle"
 import type { NavUser } from "@/lib/types"
+import { MIN_VALIDATED_LABS_TO_REVIEW } from "@/lib/acceptance-criteria"
 
 export function AppSidebar({ user }: { user: NavUser | null }) {
   const pathname = usePathname()
@@ -38,9 +39,9 @@ export function AppSidebar({ user }: { user: NavUser | null }) {
   const currentUser = (user || session?.user) as NavUser | undefined
   const { startNextStep } = useNextStepSafe()
 
-  // User is eligible for reviewer role if Level >= 2 AND completed missions >= 3, or has admin role.
+  // Relecteur : 3 labs validés (D-029, plus de condition de niveau), ou rôle de modération.
   const isReviewerEligible = currentUser && (
-    ((currentUser.level ?? 1) >= 2 && (currentUser.missionsCompletedCount ?? 0) >= 3) ||
+    (currentUser.missionsCompletedCount ?? 0) >= MIN_VALIDATED_LABS_TO_REVIEW ||
     ["ADMIN", "MODERATOR", "OPERATOR"].includes(currentUser.role ?? "")
   )
 

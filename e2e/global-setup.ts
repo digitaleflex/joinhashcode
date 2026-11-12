@@ -19,9 +19,8 @@ export default async function globalSetup(_config: FullConfig) {
 
   // 2. Crée/récupère les utilisateurs de test (idempotent)
   //
-  // ATTENTION — le proxy (proxy.ts) applique 3 redirections de parcours :
+  // ATTENTION — le proxy (proxy.ts) applique 2 redirections de parcours (le quiz est facultatif, D-030) :
   //   needsOnboarding     = !user.currentSituation
-  //   needsQuiz           = user.currentSituation && !user.class
   //   needsSpecialization = user.class && !user.primaryDomain
   // Sans ces champs renseignés, TOUTE route protégée renvoie 307 → /onboarding.
   // On les remplit donc dans `create` ET `update` (pour réparer un user existant).

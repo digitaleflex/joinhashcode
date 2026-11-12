@@ -30,7 +30,7 @@ Route groups live under `/app`. The middleware at `proxy.ts` enforces a three-st
 
 1. No session → redirect to `/signin`
 2. Session but no `currentSituation` → redirect to `/onboarding`
-3. Session but no `class` assigned → redirect to `/quiz`
+3. ~~Session but no `class` assigned → redirect to `/quiz`~~ — **removed (D-030)**: the quiz is optional; `/quiz` stays reachable until taken
 
 Protected routes: see `PROTECTED_PATHS` in `proxy.ts` (source of truth — includes `/academy/my-courses` and `/academy/certificates`). Any new private page must be added there; `pnpm verify` fails if a private route returns 200.
 
@@ -107,8 +107,6 @@ REST endpoints under `app/api/`:
 | `og/`                           | GET       | —               | OpenGraph image generation                                            |
 | `log/client-error/`             | POST      | —               | Client-side error logging                                             |
 | `webhooks/resend/`              | POST      | —               | Resend email webhooks                                                 |
-| `ux-poll/`                      | GET/POST  | session         | UX poll responses                                                     |
-| `public/talent/`                | GET       | —               | Public talent profiles                                                |
 | `admin/submissions/`            | GET       | ADMIN/MOD       | List all submissions                                                  |
 | `admin/submissions/[id]/`       | PATCH     | ADMIN/MOD       | Approve / request revision / reject                                   |
 | `admin/missions/`               | GET/PATCH | ADMIN/MOD       | Manage missions                                                       |
@@ -119,7 +117,6 @@ REST endpoints under `app/api/`:
 | `admin/users/[id]/export/`      | GET       | ADMIN/MOD       | Export single user data                                               |
 | `admin/users/export/`           | GET       | ADMIN/MOD       | Export all users data                                                 |
 | `admin/feedback/`               | GET/PATCH | ADMIN/MOD       | Manage beta feedback                                                  |
-| `admin/ux-poll/`                | GET       | ADMIN/MOD       | View UX poll results                                                  |
 | `admin/log/`                    | GET       | ADMIN/MOD       | View activity logs                                                    |
 | `admin/keys/`                   | GET/POST  | ADMIN/MOD       | Manage API keys                                                       |
 | `admin/keys/[id]/`              | DELETE    | ADMIN/MOD       | Delete API key                                                        |

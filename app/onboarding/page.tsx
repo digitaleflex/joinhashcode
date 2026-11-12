@@ -68,7 +68,6 @@ const CLASSES = [
 export default function OnboardingPage() {
   const router = useRouter()
   const [step, setStep] = useState<OnboardingStep>(OnboardingStep.WELCOME)
-  const [userClass, setUserClass] = useState<string | null>(null)
   const [sessionOnboarded, setSessionOnboarded] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSyncing, setIsSyncing] = useState(true)
@@ -121,7 +120,6 @@ export default function OnboardingPage() {
         const user = res.data?.user as OnboardingSessionUser | undefined
         if (user) {
           setUserName(user.name?.split(" ")[0] || "")
-          setUserClass(user.class ?? null)
           // Only the PERSISTED value counts for auto-redirect. The local
           // formData draft (localStorage / current selection) must NOT bounce
           // the user out of onboarding before the save completes.
@@ -151,12 +149,11 @@ export default function OnboardingPage() {
 
   useEffect(() => {
     if (!isSyncing && sessionOnboarded) {
-      const target = userClass ? "/dashboard" : "/quiz"
       if (window.location.pathname === "/onboarding") {
-        router.replace(target)
+        router.replace("/dashboard")
       }
     }
-  }, [isSyncing, sessionOnboarded, userClass, router])
+  }, [isSyncing, sessionOnboarded, router])
 
   const updateForm = (next: typeof formData) => {
     setFormData(next)
@@ -212,8 +209,8 @@ export default function OnboardingPage() {
         try { await authClient.getSession() } catch { /* ignore */ }
         setStep(OnboardingStep.BRIDGE)
       } else if (step === OnboardingStep.BRIDGE) {
-        // Bridge → dashboard si déjà quizé, /quiz sinon
-        window.location.href = userClass ? "/dashboard" : "/quiz"
+        // Bridge → dashboard (le quiz est facultatif, D-030)
+        window.location.href = "/dashboard"
       }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : ""

@@ -16,6 +16,80 @@
 
 ---
 
+# Nettoyage n°2 — Focus D-030 (11/2026)
+
+> **Décision :** D-030 (mission unique : dossier de preuves vérifiées d'un analyste cyber junior francophone) — `DOCS/DECISIONS.md`
+> **Test de tri :** est-ce que ça raccourcit le chemin vers la première preuve publique ? Sinon, ça sort.
+> **Point de retour :** commit `da0bd23` (tag local `pre-nettoyage-2` ; le push du tag est refusé par le proxy) · **Branche :** `claude/exciting-maxwell-4r95bk`
+> **Règles :** 1 commit = 1 zone ; `tsc` + `eslint` + `knip` verts avant chaque commit ; aucune donnée supprimée sans export et sauvegarde (CLAUDE.md règle 1).
+> **Environnement :** `DIRECT_URL` et `DATABASE_URL` factices suffisent pour `prisma generate`, `tsc` et `knip`.
+
+| Phase | Contenu | Statut |
+|---|---|---|
+| 0 | D-030, H20, H21, tag `pre-nettoyage-2` | ✅ 12/11 |
+| 1 | Base de données : fusion de `chore/phase4-migration` (11 tables) **avec export et sauvegarde préalables** | ⬜ |
+| 2 | **Bloc A** — vérifié zone par zone (ci-dessous) : 4 zones supprimées (sondage UX, Vivier connecté, API v1, API publique talent), les autres conservées, reportées au bloc B ou en attente de décision (`programme`/`paths`/`diplomas`) ou de contrôle en base (webhooks sortants) | ✅ 12/11 |
+| 3 | **Bloc B** — après découplage : sortir le quiz du funnel (`proxy.ts`), fusionner Ateliers dans Labs, remplacer les missions 01-03 codées en dur, résidus de gamification, réduire le dashboard | 🔄 B1 quiz ✅ (code en attente des sessions) · B2 ateliers ✅ (table en phase DB) · reste : missions 01-03, gamification, dashboard |
+| 4 | Backlog GitHub : fermer #425-#444 sauf #440 et #436 (recadrées), #457, #459, #460, #463, #464, #465 en `not_planned` avec renvoi vers D-030 | ⬜ |
+| 5 | Dépôts : archiver `hashcode-learning-platform` et `hashcode-profiling-engine` (après accord) | ⬜ |
+| 6 | **Construire** : écrire les 5 labs cyber SOC N1, livrer #455 et #456 | ⬜ |
+
+## Bloc A — détail (vérifié zone par zone : liens entrants, données écrites, tests)
+
+| Zone | Verdict après vérification | Statut |
+|---|---|---|
+| Sondage UX (admin, 2 routes API, lib, schéma Zod, test) | Orphelin : le bandeau n'existe plus, plus rien n'appelle l'API | ✅ `1c20063` |
+| `app/acquisition`, `lib/acquisition`, `app/actions/acquisition` | **À CONSERVER.** Funnel reboot importé (ROADMAP ✅ 100 %), crée de vrais comptes, renvoie vers WhatsApp (D-020, D-022), sondé par `verify.sh` et les e2e. À réévaluer seulement par décision | ⛔ conservé |
+| `academy/programme`, `paths`, `diplomas`, `certificates`, `playground` | **Imbriqué** : indexé dans `sitemap.ts`, sondé par `verify.sh` et les e2e, alimenté par `seed-academy.ts` (exécuté 2× en CI). `programme` et `paths` sont la vitrine publique des domaines (D-024, maintenue par D-030). Décision requise | ⏸ décision |
+| `academy/my-courses` | **À CONSERVER.** C'est l'écran « Mes cours » de l'apprenant (seul `/new` est réservé aux admins) | ⛔ conservé |
+| Admin `analytics`, `feedback` | **À CONSERVER.** Mesure des KPI et lecture des retours des sessions utilisateurs (D-028) | ⛔ conservé |
+| Admin `keys`, `operations` | **À CONSERVER.** Clés bêta utilisées par l'authentification ; relances email | ⛔ conservé |
+| Admin `contenus`, `parcours`, `notifications` | **→ bloc B.** `contenus` édite le contenu des profils et ateliers, `parcours` les spécialisations avec XP ; ils appellent des routes API qui resteraient orphelines (`profile-content`, `ateliers`, `specializations`) | ➡ B |
+| `/talents` (vitrine publique) | **À CONSERVER.** Seul index public des preuves (`talentVisible` + au moins 1 mission validée), lié depuis la nav, le pied de page, le sitemap et `/community`. Texte « bâtisseurs / stratèges » à nettoyer au bloc B | ⛔ conservé |
+| `/dashboard/talents` (Vivier connecté) | **Fuite de données** : listait tous les membres non bannis sans `talentVisible` et transmettait leurs 4 scores psychométriques au composant client. Supprimé avec `ui/hover-card` et `@radix-ui/react-hover-card` | ✅ `6fdf4c5` |
+| API v1 (`GET /api/v1/members/me`, test, workflow `api-v1.yml`, `docs/API_V1.md`) | Aucun consommateur dans le dépôt ni dans les 3 autres. Aucun appelant externe n'a été exclu (logs d'accès non consultés) | ✅ `db4fc74` |
+| `/api/public/talent` | Route orpheline (déjà relevée en 09/2026), `/talents` ne l'utilise pas | ✅ `07252f8` |
+| `/api/webhooks/resend` | **À CONSERVER** : rebonds et plaintes d'emails (signature svix) | ⛔ conservé |
+| Webhooks sortants par mission (`lib/webhooks.ts`, table `MissionWebhook`, 3 routes admin) | Aucun écran, configurables par appel API seulement, branchés dans 4 routes du chemin critique. **Contrôle en base requis avant décision** : `SELECT count(*) FROM mission_webhook` en production | ⏸ contrôle base |
+| `/api/feed` | **À CONSERVER** : alimente `AdminLiveFeed` (dashboard admin) | ⛔ conservé |
+| `components/tour` (+ dépendance `nextstepjs`) | Actif : flag `tour` à `true` par défaut, utilisé par `dossier`, `missions`, `dashboard-with-tour`, barre latérale. Pas isolé | ➡ B (réduction du dashboard) |
+| `lib/profile-v1.ts` + modèle `ProfileV1` | Écrit à l'approbation de la Mission 01 (2 appels sur le chemin critique), lu par personne | ➡ B (missions 01-03) |
+
+> **Leçon :** la liste initiale du bloc A (~7 600 lignes) était une estimation faite sans lire le code. Après vérification, une seule zone était réellement isolée. Règle ajoutée : aucune suppression sans avoir listé les liens entrants, les données écrites et les tests qui en dépendent.
+
+> **Test connu en échec, préexistant :** `__tests__/db-connection.test.ts` exige une vraie base PostgreSQL (`ECONNREFUSED` sans elle). Identique avant le nettoyage.
+
+## Bloc B — détail
+
+### B1 — Quiz psychométrique
+| Étape | Contenu | Statut |
+|---|---|---|
+| 1 | Sortir le quiz du parcours obligatoire (`proxy.ts`, onboarding, repli de connexion, message du dashboard, tests). **Aucun code du quiz supprimé** ; `/quiz` reste accessible | ✅ voir `git log` (`refactor(funnel)`) |
+| 2 | Retirer les invitations vers `/quiz` : landing (nav, pied de page, sitemap), emails `welcome`, `onboarding-completed` et `ops-reminder` (étape « quiz » supprimée, page `operations` alignée), étape « Calibration terminée » de la checklist. Le bouton de `ProfileTab` est **conservé** comme entrée facultative. **KPI « Landing → Quiz » et « Quiz terminé » à redéfinir** (voir `HYPOTHESES.md`) | ✅ voir `git log` (`retirer les invitations vers le quiz`) |
+| 3 | Mesurer H2 et H4 sur les 20 sessions utilisateurs, puis décider de la suppression du code (~3 200 l. : `components/quiz`, `lib/questions`, `analysis`, `profile-content`, `/quiz`, `/specialization`, `app/api/quiz`, `QuizResult`) | ⬜ après les sessions |
+| ✓ | « Matchmaking Alpha » (`app/missions/[id]/page.tsx`) : suggestions de partenaires par classe complémentaire, qui exposaient pseudo et liens sociaux de membres sans filtre `talentVisible`. Supprimé | ✅ `fix(privacy): supprimer le Matchmaking Alpha` |
+
+### B2 — Ateliers fusionnés dans les Labs
+| Étape | Contenu | Statut |
+|---|---|---|
+| 1 | La première action du dashboard mène à `/missions` (plus à un atelier). Constat : les 12 ateliers pointaient tous vers le slug de lab `premiere-preuve-maitrise`, absent du seed, de `lib/missions.ts` et du contenu HEF | ✅ `refactor(first-action)` |
+| 2 | Pages `/ateliers`, bloc « Atelier recommandé » des labs, section Ateliers de `/labs`, catalogue `lib/ateliers.ts`, redirection `/ateliers/*` → `/missions` | ✅ `refactor(ateliers): supprimer les pages` |
+| 3 | Admin des ateliers (page, API, actions du journal) et onglet Ateliers de `admin/contenus` | ✅ `refactor(ateliers): supprimer l'admin` |
+| 4 | **Table `atelier`** (modèle Prisma) : plus aucun code ne la lit ni ne l'écrit. Suppression = migration + export préalable + confirmation explicite. À vérifier d'abord en production : `SELECT count(*) FROM atelier` et si un lab `premiere-preuve-maitrise` y a été créé à la main | ⏸ phase base de données |
+| ⚠ | Restes à décider : `sendOrientationEmail` (paramètres `atelier*`, aucun appelant trouvé), bouton « Commencer l'atelier » du résultat du quiz (disparaît avec le code du quiz), mot « Atelier » dans l'Academy (`programme/[slug]`, `python-runner`, `lib/academy/program.ts`), événement `first_action_completed` désormais sans déclencheur dans l'interface (API conservée) | ⬜ |
+
+### B3 — Relecture par un pair (BUILD-02, #484) et backlog (CLEAN-07, #481)
+| Étape | Contenu | Statut |
+|---|---|---|
+| 1 | Éligibilité relecteur = **3 labs validés**, sans condition de profil (D-029) : `isEligibleReviewer` exigeait en plus un profil psychométrique, bloquant tout membre sans quiz | ✅ `fix(review): éligibilité relecteur` |
+| 2 | Page `/reviewer/submissions/[submissionId]` (brief, livrable, prise en charge, formulaire de relecture) ; la file ne mène plus à un 404 ; `lib/review-access.ts` source unique de la politique | ✅ `fix(review): page de relecture par soumission` |
+| 3 | **Ouverture aux pairs** (modération + membres avec 3 labs validés) ; lien « Reviewer » de la barre latérale sans condition de niveau. Commit isolé : `git revert` pour revenir au mode concierge | ✅ `fix(review): ouvrir la relecture aux pairs` |
+| ⚠ | Non vérifié en navigateur ni par un e2e (pas de base ici) : **parcours à essayer à la main** avec deux comptes de test avant déploiement | ⬜ |
+| ⚠ | Les labs CORE relus par un pair passent en `PENDING_ADMIN` et attendent la confirmation de l'admin : prévoir de la traiter | ⬜ |
+| CLEAN-07 | 23 issues du backlog fermées : 20 en `not_planned` (#422, #425, #426, #429-#435, #437-#439, #441, #443, #444, #457, #459, #460, #463), #423 en `completed` (PR #453 ; **`pnpm hef:seed` à lancer en production**), #427 et #428 en `not_planned` (import et code livrés, affichage et contenu absents). #436 fermée en `not_planned` (outillage de labs de code HEF, **pas** un doublon de BUILD-01) ; #440 recadrée en « Evidence minimal », parent de #455 et #456. Restent à décider : #424 (vérification visuelle des libellés), #442 (partielle), et la note de restriction sur #417 | 🔄 |
+
+---
+
 # Historique — Vague 1 (09/2026)
 
 

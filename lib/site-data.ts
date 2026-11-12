@@ -156,7 +156,6 @@ export function sortMissionsForCompactView<
   )
 }
 
-
 export async function getPublishedInterventions() {
   return safe([], () =>
     prisma.intervention.findMany({

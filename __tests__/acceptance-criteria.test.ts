@@ -82,16 +82,14 @@ describe("computeXp", () => {
   })
 })
 
-describe("isEligibleReviewer", () => {
+describe("isEligibleReviewer (D-029 : 3 labs validés, sans condition de profil)", () => {
   const base = {
-    reviewerClass: "builder",
     reviewerMissionsCompleted: 3,
     reviewerId: "rev1",
     submissionUserId: "user1",
-    missionTargetProfiles: ["builder"],
   }
 
-  it("returns true for eligible reviewer", () => {
+  it("returns true for a member with 3 validated labs", () => {
     expect(isEligibleReviewer(base)).toBe(true)
   })
 
@@ -99,22 +97,17 @@ describe("isEligibleReviewer", () => {
     expect(isEligibleReviewer({ ...base, reviewerId: "user1" })).toBe(false)
   })
 
-  it("returns false if wrong profile", () => {
-    expect(isEligibleReviewer({ ...base, reviewerClass: "creator" })).toBe(false)
-  })
-
   it("does not depend on level: 3 validated labs are enough", () => {
     expect(isEligibleReviewer({ ...base, reviewerMissionsCompleted: 3 })).toBe(true)
+    expect(isEligibleReviewer({ ...base, reviewerMissionsCompleted: 12 })).toBe(true)
   })
 
-  it("returns false if fewer than 3 missions completed", () => {
+  it("returns false if fewer than 3 labs are validated", () => {
     expect(isEligibleReviewer({ ...base, reviewerMissionsCompleted: 2 })).toBe(false)
-  })
-
-  it("returns false if reviewerClass is null", () => {
-    expect(isEligibleReviewer({ ...base, reviewerClass: null })).toBe(false)
+    expect(isEligibleReviewer({ ...base, reviewerMissionsCompleted: 0 })).toBe(false)
   })
 })
+
 
 describe("getMissingRequiredCriteria", () => {
   it("returns labels of unchecked required criteria", () => {

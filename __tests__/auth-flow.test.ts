@@ -47,6 +47,13 @@ describe("Middleware Auth & Onboarding Funnel", () => {
     vi.clearAllMocks();
   });
 
+  it("redirige les anciens liens /ateliers/* vers le catalogue de Labs (ateliers fusionnés, D-030)", async () => {
+    const res = await middleware(createRequest("/ateliers/linux-cloud-basics"));
+
+    expect(res?.status).toBe(307);
+    expect(res?.headers.get("location")).toBe("http://localhost:3000/missions");
+  });
+
   it("should redirect to /signin if no session on protected path", async () => {
     (global.fetch as any).mockResolvedValue({
       ok: true,
@@ -86,7 +93,7 @@ describe("Middleware Auth & Onboarding Funnel", () => {
     );
   });
 
-  it("should redirect to /quiz if user has situation but no class", async () => {
+  it("ne force plus le quiz : un membre sans class accède au dashboard (D-030)", async () => {
     const userData = {
       id: "user_1",
       currentSituation: "STUDENT",
@@ -105,8 +112,23 @@ describe("Middleware Auth & Onboarding Funnel", () => {
     const req = createRequest("/dashboard", "session=mock-token");
     const res = await middleware(req);
 
+    expect(res?.status).not.toBe(307);
+  });
+
+  it("renvoie /quiz vers /missions quand le quiz a déjà été passé", async () => {
+    (global.fetch as any).mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        session: { id: "sess_1" },
+        user: { id: "user_1", currentSituation: "STUDENT", class: "BUILDER", primaryDomain: "Web" },
+      }),
+    });
+
+    const req = createRequest("/quiz", "session=mock-token");
+    const res = await middleware(req);
+
     expect(res?.status).toBe(307);
-    expect(res?.headers.get("location")).toBe("http://localhost:3000/quiz");
+    expect(res?.headers.get("location")).toBe("http://localhost:3000/missions");
   });
 
   it("should redirect to /specialization if user has class but no primaryDomain", async () => {
@@ -187,7 +209,7 @@ describe("Middleware anti-boucle infinie (source fraîche prioritaire)", () => {
     expect(res?.status).not.toBe(307);
   });
 
-  it("redirige /onboarding -> /quiz directement quand onboarding terminé sans class (pas de détour /dashboard)", async () => {
+  it("redirige /onboarding -> /dashboard quand onboarding terminé, même sans class (quiz facultatif)", async () => {
     const userData = {
       id: "user_1",
       currentSituation: "STUDENT",
@@ -203,7 +225,7 @@ describe("Middleware anti-boucle infinie (source fraîche prioritaire)", () => {
     const res = await middleware(req);
 
     expect(res?.status).toBe(307);
-    expect(res?.headers.get("location")).toBe("http://localhost:3000/quiz");
+    expect(res?.headers.get("location")).toBe("http://localhost:3000/dashboard");
   });
 
   it("retombe sur le JWE si le fetch de la source fraîche échoue (résilience, pas de boucle)", async () => {

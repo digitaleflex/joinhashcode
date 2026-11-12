@@ -57,7 +57,7 @@ export function ReviewerQueue({ submissions }: { submissions: Submission[] }) {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {submissions.map((sub) => (
-            <Link key={sub.id} href={`/missions/${sub.mission.id}/review`}>
+            <Link key={sub.id} href={`/reviewer/submissions/${sub.id}`}>
               <Card className="h-full border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-900/80 hover:border-primary/30 transition-all group cursor-pointer">
                 <CardHeader className="pb-3">
                   <div className="flex items-start justify-between">

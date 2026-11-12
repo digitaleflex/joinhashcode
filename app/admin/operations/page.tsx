@@ -12,19 +12,17 @@ export const metadata = {
 
 function missingStep(user: {
   currentSituation: string | null
-  class: string | null
   primaryDomain: string | null
   firstActionStartedAt: Date | null
 }) {
   if (!user.currentSituation) return "Inscription à terminer"
-  if (!user.class) return "Diagnostic à faire"
   if (!user.primaryDomain) return "Domaine à choisir"
   if (!user.firstActionStartedAt) return "Première action à commencer"
   return null
 }
 
 export default async function AdminOperationsPage() {
-  const [totalValid, noOnboarding, noQuiz, noDomain, noFirstAction, users] =
+  const [totalValid, noOnboarding, noDomain, noFirstAction, users] =
     await Promise.all([
       prisma.user.count({
         where: { banned: { not: true }, deactivatedAt: null, emailOptOutAt: null, emailStatus: "VALID" },
@@ -38,15 +36,6 @@ export default async function AdminOperationsPage() {
           deactivatedAt: null,
           emailOptOutAt: null,
           currentSituation: { not: null },
-          class: null,
-        },
-      }),
-      prisma.user.count({
-        where: {
-          banned: { not: true },
-          deactivatedAt: null,
-          emailOptOutAt: null,
-          class: { not: null },
           primaryDomain: null,
         },
       }),
@@ -67,7 +56,6 @@ export default async function AdminOperationsPage() {
           emailStatus: "VALID",
           OR: [
             { currentSituation: null },
-            { class: null },
             { primaryDomain: null },
             { firstActionStartedAt: null },
           ],
@@ -77,7 +65,6 @@ export default async function AdminOperationsPage() {
           name: true,
           email: true,
           currentSituation: true,
-          class: true,
           primaryDomain: true,
           firstActionStartedAt: true,
           createdAt: true,
@@ -91,7 +78,6 @@ export default async function AdminOperationsPage() {
   const stats = [
     { label: "Comptes valides", value: totalValid, icon: Users },
     { label: "Inscription à terminer", value: noOnboarding, icon: AlertCircle },
-    { label: "Diagnostic à faire", value: noQuiz, icon: AlertCircle },
     { label: "Domaine à choisir", value: noDomain, icon: AlertCircle },
     { label: "Première action à démarrer", value: noFirstAction, icon: UserCheck },
   ]
@@ -111,7 +97,7 @@ export default async function AdminOperationsPage() {
         </p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => {
           const Icon = stat.icon
           return (
