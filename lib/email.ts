@@ -69,7 +69,7 @@ export const emailService = {
     return this.sendWelcomeEmail({ email, name });
   },
 
-  async sendMissionProtocolEmail({ email, name, userClass }: { email: string; name: string; userClass: string }) {
+  async sendMissionProtocolEmail({ email, name, userClass }: { email: string; name: string; userClass?: string | null }) {
     if (!resend) {
       warnEmailMissing("sendMissionProtocolEmail");
       return { success: true, mocked: true };
