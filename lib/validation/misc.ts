@@ -22,15 +22,6 @@ export const quizFeedbackSchema = z.object({
 
 export type QuizFeedbackInput = z.infer<typeof quizFeedbackSchema>;
 
-// ── UX poll ───────────────────────────────────────────────────────────────────
-export const uxPollSchema = z.object({
-  prefersDarkMode: z.boolean().optional(),
-  modernityRating: z.number().min(1).max(5).optional(),
-  readabilityIssues: z.array(z.string().max(200)).max(10).optional(),
-});
-
-export type UxPollInput = z.infer<typeof uxPollSchema>;
-
 // ── Notification bulk update ──────────────────────────────────────────────────
 export const notificationBulkSchema = z.object({
   ids: z.array(z.string().min(1)).max(100).optional(),

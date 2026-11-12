@@ -107,7 +107,6 @@ REST endpoints under `app/api/`:
 | `og/`                           | GET       | —               | OpenGraph image generation                                            |
 | `log/client-error/`             | POST      | —               | Client-side error logging                                             |
 | `webhooks/resend/`              | POST      | —               | Resend email webhooks                                                 |
-| `ux-poll/`                      | GET/POST  | session         | UX poll responses                                                     |
 | `public/talent/`                | GET       | —               | Public talent profiles                                                |
 | `admin/submissions/`            | GET       | ADMIN/MOD       | List all submissions                                                  |
 | `admin/submissions/[id]/`       | PATCH     | ADMIN/MOD       | Approve / request revision / reject                                   |
@@ -119,7 +118,6 @@ REST endpoints under `app/api/`:
 | `admin/users/[id]/export/`      | GET       | ADMIN/MOD       | Export single user data                                               |
 | `admin/users/export/`           | GET       | ADMIN/MOD       | Export all users data                                                 |
 | `admin/feedback/`               | GET/PATCH | ADMIN/MOD       | Manage beta feedback                                                  |
-| `admin/ux-poll/`                | GET       | ADMIN/MOD       | View UX poll results                                                  |
 | `admin/log/`                    | GET       | ADMIN/MOD       | View activity logs                                                    |
 | `admin/keys/`                   | GET/POST  | ADMIN/MOD       | Manage API keys                                                       |
 | `admin/keys/[id]/`              | DELETE    | ADMIN/MOD       | Delete API key                                                        |
