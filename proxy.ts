@@ -130,6 +130,9 @@ export async function proxy(request: NextRequest) {
     }
 
     const needsOnboarding = !user.currentSituation;
+    // Le quiz est facultatif (D-030) : on ne l'impose plus, on l'autorise seulement
+    // tant qu'il n'a pas été passé.
+    const canTakeQuiz = user.currentSituation && !user.class;
     const needsSpecialization = user.class && !user.primaryDomain;
     const isSpecializationPath = pathname.startsWith("/specialization");
     const isOnboardingPath = pathname.startsWith("/onboarding");
@@ -145,8 +148,10 @@ export async function proxy(request: NextRequest) {
       if (isSpecializationPath && !needsSpecialization) {
         nextResponse = NextResponse.redirect(new URL("/dashboard", request.url));
       } else if (isOnboardingPath && !needsOnboarding) {
-        // Onboarding terminé → dashboard (quiz optionnel, accessible depuis Paramètres).
+        // Onboarding terminé → dashboard (le quiz n'est plus une étape du parcours).
         nextResponse = NextResponse.redirect(new URL("/dashboard", request.url));
+      } else if (isQuizPath && !canTakeQuiz) {
+        nextResponse = NextResponse.redirect(new URL("/missions", request.url));
       }
     }
   }
