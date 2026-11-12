@@ -1,6 +1,5 @@
 import { describe, it, expect } from "vitest";
 import { getFirstAction, normalizeDomain } from "@/lib/first-action";
-import { getAtelier } from "@/lib/ateliers";
 
 describe("normalizeDomain", () => {
   it("reconnaît les variantes web", () => {
@@ -35,11 +34,9 @@ describe("getFirstAction", () => {
       const action = getFirstAction(domain);
       expect(action.status).toBe("ready");
       expect(action.domain).toBe(domain);
-      expect(action.href).toMatch(/^\/ateliers\//);
-
-      // The target must exist in the atelier catalogue — no dead promise.
-      const slug = action.href!.replace("/ateliers/", "");
-      expect(getAtelier(slug)).toBeDefined();
+      // La première action mène au catalogue de Labs (D-030) : pas de contenu intermédiaire.
+      expect(action.href).toBe("/missions");
+      expect(action.source).toBe("lab");
     },
   );
 

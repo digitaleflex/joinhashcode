@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowRight, CheckCircle2, Clock, Loader2, PlayCircle, Sparkles, Trophy } from "lucide-react";
+import { ArrowRight, CheckCircle2, Loader2, PlayCircle, Sparkles, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { FirstAction } from "@/lib/first-action";
@@ -101,8 +101,8 @@ export function FirstActionCard({
       ? "Explorer les Labs"
       : status === "started"
         ? "Reprendre ma première action"
-        : action.source === "atelier"
-          ? "Commencer ma première action"
+        : action.source === "lab"
+          ? "Choisir mon premier lab"
           : "Choisir mon domaine";
 
   return (
@@ -150,12 +150,6 @@ export function FirstActionCard({
               ? "Tu as posé la première brique de ton parcours. La suite : pratiquer avec un Lab et documenter ce que tu sais faire."
               : action.description}
           </p>
-          {action.duration && status !== "completed" && (
-            <p className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-zinc-500">
-              <Clock className="h-3.5 w-3.5" aria-hidden />
-              {action.duration}
-            </p>
-          )}
         </div>
       </div>
 
@@ -235,10 +229,10 @@ export function FirstActionCard({
             </Link>
           </Button>
           <Link
-            href="/ateliers"
+            href="/missions"
             className="text-xs font-semibold text-zinc-400 transition-colors hover:text-primary"
           >
-            Voir tous les ateliers
+            Voir tous les labs
           </Link>
           <Link
             href="/contact"
