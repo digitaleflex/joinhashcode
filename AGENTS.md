@@ -107,7 +107,6 @@ REST endpoints under `app/api/`:
 | `og/`                           | GET       | —               | OpenGraph image generation                                            |
 | `log/client-error/`             | POST      | —               | Client-side error logging                                             |
 | `webhooks/resend/`              | POST      | —               | Resend email webhooks                                                 |
-| `public/talent/`                | GET       | —               | Public talent profiles                                                |
 | `admin/submissions/`            | GET       | ADMIN/MOD       | List all submissions                                                  |
 | `admin/submissions/[id]/`       | PATCH     | ADMIN/MOD       | Approve / request revision / reject                                   |
 | `admin/missions/`               | GET/PATCH | ADMIN/MOD       | Manage missions                                                       |
