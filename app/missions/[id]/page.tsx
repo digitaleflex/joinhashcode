@@ -15,7 +15,6 @@ import { MissionSubmissionForm } from "./mission-submission-form"
 import { OnboardingWorkflow } from "@/components/missions/onboarding-workflow"
 import { MissionBriefing } from "@/components/missions/mission-briefing"
 import { SubmissionTimeline, type TimelineProps } from "@/components/missions/submission-timeline"
-import { SuggestedPartners } from "@/components/missions/suggested-partners"
 import { SubmissionGuide } from "@/components/missions/submission-guide"
 import { getAteliersForMission } from "@/lib/ateliers"
 import { getStepMissionDef } from "@/lib/mission-engine"
@@ -86,44 +85,6 @@ export default async function MissionBriefingPage({
   ])
 
   if (!dbUser) redirect("/signin")
-
-  // Complementary class mapping for Matchmaking Alpha
-  const complementaryClasses: Record<string, string[]> = {
-    BUILDER: ["CREATOR", "STRATEGIST"],
-    CREATOR: ["BUILDER", "STRATEGIST"],
-    STRATEGIST: ["BUILDER", "CREATOR"],
-    CATALYST: ["BUILDER", "CREATOR"],
-  }
-
-  const userClass = dbUser.class?.toUpperCase() || ""
-  const targets = complementaryClasses[userClass] || ["BUILDER", "CREATOR"]
-
-  // Query 3 suggested partners with complementary classes
-  const suggestedPartnersRaw = await prisma.user.findMany({
-    where: {
-      id: { not: dbUser.id },
-      class: { in: targets },
-      banned: { not: true },
-    },
-    select: {
-      id: true,
-      pseudo: true,
-      class: true,
-      githubUrl: true,
-      linkedinUrl: true,
-      twitterUrl: true,
-    },
-    take: 3,
-  })
-
-  const suggestedPartners = suggestedPartnersRaw.map(p => ({
-    id: p.id,
-    pseudo: p.pseudo,
-    class: p.class,
-    githubUrl: p.githubUrl ?? null,
-    linkedinUrl: p.linkedinUrl ?? null,
-    twitterUrl: p.twitterUrl ?? null,
-  }))
 
   const submission = dbUser.missionSubmissions[0]
   const isCompleted = submission?.status === "APPROVED"
@@ -481,9 +442,6 @@ export default async function MissionBriefingPage({
                     </div>
                   )
                 })()}
-
-                {/* Suggested Partners card */}
-                <SuggestedPartners partners={suggestedPartners} />
 
               </div>
             </div>
