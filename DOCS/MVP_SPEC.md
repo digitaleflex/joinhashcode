@@ -1,5 +1,11 @@
 # MVP Spec — JoinHashCode (Lancement)
 
+> **Amendé le 12/11/2026 (D-030).** Le périmètre du MVP est désormais la boucle *lab → relecture par un pair →
+> preuve publique* (`DOCS/PRODUCT_VISION.md`). Le quiz psychométrique n'est plus une étape du parcours, les ateliers
+> sont fusionnés dans les Labs, et la relecture est ouverte aux membres ayant validé 3 labs. Les lignes ci-dessous
+> qui parlent du quiz ont été mises à jour ; le reste du document reste valable.
+
+
 *Document de référence pour [#400](https://github.com/digitaleflex/joinhashcode/issues/400). Aligné sur `PRODUCT_VISION.md`, `DOCS/DECISIONS.md` (D-024/D-025), `README.md`. Statut : vivant.*
 
 ## 1) Objectif
@@ -15,7 +21,7 @@ Définir un MVP minimal, honnête et testable qui permette à un nouvel utilisat
 | Inscription / Authentification | Sign up/sign in (Better Auth) - email/password ou OAuth selon config. Gestion session. | Fonctionnel |
 | Vérification / profil | Création profil, pseudo, état utilisateur cohérent. | Fonctionnel |
 | Onboarding | Collecte minimale (situation/contexte) selon `app/onboarding`. | Fonctionnel |
-| Quiz / Orientation | Quiz psychométrique existant + révélation + choix/orientation. Respecter ce qui est déjà en place. | Fonctionnel (ne pas casser) |
+| Orientation | Choix du domaine (carte « première action » du dashboard ; `/specialization` pour qui a passé le quiz). **Le quiz psychométrique est facultatif** (D-030). | Fonctionnel |
 | Première action par domaine | Pour chaque domaine, une **première action exécutable** et observable (lien/activité/lab). Si aucun contenu exploitable → afficher "Bientôt disponible" honnêtement. | À garantir (lié à #404) |
 | Navigation membre | `Mon Parcours` / espace membre cohérent. | Fonctionnel |
 
@@ -38,7 +44,7 @@ Définir un MVP minimal, honnête et testable qui permette à un nouvel utilisat
 | Rôle | Accès | Notes |
 |---|---|---|
 | Visiteur (anonyme) | Landing, pages publiques, `/invite/[slug]` géré | Accès restreint |
-| Membre authentifié (USER) | Espace membre, onboarding/quiz si non complétés, actions domaine | Par défaut |
+| Membre authentifié (USER) | Espace membre, onboarding si non complété, labs, relecture après 3 labs validés | Par défaut |
 | Modérateur (MODERATOR) | Selon layout admin existant + permissions minimales | Existant |
 | Administrateur (ADMIN) | Admin restreint nécessaire au lancement (membres/état activation, modération basique) | Minimal, cf #406 |
 
@@ -49,7 +55,7 @@ Règles: contrôles côté serveur obligatoires, pas d'exposition de données se
 |---|---|
 | Non authentifié accédant route protégée | Redirection vers signin avec callback si pertinent (cf middleware/proxy) |
 | Onboarding non complété | Redirigé vers `/onboarding` selon funnel |
-| Quiz non complété | Redirigé vers `/quiz` selon funnel |
+| Quiz non complété | Aucune redirection : le quiz est facultatif, le membre va au dashboard (D-030) |
 | Erreur réseau/serveur | Messages clairs, pas de crash, possibilité de réessayer |
 | Email/magic-link/OAuth échec | Messages explicites, pas de fuite d'info |
 | Première action indisponible | Affichage honnête "Bientôt disponible" + alternative communautaire si utile |
@@ -59,7 +65,7 @@ Règles: contrôles côté serveur obligatoires, pas d'exposition de données se
 ### Fonctionnel
 - [ ] Parcours complet visiteur→première action fonctionne en conditions réelles (test manuel)
 - [ ] 3 domaines présentés correctement, chacun avec première action ou état "bientôt disponible" justifié
-- [ ] Onboarding/quiz ne sont pas cassés par les changements récents
+- [ ] L'onboarding mène au dashboard sans passer par le quiz ; `/quiz` reste accessible tant qu'il n'a pas été passé
 - [ ] Authentification stable (session, redirections)
 
 ### UX/Accessibilité
@@ -83,7 +89,7 @@ Règles: contrôles côté serveur obligatoires, pas d'exposition de données se
 | Type | Cible | Notes |
 |---|---|---|
 | Manuel | Parcours critique complet | Obligatoire avant go/no-go |
-| E2E (si existant) | Auth/onboarding/quiz | Étendre si facile, ne pas bloquer sur refonte |
+| E2E (si existant) | Auth/onboarding ; **parcours de relecture par un pair non couvert** (essai manuel requis) | Étendre si facile, ne pas bloquer sur refonte |
 | Unitaire/Intégration | Logique métier touchée | Selon périmètre changement |
 
 ## 7) Définition "Prêt à lancer" (Go/No-Go)
