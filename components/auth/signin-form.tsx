@@ -16,7 +16,7 @@ import { describeAuthError } from "@/lib/auth-errors"
 const LAST_EMAIL_KEY = "hashcode:last-email"
 
 /** Only allow same-origin relative paths — rejects // protocol-relative and path-traversal attempts */
-function getSafeCallbackUrl(fallback = "/quiz"): string {
+function getSafeCallbackUrl(fallback = "/dashboard"): string {
     if (typeof window === "undefined") return fallback
     const cb = new URLSearchParams(window.location.search).get("callbackURL")
     if (!cb || !cb.startsWith("/") || cb.startsWith("//")) return fallback

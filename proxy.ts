@@ -4,11 +4,11 @@
 // ROUTING STRATEGY (Single Middleware Architecture):
 // - This file (proxy.ts) is the ONLY middleware handling auth redirects
 // - No separate middleware.ts exists in source (Next.js 15 uses this convention)
-// - Three-stage funnel enforced here:
+// - Funnel enforced here (D-030 : le quiz psychométrique n'est plus une étape obligatoire,
+//   il reste accessible sur /quiz) :
 //   1. No session → redirect to /signin
 //   2. Session but no currentSituation → redirect to /onboarding
-//   3. Session but no class assigned → redirect to /quiz
-//   4. Session but no primaryDomain → redirect to /specialization
+//   3. Session with a class (quiz passé) but no primaryDomain → redirect to /specialization
 // - Protected routes defined in PROTECTED_PATHS array
 // - /admin/* additionally guarded by app/admin/layout.tsx (requires ADMIN/MODERATOR role)
 // - /invite/* (anciens liens de squad) redirige vers /signin
