@@ -86,7 +86,7 @@
 | 3 | **Ouverture aux pairs** (modération + membres avec 3 labs validés) ; lien « Reviewer » de la barre latérale sans condition de niveau. Commit isolé : `git revert` pour revenir au mode concierge | ✅ `fix(review): ouvrir la relecture aux pairs` |
 | ⚠ | Non vérifié en navigateur ni par un e2e (pas de base ici) : **parcours à essayer à la main** avec deux comptes de test avant déploiement | ⬜ |
 | ⚠ | Les labs CORE relus par un pair passent en `PENDING_ADMIN` et attendent la confirmation de l'admin : prévoir de la traiter | ⬜ |
-| CLEAN-07 | 20 issues du backlog fermées en `not_planned` (#422, #425, #426, #429-#435, #437-#439, #441, #443, #444, #457, #459, #460, #463). Restent à décider : #423, #424, #427, #428, #442, puis recadrage de #436, #440, #417 | 🔄 |
+| CLEAN-07 | 23 issues du backlog fermées : 20 en `not_planned` (#422, #425, #426, #429-#435, #437-#439, #441, #443, #444, #457, #459, #460, #463), #423 en `completed` (PR #453 ; **`pnpm hef:seed` à lancer en production**), #427 et #428 en `not_planned` (import et code livrés, affichage et contenu absents). Restent à décider : #424 (vérification visuelle des libellés), #442 (partielle), puis recadrage de #436, #440, #417 | 🔄 |
 
 ---
 
