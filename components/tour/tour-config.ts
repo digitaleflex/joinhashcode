@@ -19,7 +19,7 @@ export const getDashboardTour = (isMobile: boolean): Tour => ({
           {
             icon: "📋",
             title: "Navigation",
-            content: "Accède à toutes les sections depuis le menu latéral : missions, dossier, talents et guide.",
+            content: "Accède à toutes les sections depuis le menu latéral : parcours, labs et portfolio.",
             selector: "#tour-sidebar",
             side: "right" as const,
             showControls: true,

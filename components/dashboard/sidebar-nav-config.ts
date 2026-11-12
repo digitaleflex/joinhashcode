@@ -1,5 +1,5 @@
 import type { ComponentType } from "react"
-import { Layout, Target, FileText, Compass, ClipboardCheck } from "lucide-react"
+import { Layout, Target, FileText, ClipboardCheck } from "lucide-react"
 
 export interface NavItem {
   href: string
@@ -8,14 +8,13 @@ export interface NavItem {
   tooltip: string
 }
 
-// Navigation membre alignée sur D-024 : Parcours → Labs → Portfolio → Vivier.
+// Navigation membre alignée sur D-024 et D-030 : Parcours → Labs → Portfolio.
 // Les entrées gelées (/guide, /squad, /leaderboard) restent hors navigation.
 export const mainNavItems: NavItem[] = [
   { href: "/dashboard", label: "Mon Parcours", icon: Layout, tooltip: "Ta prochaine étape du parcours." },
   { href: "/missions", label: "Labs", icon: Target, tooltip: "Les Labs des trois domaines : livre une action concrète et fais-la valider." },
   { href: "/academy", label: "Parcours", icon: ClipboardCheck, tooltip: "Ton parcours d'apprentissage : étapes, ressources et progression." },
   { href: "/dossier", label: "Portfolio", icon: FileText, tooltip: "Tes preuves de compétence et livrables vérifiés." },
-  { href: "/dashboard/talents", label: "Vivier", icon: Compass, tooltip: "Le vivier de talents HashCode." },
 ]
 
 // Anciennes entrées gelées (référence Vague 5) :
