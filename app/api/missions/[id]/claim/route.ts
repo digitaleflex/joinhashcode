@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { isEligibleReviewer } from "@/lib/acceptance-criteria";
+import { getClaimDecision } from "@/lib/review-access";
 import { logActivity } from "@/lib/activity-log";
 import { claimLimiter, checkRateLimit } from "@/lib/ratelimit";
 import { triggerWebhooks } from "@/lib/webhooks";
@@ -28,35 +28,16 @@ export async function POST(
       }),
       prisma.user.findUnique({
         where: { id: session.user.id },
-        select: { id: true, name: true, email: true, class: true, role: true, level: true, missionsCompletedCount: true },
+        select: { id: true, name: true, email: true, role: true, missionsCompletedCount: true },
       }),
     ]);
 
     if (!submission) return NextResponse.json({ message: "Soumission introuvable." }, { status: 404 });
     if (!reviewer) return NextResponse.json({ message: "Utilisateur introuvable." }, { status: 404 });
 
-    // Concierge Mode: Restrict to ADMIN or MODERATOR
-    if (reviewer.role !== "ADMIN" && reviewer.role !== "MODERATOR") {
-      return NextResponse.json({ message: "Le claim de mission est réservé à la modération." }, { status: 403 });
-    }
-
-    if (submission.status !== "PENDING") {
-      return NextResponse.json({ message: "Cette soumission n'est plus disponible pour révision." }, { status: 400 });
-    }
-
-    // PRO missions are admin-only — block peer review at claim stage
-    if (submission.mission.missionLevel === "PRO") {
-      return NextResponse.json({ message: "Cette mission est réservée à la validation admin. Elle ne peut pas être réclamée par un pair." }, { status: 403 });
-    }
-
-    const eligible = isEligibleReviewer({
-      reviewerMissionsCompleted: reviewer.missionsCompletedCount ?? 0,
-      reviewerId: reviewer.id,
-      submissionUserId: submission.userId,
-    });
-
-    if (!eligible) {
-      return NextResponse.json({ message: "Tu n'es pas éligible pour reviewer cette mission." }, { status: 403 });
+    const decision = getClaimDecision({ reviewer, submission });
+    if (!decision.ok) {
+      return NextResponse.json({ message: decision.message }, { status: decision.status });
     }
 
     try {
