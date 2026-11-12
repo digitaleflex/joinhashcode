@@ -4,7 +4,6 @@ import { ArrowRight, Clock, FlaskConical } from "lucide-react"
 import { SectionHeading } from "@/components/site/section-heading"
 import {
   getPublishedMissions,
-  getActiveAteliers,
   groupMissionsByCourse,
   groupMissionsByLevel,
   sortMissionsForCompactView,
@@ -78,7 +77,7 @@ export default async function LabsPage({
   const { vue } = await searchParams
   const activeView: LabsView = vue === "niveaux" || vue === "compacte" ? vue : "parcours"
 
-  const [missions, ateliers] = await Promise.all([getPublishedMissions(), getActiveAteliers()])
+  const missions = await getPublishedMissions()
   // Les labs appartiennent toujours à un cours : jamais de liste à plat.
   const labs = missions.filter((m) => !m.isWeeklyChallenge)
   const groups = groupMissionsByCourse(labs)
@@ -256,32 +255,6 @@ export default async function LabsPage({
             </details>
           </section>
         ))
-      )}
-
-      {/* Workshops */}
-      {ateliers.length > 0 && (
-        <section className="border-t border-border bg-card">
-          <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
-            <div className="mb-8 flex items-center gap-3">
-              <span className="h-px w-8 bg-primary" aria-hidden />
-              <h2 className="font-mono text-xs font-bold uppercase tracking-widest text-primary">Ateliers</h2>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {ateliers.map((a) => (
-                <article key={a.id} className="rounded-2xl border border-border bg-background p-6">
-                  <h3 className="font-syne text-lg font-bold text-foreground">{a.title}</h3>
-                  <p className="mt-1 text-xs text-muted-foreground">{a.specializationLabel}</p>
-                  <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted-foreground">{a.description}</p>
-                  <div className="mt-4 flex items-center gap-4 text-xs text-muted-foreground">
-                    {a.duration && (
-                      <span className="inline-flex items-center gap-1"><Clock className="h-3.5 w-3.5" aria-hidden />{a.duration}</span>
-                    )}
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
       )}
 
       {/* Access note */}
