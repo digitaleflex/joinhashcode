@@ -28,7 +28,7 @@
 |---|---|---|
 | 0 | D-030, H20, H21, tag `pre-nettoyage-2` | ✅ 12/11 |
 | 1 | Base de données : fusion de `chore/phase4-migration` (11 tables) **avec export et sauvegarde préalables** | ⬜ |
-| 2 | **Bloc A** — vérifié zone par zone (ci-dessous) : 1 zone supprimée, 5 reclassées en conservation, décision ou bloc B | 🔄 |
+| 2 | **Bloc A** — vérifié zone par zone (ci-dessous) : 4 zones supprimées (sondage UX, Vivier connecté, API v1, API publique talent), les autres conservées, reportées au bloc B ou en attente de décision (`programme`/`paths`/`diplomas`) ou de contrôle en base (webhooks sortants) | ✅ 12/11 |
 | 3 | **Bloc B** — après découplage : sortir le quiz du funnel (`proxy.ts`), fusionner Ateliers dans Labs, remplacer les missions 01-03 codées en dur, résidus de gamification, réduire le dashboard | ⬜ |
 | 4 | Backlog GitHub : fermer #425-#444 sauf #440 et #436 (recadrées), #457, #459, #460, #463, #464, #465 en `not_planned` avec renvoi vers D-030 | ⬜ |
 | 5 | Dépôts : archiver `hashcode-learning-platform` et `hashcode-profiling-engine` (après accord) | ⬜ |
@@ -45,7 +45,15 @@
 | Admin `analytics`, `feedback` | **À CONSERVER.** Mesure des KPI et lecture des retours des sessions utilisateurs (D-028) | ⛔ conservé |
 | Admin `keys`, `operations` | **À CONSERVER.** Clés bêta utilisées par l'authentification ; relances email | ⛔ conservé |
 | Admin `contenus`, `parcours`, `notifications` | **→ bloc B.** `contenus` édite le contenu des profils et ateliers, `parcours` les spécialisations avec XP ; ils appellent des routes API qui resteraient orphelines (`profile-content`, `ateliers`, `specializations`) | ➡ B |
-| Vitrines `talents` / `dashboard/talents`, API v1 / webhooks / feed / public, `components/tour` | Pas encore vérifiés | ⬜ |
+| `/talents` (vitrine publique) | **À CONSERVER.** Seul index public des preuves (`talentVisible` + au moins 1 mission validée), lié depuis la nav, le pied de page, le sitemap et `/community`. Texte « bâtisseurs / stratèges » à nettoyer au bloc B | ⛔ conservé |
+| `/dashboard/talents` (Vivier connecté) | **Fuite de données** : listait tous les membres non bannis sans `talentVisible` et transmettait leurs 4 scores psychométriques au composant client. Supprimé avec `ui/hover-card` et `@radix-ui/react-hover-card` | ✅ `6fdf4c5` |
+| API v1 (`GET /api/v1/members/me`, test, workflow `api-v1.yml`, `docs/API_V1.md`) | Aucun consommateur dans le dépôt ni dans les 3 autres. Aucun appelant externe n'a été exclu (logs d'accès non consultés) | ✅ `db4fc74` |
+| `/api/public/talent` | Route orpheline (déjà relevée en 09/2026), `/talents` ne l'utilise pas | ✅ `07252f8` |
+| `/api/webhooks/resend` | **À CONSERVER** : rebonds et plaintes d'emails (signature svix) | ⛔ conservé |
+| Webhooks sortants par mission (`lib/webhooks.ts`, table `MissionWebhook`, 3 routes admin) | Aucun écran, configurables par appel API seulement, branchés dans 4 routes du chemin critique. **Contrôle en base requis avant décision** : `SELECT count(*) FROM mission_webhook` en production | ⏸ contrôle base |
+| `/api/feed` | **À CONSERVER** : alimente `AdminLiveFeed` (dashboard admin) | ⛔ conservé |
+| `components/tour` (+ dépendance `nextstepjs`) | Actif : flag `tour` à `true` par défaut, utilisé par `dossier`, `missions`, `dashboard-with-tour`, barre latérale. Pas isolé | ➡ B (réduction du dashboard) |
+| `lib/profile-v1.ts` + modèle `ProfileV1` | Écrit à l'approbation de la Mission 01 (2 appels sur le chemin critique), lu par personne | ➡ B (missions 01-03) |
 
 > **Leçon :** la liste initiale du bloc A (~7 600 lignes) était une estimation faite sans lire le code. Après vérification, une seule zone était réellement isolée. Règle ajoutée : aucune suppression sans avoir listé les liens entrants, les données écrites et les tests qui en dépendent.
 
