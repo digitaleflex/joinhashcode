@@ -71,8 +71,8 @@ Une hypothèse avec 2 observations a une confiance faible même si 🟢.
 
 | KPI | Cible | Actuel |
 |---|---|---|
-| Landing → Quiz | > 70 % | — |
-| Quiz terminé | > 90 % | — |
+| Landing → Quiz | > 70 % | — ⚠ à redéfinir (D-030 : le quiz est facultatif, la landing renvoie vers la connexion) |
+| Quiz terminé | > 90 % | — ⚠ à redéfinir (D-030 : mesure d'une option, plus d'une étape) |
 | Choix spécialisation | > 80 % | — |
 | Premier atelier démarré | > 60 % | — |
 | Premier atelier terminé | > 50 % | — |
