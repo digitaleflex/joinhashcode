@@ -30,7 +30,7 @@ Route groups live under `/app`. The middleware at `proxy.ts` enforces a three-st
 
 1. No session → redirect to `/signin`
 2. Session but no `currentSituation` → redirect to `/onboarding`
-3. Session but no `class` assigned → redirect to `/quiz`
+3. ~~Session but no `class` assigned → redirect to `/quiz`~~ — **removed (D-030)**: the quiz is optional; `/quiz` stays reachable until taken
 
 Protected routes: see `PROTECTED_PATHS` in `proxy.ts` (source of truth — includes `/academy/my-courses` and `/academy/certificates`). Any new private page must be added there; `pnpm verify` fails if a private route returns 200.
 
