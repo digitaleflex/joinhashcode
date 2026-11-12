@@ -78,6 +78,16 @@
 | 4 | **Table `atelier`** (modèle Prisma) : plus aucun code ne la lit ni ne l'écrit. Suppression = migration + export préalable + confirmation explicite. À vérifier d'abord en production : `SELECT count(*) FROM atelier` et si un lab `premiere-preuve-maitrise` y a été créé à la main | ⏸ phase base de données |
 | ⚠ | Restes à décider : `sendOrientationEmail` (paramètres `atelier*`, aucun appelant trouvé), bouton « Commencer l'atelier » du résultat du quiz (disparaît avec le code du quiz), mot « Atelier » dans l'Academy (`programme/[slug]`, `python-runner`, `lib/academy/program.ts`), événement `first_action_completed` désormais sans déclencheur dans l'interface (API conservée) | ⬜ |
 
+### B3 — Relecture par un pair (BUILD-02, #484) et backlog (CLEAN-07, #481)
+| Étape | Contenu | Statut |
+|---|---|---|
+| 1 | Éligibilité relecteur = **3 labs validés**, sans condition de profil (D-029) : `isEligibleReviewer` exigeait en plus un profil psychométrique, bloquant tout membre sans quiz | ✅ `fix(review): éligibilité relecteur` |
+| 2 | Page `/reviewer/submissions/[submissionId]` (brief, livrable, prise en charge, formulaire de relecture) ; la file ne mène plus à un 404 ; `lib/review-access.ts` source unique de la politique | ✅ `fix(review): page de relecture par soumission` |
+| 3 | **Ouverture aux pairs** (modération + membres avec 3 labs validés) ; lien « Reviewer » de la barre latérale sans condition de niveau. Commit isolé : `git revert` pour revenir au mode concierge | ✅ `fix(review): ouvrir la relecture aux pairs` |
+| ⚠ | Non vérifié en navigateur ni par un e2e (pas de base ici) : **parcours à essayer à la main** avec deux comptes de test avant déploiement | ⬜ |
+| ⚠ | Les labs CORE relus par un pair passent en `PENDING_ADMIN` et attendent la confirmation de l'admin : prévoir de la traiter | ⬜ |
+| CLEAN-07 | 20 issues du backlog fermées en `not_planned` (#422, #425, #426, #429-#435, #437-#439, #441, #443, #444, #457, #459, #460, #463). Restent à décider : #423, #424, #427, #428, #442, puis recadrage de #436, #440, #417 | 🔄 |
+
 ---
 
 # Historique — Vague 1 (09/2026)
