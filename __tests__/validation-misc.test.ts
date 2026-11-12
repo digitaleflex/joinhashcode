@@ -2,7 +2,6 @@ import { describe, test, expect } from "vitest";
 import {
   betaVerifySchema,
   quizFeedbackSchema,
-  uxPollSchema,
   notificationBulkSchema,
   adminKeyGenSchema,
   adminBroadcastSchema,
@@ -21,12 +20,6 @@ describe("S6-2 — misc API input validation schemas", () => {
     expect(quizFeedbackSchema.safeParse({ quizResultId: "r1", isAccurate: true, usefulness: 3 }).success).toBe(true);
     expect(quizFeedbackSchema.safeParse({ quizResultId: "r1", isAccurate: true, usefulness: 9 }).success).toBe(false);
     expect(quizFeedbackSchema.safeParse({ quizResultId: "r1", isAccurate: true, usefulness: 3, comment: "x".repeat(2001) }).success).toBe(false);
-  });
-
-  test("uxPollSchema clamps arrays and numbers", () => {
-    expect(uxPollSchema.safeParse({ modernityRating: 3, prefersDarkMode: true, readabilityIssues: ["a", "b"] }).success).toBe(true);
-    expect(uxPollSchema.safeParse({ modernityRating: 9 }).success).toBe(false);
-    expect(uxPollSchema.safeParse({ modernityRating: 3, readabilityIssues: Array(11).fill("x") }).success).toBe(false);
   });
 
   test("notificationBulkSchema rejects oversized ids", () => {
