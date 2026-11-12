@@ -50,11 +50,9 @@ export async function POST(
     }
 
     const eligible = isEligibleReviewer({
-      reviewerClass: reviewer.class,
       reviewerMissionsCompleted: reviewer.missionsCompletedCount ?? 0,
       reviewerId: reviewer.id,
       submissionUserId: submission.userId,
-      missionTargetProfiles: submission.mission.targetProfiles,
     });
 
     if (!eligible) {

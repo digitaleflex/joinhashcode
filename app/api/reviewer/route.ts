@@ -28,11 +28,9 @@ export async function GET() {
 
     const eligible = pendingSubmissions.filter(sub => {
       return isEligibleReviewer({
-        reviewerClass: reviewer.class,
         reviewerMissionsCompleted: reviewer.missionsCompletedCount ?? 0,
         reviewerId: reviewer.id,
         submissionUserId: sub.userId,
-        missionTargetProfiles: sub.mission.targetProfiles,
       });
     });
 

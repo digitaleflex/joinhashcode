@@ -60,11 +60,9 @@ export default async function ReviewerPage() {
   const eligible: Submission[] = pendingSubmissions
     .filter((sub) => {
       return isEligibleReviewer({
-        reviewerClass: dbUser.class,
-      reviewerMissionsCompleted: dbUser.missionsCompletedCount ?? 0,
+        reviewerMissionsCompleted: dbUser.missionsCompletedCount ?? 0,
         reviewerId: dbUser.id,
         submissionUserId: sub.userId,
-        missionTargetProfiles: sub.mission.targetProfiles,
       })
     })
     .map((sub) => ({
