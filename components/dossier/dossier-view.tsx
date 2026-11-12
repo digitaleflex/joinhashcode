@@ -237,7 +237,7 @@ export function DossierView({
                                        <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed font-light">
                                            {quizResult?.profileType 
                                              ? <>Ton profil est de type <span className="text-white font-bold">{quizResult.profileType}</span>. Tes scores reflètent tes forces naturelles.</>
-                                             : <>Fais le quiz pour découvrir ton profil et débloquer des missions adaptées.</>
+                                             : <>Le quiz de profil est facultatif : tu peux le faire quand tu veux depuis tes paramètres. Tous les labs sont déjà ouverts.</>
                                            }
                                        </p>
                                    </div>
