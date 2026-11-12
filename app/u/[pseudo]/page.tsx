@@ -6,6 +6,7 @@ import { Footer } from "@/components/landing/footer";
 import { Metadata } from "next";
 import { APP_URL } from "@/lib/config";
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types";
+import { getPublicEvidence } from "@/lib/evidence";
 
 interface PageProps {
   params: Promise<{ pseudo: string }>
@@ -69,6 +70,27 @@ export default async function PublicProfilePage({ params }: PageProps) {
 
   const isPrivate = !dbUser.talentVisible;
 
+  // Récupérer les preuves publiques (soumissions APPROVED) — #455/#456
+  const evidence = await getPublicEvidence(dbUser.id);
+
+  // Mapper les preuves vers le format DetailedMissionSubmission attendu par DossierView
+  const missionSubmissions: DetailedMissionSubmission[] = evidence.map((e) => ({
+    id: e.id,
+    missionId: e.missionId,
+    userId: dbUser.id,
+    status: "APPROVED" as const,
+    content: "",
+    createdAt: e.validatedAt,
+    updatedAt: e.validatedAt,
+    qualityLevel: e.qualityLevel,
+    mission: {
+      title: e.mission.title,
+      category: e.mission.category,
+      slug: e.mission.slug,
+      missionLevel: e.mission.missionLevel ?? null,
+    },
+  }));
+
   // Aplatir l'objet user pour la compatibilité avec DossierView
   const user: UserProfile & { missionSubmissions: DetailedMissionSubmission[], activityLogs: Array<{ id: string; action: string; createdAt: Date }> } = {
     id: dbUser.id,
@@ -106,7 +128,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
     lastCheckin: null,
     referralCount: 0,
     j7Activated: false,
-    missionSubmissions: [],
+    missionSubmissions,
     activityLogs: [],
   };
 
