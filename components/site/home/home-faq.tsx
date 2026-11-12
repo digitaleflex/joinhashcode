@@ -30,7 +30,7 @@ export function HomeFaq() {
     <section className="border-t border-border bg-card">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8 lg:py-24">
         <div>
-          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-primary">Questions fréquentes</p>
+          <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-primary">Questions fréquentes</p>
           <h2 className="mt-3 font-syne text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Avant de commencer.</h2>
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
             Quelques repères pour comprendre le fonctionnement de HashCode et savoir à quoi t'attendre.

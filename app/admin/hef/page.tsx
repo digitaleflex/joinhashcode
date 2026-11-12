@@ -125,7 +125,7 @@ export default async function AdminHefPage() {
   return (
     <div className="space-y-8">
       <div>
-        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
+        <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-primary">
           Academy
         </p>
         <h1 className="mt-2 text-3xl font-black tracking-tight text-white">
@@ -178,7 +178,7 @@ export default async function AdminHefPage() {
       <div className="overflow-hidden rounded-2xl border border-white/8">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[900px] text-left text-sm">
-            <thead className="bg-white/[0.03] text-[10px] uppercase tracking-wider text-zinc-500">
+            <thead className="bg-white/[0.03] text-xs uppercase tracking-wider text-zinc-500">
               <tr>
                 <th className="px-4 py-3 font-bold">Module</th>
                 <th className="px-4 py-3 font-bold">Phase</th>
@@ -199,7 +199,7 @@ export default async function AdminHefPage() {
                   <tr key={module.id} className="align-top">
                     <td className="px-4 py-3">
                       <p className="font-bold text-white">{module.title}</p>
-                      <p className="mt-0.5 font-mono text-[10px] text-zinc-500">{module.slug}</p>
+                      <p className="mt-0.5 font-mono text-xs text-zinc-500">{module.slug}</p>
                     </td>
                     <td className="px-4 py-3 text-zinc-400">{module.pillar?.level ?? "—"}</td>
                     <td className="px-4 py-3">

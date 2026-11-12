@@ -57,7 +57,7 @@ function CourseCard({
                 )}
             </div>
             <div className="p-8 flex flex-col flex-1 space-y-4">
-                <span className="w-fit rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-primary">
+                <span className="w-fit rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-black uppercase tracking-wider text-primary">
                     {LEVEL_LABELS[course.level] ?? course.level}
                 </span>
                 <h3 className="text-xl font-black text-foreground leading-tight group-hover:text-primary transition-colors">
@@ -68,7 +68,7 @@ function CourseCard({
                 </p>
                 <div className="flex flex-wrap gap-1.5 pt-1">
                     {tagNames.map((tag) => (
-                        <Badge key={tag} variant="secondary" className="text-[10px] font-bold">
+                        <Badge key={tag} variant="secondary" className="text-xs font-bold">
                             {tag}
                         </Badge>
                     ))}
@@ -76,16 +76,16 @@ function CourseCard({
                 <div className="pt-4 mt-auto border-t border-border flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         {categoryName && (
-                            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                            <span className="text-xs font-black uppercase tracking-widest text-muted-foreground">
                                 {categoryName}
                             </span>
                         )}
-                        <span className="text-[10px] font-black text-muted-foreground">
+                        <span className="text-xs font-black text-muted-foreground">
                             {sectionCount} section{sectionCount > 1 ? "s" : ""}
                         </span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                        {course.totalLearners > 0 ? (<Stars rating={course.averageRating} />) : (<span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground">Nouveau</span>)}
+                        {course.totalLearners > 0 ? (<Stars rating={course.averageRating} />) : (<span className="text-xs font-black uppercase tracking-wider text-muted-foreground">Nouveau</span>)}
                         <ArrowRight className="size-3 text-primary" />
                     </div>
                 </div>

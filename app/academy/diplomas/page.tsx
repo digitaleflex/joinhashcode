@@ -84,7 +84,7 @@ export default async function AcademyDiplomasPage() {
                                 <span className="font-black text-lg tracking-tight">HASHCODE</span>
                             </div>
                             <div className="pt-8 border-t border-white/10 space-y-4">
-                                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">
+                                <p className="text-xs font-black uppercase tracking-[0.4em] text-primary">
                                     {badges.length} Certifications disponibles
                                 </p>
                                 <div className="space-y-3">
@@ -99,7 +99,7 @@ export default async function AcademyDiplomasPage() {
                                                 </div>
                                                 <div>
                                                     <p className="text-sm font-black text-white">{badge.name}</p>
-                                                    <p className="text-[10px] text-white/50 font-medium">
+                                                    <p className="text-xs text-white/50 font-medium">
                                                         {badge.description ?? "Certification HashCode"}
                                                     </p>
                                                 </div>
@@ -113,12 +113,12 @@ export default async function AcademyDiplomasPage() {
                             <div className="flex items-center gap-4">
                                 <ShieldCheck className="size-6 text-primary" />
                                 <div>
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-white/50">Programme</p>
+                                    <p className="text-xs font-black uppercase tracking-widest text-white/50">Programme</p>
                                     <p className="text-sm font-mono font-bold text-white">{program.name}</p>
                                 </div>
                             </div>
                             <div className="pt-6 border-t border-white/10">
-                                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40">
+                                <p className="text-xs font-black uppercase tracking-[0.4em] text-white/40">
                                     {program.durationMonths}+ mois de formation
                                 </p>
                             </div>

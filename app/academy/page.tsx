@@ -228,7 +228,7 @@ export default async function AcademyHubPage() {
                   className="group flex flex-col gap-3 rounded-2xl border border-border bg-background p-6 hover:border-primary/40 hover:-translate-y-1 transition-all duration-300"
                 >
                   {course.categoryName && (
-                    <span className="text-[10px] font-black uppercase tracking-wider text-primary">
+                    <span className="text-xs font-black uppercase tracking-wider text-primary">
                       {course.categoryName}
                     </span>
                   )}
@@ -317,7 +317,7 @@ export default async function AcademyHubPage() {
                         </div>
                       )}
                       <div className="absolute top-5 left-5 bg-card/90 backdrop-blur-sm px-4 py-1.5 rounded-full shadow-sm border border-border">
-                        <span className="text-[10px] font-black uppercase tracking-wider text-primary">
+                        <span className="text-xs font-black uppercase tracking-wider text-primary">
                           {levelLabel(course.level)}
                         </span>
                       </div>
@@ -333,7 +333,7 @@ export default async function AcademyHubPage() {
                         {tagNames.slice(0, 3).map((tag) => (
                           <span
                             key={tag}
-                            className="text-[10px] font-bold bg-muted text-muted-foreground px-2.5 py-1 rounded-full"
+                            className="text-xs font-bold bg-muted text-muted-foreground px-2.5 py-1 rounded-full"
                           >
                             {tag}
                           </span>
@@ -341,7 +341,7 @@ export default async function AcademyHubPage() {
                       </div>
                       <div className="pt-4 mt-auto border-t border-border flex items-center justify-between">
                         {categoryName && (
-                          <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                          <span className="text-xs font-black uppercase tracking-widest text-muted-foreground">
                             {categoryName}
                           </span>
                         )}

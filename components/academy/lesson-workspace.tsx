@@ -90,7 +90,7 @@ export function LessonWorkspace({
     <section className="mt-10 rounded-3xl border border-border bg-card p-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-primary">
+          <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-primary">
             Ton espace de travail
           </p>
           <h2 className="mt-1 text-lg font-bold text-foreground">

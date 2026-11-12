@@ -99,7 +99,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
         <div className="bg-card border border-border rounded-2xl p-5">
           <div className="flex items-center gap-2 mb-2">
             <BookOpen className="size-4 text-primary" />
-            <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">
+            <span className="text-xs font-black text-muted-foreground uppercase tracking-widest">
               Catégorie
             </span>
           </div>
@@ -110,7 +110,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
         <div className="bg-card border border-border rounded-2xl p-5">
           <div className="flex items-center gap-2 mb-2">
             <Users className="size-4 text-primary" />
-            <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">
+            <span className="text-xs font-black text-muted-foreground uppercase tracking-widest">
               Inscrits
             </span>
           </div>
@@ -121,7 +121,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
         <div className="bg-card border border-border rounded-2xl p-5">
           <div className="flex items-center gap-2 mb-2">
             <FileText className="size-4 text-primary" />
-            <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">
+            <span className="text-xs font-black text-muted-foreground uppercase tracking-widest">
               Sections / Contenus
             </span>
           </div>
@@ -131,7 +131,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
         </div>
         <div className="bg-card border border-border rounded-2xl p-5">
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">
+            <span className="text-xs font-black text-muted-foreground uppercase tracking-widest">
               Niveau / Langue
             </span>
           </div>
@@ -144,7 +144,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
       {/* Status badge */}
       <div className="mb-8">
         <span
-          className={`text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full ${course.isPublished ? "bg-success/10 text-success" : "bg-muted text-muted-foreground"
+          className={`text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded-full ${course.isPublished ? "bg-success/10 text-success" : "bg-muted text-muted-foreground"
             }`}
         >
           {course.isPublished ? "Publié" : "Brouillon"}
@@ -168,7 +168,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
                   <span className="text-sm font-medium text-foreground flex-1">
                     {content.title}
                   </span>
-                  <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">
+                  <span className="text-xs font-black text-muted-foreground uppercase tracking-widest">
                     {content.type}
                   </span>
                 </div>

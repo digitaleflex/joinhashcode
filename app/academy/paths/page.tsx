@@ -99,7 +99,7 @@ export default async function AcademyPathsPage() {
                                             <Icon className="size-7" />
                                         </div>
                                         <div className="space-y-0.5">
-                                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">
+                                            <span className="text-xs font-black uppercase tracking-[0.2em] text-primary">
                                                 Parcours {phase.number}
                                             </span>
                                             <h2 className="text-3xl font-black text-foreground tracking-tight">
@@ -147,7 +147,7 @@ export default async function AcademyPathsPage() {
                                             {pillar.concepts.slice(0, 3).map((concept) => (
                                                 <span
                                                     key={concept}
-                                                    className="text-[10px] font-bold bg-card text-muted-foreground px-2.5 py-1 rounded-full"
+                                                    className="text-xs font-bold bg-card text-muted-foreground px-2.5 py-1 rounded-full"
                                                 >
                                                     {concept}
                                                 </span>

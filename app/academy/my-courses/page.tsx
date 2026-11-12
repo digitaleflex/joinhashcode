@@ -77,7 +77,7 @@ async function CoursesList({ isInstructor, userId }: { isInstructor: boolean; us
       {courses.map((course) => (
         <div key={course.id} className="bg-card border border-border rounded-[2rem] p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
           <div className="flex justify-between items-start mb-4">
-            <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full ${course.isPublished ? "bg-success/10 text-success" : "bg-muted text-muted-foreground"}`}>
+            <span className={`text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded-full ${course.isPublished ? "bg-success/10 text-success" : "bg-muted text-muted-foreground"}`}>
               {course.isPublished ? "Publié" : "Brouillon"}
             </span>
           </div>

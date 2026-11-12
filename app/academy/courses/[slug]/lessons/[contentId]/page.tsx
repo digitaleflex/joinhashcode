@@ -226,7 +226,7 @@ export default async function LessonPage({
               href={`/academy/courses/${slug}/lessons/${previous.id}`}
               className="group flex flex-1 flex-col rounded-2xl border border-border bg-card p-4 transition-colors hover:border-primary/40"
             >
-              <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+              <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-muted-foreground">
                 <ArrowLeft className="h-3 w-3" aria-hidden />
                 Précédent
               </span>
@@ -243,7 +243,7 @@ export default async function LessonPage({
               href={`/academy/courses/${slug}/lessons/${next.id}`}
               className="group flex flex-1 flex-col rounded-2xl border border-border bg-card p-4 text-right transition-colors hover:border-primary/40"
             >
-              <span className="inline-flex items-center justify-end gap-1.5 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+              <span className="inline-flex items-center justify-end gap-1.5 text-xs font-black uppercase tracking-widest text-muted-foreground">
                 Suivant
                 <ArrowRight className="h-3 w-3" aria-hidden />
               </span>
@@ -256,7 +256,7 @@ export default async function LessonPage({
               href={`/academy/courses/${slug}`}
               className="group flex flex-1 flex-col rounded-2xl border border-primary/20 bg-primary/5 p-4 text-right transition-colors hover:border-primary/40"
             >
-              <span className="text-[10px] font-black uppercase tracking-widest text-primary">
+              <span className="text-xs font-black uppercase tracking-widest text-primary">
                 Terminé
               </span>
               <span className="mt-1 text-sm font-bold text-foreground group-hover:text-primary">

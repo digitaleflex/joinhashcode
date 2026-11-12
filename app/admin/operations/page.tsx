@@ -99,7 +99,7 @@ export default async function AdminOperationsPage() {
   return (
     <div className="space-y-8">
       <div>
-        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
+        <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-primary">
           Opérations
         </p>
         <h1 className="mt-2 text-3xl font-black tracking-tight text-white">
@@ -149,7 +149,7 @@ export default async function AdminOperationsPage() {
         </div>
         <div className="overflow-x-auto">
           <table className="w-full min-w-[900px] text-left text-sm">
-            <thead className="bg-white/[0.03] text-[10px] uppercase tracking-wider text-zinc-500">
+            <thead className="bg-white/[0.03] text-xs uppercase tracking-wider text-zinc-500">
               <tr>
                 <th className="px-4 py-3 font-bold">Membre</th>
                 <th className="px-4 py-3 font-bold">Étape manquante</th>

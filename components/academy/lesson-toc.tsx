@@ -32,7 +32,7 @@ export function LessonToc({ headings }: { headings: MarkdownHeading[] }) {
 
   return (
     <nav aria-label="Sommaire de la leçon" className="rounded-2xl border border-border bg-card p-4">
-      <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-500">
+      <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-zinc-500">
         Sur cette page
       </p>
       <ul className="mt-3 space-y-1">

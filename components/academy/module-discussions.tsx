@@ -55,12 +55,12 @@ export function ModuleDiscussions({ courseId, sectionId, lessonId, showTrigger =
                     <div className="flex items-center justify-between mb-8">
                         <div>
                             <h3 className="text-xl font-black text-foreground tracking-tight uppercase">Discussions</h3>
-                            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-1">Espace d&apos;échange du module</p>
+                            <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mt-1">Espace d&apos;échange du module</p>
                         </div>
                         <Button
                             size="sm"
                             onClick={() => setView("create")}
-                            className="bg-primary hover:bg-primary/90 text-white rounded-xl font-black text-[10px] uppercase tracking-widest transition-all hover:scale-105"
+                            className="bg-primary hover:bg-primary/90 text-white rounded-xl font-black text-xs uppercase tracking-widest transition-all hover:scale-105"
                         >
                             <Plus className="size-3 mr-2" />
                             Poser une question
@@ -71,7 +71,7 @@ export function ModuleDiscussions({ courseId, sectionId, lessonId, showTrigger =
                         {loading ? (
                             <div className="flex flex-col items-center justify-center p-12 gap-4">
                                 <Loader2 className="size-8 animate-spin text-primary" />
-                                <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Chargement des échanges...</p>
+                                <p className="text-xs font-black text-muted-foreground uppercase tracking-widest">Chargement des échanges...</p>
                             </div>
                         ) : topics.length === 0 ? (
                             <div className="text-center py-20 px-8 bg-secondary/50 rounded-[2.5rem] border border-dashed border-border">
@@ -85,7 +85,7 @@ export function ModuleDiscussions({ courseId, sectionId, lessonId, showTrigger =
                                 <Button
                                     variant="outline"
                                     onClick={() => setView("create")}
-                                    className="border-border hover:border-primary hover:text-primary rounded-xl font-black text-[10px] uppercase tracking-widest"
+                                    className="border-border hover:border-primary hover:text-primary rounded-xl font-black text-xs uppercase tracking-widest"
                                 >
                                     Démarrer la discussion
                                 </Button>
@@ -103,17 +103,17 @@ export function ModuleDiscussions({ courseId, sectionId, lessonId, showTrigger =
                                         </h4>
                                         <div className="flex items-center justify-between mt-4">
                                             <div className="flex items-center gap-3">
-                                                <div className="size-8 rounded-xl bg-secondary flex items-center justify-center text-[10px] font-black text-foreground uppercase">
+                                                <div className="size-8 rounded-xl bg-secondary flex items-center justify-center text-xs font-black text-foreground uppercase">
                                                     {topic.author.name?.[0] || "A"}
                                                 </div>
                                                 <div className="flex flex-col">
-                                                    <span className="text-[10px] font-black text-foreground uppercase tracking-tight">{topic.author.name}</span>
+                                                    <span className="text-xs font-black text-foreground uppercase tracking-tight">{topic.author.name}</span>
                                                     <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">
                                                         {formatDistanceToNow(new Date(topic.createdAt), { addSuffix: true, locale: fr })}
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-secondary rounded-full text-[10px] font-black text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+                                            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-secondary rounded-full text-xs font-black text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary transition-colors">
                                                 <MessageSquare className="size-3" />
                                                 {topic._count.posts}
                                             </div>
@@ -132,7 +132,7 @@ export function ModuleDiscussions({ courseId, sectionId, lessonId, showTrigger =
                             variant="ghost"
                             size="sm"
                             onClick={() => setView("list")}
-                            className="pl-0 hover:pl-2 transition-all font-black text-[10px] uppercase tracking-widest text-primary hover:bg-transparent"
+                            className="pl-0 hover:pl-2 transition-all font-black text-xs uppercase tracking-widest text-primary hover:bg-transparent"
                         >
                             ← Retour aux discussions
                         </Button>
@@ -159,7 +159,7 @@ export function ModuleDiscussions({ courseId, sectionId, lessonId, showTrigger =
                     <Button
                         variant="outline"
                         size="sm"
-                        className="h-10 px-5 border-border hover:border-primary hover:text-primary text-foreground rounded-xl font-black text-[10px] uppercase tracking-widest transition-all gap-2"
+                        className="h-10 px-5 border-border hover:border-primary hover:text-primary text-foreground rounded-xl font-black text-xs uppercase tracking-widest transition-all gap-2"
                     >
                         <MessageSquare className="size-4" />
                         Discussions
@@ -229,7 +229,7 @@ function CreateTopicForm({
         </div>
       )}
       <div>
-        <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block mb-2">
+        <label className="text-xs font-black text-muted-foreground uppercase tracking-widest block mb-2">
           Titre du sujet
         </label>
         <input
@@ -243,7 +243,7 @@ function CreateTopicForm({
         />
       </div>
       <div>
-        <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block mb-2">
+        <label className="text-xs font-black text-muted-foreground uppercase tracking-widest block mb-2">
           Contenu
         </label>
         <textarea
@@ -259,7 +259,7 @@ function CreateTopicForm({
       <Button
         type="submit"
         disabled={submitting}
-        className="w-full bg-primary hover:bg-primary/90 text-white rounded-xl font-black text-[10px] uppercase tracking-widest transition-all hover:scale-105"
+        className="w-full bg-primary hover:bg-primary/90 text-white rounded-xl font-black text-xs uppercase tracking-widest transition-all hover:scale-105"
       >
         {submitting ? (
           <Loader2 className="size-4 animate-spin" />

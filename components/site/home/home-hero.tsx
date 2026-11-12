@@ -51,10 +51,10 @@ export function HomeHero() {
           <div className="relative overflow-hidden rounded-[1.75rem] border border-border bg-card p-5 shadow-2xl shadow-black/20 sm:p-7">
             <div className="flex items-center justify-between border-b border-border pb-4">
               <div>
-                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">Ton évolution</p>
+                <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-primary">Ton évolution</p>
                 <p className="mt-1 font-syne text-lg font-bold text-foreground">Un parcours. Des preuves. Des possibilités.</p>
               </div>
-              <span className="rounded-lg border border-primary/20 bg-primary/10 px-2.5 py-1 font-mono text-[10px] font-bold text-primary">HASHCODE</span>
+              <span className="rounded-lg border border-primary/20 bg-primary/10 px-2.5 py-1 font-mono text-xs font-bold text-primary">HASHCODE</span>
             </div>
             <div className="mt-5 space-y-3">
               {DOMAINS.map((domain, index) => (
@@ -66,12 +66,12 @@ export function HomeHero() {
                     <p className="text-sm font-bold text-foreground">{domain.label}</p>
                     <p className="mt-0.5 text-xs text-muted-foreground">Domaine d'exploration et de progression</p>
                   </div>
-                  <span className="font-mono text-[10px] text-muted-foreground">0{index + 1}</span>
+                  <span className="font-mono text-xs text-muted-foreground">0{index + 1}</span>
                 </div>
               ))}
             </div>
             <div className="mt-6 rounded-xl border border-border bg-background/60 p-4">
-              <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground">La boucle de progression</p>
+              <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-muted-foreground">La boucle de progression</p>
               <div className="flex flex-wrap items-center gap-2">
                 {STEPS.map((step, index) => (
                   <div key={step} className="flex items-center gap-2">

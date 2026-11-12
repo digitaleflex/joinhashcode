@@ -28,7 +28,7 @@ export default function AboutPage() {
   return (
     <main className="bg-background">
       <section className="mx-auto max-w-6xl px-4 pb-16 pt-20 sm:px-6 sm:pt-28 lg:px-8">
-        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-primary">À propos de HashCode</p>
+        <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-primary">À propos de HashCode</p>
         <h1 className="mt-4 max-w-4xl font-syne text-4xl font-bold leading-tight tracking-tight text-foreground sm:text-6xl">
           Faire grandir les talents par la pratique et le partage.
         </h1>

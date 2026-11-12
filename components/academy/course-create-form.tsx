@@ -46,7 +46,7 @@ export function CourseCreateForm() {
                 <div className="space-y-6 md:col-span-2">
                     <div className="flex items-center gap-3">
                         <Type className="size-4 text-primary" />
-                        <h3 className="text-[10px] uppercase tracking-[0.3em] font-black text-muted-foreground">Informations de base</h3>
+                        <h3 className="text-xs uppercase tracking-[0.3em] font-black text-muted-foreground">Informations de base</h3>
                     </div>
                     <div className="relative group/input">
                         <input
@@ -57,7 +57,7 @@ export function CourseCreateForm() {
                             className="w-full h-14 px-5 bg-secondary border border-border rounded-2xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-300 group-hover/input:bg-secondary/80 group-hover/input:border-muted-foreground/30 disabled:opacity-50 disabled:cursor-not-allowed"
                             placeholder="ex: Masterclass : Architectures Web Avancées"
                         />
-                        <label className="absolute left-5 -top-2.5 px-2 bg-card text-[10px] font-bold text-primary uppercase tracking-widest ring-1 ring-border">
+                        <label className="absolute left-5 -top-2.5 px-2 bg-card text-xs font-bold text-primary uppercase tracking-widest ring-1 ring-border">
                             Titre du Cours
                         </label>
                     </div>
@@ -67,7 +67,7 @@ export function CourseCreateForm() {
                 <div className="space-y-6 md:col-span-2">
                     <div className="flex items-center gap-3">
                         <AlignLeft className="size-4 text-primary" />
-                        <h3 className="text-[10px] uppercase tracking-[0.3em] font-black text-muted-foreground">Description</h3>
+                        <h3 className="text-xs uppercase tracking-[0.3em] font-black text-muted-foreground">Description</h3>
                     </div>
                     <div className="relative group/input">
                         <textarea
@@ -78,7 +78,7 @@ export function CourseCreateForm() {
                             className="w-full px-5 py-4 bg-secondary border border-border rounded-2xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-300 group-hover/input:bg-secondary/80 group-hover/input:border-muted-foreground/30 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
                             placeholder="Quelle transformation vos étudiants vont-ils vivre ?"
                         />
-                        <label className="absolute left-5 -top-2.5 px-2 bg-card text-[10px] font-bold text-primary uppercase tracking-widest ring-1 ring-border">
+                        <label className="absolute left-5 -top-2.5 px-2 bg-card text-xs font-bold text-primary uppercase tracking-widest ring-1 ring-border">
                             Description
                         </label>
                     </div>
@@ -88,7 +88,7 @@ export function CourseCreateForm() {
                 <div className="space-y-6">
                     <div className="flex items-center gap-3">
                         <Globe className="size-4 text-primary" />
-                        <h3 className="text-[10px] uppercase tracking-[0.3em] font-black text-muted-foreground">Localisation</h3>
+                        <h3 className="text-xs uppercase tracking-[0.3em] font-black text-muted-foreground">Localisation</h3>
                     </div>
                     <div className="relative group/input">
                         <select
@@ -99,7 +99,7 @@ export function CourseCreateForm() {
                             <option value="FR">Français (FR)</option>
                             <option value="EN">Anglais (US)</option>
                         </select>
-                        <label className="absolute left-5 -top-2.5 px-2 bg-card text-[10px] font-bold text-primary uppercase tracking-widest ring-1 ring-border">
+                        <label className="absolute left-5 -top-2.5 px-2 bg-card text-xs font-bold text-primary uppercase tracking-widest ring-1 ring-border">
                             Langue Principale
                         </label>
                     </div>
@@ -109,9 +109,9 @@ export function CourseCreateForm() {
                 <div className="space-y-6">
                     <div className="flex items-center gap-3">
                         <Sparkles className="size-4 text-primary" />
-                        <h3 className="text-[10px] uppercase tracking-[0.3em] font-black text-muted-foreground">Visuel</h3>
+                        <h3 className="text-xs uppercase tracking-[0.3em] font-black text-muted-foreground">Visuel</h3>
                     </div>
-                    <div className="h-14 w-full flex items-center justify-center border-2 border-dashed border-border rounded-2xl bg-secondary/50 text-muted-foreground text-[10px] font-bold uppercase tracking-widest hover:bg-secondary hover:border-muted-foreground/30 transition-all cursor-not-allowed">
+                    <div className="h-14 w-full flex items-center justify-center border-2 border-dashed border-border rounded-2xl bg-secondary/50 text-muted-foreground text-xs font-bold uppercase tracking-widest hover:bg-secondary hover:border-muted-foreground/30 transition-all cursor-not-allowed">
                         Charger une image de couverture (Optionnel)
                     </div>
                 </div>

@@ -94,7 +94,7 @@ export default async function ForumTopicPage({ params }: PageProps) {
                   <p className="text-sm font-bold text-foreground">
                     {post.author.name ?? "Anonyme"}
                   </p>
-                  <p className="text-[10px] text-muted-foreground font-medium">
+                  <p className="text-xs text-muted-foreground font-medium">
                     {formatDistanceToNow(new Date(post.createdAt), {
                       addSuffix: true,
                       locale: fr,
