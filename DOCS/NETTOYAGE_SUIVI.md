@@ -29,7 +29,7 @@
 | 0 | D-030, H20, H21, tag `pre-nettoyage-2` | ✅ 12/11 |
 | 1 | Base de données : fusion de `chore/phase4-migration` (11 tables) **avec export et sauvegarde préalables** | ⬜ |
 | 2 | **Bloc A** — vérifié zone par zone (ci-dessous) : 4 zones supprimées (sondage UX, Vivier connecté, API v1, API publique talent), les autres conservées, reportées au bloc B ou en attente de décision (`programme`/`paths`/`diplomas`) ou de contrôle en base (webhooks sortants) | ✅ 12/11 |
-| 3 | **Bloc B** — après découplage : sortir le quiz du funnel (`proxy.ts`), fusionner Ateliers dans Labs, remplacer les missions 01-03 codées en dur, résidus de gamification, réduire le dashboard | 🔄 B1 quiz : étape 1 faite (voir ci-dessous) |
+| 3 | **Bloc B** — après découplage : sortir le quiz du funnel (`proxy.ts`), fusionner Ateliers dans Labs, remplacer les missions 01-03 codées en dur, résidus de gamification, réduire le dashboard | 🔄 B1 quiz ✅ (code en attente des sessions) · B2 ateliers ✅ (table en phase DB) · reste : missions 01-03, gamification, dashboard |
 | 4 | Backlog GitHub : fermer #425-#444 sauf #440 et #436 (recadrées), #457, #459, #460, #463, #464, #465 en `not_planned` avec renvoi vers D-030 | ⬜ |
 | 5 | Dépôts : archiver `hashcode-learning-platform` et `hashcode-profiling-engine` (après accord) | ⬜ |
 | 6 | **Construire** : écrire les 5 labs cyber SOC N1, livrer #455 et #456 | ⬜ |
@@ -68,6 +68,15 @@
 | 2 | Retirer les invitations vers `/quiz` : landing (nav, pied de page, sitemap), emails `welcome`, `onboarding-completed` et `ops-reminder` (étape « quiz » supprimée, page `operations` alignée), étape « Calibration terminée » de la checklist. Le bouton de `ProfileTab` est **conservé** comme entrée facultative. **KPI « Landing → Quiz » et « Quiz terminé » à redéfinir** (voir `HYPOTHESES.md`) | ✅ voir `git log` (`retirer les invitations vers le quiz`) |
 | 3 | Mesurer H2 et H4 sur les 20 sessions utilisateurs, puis décider de la suppression du code (~3 200 l. : `components/quiz`, `lib/questions`, `analysis`, `profile-content`, `/quiz`, `/specialization`, `app/api/quiz`, `QuizResult`) | ⬜ après les sessions |
 | ✓ | « Matchmaking Alpha » (`app/missions/[id]/page.tsx`) : suggestions de partenaires par classe complémentaire, qui exposaient pseudo et liens sociaux de membres sans filtre `talentVisible`. Supprimé | ✅ `fix(privacy): supprimer le Matchmaking Alpha` |
+
+### B2 — Ateliers fusionnés dans les Labs
+| Étape | Contenu | Statut |
+|---|---|---|
+| 1 | La première action du dashboard mène à `/missions` (plus à un atelier). Constat : les 12 ateliers pointaient tous vers le slug de lab `premiere-preuve-maitrise`, absent du seed, de `lib/missions.ts` et du contenu HEF | ✅ `refactor(first-action)` |
+| 2 | Pages `/ateliers`, bloc « Atelier recommandé » des labs, section Ateliers de `/labs`, catalogue `lib/ateliers.ts`, redirection `/ateliers/*` → `/missions` | ✅ `refactor(ateliers): supprimer les pages` |
+| 3 | Admin des ateliers (page, API, actions du journal) et onglet Ateliers de `admin/contenus` | ✅ `refactor(ateliers): supprimer l'admin` |
+| 4 | **Table `atelier`** (modèle Prisma) : plus aucun code ne la lit ni ne l'écrit. Suppression = migration + export préalable + confirmation explicite. À vérifier d'abord en production : `SELECT count(*) FROM atelier` et si un lab `premiere-preuve-maitrise` y a été créé à la main | ⏸ phase base de données |
+| ⚠ | Restes à décider : `sendOrientationEmail` (paramètres `atelier*`, aucun appelant trouvé), bouton « Commencer l'atelier » du résultat du quiz (disparaît avec le code du quiz), mot « Atelier » dans l'Academy (`programme/[slug]`, `python-runner`, `lib/academy/program.ts`), événement `first_action_completed` désormais sans déclencheur dans l'interface (API conservée) | ⬜ |
 
 ---
 
