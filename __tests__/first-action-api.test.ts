@@ -71,7 +71,7 @@ describe("GET /api/me/first-action", () => {
     const body = await res.json();
 
     expect(res.status).toBe(200);
-    expect(body.action.href).toBe("/ateliers/linux-cloud-basics");
+    expect(body.action.href).toBe("/missions");
     expect(body.status).toBe("not_started");
   });
 
