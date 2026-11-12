@@ -39,6 +39,8 @@ Une hypothèse avec 2 observations a une confiance faible même si 🟢.
 | H13 | L'objectif 90 jours réduit l'abandon avant la première semaine | 🟡 | — |
 | H15 | Les utilisateurs reviennent après leur première session sans relance email | 🟡 | — |
 | H16 | Ils recommandent HashCode à un ami après avoir obtenu leur profil | 🟡 | — |
+| H20 | Les débutants francophones citent l'absence de preuve vérifiable comme leur principal frein pour décrocher un premier stage ou emploi cyber (hypothèse sur le **problème**, D-030) | 🟡 | — |
+| H21 | Des employeurs (au moins 2 sur 5 interrogés) présélectionneraient un junior cyber sur un dossier de preuves relues par des pairs (D-030) | 🟡 | — |
 
 ## 🟠 Importants
 
