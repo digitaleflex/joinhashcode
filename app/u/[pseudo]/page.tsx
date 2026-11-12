@@ -70,8 +70,9 @@ export default async function PublicProfilePage({ params }: PageProps) {
 
   const isPrivate = !dbUser.talentVisible;
 
-  // Récupérer les preuves publiques (soumissions APPROVED) — #455/#456
-  const evidence = await getPublicEvidence(dbUser.id);
+  // Preuves publiques (soumissions APPROVED) — #455/#456. Un profil privé (`talentVisible`
+  // est faux par défaut) n'en expose aucune : la page annonce « profil invisible ».
+  const evidence = isPrivate ? [] : await getPublicEvidence(dbUser.id);
 
   // Mapper les preuves vers le format DetailedMissionSubmission attendu par DossierView
   const missionSubmissions: DetailedMissionSubmission[] = evidence.map((e) => ({
