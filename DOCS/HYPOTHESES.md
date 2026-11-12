@@ -69,8 +69,35 @@ Une hypothèse avec 2 observations a une confiance faible même si 🟢.
 
 ## Métriques cibles
 
-| KPI | Cible | Actuel |
-|---|---|---|
+> Redéfinies le 12/11/2026 (D-030) : le quiz est facultatif et les ateliers sont fusionnés dans les Labs, donc
+> « Landing → Quiz », « Quiz terminé » et « Premier atelier démarré / terminé » n'ont plus de sens. La chaîne suit
+> maintenant la boucle *lab → relecture → preuve*. **Aucune cible n'est inventée** : « — » signifie qu'elle reste à
+> fixer avec les premières mesures ; seules deux cibles existaient déjà et sont conservées.
+
+| KPI | Définition | Source | Cible | Actuel |
+|---|---|---|---|---|
+| Inscriptions | Comptes créés | `activity_log` (`USER_SIGNUP`) | — | — |
+| Onboarding terminé | Inscrits avec `currentSituation` renseignée | `User` | — | — |
+| Domaine choisi | Membres avec `primaryDomain` | `User` | — | — |
+| Premier lab soumis | Membres avec au moins une soumission | `MissionSubmission` | — | — |
+| Première preuve validée | Membres avec au moins une soumission `APPROVED` | `MissionSubmission` / `User.missionsCompletedCount` | > 30 % *(cible d'origine)* | — |
+| Preuve rendue visible | Membres validés ayant activé « Visibilité recruteur » | `User.talentVisible` | — | — |
+| Délai inscription → première soumission | Médiane | `User.createdAt`, `MissionSubmission.createdAt` | — | — |
+| Délai de relecture | Médiane entre soumission et décision | `MissionSubmission`, `MissionReview` | — | — |
+| Retour J+7 | Membres actifs 7 jours après l'inscription | à définir : le signal `j7Activated` repose sur la Mission 01, en cours de remplacement (#471) | > 40 % *(cible d'origine, à reconfirmer)* | — |
+| Activation émotionnelle | Note donnée en session | sessions utilisateurs (#480) | — | — |
+
+### Critères de décision de D-030
+| Critère | Seuil | Hypothèse | Actuel |
+|---|---|---|---|
+| Membres avec une preuve publique | ≥ 10 | H14, H20 | — |
+| Employeurs (sur 5) qui présélectionneraient sur ce type de dossier | ≥ 2 | H21 | — |
+
+> **Écart restant** : l'entonnoir d'analyse de l'admin (`lib/activation-funnel.ts`, `/admin/analytics`) compte encore des
+> étapes « quiz », « choix de profil » et « premier atelier » (conditions sur `class` et sur la Mission 01). Il est à
+> aligner sur la chaîne ci-dessus avant de s'y fier (lié à #471).
+
+---|---|---|
 | Landing → Quiz | > 70 % | — ⚠ à redéfinir (D-030 : le quiz est facultatif, la landing renvoie vers la connexion) |
 | Quiz terminé | > 90 % | — ⚠ à redéfinir (D-030 : mesure d'une option, plus d'une étape) |
 | Choix spécialisation | > 80 % | — |
