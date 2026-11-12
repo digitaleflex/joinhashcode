@@ -65,7 +65,7 @@
 | Étape | Contenu | Statut |
 |---|---|---|
 | 1 | Sortir le quiz du parcours obligatoire (`proxy.ts`, onboarding, repli de connexion, message du dashboard, tests). **Aucun code du quiz supprimé** ; `/quiz` reste accessible | ✅ voir `git log` (`refactor(funnel)`) |
-| 2 | Retirer les invitations vers `/quiz` : nav et pied de page de la landing, emails `welcome`, `onboarding-completed` et `ops-reminder`, bouton de `ProfileTab`, étape « Calibration terminée » de `activation-checklist`, `sitemap.ts`, `a11y-audit.ts`. **Touche le KPI « Landing → Quiz »** : à décider avant | ⏸ décision |
+| 2 | Retirer les invitations vers `/quiz` : landing (nav, pied de page, sitemap), emails `welcome`, `onboarding-completed` et `ops-reminder` (étape « quiz » supprimée, page `operations` alignée), étape « Calibration terminée » de la checklist. Le bouton de `ProfileTab` est **conservé** comme entrée facultative. **KPI « Landing → Quiz » et « Quiz terminé » à redéfinir** (voir `HYPOTHESES.md`) | ✅ voir `git log` (`retirer les invitations vers le quiz`) |
 | 3 | Mesurer H2 et H4 sur les 20 sessions utilisateurs, puis décider de la suppression du code (~3 200 l. : `components/quiz`, `lib/questions`, `analysis`, `profile-content`, `/quiz`, `/specialization`, `app/api/quiz`, `QuizResult`) | ⬜ après les sessions |
 | ⚠ | « Matchmaking Alpha » (`app/missions/[id]/page.tsx`) suggère des partenaires par classe complémentaire : reliquat des squads à retirer | ⬜ |
 
