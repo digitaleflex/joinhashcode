@@ -1,20 +1,16 @@
 import type { Metadata } from "next"
 import { HomeHero } from "@/components/site/home/home-hero"
-import { HomeWhatWeDo } from "@/components/site/home/home-what-we-do"
-import { HomePrograms } from "@/components/site/home/home-programs"
-import { HomeLabs } from "@/components/site/home/home-labs"
 import { HomeProof } from "@/components/site/home/home-proof"
-import { HomeCommunity } from "@/components/site/home/home-community"
 import { HomeFaq } from "@/components/site/home/home-faq"
 import { HomeFinalCta } from "@/components/site/home/home-final-cta"
 
 export const metadata: Metadata = {
-  title: "Apprendre. Construire. Évoluer.",
-  description: "Rejoins HashCode : un écosystème communautaire pour apprendre, pratiquer et démontrer tes compétences en développement web, cybersécurité et IA appliquée.",
+  title: "Prouve que tu peux devenir analyste SOC junior",
+  description: "Fais des labs de cybersécurité, fais relire ton travail et construis un profil public où chaque preuve est vérifiée.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "HashCode — Apprendre. Construire. Évoluer.",
-    description: "Développe tes compétences numériques, construis des projets et rends tes réalisations visibles.",
+    title: "HashCode — Prouve que tu peux devenir analyste SOC junior",
+    description: "Labs de cybersécurité relus par des pairs, et un profil public où chaque preuve est vérifiée.",
     url: "/",
     type: "website",
   },
@@ -26,11 +22,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-background">
       <HomeHero />
-      <HomeWhatWeDo />
-      <HomePrograms />
-      <HomeLabs />
       <HomeProof />
-      <HomeCommunity />
       <HomeFaq />
       <HomeFinalCta />
     </main>

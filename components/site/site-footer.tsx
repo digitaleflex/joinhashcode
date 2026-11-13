@@ -31,9 +31,9 @@ export function SiteFooter() {
             <Link href="/" className="flex items-center gap-2" aria-label="Accueil HashCode">
               <Logo variant="full" size="sm" />
             </Link>
-            <p className="max-w-sm text-sm font-semibold leading-relaxed text-foreground">Apprendre. Construire. Évoluer.</p>
+            <p className="max-w-sm text-sm font-semibold leading-relaxed text-foreground">Des preuves, pas des déclarations.</p>
             <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
-              Un écosystème pour développer ses compétences numériques, pratiquer et rendre ses réalisations visibles.
+              Des labs de cybersécurité relus par des pairs, et un profil public où chaque preuve est vérifiée.
             </p>
           </div>
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
