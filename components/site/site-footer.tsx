@@ -6,7 +6,8 @@ const FOOTER_LINKS = {
     { href: "/programs", label: "Domaines" },
     { href: "/labs", label: "Labs" },
     { href: "/community", label: "Communauté" },
-    { href: "/talents", label: "Talents" },
+    { href: "/talents", label: "Preuves" },
+    { href: "/recruteurs", label: "Pour les recruteurs" },
   ],
   "Ressources": [
     { href: "/about", label: "À propos" },

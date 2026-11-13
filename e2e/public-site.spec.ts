@@ -50,6 +50,7 @@ test.describe("Vitrine publique HashCode", () => {
       { path: "/labs", heading: /Apprendre en pratiquant/i },
       { path: "/community", heading: /Une communauté portée/i },
       { path: "/talents", heading: /Des preuves, pas de simples déclarations/i },
+      { path: "/recruteurs", heading: /Lire une preuve HashCode/i },
     ]
 
     for (const route of routes) {
