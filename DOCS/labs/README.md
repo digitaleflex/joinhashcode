@@ -1,10 +1,12 @@
 # 🧪 DOCS/labs — Les 5 premiers labs HashCode (filière cyber N0)
 
-> **Statut au 12/11/2026 : contenu rédigé, pas encore branché sur la plateforme. Suivi : issue #479 (BUILD-01).**
-> Ces fiches sont du contenu pédagogique, pas du code. Rien n'est connecté à la plateforme ni à la base de
-> données. L'issue #385, qui prévoyait ce branchement, a été fermée en `not_planned` lors du changement de cap
-> du 31/10/2026 ; le contenu, lui, reste utilisable. Références : `DOCS/PIVOT_CYBER.md` (D-014, historique),
-> `DOCS/DECISIONS.md` (D-030) et `DOCS/PRODUCT_VISION.md`.
+> **Statut au 13/11/2026 : branchés en brouillon (issue #479, BUILD-01).** Les 5 fiches sont importées comme labs
+> (`Mission`, catégorie `CYBER`) à partir de `content/labs/cyber/*.json` par `prisma/seed-labs.ts`, appelé par `pnpm db:seed`
+> (idempotent : un lab nouveau naît en `DRAFT`, une relance met à jour le contenu sans toucher au statut). Le brief
+> du membre est la fiche Markdown ci-dessous, les consignes de relecture sont dans `evaluatorNotes`. **Aucun lab n'est
+> publié** : il reste à valider chaque fiche et à passer le statut en `PUBLISHED` depuis l'admin. Une fois publiés, les
+> labs apparaissent en tête de `/missions`. Références : `DOCS/PIVOT_CYBER.md` (D-014, historique), `DOCS/DECISIONS.md`
+> (D-030) et `DOCS/PRODUCT_VISION.md`.
 >
 > **Avant de les brancher :** (1) **re-vérifier tous les liens** (voir « Ressources citées ») ; (2) faire valider chaque fiche
 > par le fondateur ; (3) tenir compte du fait que ces labs s'appuient sur des plateformes tierces (TryHackMe, LetsDefend,
@@ -81,7 +83,7 @@ du parcours (à connecter dans `Evidence` / `LabRubric` en Vague 2, issue #374).
 
 ## À faire au branchement (issue #479)
 
-1. **Importer chaque fiche comme un lab** (`Mission`), en contenu et non en code : brief (`fullBriefing`), livrables
+1. ✅ *Fait (brouillon)* — **Importer chaque fiche comme un lab** (`Mission`), en contenu et non en code : brief (`fullBriefing`), livrables
    attendus (`deliverables`), artefacts à soumettre (`submissionSchema`) et critères de relecture
    (`acceptanceCriteria` : les « conforme si » de la fiche). La rubrique à trois niveaux ci-dessus guide la relecture ; il n'existe
    plus de modèle `LabRubric` — les critères sont portés par chaque lab (PR #451).
