@@ -1,0 +1,51 @@
+{
+  "slug": "cyber-n0-02-soc-alerte",
+  "briefingFile": "DOCS/labs/LAB-02-soc-alerte.md",
+  "title": "Ta première alerte d'analyste SOC",
+  "shortDesc": "Qualifier une alerte : grave ou pas grave, avec exactement 3 raisons.",
+  "description": "Triage d'une alerte comme un analyste SOC N1 : décider grave ou pas grave, avec trois raisons appuyées sur des éléments vus dans l'alerte.",
+  "category": "CYBER",
+  "difficulty": 1,
+  "missionLevel": "INIT",
+  "duration": "60 min",
+  "requirements": [
+    "Un compte LetsDefend (plan gratuit) ou Blue Team Labs Online"
+  ],
+  "deliverables": [
+    "Rapport de qualification d'une alerte (1 page)",
+    "Capture de l'alerte étudiée"
+  ],
+  "tags": [
+    "CYBER",
+    "LAB",
+    "N0"
+  ],
+  "submissionMethod": "TEXT_RESPONSE",
+  "acceptanceCriteria": [
+    "Le rapport contient les 6 rubriques : alerte, qui, quoi, quand, où, décision",
+    "La décision est claire : GRAVE (escalade) ou PAS GRAVE (faux positif)",
+    "Le rapport donne exactement 3 raisons",
+    "Chaque raison cite un élément concret de l'alerte (IP, compte, chiffre, heure) et pas « ça louche »",
+    "L'action des 5 prochaines minutes est décrite et cohérente avec la décision"
+  ],
+  "evaluatorNotes": "La capture permet de vérifier que les éléments cités existent vraiment dans l'alerte. Il n'y a pas une seule bonne décision : juge la cohérence entre la décision, les 3 raisons et l'action. Refuse « ça louche » ou une raison sans détail concret. Plus ou moins de 3 raisons : non conforme. Bonus facultatif : une deuxième alerte comparée.",
+  "submissionSchema": [
+    {
+      "key": "report",
+      "label": "Rapport de qualification (ALERTE, QUI/QUOI/QUAND/OÙ, DÉCISION, POURQUOI x3, ACTION)",
+      "type": "TEXT",
+      "required": true,
+      "minLength": 300
+    },
+    {
+      "key": "alert_screenshot",
+      "label": "Capture de l'alerte étudiée",
+      "type": "DOC",
+      "required": true,
+      "accepts": [
+        "image/png",
+        "image/jpeg"
+      ]
+    }
+  ]
+}

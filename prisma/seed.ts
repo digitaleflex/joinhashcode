@@ -5,6 +5,7 @@ import { MISSIONS, WEEKLY_CHALLENGES } from "../lib/missions";
 import { MISSION_CRITERIA, EVALUATOR_NOTES, QUALITY_INDICATORS } from "../lib/acceptance-criteria";
 import { seedAcademy } from "./seed-academy";
 import { seedHef } from "./seed-hef";
+import { seedCyberLabs } from "./seed-labs";
 import { ONBOARDING_MISSION } from "../lib/onboarding-mission";
 import { PROJECT_MISSION } from "../lib/project-mission";
 import { SOLUTION_MISSION } from "../lib/solution-mission";
@@ -259,6 +260,9 @@ async function main() {
       console.log(`  ✓ ${def.slug} syncée (${def.subMissions.length} étapes)`);
     }
   }
+
+  const cyberLabCount = await seedCyberLabs(prisma);
+  console.log(`\n🛡️  ${cyberLabCount} labs cyber synchronisés (nouveaux labs en DRAFT, publication manuelle)`);
 
   console.log("\n✅ Seeding complete.");
   console.log(`   ${MISSIONS.length} missions processed`);
