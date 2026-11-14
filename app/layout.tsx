@@ -25,11 +25,11 @@ import { APP_URL } from "@/lib/config";
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
   title: {
-    default: "HashCode — Apprendre. Construire. Évoluer.",
+    default: "HashCode — Prouve que tu peux devenir analyste SOC junior",
     template: "%s | HashCode",
   },
   description:
-    "HashCode accompagne les talents du numérique dans trois domaines : développement web, cybersécurité et IA appliquée. Apprendre, pratiquer et démontrer ses compétences.",
+    "Labs de cybersécurité relus par des pairs, et un profil public où chaque preuve est vérifiée. Gratuit, en français, pour débutants.",
   keywords: ["HashCode", "développement web", "cybersécurité", "intelligence artificielle", "apprentissage numérique", "communauté tech", "labs", "compétences", "talents"],
   authors: [{ name: "HASHCODE Team" }],
   creator: "HashCode",
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "fr_FR",
     url: APP_URL,
-    title: "HashCode — Apprendre. Construire. Évoluer.",
+    title: "HashCode — Prouve que tu peux devenir analyste SOC junior",
     description: "Un écosystème pour apprendre, pratiquer et démontrer ses compétences dans le numérique.",
     siteName: "HashCode",
     images: [
@@ -61,13 +61,13 @@ export const metadata: Metadata = {
         url: "/brand/hashcode-og.png",
         width: 1200,
         height: 630,
-        alt: "HashCode — Apprendre. Construire. Évoluer.",
+        alt: "HashCode — Prouve que tu peux devenir analyste SOC junior",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "HashCode — Apprendre. Construire. Évoluer.",
+    title: "HashCode — Prouve que tu peux devenir analyste SOC junior",
     description: "Un écosystème pour apprendre, pratiquer et démontrer ses compétences dans le numérique.",
     images: ["/brand/hashcode-og.png"],
   },

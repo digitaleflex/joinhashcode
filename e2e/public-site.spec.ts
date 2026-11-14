@@ -6,13 +6,13 @@ test.describe("Vitrine publique HashCode", () => {
 
     await expect(page).toHaveTitle(/HashCode/i)
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      /Tes compétences méritent plus qu'un CV/i,
+      /analyste SOC junior/i,
     )
     await expect(
-      page.getByRole("link", { name: /Rejoindre HashCode/i }).first(),
+      page.getByRole("link", { name: /Faire mon premier lab/i }).first(),
     ).toBeVisible()
     await expect(
-      page.getByRole("link", { name: "Domaines" }).first(),
+      page.getByRole("link", { name: "Voir des preuves" }).first(),
     ).toBeVisible()
   })
 
@@ -34,21 +34,13 @@ test.describe("Vitrine publique HashCode", () => {
     await expect(page.locator("#applied-ai")).toBeVisible()
   })
 
-  test("permet de rejoindre directement la fiche d'un domaine depuis l'accueil", async ({ page }) => {
-    await page.goto("/")
-    await page.getByRole("link", { name: "Explorer ce domaine" }).first().click()
-
-    await expect(page).toHaveURL(/\/programs#web-development$/)
-    await expect(page.locator("#web-development")).toBeVisible()
-  })
-
   test("expose la FAQ et ses réponses", async ({ page }) => {
     await page.goto("/")
     const question = page.getByText("À qui s'adresse HashCode ?")
     await expect(question).toBeVisible()
     await question.click()
     await expect(
-      page.getByText(/débutants, aux autodidactes, aux étudiants/i),
+      page.getByText(/autodidactes, étudiants et personnes en reconversion/i),
     ).toBeVisible()
   })
 
@@ -58,6 +50,7 @@ test.describe("Vitrine publique HashCode", () => {
       { path: "/labs", heading: /Apprendre en pratiquant/i },
       { path: "/community", heading: /Une communauté portée/i },
       { path: "/talents", heading: /Des preuves, pas de simples déclarations/i },
+      { path: "/recruteurs", heading: /Lire une preuve HashCode/i },
     ]
 
     for (const route of routes) {
@@ -68,7 +61,7 @@ test.describe("Vitrine publique HashCode", () => {
     }
   })
 
-  test("le menu mobile est accessible et permet d'ouvrir la page des domaines", async ({ page }) => {
+  test("le menu mobile est accessible et permet d'ouvrir la page des labs", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 })
     await page.goto("/")
 
@@ -78,10 +71,10 @@ test.describe("Vitrine publique HashCode", () => {
     })
     await expect(mobileNavigation).toBeVisible()
 
-    await mobileNavigation.getByRole("link", { name: "Domaines" }).click()
-    await expect(page).toHaveURL(/\/programs$/)
-    await expect(
-      page.getByRole("heading", { name: "Développement web" }),
-    ).toBeVisible()
+    await mobileNavigation.getByRole("link", { name: "Labs" }).click()
+    await expect(page).toHaveURL(/\/labs$/)
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      /Apprendre en pratiquant/i,
+    )
   })
 })

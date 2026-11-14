@@ -11,7 +11,7 @@
 | 1 | Hygiène dépôt : racine rangée, `.local/` dé-versionné, AGENTS.md corrigé, 12 dépendances retirées | ✅ 09/11 — outils IA : OpenCode + Claude Code conservés, `.agents/` `.gemini/` supprimés |
 | 2 | Suppression du code gelé — **terminée (09/11)** : libs orphelines, /leaderboard, /guide, check-in, admin core/fraud/mentorat/knowledge-hub/interventions, squads (UI/API/admin/invitations/email J+3), 16+ fichiers orphelins, moteur XP/badges/niveaux et leur affichage, knip réparé. **Bugs corrigés** : labs CORE/PRO verrouillés à vie, relecteur inatteignable, parrainage bloqué (D-029). **Reste ouvert** : `TwoFactorSetup` (brancher ou abandonner), `ateliers` (utilisé par `first-action`), ~45 exports inutilisés (phase 5). `/specialization` est ACTIF | ✅ |
 | 3 | Produit/docs — **terminée (09/11)** : textes UI et emails sans XP/squad/check-in, cron `check-activity` supprimé, parrainage dédoublonné, double email corrigé, métriques admin sur `activity_log`, docs à jour, `TwoFactorSetup` supprimé, ~50 exports morts retirés. `ateliers` conservé (utilisé par la première action). **Reste (fondateur)** : CGU (`app/terms`), planificateur externe (`check-activity`), test manuel du site | ✅ |
-| 4 | Base de données — **préparée (09/11)** sur la branche séparée `chore/phase4-migration` : 11 tables inutilisées supprimées. Procédure : `DOCS/ops/PHASE4_MIGRATION.md`. **Ne pas fusionner** sans sauvegarde, export et feu vert explicite. Lot suivant : colonnes XP/séries de `User` et squad d'`organization` | 🟡 prête |
+| 4 | Base de données — ~~préparée sur la branche `chore/phase4-migration`~~ : **introuvable**. Vérifié le 12/11/2026 : ni cette branche (dépôt distant et local) ni `DOCS/ops/PHASE4_MIGRATION.md` n'existent. Aucune migration récente ne supprime ces tables. **À reconstruire**, par vagues, avec sauvegarde et accord humain : voir CLEAN-05 (#476) | 🔴 à refaire |
 | 5 | Garde-fous — **terminée (09/11)** : `knip` en CI (vide), règles D-028 (pas de feature sans H-xx) et « zéro code mort » dans CLAUDE.md / AGENTS.md | ✅ |
 
 ---
@@ -20,19 +20,19 @@
 
 > **Décision :** D-030 (mission unique : dossier de preuves vérifiées d'un analyste cyber junior francophone) — `DOCS/DECISIONS.md`
 > **Test de tri :** est-ce que ça raccourcit le chemin vers la première preuve publique ? Sinon, ça sort.
-> **Point de retour :** commit `da0bd23` (tag local `pre-nettoyage-2` ; le push du tag est refusé par le proxy) · **Branche :** `claude/exciting-maxwell-4r95bk`
+> **Point de retour :** commit `da0bd23` (tag local `pre-nettoyage-2` ; le push du tag est refusé par le proxy) · **PR #467 fusionnée le 12/11/2026** (`0b2723a`)
 > **Règles :** 1 commit = 1 zone ; `tsc` + `eslint` + `knip` verts avant chaque commit ; aucune donnée supprimée sans export et sauvegarde (CLAUDE.md règle 1).
 > **Environnement :** `DIRECT_URL` et `DATABASE_URL` factices suffisent pour `prisma generate`, `tsc` et `knip`.
 
 | Phase | Contenu | Statut |
 |---|---|---|
 | 0 | D-030, H20, H21, tag `pre-nettoyage-2` | ✅ 12/11 |
-| 1 | Base de données : fusion de `chore/phase4-migration` (11 tables) **avec export et sauvegarde préalables** | ⬜ |
+| 1 | Base de données : **la branche `chore/phase4-migration` et sa procédure sont introuvables** (voir ci-dessus). Reconstruire la liste des tables sans usage, avec export et sauvegarde préalables (CLEAN-05, #476) | ⬜ |
 | 2 | **Bloc A** — vérifié zone par zone (ci-dessous) : 4 zones supprimées (sondage UX, Vivier connecté, API v1, API publique talent), les autres conservées, reportées au bloc B ou en attente de décision (`programme`/`paths`/`diplomas`) ou de contrôle en base (webhooks sortants) | ✅ 12/11 |
-| 3 | **Bloc B** — après découplage : sortir le quiz du funnel (`proxy.ts`), fusionner Ateliers dans Labs, remplacer les missions 01-03 codées en dur, résidus de gamification, réduire le dashboard | 🔄 B1 quiz ✅ (code en attente des sessions) · B2 ateliers ✅ (table en phase DB) · reste : missions 01-03, gamification, dashboard |
-| 4 | Backlog GitHub : fermer #425-#444 sauf #440 et #436 (recadrées), #457, #459, #460, #463, #464, #465 en `not_planned` avec renvoi vers D-030 | ⬜ |
-| 5 | Dépôts : archiver `hashcode-learning-platform` et `hashcode-profiling-engine` (après accord) | ⬜ |
-| 6 | **Construire** : écrire les 5 labs cyber SOC N1, livrer #455 et #456 | ⬜ |
+| 3 | **Bloc B** — B1 quiz ✅ (suppression du code en attente des sessions, #475) · B2 ateliers ✅ (table en phase base de données, #476) · B3 relecture par un pair ✅ (essai manuel requis, #484) · reste : missions 01-03 (#471), gamification (#472), dashboard (#473) | 🔄 |
+| 4 | Backlog GitHub : 23 issues fermées, #436 fermée, #440 recadrée (voir B3 et #481). Restent #424, #442 et la note sur #417 | 🔄 |
+| 5 | Dépôts : geler `hashcode-learning-platform` et `hashcode-profiling-engine` (archivage = action humaine, #482) | ⬜ |
+| 6 | **Construire** : #455 et #456 livrées sur `main` (PR #468) ; 5 labs cyber **rédigés** dans `DOCS/labs/`, à brancher (#479) | 🔄 |
 
 ## Bloc A — détail (vérifié zone par zone : liens entrants, données écrites, tests)
 
@@ -60,6 +60,17 @@
 > **Test connu en échec, préexistant :** `__tests__/db-connection.test.ts` exige une vraie base PostgreSQL (`ECONNREFUSED` sans elle). Identique avant le nettoyage.
 
 ## Bloc B — détail
+
+## État au 12/11/2026, après la fusion de la PR #467
+
+| Sujet | État |
+|---|---|
+| Code | Fusionné dans `main` : suppression du sondage UX, du Vivier connecté, de l'API v1, de `/api/public/talent` et du Matchmaking Alpha ; quiz facultatif ; ateliers fusionnés dans les Labs ; relecture par un pair ouverte (3 labs validés). CI verte sur le commit de fusion. |
+| Production | **Pas encore déployé** (déploiement par le fondateur, #470) : les corrections de fuites ne protègent les membres qu'après `./deploy.sh --image`. |
+| Documentation | Mise à jour le 12/11 : `README.md`, `AGENTS.md` (38 routes ajoutées), `PRODUCT_VISION.md` (une page), `GLOSSAIRE.md`, `HYPOTHESES.md` (indicateurs), `MVP_SPEC.md`, bandeaux d'archive (ROADMAP, PLAN_EXECUTION, 9 spécifications), `CHANGELOG.md`, `DOCS/labs/README.md`. |
+| Non vérifié | **Parcours de relecture par un pair** jamais essayé à la main ; aucun e2e ne le couvre. |
+| Fuite supplémentaire trouvée en cours de route | `/u/[pseudo]` listait les labs validés d'un **profil privé** (privé par défaut) depuis la PR #468 : corrigé, avec test de régression. |
+| Erreurs de suivi corrigées | La phase 4 « préparée » n'existait pas (voir ci-dessus). Les 5 labs cyber **existent** (`DOCS/labs/`), contrairement à ce qu'affirmait le brief initial de BUILD-01. |
 
 ### B1 — Quiz psychométrique
 | Étape | Contenu | Statut |

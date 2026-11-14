@@ -1,27 +1,31 @@
 const FAQS = [
   {
     question: "À qui s'adresse HashCode ?",
-    answer: "Aux débutants, aux autodidactes, aux étudiants et aux profils qui souhaitent développer ou réorienter leurs compétences dans le numérique. Tu peux commencer par explorer les domaines et choisir une première étape adaptée à ton niveau.",
+    answer: "Aux débutants, autodidactes, étudiants et personnes en reconversion qui visent un premier poste en cybersécurité, par exemple analyste SOC junior, et qui veulent une preuve concrète de ce qu'ils savent faire.",
   },
   {
-    question: "Quels domaines sont couverts ?",
-    answer: "La vision active de HashCode couvre le développement web, la cybersécurité et l'intelligence artificielle appliquée. Les ressources et activités publiées peuvent avoir des niveaux de disponibilité différents selon le domaine.",
+    question: "Qu'est-ce qu'une preuve ?",
+    answer: "C'est un lab que tu as réalisé, soumis et fait valider après relecture. Elle apparaît sur ton profil public, avec ce que tu as produit. Une soumission non validée n'est jamais affichée.",
   },
   {
-    question: "Faut-il déjà savoir coder ?",
-    answer: "Non. L'objectif est aussi d'aider les personnes qui découvrent ces sujets à trouver un point de départ. Certaines activités peuvent toutefois demander des prérequis : ils doivent être indiqués sur leur fiche.",
+    question: "Qui relit mon travail ?",
+    answer: "Un membre qui a déjà fait valider au moins 3 labs, ou l'équipe HashCode. Tu peux à ton tour relire les autres une fois ce seuil atteint.",
   },
   {
-    question: "Comment se déroule la progression ?",
-    answer: "Tu explores un domaine, apprends à partir des ressources disponibles, pratiques avec des activités ou des projets, puis conserves tes réalisations. Lorsqu'une activité prévoit une évaluation, les critères et le statut de validation doivent être clairement indiqués.",
+    question: "Mon profil est-il public ?",
+    answer: "Non, pas par défaut. Tu choisis de le rendre visible dans tes paramètres, et tu peux revenir en arrière à tout moment.",
+  },
+  {
+    question: "Faut-il déjà savoir faire de la cybersécurité ?",
+    answer: "Non. Les premiers labs sont pensés pour les débutants. Les prérequis éventuels sont indiqués sur chaque fiche.",
+  },
+  {
+    question: "Et le développement web ou l'IA ?",
+    answer: "Le focus actuel est la cybersécurité. Les autres domaines restent consultables, mais ce sont les labs cyber qui mènent à une preuve publique.",
   },
   {
     question: "L'accès est-il payant ?",
-    answer: "L'accès communautaire et les parcours proposés par HashCode restent gratuits selon les règles actuelles du projet. Les éventuelles prestations humaines spécifiques sont distinctes et leurs conditions sont communiquées avant tout engagement.",
-  },
-  {
-    question: "HashCode remplace-t-il les groupes communautaires ?",
-    answer: "Non. La plateforme structure les parcours, les ressources et les réalisations. Les espaces communautaires restent complémentaires pour les échanges, l'entraide et les rendez-vous.",
+    answer: "Non. L'accès aux labs et à la relecture est gratuit.",
   },
 ]
 

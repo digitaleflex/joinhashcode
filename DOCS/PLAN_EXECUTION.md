@@ -1,5 +1,11 @@
 # PLAN_EXECUTION.md — Plan d'exécution détaillé 12 mois + dispositif d'agents
 
+> **OBSOLÈTE — 12/11/2026.** Ce plan à 12 mois (direction unique cyber SOC/OSINT, D-014) a été abandonné le 31/10/2026
+> par D-024 ; ses issues d'exécution (#378 à #385) ont toutes été fermées en `not_planned`, puis D-030 a fixé un nouveau cadre :
+> une boucle unique et un engagement de 90 jours. Voir `DOCS/PRODUCT_VISION.md`, `DOCS/DECISIONS.md` (D-030) et
+> l'épopée #469. Conservé pour l'historique ; **ne pas planifier à partir de ce document.**
+
+
 > **⚠️ Numérotation issues corrigée 17/09 (v2) :** la 1ère création d'issue avait
 > échoué sur un label invalide → le backlog réel est #378 (rituel) → #391 (veille),
 > et l'issue docs fin-V1 est **#392**. Toutes les refs ci-dessous sont alignées.

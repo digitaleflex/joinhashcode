@@ -1,0 +1,51 @@
+{
+  "slug": "cyber-n0-01-linux",
+  "briefingFile": "DOCS/labs/LAB-01-linux.md",
+  "title": "Ton premier pas dans le terminal Linux",
+  "shortDesc": "Trois commandes de base, une capture, tes propres mots.",
+  "description": "Premier contact avec le terminal Linux, l'outil quotidien d'un analyste SOC : pwd, ls et whoami, expliquées avec tes mots.",
+  "category": "CYBER",
+  "difficulty": 1,
+  "missionLevel": "INIT",
+  "duration": "45 min",
+  "requirements": [
+    "Un compte TryHackMe gratuit",
+    "Un navigateur"
+  ],
+  "deliverables": [
+    "3 commandes expliquées avec tes mots",
+    "1 capture d'écran de ton terminal"
+  ],
+  "tags": [
+    "CYBER",
+    "LAB",
+    "N0"
+  ],
+  "submissionMethod": "TEXT_RESPONSE",
+  "acceptanceCriteria": [
+    "Les trois commandes pwd, ls et whoami sont présentes avec une explication pour chacune",
+    "Chaque explication est écrite avec les mots de la personne, pas recopiée de la documentation",
+    "La capture d'écran montre le terminal du membre avec les trois réponses visibles",
+    "La capture n'est pas celle de la documentation de la room"
+  ],
+  "evaluatorNotes": "Vérifie d'abord la capture : elle doit montrer pwd, ls et whoami avec leurs réponses. Méfie-toi d'une capture identique à celle de la documentation TryHackMe. Une explication recopiée mot pour mot de la room n'est pas conforme. Ne demande pas de maîtrise avancée : le niveau est N0. Bonus facultatif : cd et cat.",
+  "submissionSchema": [
+    {
+      "key": "commands",
+      "label": "Les 3 commandes expliquées avec tes mots",
+      "type": "TEXT",
+      "required": true,
+      "minLength": 80
+    },
+    {
+      "key": "screenshot",
+      "label": "Capture d'écran de ton terminal (pwd, ls, whoami)",
+      "type": "DOC",
+      "required": true,
+      "accepts": [
+        "image/png",
+        "image/jpeg"
+      ]
+    }
+  ]
+}

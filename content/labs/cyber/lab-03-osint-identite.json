@@ -1,0 +1,40 @@
+{
+  "slug": "cyber-n0-03-osint-identite",
+  "briefingFile": "DOCS/labs/LAB-03-osint-identite.md",
+  "title": "Première vérification d'identité OSINT",
+  "shortDesc": "Vérifier les affirmations d'un profil fictif avec des sources ouvertes.",
+  "description": "Vérification d'identité sur un profil fictif fourni dans la fiche : chaque verdict doit citer une recherche que n'importe qui peut refaire.",
+  "category": "CYBER",
+  "difficulty": 1,
+  "missionLevel": "INIT",
+  "duration": "60 min",
+  "requirements": [
+    "Aucun outil payant"
+  ],
+  "deliverables": [
+    "Rapport de vérification en 5 rubriques"
+  ],
+  "tags": [
+    "CYBER",
+    "LAB",
+    "N0"
+  ],
+  "submissionMethod": "TEXT_RESPONSE",
+  "acceptanceCriteria": [
+    "Les 5 rubriques sont présentes : contexte, méthode, constats, conclusion, limites",
+    "La méthode liste chaque recherche avec l'outil, la requête exacte et la date",
+    "Chaque affirmation reçoit un verdict VÉRIFIÉ, INVÉRIFIABLE ou CONTREDIT avec sa source",
+    "La rubrique LIMITES contient au moins 2 lignes honnêtes",
+    "Le travail porte uniquement sur le profil fictif de la fiche, jamais sur une vraie personne"
+  ],
+  "evaluatorNotes": "Vérifie que le travail porte sur le profil fictif « Kossi » de la fiche. Refuse tout rapport sur une personne réelle. Refais au moins une recherche de la méthode pour confirmer qu'elle est reproductible. Une rubrique LIMITES vide ou d'une ligne est non conforme.",
+  "submissionSchema": [
+    {
+      "key": "report",
+      "label": "Rapport de vérification (CONTEXTE, MÉTHODE, CONSTATS, CONCLUSION, LIMITES)",
+      "type": "TEXT",
+      "required": true,
+      "minLength": 500
+    }
+  ]
+}

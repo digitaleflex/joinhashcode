@@ -1,0 +1,50 @@
+{
+  "slug": "cyber-n0-04-ctf-intro",
+  "briefingFile": "DOCS/labs/LAB-04-ctf-intro.md",
+  "title": "Ton premier CTF",
+  "shortDesc": "Valider au moins 3 flags sur la room OhSINT et expliquer ta démarche.",
+  "description": "Premier Capture The Flag sur une room gratuite TryHackMe : 3 flags minimum et une phrase de méthode honnête par flag.",
+  "category": "CYBER",
+  "difficulty": 1,
+  "missionLevel": "INIT",
+  "duration": "45 min",
+  "requirements": [
+    "Un compte TryHackMe gratuit"
+  ],
+  "deliverables": [
+    "Les flags validés avec une capture de la page de la room",
+    "5 lignes de méthode"
+  ],
+  "tags": [
+    "CYBER",
+    "LAB",
+    "N0"
+  ],
+  "submissionMethod": "TEXT_RESPONSE",
+  "acceptanceCriteria": [
+    "Au moins 3 flags sont validés sur la page TryHackMe du membre, capture à l'appui",
+    "La capture montre les tâches validées de la room du membre",
+    "La méthode explique pour chaque flag quoi chercher et ce qui a mis sur la voie",
+    "La méthode ne se résume pas à « j'ai cherché sur Google »"
+  ],
+  "evaluatorNotes": "La capture de la page de la room doit montrer au moins 3 tâches validées avec le compte du membre. Ne demande pas de refaire le CTF. Juge surtout la qualité des phrases de méthode. Bonus facultatif : finir la room ou un défi PicoCTF.",
+  "submissionSchema": [
+    {
+      "key": "method",
+      "label": "5 lignes de méthode, une phrase par flag",
+      "type": "TEXT",
+      "required": true,
+      "minLength": 200
+    },
+    {
+      "key": "room_screenshot",
+      "label": "Capture de la page de la room avec les tâches validées",
+      "type": "DOC",
+      "required": true,
+      "accepts": [
+        "image/png",
+        "image/jpeg"
+      ]
+    }
+  ]
+}

@@ -4,8 +4,8 @@ import { getPublicTalentsPreview } from "@/lib/site-data"
 import { SectionHeading } from "@/components/site/section-heading"
 
 export const metadata: Metadata = {
-  title: "Réseau de talents",
-  description: "Découvre les profils publics HashCode et les compétences démontrées à travers les missions et réalisations validées.",
+  title: "Preuves",
+  description: "Les profils publics HashCode : des labs de cybersécurité réalisés, relus et validés.",
 }
 
 // Données DB à chaque requête : le prerender build ne doit jamais
@@ -20,19 +20,23 @@ export default async function TalentsVitrinePage() {
       <section className="mx-auto max-w-6xl px-4 pb-16 pt-16 sm:px-6 sm:pt-24 lg:px-8">
         <SectionHeading
           level={1}
-          kicker="Réseau de talents"
+          kicker="Profils publics"
           title="Des preuves, pas de simples déclarations."
-          description="Les profils affichés ont choisi d'être publics. Les réalisations validées sont distinguées des compétences simplement déclarées."
+          description="Chaque profil ci-dessous a choisi d'être public et ne liste que des labs validés après relecture."
         />
         {talents.length === 0 ? (
           <div className="mt-12 rounded-2xl border border-border bg-card p-10 text-center">
-            <p className="text-base font-semibold text-foreground">Le réseau se construit progressivement.</p>
+            <p className="text-base font-semibold text-foreground">Aucun profil public pour l'instant.</p>
             <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
-              Les profils apparaissent lorsque des membres disposent de réalisations validées et choisissent de rendre leur profil visible.{" "}
+              Un profil apparaît ici quand son auteur a fait valider un lab et choisi de le rendre public.{" "}
               <Link href="/signin" className="font-semibold text-primary hover:underline">
-                Rejoindre la communauté
-              </Link>{" "}
-              to be among the first.
+                Faire mon premier lab
+              </Link>
+              {" "}ou{" "}
+              <Link href="/recruteurs" className="font-semibold text-primary hover:underline">
+                voir comment lire une preuve
+              </Link>
+              .
             </p>
           </div>
         ) : (
