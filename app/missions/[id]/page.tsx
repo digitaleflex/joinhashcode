@@ -1,3 +1,4 @@
+import { canViewMission } from "@/lib/lab-visibility"
 import { getSessionSafe } from "@/lib/get-session-safe"
 import { prisma } from "@/lib/prisma"
 import { notFound, redirect } from "next/navigation"
@@ -84,6 +85,7 @@ export default async function MissionBriefingPage({
   ])
 
   if (!dbUser) redirect("/signin")
+  if (!canViewMission(mission, dbUser.role)) notFound()
 
   const submission = dbUser.missionSubmissions[0]
   const isCompleted = submission?.status === "APPROVED"
