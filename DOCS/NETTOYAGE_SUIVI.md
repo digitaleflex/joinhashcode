@@ -238,3 +238,13 @@ Vérifiés par stash avant/après : **ces 7 tests échouaient DÉJÀ avant le ne
 5. **Séries de commits obligatoires** (demande propriétaire 17/09) : 1 étape de
    découplage = 1 commit, 1 vague de docs = 1 commit — règle permanente
    ajoutée à AGENTS.md ("Séries de commits"). Plus de commits fourre-tout.
+
+---
+
+## Phase 4 — Complétée (16/11/2026)
+
+Toutes les issues du tableau récapitulatif de CLEAN-07 (#481) sont fermées.
+- Issues `completed` : #423, #424, #428, #442 (PR fusionnées)
+- Issues `not_planned` : #422, #425-#441, #443, #444, #457, #459, #460, #463, #464, #465 (hors périmètre D-030)
+- Issues recadrées : #436 (doublon BUILD-01), #440 (Evidence minimal), #417 (HEF restreint)
+- Issue #481 fermée.
