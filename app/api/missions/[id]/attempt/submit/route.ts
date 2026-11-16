@@ -6,7 +6,7 @@ import { z } from "zod";
 import { getStepMissionDef, logAttemptAction, logAttemptActivity } from "@/lib/mission-engine";
 import { mutationLimiter, submitLimiter, checkRateLimit } from "@/lib/ratelimit";
 import { safeAfter as after } from "@/lib/after";
-import { generateProfileV1 } from "@/lib/profile-v1";
+
 import { logActivity } from "@/lib/activity-log";
 import { triggerNotification } from "@/lib/qstash";
 import { triggerWebhooks } from "@/lib/webhooks";
@@ -203,15 +203,6 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       });
 
       after(async () => {
-        if (def) {
-          await generateProfileV1({
-            userId: session.user.id,
-            attemptId,
-            mission: { id: mission.id, slug: mission.slug },
-            def,
-          }).catch((e) => console.error("[ATTEMPT_AUTO_APPROVE] ProfileV1 error:", e));
-        }
-
         logActivity({
           userId: session.user.id,
           action: "MISSION_APPROVED",

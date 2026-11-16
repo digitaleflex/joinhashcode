@@ -6,7 +6,7 @@ import { getStepMissionDef, computeGlobalScore, logAttemptAction, logAttemptActi
 import { triggerNotification } from "@/lib/qstash";
 import { emailService } from "@/lib/email";
 import { safeAfter as after } from "@/lib/after";
-import { generateProfileV1 } from "@/lib/profile-v1";
+
 import { logActivity } from "@/lib/activity-log";
 
 export const dynamic = "force-dynamic";
@@ -168,19 +168,10 @@ export const PATCH = withAdminAuth(async (req, { userId: adminUserId }) => {
       }
 
       after(async () => {
-        if (def) {
-          await generateProfileV1({
-            userId: attempt.userId,
-            attemptId: attempt.id,
-            mission: { id: mission.id, slug: mission.slug },
-            def,
-          }).catch((e) => console.error("[ATTEMPT_APPROVE] ProfileV1 error:", e));
-        }
-
         logActivity({
           userId: attempt.userId,
-          action: "PROFILE_V1_CREATED",
-          entity: "profile_v1",
+          action: "MISSION_APPROVED",
+          entity: "mission_attempt",
           entityId: attemptId,
           metadata: { missionSlug: mission.slug },
         });

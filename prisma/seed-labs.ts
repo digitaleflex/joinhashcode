@@ -59,6 +59,7 @@ export function loadCyberLabs(): CyberLab[] {
 export async function seedCyberLabs(db: PrismaClient): Promise<number> {
   const labs = loadCyberLabs();
   for (const { briefingFile: _briefingFile, ...lab } of labs) {
+    const isOnboardingLab = lab.slug === "cyber-n0-01-linux";
     const data = {
       title: lab.title,
       shortDesc: lab.shortDesc,
@@ -76,6 +77,7 @@ export async function seedCyberLabs(db: PrismaClient): Promise<number> {
       acceptanceCriteria: lab.acceptanceCriteria,
       evaluatorNotes: lab.evaluatorNotes,
       submissionSchema: lab.submissionSchema,
+      isOnboarding: isOnboardingLab,
     };
     await db.mission.upsert({
       where: { slug: lab.slug },

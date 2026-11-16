@@ -149,7 +149,7 @@ async function main() {
     }
   }
 
-  console.log("\n🚀 Seeding missions à étapes (Mission 01 + Mission 02 + Mission 03)...");
+  console.log("\n🚀 Seeding missions à étapes (Mission 01 + Mission 02 + Mission 03) — ARCHIVÉES (D-030)...");
   const stepMissionDefs = [ONBOARDING_MISSION, PROJECT_MISSION, SOLUTION_MISSION];
   for (const def of stepMissionDefs) {
     const acc = def.acceptanceCriteria;
@@ -176,7 +176,8 @@ async function main() {
         acceptanceCriteria: JSON.parse(JSON.stringify(acc)),
         evaluatorNotes: def.evaluatorNotes,
         qualityIndicators: JSON.parse(JSON.stringify(def.qualityIndicators)),
-        isOnboarding: def === ONBOARDING_MISSION,
+        isOnboarding: false,
+        status: "DRAFT",
       },
       create: {
         slug: def.slug,

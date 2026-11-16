@@ -18,23 +18,22 @@ export async function GET() {
       return NextResponse.json({ j7Activated: false });
     }
 
-    // Compter les sous-missions M01 validées (status != PENDING)
-    const validatedSubmissions = await prisma.missionSubmission.count({
+    // Signal d'activation (D1) : première soumission de lab (statut SUBMITTED)
+    // dans les 7 jours suivant l'inscription.
+    const sevenDaysAfterSignup = user.createdAt
+      ? new Date(user.createdAt.getTime() + 7 * 24 * 60 * 60 * 1000)
+      : null;
+
+    const submittedCount = await prisma.missionSubmission.count({
       where: {
         userId,
-        missionId: 'cmstmwc0e0000x9g7rkc9le41', // mission-01-decouverte
-        NOT: { status: 'PENDING' },
+        status: { in: ["SUBMITTED", "IN_REVIEW", "APPROVED", "NEEDS_REVISION"] },
+        createdAt: sevenDaysAfterSignup ? { lte: sevenDaysAfterSignup } : undefined,
       },
     });
 
-    // Vérifier si au moins 3 sur 5 ont été validées dans les 7 jours suivant l'inscription
-    const sevenDaysAfterSignup = user.createdAt ? new Date(user.createdAt.getTime() + 7 * 24 * 60 * 60 * 1000) : null;
-    const isWithinJ7Window = sevenDaysAfterSignup 
-      ? validatedSubmissions > 0 // On vérifie simplement qu'il y a des soumissions dans la fenêtre
-      : true; // Si pas de date, on considère éligible (conservatif)
-
-    // Le seuil J+7 : >= 3 des 5 sous-missions validées dans les 7 jours
-    const j7Activated = validatedSubmissions >= 3 && isWithinJ7Window;
+    // Le seuil J+7 : au moins 1 soumission de lab dans les 7 jours
+    const j7Activated = submittedCount >= 1;
 
     if (j7Activated) {
       prisma.user.update({ where: { id: userId }, data: { j7Activated: true } }).catch(() => {});
