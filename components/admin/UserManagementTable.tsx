@@ -25,8 +25,7 @@ interface User {
   pseudo: string | null
   role: string
   class: string | null
-  level: number
-  experience: number
+
   banned: boolean | null
   createdAt: string
 }
@@ -165,7 +164,7 @@ export function UserManagementTable() {
               <TableHead className="text-xs uppercase tracking-wider font-bold text-zinc-500 py-4">Utilisateur</TableHead>
               <TableHead className="text-xs uppercase tracking-wider font-bold text-zinc-500 py-4">Rôle</TableHead>
               <TableHead className="text-xs uppercase tracking-wider font-bold text-zinc-500 py-4">Classe</TableHead>
-              <TableHead className="text-xs uppercase tracking-wider font-bold text-zinc-500 py-4">Niv. / XP</TableHead>
+
               <TableHead className="text-xs uppercase tracking-wider font-bold text-zinc-500 py-4">Inscription</TableHead>
               <TableHead className="text-xs uppercase tracking-wider font-bold text-zinc-500 py-4">Statut</TableHead>
               <TableHead className="text-right text-xs uppercase tracking-wider font-bold text-zinc-500 py-4">Actions</TableHead>
@@ -239,8 +238,7 @@ export function UserManagementTable() {
                     </TableCell>
                     <TableCell>
                       <div className="flex flex-col">
-                        <span className="text-sm-plus font-bold text-white font-mono">LVL {user.level}</span>
-                        <span className="text-3xs text-zinc-500 font-mono">{user.experience.toLocaleString()} XP</span>
+                        <span className="text-3xs text-zinc-500 font-mono">—</span>
                       </div>
                     </TableCell>
 

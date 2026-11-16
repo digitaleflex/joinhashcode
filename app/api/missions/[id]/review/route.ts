@@ -52,7 +52,7 @@ export async function POST(
 
     const submission = await prisma.missionSubmission.findUnique({
       where: { id: submissionId },
-      include: { mission: true, user: { select: { level: true, name: true, email: true } } },
+      include: { mission: true, user: { select: { name: true, email: true } } },
     });
 
     if (!submission) return NextResponse.json({ message: "Soumission introuvable." }, { status: 404 });

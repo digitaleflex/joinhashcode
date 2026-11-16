@@ -19,7 +19,6 @@ interface SubmissionUser {
   id: string
   name: string
   email: string
-  level: number
 }
 
 interface SubmissionMission {
@@ -89,7 +88,7 @@ export function SubmissionsTable({ submissions, activeTab, processingId, onRevie
                     >
                       {s.user.name}
                     </Link>
-                    <p className="text-xs text-muted-foreground font-mono">LVL {s.user.level} · {s.user.email}</p>
+                    <p className="text-xs text-muted-foreground font-mono">{s.user.email}</p>
                   </div>
                 </div>
               </TableCell>
@@ -127,12 +126,9 @@ export function SubmissionsTable({ submissions, activeTab, processingId, onRevie
                     {s.status === "APPROVED" && s.qualityLevel && s.qualityLevel !== "STANDARD" && (
                       <p className="text-3xs font-mono text-primary/70">
                         {s.qualityLevel === "EXEMPLARY" ? "⭐ Exemplaire" : "✦ Très bon"}
-                        {s.xpAwarded != null && ` · +${s.xpAwarded} XP`}
                       </p>
                     )}
-                    {s.status === "APPROVED" && s.xpAwarded != null && s.qualityLevel === "STANDARD" && (
-                      <p className="text-3xs font-mono text-zinc-500">+{s.xpAwarded} XP</p>
-                    )}
+
                     {s.adminFeedback && (
                       <p className="text-xs text-zinc-400 line-clamp-2 italic max-w-[200px]">
                         &ldquo;{s.adminFeedback}&rdquo;
