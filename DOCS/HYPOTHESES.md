@@ -97,17 +97,6 @@ Une hypothèse avec 2 observations a une confiance faible même si 🟢.
 > étapes « quiz », « choix de profil » et « premier atelier » (conditions sur `class` et sur la Mission 01). Il est à
 > aligner sur la chaîne ci-dessus avant de s'y fier (lié à #471).
 
----|---|---|
-| Landing → Quiz | > 70 % | — ⚠ à redéfinir (D-030 : le quiz est facultatif, la landing renvoie vers la connexion) |
-| Quiz terminé | > 90 % | — ⚠ à redéfinir (D-030 : mesure d'une option, plus d'une étape) |
-| Choix spécialisation | > 80 % | — |
-| Premier atelier démarré | > 60 % | — |
-| Premier atelier terminé | > 50 % | — |
-| Première Evidence obtenue | > 30 % | — |
-| Retour J+7 | > 40 % | — |
-| TTV (Time To Value) | < 5 min | — |
-| Activation émotionnelle | > 7/10 | — |
-
 ---
 
 ## Rituel hebdomadaire
