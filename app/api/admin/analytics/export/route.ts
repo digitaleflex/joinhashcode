@@ -98,22 +98,21 @@ async function exportUsersCsv(startDate: Date, endDate: Date): Promise<string> {
     where: { createdAt: { gte: startDate, lte: endDate } },
     select: {
       id: true, name: true, email: true, pseudo: true, role: true, class: true,
-      createdAt: true, country: true, level: true, experience: true,
-      missionsCompletedCount: true, currentStreak: true, lastCheckinAt: true,
+      createdAt: true, country: true, missionsCompletedCount: true,
     },
     orderBy: { createdAt: "desc" },
   });
 
   const header = [
     "id", "name", "email", "pseudo", "role", "class",
-    "createdAt", "country", "level", "experience",
-    "missionsCompleted", "currentStreak", "lastCheckinAt",
+    "createdAt", "country",
+    "missionsCompleted",
   ];
 
   const rows = users.map((u) => [
     u.id, u.name, u.email, u.pseudo ?? "", u.role, u.class ?? "",
-    u.createdAt, u.country ?? "", u.level, u.experience,
-    u.missionsCompletedCount, u.currentStreak, u.lastCheckinAt ?? "",
+    u.createdAt, u.country ?? "",
+    u.missionsCompletedCount,
   ]);
 
   return [header.map(escapeCSV).join(","), ...rows.map((r) => r.map(escapeCSV).join(","))].join("\n");

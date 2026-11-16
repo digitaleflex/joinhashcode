@@ -3,7 +3,6 @@ import {
   getCriteriaForMission,
   getReviewCriteria,
   computeQualityLevel,
-  computeXp,
   isEligibleReviewer,
   getMissingRequiredCriteria,
 } from "@/lib/acceptance-criteria"
@@ -65,20 +64,6 @@ describe("computeQualityLevel", () => {
     criteria.forEach(c => { checked[c.id] = true })
     // INTRO has only 1 bonus criterion — should be GOOD, not EXEMPLARY (< 2 bonus required for EXEMPLARY)
     expect(computeQualityLevel(criteria, checked)).toBe("GOOD")
-  })
-})
-
-describe("computeXp", () => {
-  it("returns 100% XP for STANDARD", () => {
-    expect(computeXp(200, "STANDARD")).toBe(200)
-  })
-
-  it("returns 125% XP for GOOD", () => {
-    expect(computeXp(200, "GOOD")).toBe(250)
-  })
-
-  it("returns 150% XP for EXEMPLARY", () => {
-    expect(computeXp(200, "EXEMPLARY")).toBe(300)
   })
 })
 

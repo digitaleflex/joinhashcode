@@ -9,7 +9,6 @@ import { safeAfter as after } from "@/lib/after";
 
 import { logActivity } from "@/lib/activity-log";
 import { triggerNotification } from "@/lib/qstash";
-import { triggerWebhooks } from "@/lib/webhooks";
 
 export const dynamic = "force-dynamic";
 
@@ -145,14 +144,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
         });
       }
 
-      await triggerWebhooks(mission.id, "submission.created", {
-        missionId: mission.id,
-        missionTitle: mission.title,
-        attemptId,
-        submitterId: session.user.id,
-        submitterName: session.user.name,
-        submittedAt: new Date().toISOString(),
-      });
+      
     });
 
     // ── Auto-validation : les missions déclaratives (isOnboarding) ne

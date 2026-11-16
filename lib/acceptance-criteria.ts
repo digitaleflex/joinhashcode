@@ -8,12 +8,6 @@ export interface Criterion {
 
 export type QualityLevel = "STANDARD" | "GOOD" | "EXEMPLARY"
 
-export const XP_MULTIPLIERS: Record<QualityLevel, number> = {
-  STANDARD: 1.0,
-  GOOD: 1.25,
-  EXEMPLARY: 1.5,
-}
-
 export const MISSION_CRITERIA: Record<string, Criterion[]> = {
   CODE: [
     { id: "code-accessible", label: "Lien accessible (repo public ou admin invité)", weight: "REQUIRED" },
@@ -130,10 +124,6 @@ export function computeQualityLevel(
   if (bonusPassed >= bonus.length && bonus.length >= 2) return "EXEMPLARY"
   if (bonusPassed >= 2 || (bonusPassed >= bonus.length && bonus.length > 0)) return "GOOD"
   return "STANDARD"
-}
-
-export function computeXp(baseXp: number, qualityLevel: QualityLevel): number {
-  return Math.round(baseXp * XP_MULTIPLIERS[qualityLevel])
 }
 
 /** Nombre de labs validés à partir duquel un membre peut relire (D-029). */

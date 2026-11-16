@@ -175,7 +175,7 @@ describe("Admin Submissions API [id]", () => {
     const res = await PATCH(req, { params: Promise.resolve({ id: "sub1" }) });
     expect(res.status).toBe(200);
     expect(prisma.missionSubmission.update).toHaveBeenCalledWith(expect.objectContaining({
-      data: expect.objectContaining({ xpAwarded: 250, qualityLevel: "GOOD" })
+      data: expect.objectContaining({ qualityLevel: "GOOD" })
     }));
   });
 

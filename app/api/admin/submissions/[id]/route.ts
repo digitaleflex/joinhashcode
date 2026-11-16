@@ -4,11 +4,10 @@ import { NextResponse } from "next/server";
 import { withAdminAuth } from "@/lib/admin-auth";
 import { safeAfter as after } from "@/lib/after";
 import { triggerNotification } from "@/lib/qstash";
-import { computeXp, type QualityLevel } from "@/lib/acceptance-criteria";
+import { type QualityLevel } from "@/lib/acceptance-criteria";
 import { logActivity } from "@/lib/activity-log";
 import { emailService } from "@/lib/email";
 import { z } from "zod";
-import { triggerWebhooks } from "@/lib/webhooks";
 import type { Prisma } from "@/generated/prisma/client";
 
 const ArtifactDecisionSchema = z.object({
@@ -80,9 +79,6 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
             id: true,
             email: true,
             name: true,
-            currentStreak: true,
-            experience: true,
-            level: true,
           },
         }
       }
@@ -142,15 +138,6 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
       // For PENDING_ADMIN (peer-reviewed CORE missions), preserve the peer's quality assessment
       // unless the admin explicitly overrides it
       const level: QualityLevel = qualityLevel ?? (submission.qualityLevel as QualityLevel) ?? "STANDARD";
-      let xpAwarded = computeXp(submission.mission.xp, level);
-
-      // Apply streak multiplier
-      const userStreak = submission.user.currentStreak || 0;
-      let multiplier = 1.0;
-      if (userStreak >= 7) multiplier = 1.2;
-      else if (userStreak >= 3) multiplier = 1.1;
-      
-      xpAwarded = Math.round(xpAwarded * multiplier);
 
       // 1. Transaction atomique — status + artefacts + missionsCompletedCount
       await prisma.$transaction(async (tx) => {
@@ -159,7 +146,7 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
         }
         await tx.missionSubmission.update({
           where: { id },
-          data: { status: "APPROVED", xpAwarded, qualityLevel: level, adminFeedback: feedback ?? null }
+          data: { status: "APPROVED", qualityLevel: level, adminFeedback: feedback ?? null }
         });
 
         await tx.user.update({
@@ -189,30 +176,13 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
         action: "ADMIN_SUBMISSION_REVIEWED",
         entity: "mission_submission",
         entityId: id,
-        metadata: { action: "APPROVE", qualityLevel: level, xpAwarded, targetUserId: submission.userId },
+        metadata: { action: "APPROVE", qualityLevel: level, targetUserId: submission.userId },
         request: req,
       });
 
-      triggerWebhooks(submission.missionId, "submission.approved", {
-        missionId: submission.missionId,
-        missionTitle: submission.mission.title,
-        submissionId: id,
-        submitterId: submission.userId,
-        submitterName: submission.user.name,
-        reviewerId: userId,
-        qualityLevel: level,
-        xpAwarded,
-        status: "APPROVED",
-        decidedAt: new Date().toISOString(),
-      }).catch(() => undefined);
+      
 
-      // Découplage pipeline : XP retiré du flow (gamification gelée)
-          const submitterLevel = submission.user.level ?? 1;
-          const expectedNewXp = (submission.user.experience ?? 0) + xpAwarded;
-      // Approximation simple pour la réponse immédiate (le background effectue le calcul exact et persistant)
-      const leveledUpApprox = expectedNewXp >= 100; 
-
-      return NextResponse.json({ success: true, newLevel: submitterLevel, leveledUp: leveledUpApprox, xpAwarded });
+      return NextResponse.json({ success: true });
     }
 
     if (action === "NEEDS_REVISION") {
@@ -266,18 +236,7 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
         request: req,
       });
 
-      triggerWebhooks(submission.missionId, "submission.rejected", {
-        missionId: submission.missionId,
-        missionTitle: submission.mission.title,
-        submissionId: id,
-        submitterId: submission.userId,
-        submitterName: submission.user.name,
-        reviewerId: userId,
-        revisionCount: (submission.revisionCount ?? 0) + 1,
-        feedback,
-        status: "NEEDS_REVISION",
-        decidedAt: new Date().toISOString(),
-      }).catch(() => undefined);
+      
 
       return NextResponse.json({ success: true });
     }
@@ -318,17 +277,7 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
         request: req,
       });
 
-      triggerWebhooks(submission.missionId, "submission.rejected", {
-        missionId: submission.missionId,
-        missionTitle: submission.mission.title,
-        submissionId: id,
-        submitterId: submission.userId,
-        submitterName: submission.user.name,
-        reviewerId: userId,
-        feedback,
-        status: "REJECTED",
-        decidedAt: new Date().toISOString(),
-      }).catch(() => undefined);
+      
 
       return NextResponse.json({ success: true });
     }

@@ -141,8 +141,7 @@ REST endpoints under `app/api/`:
 | `admin/missions/[id]/export/`   | GET       | ADMIN/MOD      | Export one mission (JSON) |
 | `admin/missions/[id]/participants/` | GET       | ADMIN/MOD      | List participants of a mission |
 | `admin/missions/[id]/snapshots/` | GET/POST  | ADMIN/MOD      | List / create versioned snapshots |
-| `admin/missions/[id]/webhooks/` | GET/POST  | ADMIN/MOD      | Outbound mission webhooks (no UI; removal tracked in CLEAN-06, #477) |
-| `admin/missions/[id]/webhooks/[webhookId]/` | PATCH/DELETE| ADMIN/MOD      | Update / delete an outbound mission webhook |
+
 | `admin/missions/bulk/`          | POST      | ADMIN/MOD      | Bulk mission operations |
 | `admin/missions/export/`        | GET       | ADMIN/MOD      | Export all missions |
 | `admin/missions/import/`        | POST      | ADMIN/MOD      | Import missions (JSON) |
