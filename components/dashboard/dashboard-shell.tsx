@@ -32,7 +32,6 @@ import { NextStepCard } from "./next-step-card"
 import { getMemberNextStep } from "@/lib/next-step"
 import type { FirstAction } from "@/lib/first-action"
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
-import type { Activity } from "@/components/landing/activity-feed"
 
 const PROFILE_CONFIGS: Record<string, { title: string, color: string, gradient: string, message: string }> = {
   builder: {
@@ -66,7 +65,6 @@ export function DashboardShell({
   quizResult,
   recommendedMissions = [],
   fullSubmissions = [],
-  feedActivities = [],
   featureFlags: _featureFlags = {},
   firstAction,
   firstActionStatus = "not_started",
@@ -76,7 +74,6 @@ export function DashboardShell({
   submissions?: Record<string, string>,
   fullSubmissions?: DetailedMissionSubmission[],
   recommendedMissions?: Mission[],
-  feedActivities?: Activity[],
   featureFlags?: Record<string, boolean>,
   firstAction?: FirstAction,
   firstActionStatus?: "not_started" | "started" | "completed",
