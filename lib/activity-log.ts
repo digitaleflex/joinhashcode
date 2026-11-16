@@ -40,7 +40,6 @@ export type ActivityAction =
   | "ATTEMPT_REVISION_REQUESTED"
   | "ATTEMPT_APPROVED"
   | "ATTEMPT_REJECTED"
-  | "PROFILE_V1_CREATED"
   // Profile / settings
   | "PROFILE_UPDATED"
   | "CHECKIN_COMPLETED"

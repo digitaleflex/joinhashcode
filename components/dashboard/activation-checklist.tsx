@@ -31,8 +31,8 @@ export function ActivationChecklist({ user, hasSubmission }: ActivationChecklist
     },
     {
       id: "j7-activation",
-      title: "Activation J+7",
-      description: "As-tu validé 3 des 5 sous-missions M01 dans les 7 jours ?",
+      title: "Premier lab soumis",
+      description: "Soumets ton premier lab dans les 7 jours pour activer ton compte.",
       icon: Target,
       completed: user.j7Activated,
       href: "/missions"

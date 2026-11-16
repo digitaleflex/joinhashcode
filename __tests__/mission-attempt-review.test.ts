@@ -85,10 +85,6 @@ vi.mock("@/lib/email", () => ({
   },
 }));
 
-vi.mock("@/lib/profile-v1", () => ({
-  generateProfileV1: vi.fn(() => Promise.resolve()),
-}));
-
 vi.mock("@/lib/after", () => ({
   safeAfter: vi.fn((fn: () => unknown) => fn()),
 }));
