@@ -2,12 +2,9 @@
 // Générique : fonctionne pour Mission 01 et toutes les futures missions à étapes.
 
 import { logActivity } from "./activity-log";
-import { ONBOARDING_MISSION } from "./onboarding-mission";
 import type { OnboardingMissionDef, MissionSubDef, StepField } from "./onboarding-mission";
-import { PROJECT_MISSION } from "./project-mission";
-import { SOLUTION_MISSION } from "./solution-mission";
 import type { MediaFile } from "./mission-media";
-import { Prisma } from "../generated/prisma/client";
+import type { Prisma } from "../generated/prisma/client";
 
 export type AttemptStatus =
   | "DRAFT"
@@ -19,19 +16,8 @@ export type AttemptStatus =
 
 export type StepStatus = "DRAFT" | "APPROVED" | "REVISION_REQUIRED";
 
-// Résolveur de définition : renvoie la config d'une mission à étapes par slug.
-// Extensible : ajouter d'autres définitions ici pour les missions N.
-export function getStepMissionDef(slug: string | null | undefined): OnboardingMissionDef | null {
-  if (!slug) return null;
-  if (slug === ONBOARDING_MISSION.slug) return ONBOARDING_MISSION;
-  if (slug === PROJECT_MISSION.slug) return PROJECT_MISSION;
-  if (slug === SOLUTION_MISSION.slug) return SOLUTION_MISSION;
-  return null;
-}
-
-export function isStepMission(slug: string | null | undefined): boolean {
-  return getStepMissionDef(slug) !== null;
-}
+// Résolveur de définition : délégué à step-mission-resolver (sans dépendances server).
+export { getStepMissionDef, isStepMission } from "./step-mission-resolver";
 
 // ── Progression ─────────────────────────────────────────────────────────────
 

@@ -17,7 +17,7 @@ import { OnboardingWorkflow } from "@/components/missions/onboarding-workflow"
 import { MissionBriefing } from "@/components/missions/mission-briefing"
 import { SubmissionTimeline, type TimelineProps } from "@/components/missions/submission-timeline"
 import { SubmissionGuide } from "@/components/missions/submission-guide"
-import { getStepMissionDef } from "@/lib/mission-engine"
+import { getStepMissionDef } from "@/lib/step-mission-resolver"
 import { getMissionStatusMeta } from "@/lib/mission-status"
 import {
   Tooltip,

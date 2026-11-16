@@ -19,7 +19,7 @@ import {
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { getStepMissionDef } from "@/lib/mission-engine";
+import { getStepMissionDef } from "@/lib/step-mission-resolver";
 
 export default async function MissionPreviewPage({
   params,

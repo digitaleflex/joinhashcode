@@ -1,6 +1,6 @@
 import { sanitizeMetadata } from "./logger"
 import { getClientIp } from "./utils"
-import { Prisma } from "../generated/prisma/client"
+import type { Prisma } from "../generated/prisma/client"
 
 // Known actions — extend freely but keep them SCREAMING_SNAKE_CASE
 export type ActivityAction =
