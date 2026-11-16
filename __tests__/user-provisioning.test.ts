@@ -46,7 +46,7 @@ describe("provisionNewUser", () => {
     const args = updateMany.mock.calls[0][0];
     expect(args.where).toEqual({ id: "u1", referralCode: null });
     expect(args.data.referralCode).toMatch(/^awa-[a-z0-9]+$/);
-    expect(args.data.level).toBe(1);
+    expect(args.data.missionsCompletedCount).toBe(0);
   });
 
   it("est idempotent : un profil déjà initialisé ne casse rien", async () => {

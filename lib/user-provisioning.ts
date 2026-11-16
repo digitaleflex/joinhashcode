@@ -69,12 +69,6 @@ export async function provisionNewUser(
     portfolioUrl: null,
     linkedinUrl: null,
     twitterUrl: null,
-    currentStreak: 0,
-    longestStreak: 0,
-    lastCheckinAt: null,
-    lastStreakDate: null,
-    level: 1,
-    experience: 0,
     missionsCompletedCount: 0,
   };
 
