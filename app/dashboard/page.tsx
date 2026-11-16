@@ -2,15 +2,9 @@ import { getSessionSafe } from "@/lib/get-session-safe";
 import { redirect } from "next/navigation";
 import { DashboardWithTour } from "@/components/dashboard/dashboard-with-tour";
 import { prisma } from "@/lib/prisma";
-import { Prisma } from "@/generated/prisma/client";
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types";
-import type { Activity } from "@/components/landing/activity-feed";
 import { getFeatureFlags } from "@/lib/feature-flags";
 import { getFirstAction } from "@/lib/first-action";
-
-type FeedPayload = Prisma.ActivityLogGetPayload<{
-  include: { user: { select: { name: true; city: true; class: true } } };
-}>;
 
 export default async function DashboardPage() {
   const session = await getSessionSafe();
@@ -24,11 +18,10 @@ export default async function DashboardPage() {
   let dbUser: UserProfile | null = null;
   let quizResult: { profileType?: string | null } | null = null;
   let submissions: DetailedMissionSubmission[] = [];
-  let feedActivities: Activity[] = [];
   let firstActionStatus: "not_started" | "started" | "completed" = "not_started";
 
   try {
-    const [userData, submissionsData, feedData] = await Promise.all([
+    const [userData, submissionsData] = await Promise.all([
       // Requête 1 : Profil utilisateur (champs stricts uniquement)
       prisma.user.findUnique({
         where: { id: session.user.id },
@@ -86,16 +79,6 @@ export default async function DashboardPage() {
         orderBy: { createdAt: "desc" },
         take: 10,
       }),
-      // Requête 4 : Activity feed (10 derniers événements publics)
-      prisma.activityLog.findMany({
-        where: {
-          action: { in: ["USER_SIGNUP", "QUIZ_COMPLETED", "MISSION_APPROVED"] },
-          userId: { not: null },
-        },
-        take: 10,
-        orderBy: { createdAt: "desc" },
-        include: { user: { select: { name: true, city: true, class: true } } },
-      }),
     ]);
 
     if (!userData) {
@@ -144,12 +127,6 @@ export default async function DashboardPage() {
         ? "started"
         : "not_started";
     submissions = submissionsData as DetailedMissionSubmission[];
-    feedActivities = (feedData ?? []).map((a) => ({
-      id: a.id,
-      user: { name: a.user!.name, city: a.user!.city, class: a.user!.class },
-      action: a.action,
-      createdAt: a.createdAt.toISOString(),
-    }));
 
   } catch (error: unknown) {
     console.error("[DASHBOARD_PAGE] DB fetch failed:", error);
@@ -177,7 +154,6 @@ export default async function DashboardPage() {
       quizResult={quizResult}
       submissions={submissionsMap}
       fullSubmissions={submissions}
-      feedActivities={feedActivities}
       featureFlags={featureFlags}
     />
   );

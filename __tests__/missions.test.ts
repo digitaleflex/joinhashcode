@@ -51,6 +51,10 @@ describe("MISSIONS data integrity", () => {
   });
 
   it("should cover all four profiles across the mission catalogue", () => {
+    if (MISSIONS.length === 0) {
+      // Missions 01-03 archivées (CLEAN-01) : le catalogue vit dans la DB (labs cyber).
+      return;
+    }
     const coveredProfiles = new Set(MISSIONS.flatMap((mission) => mission.targetProfiles));
 
     expect(coveredProfiles).toContain("builder");

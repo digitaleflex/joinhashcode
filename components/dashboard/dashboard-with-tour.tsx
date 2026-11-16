@@ -4,7 +4,6 @@ import { TourProvider } from "@/components/tour/tour-provider"
 import { isFeatureEnabled } from "@/lib/feature-flags"
 import { DashboardShell } from "./dashboard-shell"
 import type { UserProfile, DetailedMissionSubmission } from "@/lib/types"
-import type { Activity } from "@/components/landing/activity-feed"
 import type { Mission } from "@/lib/missions"
 import type { FirstAction } from "@/lib/first-action"
 
@@ -14,7 +13,6 @@ export function DashboardWithTour({
   submissions,
   fullSubmissions,
   recommendedMissions,
-  feedActivities,
   featureFlags,
   firstAction,
   firstActionStatus,
@@ -24,7 +22,6 @@ export function DashboardWithTour({
   submissions?: Record<string, string>
   fullSubmissions?: DetailedMissionSubmission[]
   recommendedMissions?: Mission[]
-  feedActivities?: Activity[]
   featureFlags?: Record<string, boolean>
   firstAction?: FirstAction
   firstActionStatus?: "not_started" | "started" | "completed"
@@ -39,7 +36,6 @@ export function DashboardWithTour({
         submissions={submissions}
         fullSubmissions={fullSubmissions}
         recommendedMissions={recommendedMissions}
-        feedActivities={feedActivities}
         featureFlags={featureFlags}
         firstAction={firstAction}
         firstActionStatus={firstActionStatus}

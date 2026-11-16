@@ -36,15 +36,6 @@ export const getDashboardTour = (isMobile: boolean): Tour => ({
       showSkip: true,
     },
     {
-      icon: "📡",
-      title: "Fil d'activité",
-      content: "Consulte les dernières actions de la communauté en temps réel.",
-      selector: "#tour-feed",
-      side: "left",
-      showControls: true,
-      showSkip: true,
-    },
-    {
       icon: "📈",
       title: "Ta progression",
       content: "Suis tes labs validés : chacun est une preuve de compétence dans ton Portfolio.",
