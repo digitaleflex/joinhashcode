@@ -5,6 +5,52 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ---
 
+## [Unreleased] — Focus D-030 (12 novembre 2026)
+
+Décision D-030 (`DOCS/DECISIONS.md`) : mission unique, le dossier de preuves vérifiées d'un analyste cyber
+junior francophone. Suivi dans `DOCS/NETTOYAGE_SUIVI.md` et l'épopée #469 (PR #467).
+
+### Notes de déploiement
+- **Aucune migration, aucune donnée supprimée.** Déployer avec `./deploy.sh --image` après la CI sur `main`.
+- Les corrections de fuites (voir « Sécurité ») ne protègent les membres qu'après déploiement.
+- Si les quiz éclair HEF doivent être importés : lancer `pnpm hef:seed` en production (le seed ne tourne pas au déploiement).
+- **Essayer à la main le parcours de relecture par un pair** avec deux comptes de test : aucun test automatique ne le couvre.
+
+### Ajouté
+- **Page de relecture** `/reviewer/submissions/[submissionId]` : brief, livrable du membre, prise en charge et formulaire de relecture.
+- `lib/review-access.ts` : règle unique de prise en charge, partagée par la route `claim`, la file `/reviewer` et la page de relecture.
+- **Preuves publiques** sur `/u/[pseudo]` (soumissions validées, sans nouvelle table) et lien vers la page publique depuis le portfolio.
+- `DOCS/GLOSSAIRE.md` ; `DOCS/PRODUCT_VISION.md` réécrite en une page (l'ancienne est archivée).
+
+### Modifié
+- **La relecture est ouverte à la modération et à tout membre ayant validé 3 labs** (avant : modération seule). Les labs PRO restent
+  validés par l'admin ; les labs CORE relus par un pair attendent la confirmation de l'admin. L'éligibilité ne demande plus de profil psychométrique.
+- **Le quiz psychométrique est facultatif** : l'onboarding mène au dashboard ; les invitations vers `/quiz` (landing, emails, relances
+  admin, checklist d'activation) sont retirées. `/quiz` reste accessible depuis les paramètres.
+- **Les ateliers sont fusionnés dans les Labs** : la première action du dashboard mène à `/missions` ; `/ateliers/*` redirige vers `/missions`.
+- Le lien « Reviewer » de la barre latérale ne demande plus un niveau ≥ 2 (les niveaux n'existent plus).
+- Emails `welcome` et `onboarding-completed` : bouton « Choisir mon premier lab ».
+- `DOCS/HYPOTHESES.md` : indicateurs redéfinis sur la boucle lab → relecture → preuve.
+
+### Supprimé
+- Sondage UX (page admin, routes, statistiques).
+- Vivier connecté `/dashboard/talents`, « Matchmaking Alpha » des pages de lab, composant `hover-card` et sa dépendance.
+- API v1 (`/api/v1/members/me`, test, workflow CI, doc) et `/api/public/talent`.
+- Ateliers : pages, administration, catalogue (`lib/ateliers.ts`) et API ; entrée « Ateliers » de l'administration des contenus.
+- Étape « Calibration terminée » de la checklist d'activation (elle s'affichait toujours complétée).
+
+### Sécurité
+- Le Vivier connecté envoyait à tout membre connecté les **quatre scores psychométriques de tous les membres**, sans respecter `talentVisible`.
+- Les pages de lab affichaient trois autres membres avec **pseudo et liens GitHub, LinkedIn et Twitter**, sans respecter `talentVisible`.
+- `/u/[pseudo]` listait les **labs validés d'un profil privé** (la valeur par défaut) ; les preuves ne sont chargées que si le profil est visible.
+
+### Corrigé
+- La file `/reviewer` menait à une page inexistante (404) et n'était branchée sur aucun écran de relecture.
+- L'email `mission-protocol` annonçait « Notre analyse montre que tu as un profil Bâtisseur » à des membres qui n'avaient jamais fait le quiz.
+- Le dossier promettait que le quiz « débloque des missions adaptées » alors qu'aucun lab n'est verrouillé.
+
+---
+
 ## [Unreleased] — Grand nettoyage (novembre 2026)
 
 Branche `chore/grand-nettoyage` — décisions D-026 à D-029 (`DOCS/DECISIONS.md`),

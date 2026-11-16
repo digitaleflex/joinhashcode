@@ -1,5 +1,10 @@
 # ROADMAP — Source unique de vérité
 
+> **ARCHIVE — 12/11/2026.** Cette roadmap n'est plus une référence. Elle est remplacée par la vision en une page
+> `DOCS/PRODUCT_VISION.md` et la décision **D-030** (mission unique, engagement de 90 jours). Le travail restant est suivi
+> dans l'épopée #469 et `DOCS/NETTOYAGE_SUIVI.md`. Ne plus l'utiliser pour décider.
+
+
 > ⚠️ **AMENDEMENT — PIVOT PIPELINE CYBER (17/09/2026) — Décision D-014.**
 >
 > La roadmap ci-dessous (phases 0-3, KPI 500 actifs, talent pool généraliste) est

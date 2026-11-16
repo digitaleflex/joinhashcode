@@ -8,10 +8,8 @@ import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/brand/logo"
 
 const PUBLIC_LINKS = [
-  { href: "/programs", label: "Domaines" },
   { href: "/labs", label: "Labs" },
-  { href: "/community", label: "Communauté" },
-  { href: "/talents", label: "Talents" },
+  { href: "/talents", label: "Preuves" },
   { href: "/about", label: "À propos" },
 ]
 
@@ -37,7 +35,7 @@ function SiteNavActions() {
       </Button>
       <Button asChild size="sm" className="h-8 rounded-lg px-4 text-xs font-bold">
         <Link href="/signin" className="flex items-center gap-1.5">
-          Rejoindre HashCode
+          Faire mon premier lab
           <ArrowRight className="h-3 w-3" />
         </Link>
       </Button>

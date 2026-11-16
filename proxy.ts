@@ -108,10 +108,10 @@ export async function proxy(request: NextRequest) {
   const user = sessionData?.user;
   let nextResponse = NextResponse.next();
 
-  // /admin/* requires the ADMIN role
+  // /admin/* requires the ADMIN or MODERATOR role (same rule as app/admin/layout.tsx)
   if (pathname.startsWith("/admin") && session && user) {
     const role = (user as Record<string, unknown>).role;
-    if (role !== "ADMIN") {
+    if (role !== "ADMIN" && role !== "MODERATOR") {
       return NextResponse.redirect(new URL("/dashboard", request.url));
     }
   }

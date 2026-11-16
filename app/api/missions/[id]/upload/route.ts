@@ -1,3 +1,4 @@
+import { isUnpublishedCyberLab } from "@/lib/lab-visibility";
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
@@ -29,9 +30,9 @@ export async function POST(
     const { id } = await params;
     const mission = await prisma.mission.findFirst({
       where: { OR: [{ id }, { slug: id }] },
-      select: { id: true, submissionSchema: true },
+      select: { id: true, submissionSchema: true, status: true, tags: true },
     });
-    if (!mission) {
+    if (!mission || isUnpublishedCyberLab(mission)) {
       return NextResponse.json({ message: "Mission introuvable." }, { status: 404 });
     }
 

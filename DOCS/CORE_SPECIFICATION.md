@@ -1,5 +1,7 @@
 # CORE Decision Engine — Spécification technique
 
+> **Statut (12/11/2026) : non implémentée et hors périmètre (D-030).** Le moteur CORE avancé est enterré (D-019) et son module d'administration a été supprimé (D-027). Aucune implémentation n'est prévue pendant l'engagement de 90 jours (`DOCS/PRODUCT_VISION.md`). Conservée pour mémoire.
+
 > Document de spécification du moteur de décision CORE.
 > Ne fait pas partie de la vision produit — décrit uniquement les entrées, règles, algorithmes et évolutions.
 >

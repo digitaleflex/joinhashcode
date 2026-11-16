@@ -1,450 +1,60 @@
-# Product Vision — HASHCODE
+# Vision — JoinHashCode
 
-> **VISION ACTIVE — DÉCISION D-024 (31/10/2026)**
->
-> HASHCODE / JoinHashCode est une plateforme communautaire et d'apprentissage qui aide
-> les talents à apprendre, pratiquer, démontrer leurs compétences et accéder à des
-> opportunités dans **trois domaines actifs : Web Development, Cybersécurité et IA appliquée**.
->
-> **Référence de priorité :** cette vision et `DOCS/DECISIONS.md` priment sur les anciens
-> documents de pivot. `DOCS/PIVOT_CYBER.md` est conservé comme historique stratégique
-> et source de contenu cyber, mais ne définit plus à lui seul le périmètre du produit.
->
-> **Règles produit :**
-> - Les trois domaines font partie du périmètre public et produit ; la profondeur réelle
->   des contenus et fonctionnalités doit être annoncée honnêtement domaine par domaine.
-> - Un seul compte, un seul profil membre et une expérience cohérente ; pas trois plateformes
->   ni trois systèmes d'identité séparés.
-> - Le parcours principal reste : découverte → orientation → apprentissage → pratique
->   → preuve/validation → opportunités.
-> - Les contenus pédagogiques restent versionnés et gouvernés par HashCode Academy.
-> - Reboot est une source de capacités à intégrer sélectivement, pas une seconde plateforme
->   à maintenir en parallèle.
-> - La gratuité et les règles de validation restent celles des décisions produit existantes.
-> - **Domaine phare : Cybersécurité (D-026).** Les trois domaines restent présentés, mais seul
->   le cyber reçoit de nouveaux développements tant que la traction n'est pas démontrée.
-> - **Pas de gamification (D-027, D-029, 11/2026).** XP, niveaux, badges, check-in, séries et
->   squads ont été supprimés du produit. Aucun lab n'est verrouillé ; la progression se mesure
->   en **labs validés** (preuves). Un membre devient relecteur après 3 labs validés.
->   CORE avancé reste différé (D-019).
-> - **Gel des fonctionnalités (D-028)** : pas de nouvelle fonctionnalité sans une hypothèse
->   `H-xx` qu'elle teste.
->
-> Le contenu historique ci-dessous est conservé comme référence de conception ; en cas de
-> contradiction avec D-024, la vision active ci-dessus prévaut.
-
-> Document de référence absolue du produit.
-> Toute décision d'écran, de feature ou de priorité doit être cohérente avec cette vision.
->
-> **❗ Ce document est une constitution. Il ne doit plus évoluer pendant la phase d'implémentation.**
-> Les prochains mois servent à exécuter, tester et mesurer, pas à itérer la vision.
-
----
+> **Figée jusqu'au 10/02/2027** (engagement de 90 jours, D-030). Elle ne change que par la règle
+> anti-pivot : une décision qui modifie la promesse, le domaine phare ou le périmètre doit citer au
+> moins 10 observations utilisateurs ou 5 entretiens employeurs, dans `DOCS/DECISIONS.md`.
+> Dernière mise à jour : 12/11/2026. L'ancienne vision est archivée dans `DOCS/archive/PRODUCT_VISION_2026-07.md`.
 
 ## Mission
+Révéler le potentiel tech africain francophone en le transformant en **compétences prouvées**.
 
-HASHCODE existe pour **révéler le potentiel tech africain** et le transformer en expertise prouvée, via un parcours personnalisé de découverte, d'apprentissage, de validation et d'opportunités.
+## La promesse
+> **Sur JoinHashCode, tu prouves ce que tu sais faire, sur du travail réel relu par un pair.**
 
----
+## Le problème (une hypothèse, pas un fait)
+Un débutant francophone qui apprend seul n'a aucun moyen crédible de montrer ce qu'il sait faire à
+quelqu'un qui peut l'embaucher. **À vérifier** : H20 (l'absence de preuve est-elle son principal frein ?)
+et H21 (des employeurs présélectionneraient-ils sur ces preuves ?). Aucune des deux n'est testée à ce jour.
 
-## Transformation promise
+## La boucle
+```
+lab  →  soumission  →  relecture par un pair  →  preuve publique (/u/[pseudo])
+```
+Domaine phare : la **cybersécurité**, cible *analyste SOC N1* (D-026, D-030). Web et IA appliquée restent
+présentés, sans développement. Tout ce qui ne raccourcit pas le chemin vers la première preuve est supprimé ou gelé.
 
-| Avant HASHCODE | Après HASHCODE |
+## Pour qui
+- **Les membres** : débutants francophones d'Afrique. Mesures du 17/09/2026 : ≈ 200 invitations, 60 inscrits,
+  10 actifs par semaine, quasi tous débutants ; sondage de 204 réponses : 70 % intéressés par le web, 63 % par la cybersécurité.
+- **Les employeurs** (hypothèse H21) : équipes qui recrutent des juniors cyber, avec des mots qu'ils emploient :
+  fraude, vérification, diligence ; jamais « OSINT » en accroche.
+
+## Ce que nous faisons
+- Des **labs cyber** à soumettre : 5 fiches rédigées (`DOCS/labs/`), à brancher (issue #479).
+- Un socle d'ingénierie **HEF** (17 modules, 169 missions), publié tel quel.
+- La **relecture par un pair** : la modération et tout membre ayant validé 3 labs.
+- Une **preuve publique** par lab validé, sur une page que le recruteur inspecte. Un profil est privé par défaut.
+
+## Ce que nous ne faisons pas
+XP, niveaux, badges et squads (D-027, D-029) · quiz obligatoire (D-030) · ateliers séparés des labs ·
+API publique, vivier automatisé et matching · mentorat payant et certification (plus tard, D-018, D-020) ·
+nouveau développement web ou IA · réécriture de la stack.
+
+## Principes conservés
+Accès gratuit, **le statut se gagne, jamais l'accès** (D-020) · la validation d'une preuve est toujours gratuite (D-018) ·
+WhatsApp pour la conversation, la plateforme pour la preuve (D-022) · ne jamais présenter comme disponible ce qui ne l'est pas (D-024).
+
+## Comment on saura que ça marche (D-030)
+- **Réussite** : au moins 10 membres avec une preuve publique **et** au moins 2 employeurs sur 5 interrogés qui présélectionneraient sur ce type de dossier.
+- **Arrêt** : moins de 2 employeurs sur 5 intéressés → le problème est invalidé ; on revoit la cible avant d'ajouter du code.
+
+## Où en est-on (12/11/2026)
+| Brique | État |
 |---|---|
-| « J'apprends au hasard sans direction claire » | « Je sais exactement quoi apprendre et pourquoi » |
-| « Je ne sais pas si je suis fait pour la tech » | « Je connais mes forces et ma spécialisation » |
-| « J'apprends seul sans retour » | « Je progresse avec une communauté, des mentors et des projets » |
-| « J'ai des compétences mais rien pour le prouver » | « J'ai des preuves validées par des mentors » |
-| « Je ne sais pas quoi mettre dans mon portfolio » | « J'ai des projets concrets validés à montrer » |
-
----
-
-## Les 6 piliers
-
-```
-Découverte
-    ↓
-Orientation
-    ↓
-Apprentissage
-    ↓
-Pratique
-    ↓
-Validation
-    ↓
-Opportunités
-```
-
-### 1. Découverte — « Qui suis-je ? »
-
-Quiz psychométrique → révélation du profil (Builder / Creator / Strategist / Catalyst).
-
-### 2. Orientation — « Où vais-je ? »
-
-Recommandation de spécialisation → choix validé par l'utilisateur → objectif 90 jours → premier plan d'action.
-
-### 3. Apprentissage — « Qu'est-ce que je dois apprendre ? »
-
-Ateliers, ressources, mentorat. Chaque atelier est une **étape d'un parcours**, pas un contenu isolé.
-
-### 4. Pratique — « Comment appliquer ce que j'apprends ? »
-
-Projets, missions, labs, cas réels en équipe. L'application concrète des compétences.
-
-### 5. Validation — « Comment prouver que je maîtrise ? »
-
-Chaque compétence doit être **prouvée** : atelier terminé → projet réalisé → validation mentor → **Evidence** enregistrée.
-
-### 6. Opportunités — « Comment transformer ces compétences en carrière ? »
-
-Portfolio d'evidences, certifications, mise en relation avec des opportunités.
-
----
-
-## Parcours utilisateur complet
-
-```
-Landing
-  │
-  ▼
-[Mini diagnostic — 3 questions — priorité future]
-  │
-  ▼
-Connexion
-  │
-  ▼
-Onboarding (pseudo, niveau, contexte, objectif)
-  │
-  ▼
-Quiz (13 questions psychométriques)
-  │
-  ▼
-Révélation (classe dévoilée avec animation)
-  │
-  ▼
-Choix de spécialisation (système propose → utilisateur valide)
-  │
-  ▼
-Orientation (rapport + objectif 90 jours détaillé + plan d'action)
-  │
-  ▼
-Mon Parcours (ex-Dashboard, centré sur l'objectif)
-  │
-  ├── Atelier 1  ← première étape du parcours
-  ├── Atelier 2
-  ├── Projet / Mission
-  ├── Validation mentor → Evidence
-  ├── …
-  └── Objectif suivant (nouvelle boucle)
-```
-
----
-
-## Boucle de progression (l'utilisateur la répète sur plusieurs mois)
-
-```
-Objectif
-    ↓
-Apprendre (atelier, ressource, mentor)
-    ↓
-Pratiquer (projet, mission, lab)
-    ↓
-Recevoir du feedback (mentor, pairs)
-    ↓
-Valider → Evidence enregistrée
-    ↓
-Débloquer la suite
-    ↓
-Nouvel objectif (plus avancé)
-```
-
-Cette boucle doit être **visible en permanence** sur Mon Parcours.
-
----
-
-## Objectif 90 jours (structure complète)
-
-```
-Objectif
-
-↓
-
-Pourquoi cet objectif ?
-
-↓
-
-Ce que tu sauras faire dans 90 jours
-
-↓
-
-Comment on va y arriver (les étapes)
-```
-
-### Exemple — Cybersécurité
-
-**Objectif :** Réaliser ton premier audit de sécurité.
-
-**Pourquoi ?** Parce que cette compétence est la base de tous les métiers de la cybersécurité.
-
-**Dans 90 jours tu seras capable de :**
-- Analyser une cible et cartographier ses surfaces d'attaque
-- Identifier des vulnérabilités courantes (OWASP Top 10)
-- Rédiger un rapport d'audit professionnel
-
-**Les étapes :**
-- Semaine 1 : Atelier Linux pour la cybersécurité
-- Semaine 2-3 : Atelier OWASP Top 10 + exercices
-- Semaine 4-6 : Audit d'une application simple (projet encadré)
-- Semaine 7-8 : Rédaction du rapport + validation mentor
-- Semaine 9-12 : Audit d'une application réelle en équipe
-
----
-
-## Evidence (Preuve de compétence)
-
-Le terme **Evidence** est utilisé dans le code et les références internes. Dans l'interface et les communications utilisateur, le terme **Preuve de compétence** est privilégié (ou **Validation** si le contexte est plus large). La première occurrence dans un écran peut afficher : *"Evidence (Preuve de compétence)"* pour familiariser l'utilisateur.
-
-Une compétence n'est pas acquise tant qu'elle n'est pas **prouvée**.
-
-Le chemin de validation :
-
-```
-Compétence visée
-    ↓
-Atelier terminé (acquisition)
-    ↓
-Projet réalisé (application)
-    ↓
-Validation mentor (review)
-    ↓
-Evidence enregistrée dans le portfolio
-```
-
-Le portfolio = une collection d'**evidences**, pas une liste de projets.
-
-Chaque evidence contient :
-- Compétence validée
-- Projet / mission réalisé
-- Validation du mentor (avec feedback)
-- Date de validation
-- Lien vers le livrable
-
----
-
-## CORE Decision Engine
-
-CORE est le cerveau du produit. Il transforme les données utilisateur en décisions de parcours.
-
-### Entrées
-
-```
-Données statiques              Données dynamiques
-─────────────────────────────  ─────────────────────────────
-Quiz (scores psychométriques)  Progression (ateliers faits)
-Onboarding (objectif, niveau)  Historique (projets, validations)
-Spécialisation choisie         Feedback (mentor, auto-évaluation)
-                               Disponibilité (temps, format)
-```
-
-### Traitement
-
-CORE croise ces entrées pour produire des **recommandations contextuelles** à chaque étape de la boucle.
-
-### Décisions produites
-
-```
-Prochain atelier       →   Quel atelier est la meilleure étape suivante ?
-Nouveau projet         →   Quel projet valide la compétence acquise ?
-Mentor recommandé      →   Quel mentor correspond au profil et à l'étape ?
-Objectif suivant       →   Quel est le nouveau cap après validation ?
-Remédiation            →   L'utilisateur bloque → que lui proposer ?
-```
-
-### Principe
-
-CORE n'est pas une collection de règles dispersées. C'est un **moteur unique** qui prend en entrée l'état de l'utilisateur et retourne une **décision unique** : la prochaine meilleure étape.
-
----
-
-## Vision vs Objectifs
-
-Deux notions distinctes qui ne doivent pas être confondues.
-
-| Vision | Objectif 90 jours |
-|---|---|
-| « Devenir Architecte Cloud » | « Déployer une application sur AWS » |
-| Change rarement (1-3 ans) | Change tous les 90 jours |
-| Donne le cap long terme | Donne la cible immédiate |
-| Définie par l'utilisateur | Recommandée puis ajustée par CORE |
-| Présente dans le portfolio | Présente sur Mon Parcours |
-
-### Hiérarchie
-
-```
-Vision (cap long terme)
-    ↓
-Objectifs 90 jours (jalons)
-    ↓
-Étapes (ateliers, projets, validations)
-```
-
-La vision peut rester la même pendant des mois. Les objectifs évoluent à chaque cycle de la boucle de progression.
-
----
-
-## Mentorat
-
-Le mentor n'est pas une ressource optionnelle. C'est un **rôle officiel** dans la boucle de progression.
-
-### Rôle du mentor
-
-```
-Expliquer    →  Transmet les concepts clés
-Challenger   →  Pose des questions, pousse à aller plus loin
-Valider      →  Approuve les evidences (compétences prouvées)
-Orienter     →  Ajuste le cap si l'utilisateur dévie
-```
-
-### Parcours de mentor
-
-Un utilisateur peut devenir mentor après avoir atteint le niveau **Specialist** ou **Mentor** (voir niveaux de maturité). Le mentorat est :
-- Une étape de progression (prouver qu'on sait transmettre)
-- Une source de reconnaissance (statut, visibilité dans le Vivier)
-- Un maillon essentiel de la validation des compétences
-
----
-
-## Niveaux de maturité
-
-Les **niveaux de maturité** décrivent le stade de l'utilisateur dans son parcours global. Il n'existe plus de niveaux XP (D-029). Ces niveaux restent un cadre de conception : seuls les labs validés et l'éligibilité relecteur (3 labs validés) sont implémentés.
-
-```
-Explorer
-    ↓
-Learner
-    ↓
-Practitioner
-    ↓
-Verified        ←  Première evidence validée
-    ↓
-Specialist
-    ↓
-Mentor
-```
-
-| Niveau | Déclencheur | Accès |
-|---|---|---|
-| Explorer | Inscription | Découverte, Orientation |
-| Learner | Objectif 90 jours défini | Ateliers, ressources |
-| Practitioner | Premier projet terminé | Labs avancés (tous les labs sont ouverts, D-029) |
-| Verified | Première evidence validée | Portfolio publiable |
-| Specialist | 3+ evidences dans une spécialisation | Mentorat (en tant que mentoré avancé) |
-| Mentor | 5+ evidences + recommandation pairs | Peut valider les evidences des autres |
-
-Le passage de **Practitioner** à **Verified** est le moment clé : l'utilisateur passe de « j'apprends » à « je prouve ».
-
----
-
-## Architecture systèmes
-
-Le produit est découpé en **6 systèmes**, chacun aligné sur un pilier.
-
-```
-Système de Découverte      →   Quiz, profils psychométriques
-Système d'Orientation      →   Recommandation, choix, objectif 90 jours
-Système d'Apprentissage    →   Ateliers, ressources, mentorat
-Système de Pratique        →   Projets, missions, labs
-Système de Validation      →   Evidences, revue par les pairs et les mentors
-Système d'Opportunités     →   Portfolio, mise en relation, certifications
-```
-
-Chaque système est indépendant mais connecté aux autres via CORE. Cette architecture permet de développer chaque système séparément sans créer de dette transversale.
-
----
-
-## Règles du produit
-
-1. **Un écran = une question.** Chaque écran répond à UNE seule question utilisateur.
-2. **Un écran = une valeur.** Après avoir quitté l'écran, l'utilisateur a gagné quelque chose.
-3. **Un écran = une action suivante.** L'utilisateur ne doit jamais se demander quoi faire ensuite.
-4. **Un écran = un pas vers l'objectif.** Chaque écran rapproche l'utilisateur de sa transformation.
-
----
-
-## Anti-patterns
-
-❌ Montrer toutes les fonctionnalités en même temps
-❌ Demander à l'utilisateur de choisir quoi faire sans guidance
-❌ Afficher des statistiques sans contexte utile
-❌ Récompenser sans progression réelle
-❌ Vendre des ateliers comme des cours isolés (vendre des étapes de parcours)
-❌ Vendre une plateforme au lieu d'une transformation
-
----
-
-## Proposition de valeur (une phrase)
-
-> HASHCODE révèle ton potentiel, construit ton parcours et valide tes compétences jusqu'à l'opportunité.
-
----
-
-## Ton des emails
-
-Les emails sont le premier contact durable avec l'utilisateur. Ils doivent **tenir la promesse** à chaque fois.
-
-### Principes
-
-1. **Clarté > Créativité.** L'utilisateur doit comprendre le message en 3 secondes. Pas de métaphores obscures.
-2. **Warm > Froid.** On parle à un humain, pas à un agent. « Tu » pas « vous ». Naturel, pas corporate.
-3. **Spécifique > Générique.** Chaque email est personnalisé (prénom, profil, spécialisation, objectif, prochaine étape).
-4. **Orienté action.** Un seul CTA par email. Jamais « Voir le dashboard ». Toujours « Commencer l'atelier », « Découvrir mon profil », « Voir mon parcours ».
-5. **Cohérent avec la boucle.** L'email s'inscrit dans la progression (Apprendre → Pratiquer → Valider), pas à côté.
-
-### Ce qu'on ne fait plus
-
-| Ancien (cyberpunk) | Pourquoi on arrête |
-|---|---|
-| « Ton signal est actif » | Trop vague. Qu'est-ce que ça veut dire concrètement ? |
-| « NEURAL CHECK-IN » | Le check-in quotidien a été supprimé (D-027). |
-| « Protocole de Calibration » | Fait peur. On dit « diagnostic » ou « quiz ». |
-| « Agent validé » | On n'est pas dans un jeu d'espionnage. |
-| « Symbiose Cognitive » | Personne ne parle comme ça. |
-| « Dossier Tactique » | On dit « portfolio » ou « parcours ». |
-| « Build / Builder » comme verbe/nom universel | On utilise « construire », « développeur », « parcours ». |
-
-### Ce qu'on fait à la place
-
-Les emails parlent de :
-- **Ton objectif** — « Tu veux devenir pentester ? Voici la première étape. »
-- **Ta progression** — « Cette semaine, tu vas apprendre à… »
-- **Tes prochaines actions** — « Commence par l'atelier Linux (45 min). »
-- **Ce que tu gagnes** — « Après ce projet, tu sauras auditer une application. »
-
-### Règle d'or pour chaque email
-
-> Si on remplace le prénom par « [Prénom] » et que l'email pourrait être envoyé par n'importe quelle plateforme, il est trop générique. Un bon email HASHCODE est **impossible à envoyer à quelqu'un d'autre**.
-
----
-
-## Vocabulaire produit
-
-| Ancien terme | Nouveau terme | Pourquoi |
-|---|---|---|
-| Dashboard | Mon Parcours | Centre sur l'utilisateur, pas sur les stats |
-| Mission | Projet / Lab / Sprint | Plus concret, plus orienté réalisation |
-| Atelier Linux | Étape 1 de ton parcours Pentester | Vendu comme une étape, pas un cours |
-| Compétence | Compétence + Evidence (Preuve de compétence) | Chaque compétence doit être prouvée |
-| Quiz | Diagnostic | Plus médical, plus sérieux |
-| Features | Systèmes (Découverte, Orientation, etc.) | Décrit le produit comme un écosystème cohérent |
-| Carte de membre | Portfolio d'evidences | Montre les compétences prouvées, pas un simple badge |
-| Niveau XP | Niveau de maturité (Explorer → Mentor) | Décrit le stade réel de l'utilisateur |
-| Mentor (ressource) | Mentor (rôle officiel) | Explique, challenge, valide, oriente |
-
----
-
-## Ton et personnalité
-
-- **Direct** — pas de jargon inutile
-- **Valorisant** — on parle de potentiel, pas de manque
-- **Orienté action** — chaque message pousse à l'étape suivante
-- **Afro-tech** — fierté de l'écosystème tech africain
+| Boucle lab → relecture → preuve | Câblée de bout en bout, **parcours non essayé à la main** avec de vrais comptes |
+| Labs cyber SOC N1 | Rédigés, **non branchés** sur la plateforme |
+| Sessions utilisateurs, entretiens employeurs | **Aucun réalisé** (préparation : issue #480) |
+| Indicateurs d'usage récents | Aucun relevé depuis le 17/09/2026 |
+
+## Références
+`DOCS/DECISIONS.md` (D-030) · `DOCS/HYPOTHESES.md` · `DOCS/GLOSSAIRE.md` · `DOCS/NETTOYAGE_SUIVI.md` · épopée #469.

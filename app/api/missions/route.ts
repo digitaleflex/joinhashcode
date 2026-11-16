@@ -1,4 +1,5 @@
 export const dynamic = "force-dynamic";
+import { isUnpublishedCyberLab } from "@/lib/lab-visibility";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
@@ -43,7 +44,7 @@ async function submitMission(userId: string, input: z.infer<typeof submissionSch
       }
     }),
   ]);
-  if (!mission) throw new Error("MISSION_NOT_FOUND");
+  if (!mission || isUnpublishedCyberLab(mission)) throw new Error("MISSION_NOT_FOUND");
   if (!dbUser) throw new Error("USER_NOT_FOUND");
 
   const artifactSpecs = parseSubmissionSchema(mission.submissionSchema);

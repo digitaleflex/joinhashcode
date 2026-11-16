@@ -1,5 +1,7 @@
 # Spécification fonctionnelle — Mentor Operations
 
+> **Statut (12/11/2026) : non implémentée et hors périmètre (D-030).** Cette spécification décrit un module du futur « Command Center » ; aucune implémentation n'est prévue pendant l'engagement de 90 jours (`DOCS/PRODUCT_VISION.md`). Conservée pour mémoire. Le module d'administration correspondant (mentorat) a été supprimé (D-027) ; le mentorat repose sur H17, non testée.
+
 > Module du Command Center dédié à la gestion des mentors et des sessions de mentorat.
 
 ---

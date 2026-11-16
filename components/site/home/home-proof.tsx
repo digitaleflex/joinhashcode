@@ -1,18 +1,18 @@
 import Link from "next/link"
-import { ArrowRight, Award, FileCheck2, UserCheck } from "lucide-react"
+import { ArrowRight, FileCheck2, Lock, UserCheck } from "lucide-react"
 import { SectionHeading } from "@/components/site/section-heading"
 
 const FORMS = [
-  { icon: FileCheck2, title: "Réalisations examinées", text: "Les travaux soumis peuvent être relus et évalués selon les critères de l'activité concernée." },
-  { icon: UserCheck, title: "Profils publics volontaires", text: "Les membres qui le souhaitent peuvent rendre visibles leur profil et leurs preuves de missions validées." },
-  { icon: Award, title: "Certificats vérifiables", text: "Les certificats sont liés aux parcours et validations officiellement délivrés par l'Academy." },
+  { icon: FileCheck2, title: "Relue avant d'être publique", text: "Chaque soumission est relue par un pair ou par l'équipe. Seul un travail validé devient une preuve." },
+  { icon: Lock, title: "Privé par défaut", text: "Ton profil n'est visible de personne tant que tu ne l'as pas rendu public dans tes paramètres." },
+  { icon: UserCheck, title: "Lisible en une minute", text: "Une page à ton pseudo liste tes labs validés : un recruteur voit ce que tu as réellement fait." },
 ]
 
 export function HomeProof() {
   return (
     <section className="border-y border-border bg-card">
       <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
-        <SectionHeading align="center" kicker="La preuve avant la promesse" title="Ne te contente pas de dire ce que tu sais faire. Montre-le." description="Une compétence devient plus lisible lorsqu'elle s'appuie sur une réalisation concrète, un travail documenté et, lorsque le dispositif le prévoit, une validation." />
+        <SectionHeading align="center" kicker="La preuve avant la promesse" title="Ne dis pas ce que tu sais faire. Montre-le." description="Un CV déclare. Un lab validé et relu démontre." />
         <div className="mx-auto mt-11 grid max-w-4xl gap-4 md:grid-cols-3">
           {FORMS.map((item) => (
             <article key={item.title} className="rounded-2xl border border-border bg-background p-6 text-center">
@@ -26,7 +26,7 @@ export function HomeProof() {
         </div>
         <div className="mt-8 text-center">
           <Link href="/talents" className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-transform hover:-translate-y-0.5">
-            Découvrir les profils publics <ArrowRight className="h-4 w-4" aria-hidden />
+            Voir les profils publics <ArrowRight className="h-4 w-4" aria-hidden />
           </Link>
         </div>
       </div>

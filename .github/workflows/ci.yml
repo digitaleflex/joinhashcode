@@ -88,6 +88,10 @@ jobs:
       - name: TypeScript
         run: pnpm type-check
 
+      # Règle « zéro code mort » (CLAUDE.md règle 6) : fichiers, exports et dépendances inutilisés.
+      - name: Dead code (knip)
+        run: pnpm exec knip
+
       - name: Unit and integration tests
         run: pnpm exec vitest run --reporter=dot
 

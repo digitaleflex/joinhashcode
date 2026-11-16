@@ -1,5 +1,7 @@
 # Spécification fonctionnelle — Academy Manager
 
+> **Statut (12/11/2026) : non implémentée et hors périmètre (D-030).** Cette spécification décrit un module du futur « Command Center » ; aucune implémentation n'est prévue pendant l'engagement de 90 jours (`DOCS/PRODUCT_VISION.md`). Conservée pour mémoire.
+
 > Module du Command Center dédié au catalogue d'ateliers et à la gestion des parcours pédagogiques.
 
 ---

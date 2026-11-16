@@ -1,0 +1,40 @@
+{
+  "slug": "cyber-n0-05-rapport-fraude",
+  "briefingFile": "DOCS/labs/LAB-05-rapport-fraude.md",
+  "title": "Ton premier rapport d'investigation : arnaque mobile money",
+  "shortDesc": "Rédiger un rapport d'investigation traçable sur un cas fictif d'arnaque.",
+  "description": "Rapport d'investigation en 5 rubriques sur une arnaque mobile money, à partir d'un cas fictif : preuves traçables et conclusion nuancée.",
+  "category": "CYBER",
+  "difficulty": 1,
+  "missionLevel": "INIT",
+  "duration": "60 min",
+  "requirements": [
+    "Aucun outil payant"
+  ],
+  "deliverables": [
+    "Rapport d'investigation (2 pages maximum)"
+  ],
+  "tags": [
+    "CYBER",
+    "LAB",
+    "N0"
+  ],
+  "submissionMethod": "TEXT_RESPONSE",
+  "acceptanceCriteria": [
+    "Les 5 rubriques sont présentes : contexte, méthode, preuves, conclusion, limites",
+    "Chaque preuve est traçable : outil, requête et date",
+    "La conclusion est nuancée (probabilité, pas certitude) et indique quoi faire ensuite",
+    "Les limites contiennent au moins 2 éléments",
+    "Le travail ne clique jamais sur le lien frauduleux et reste sur le cas fictif"
+  ],
+  "evaluatorNotes": "Le cas est fictif : refuse toute vérification qui contacte vraiment le numéro ou le lien. La conclusion doit être nuancée (probabilité forte, moyenne ou faible). Vérifie que chaque preuve cite l'outil et la requête. Bonus facultatif : message d'alerte de 5 lignes.",
+  "submissionSchema": [
+    {
+      "key": "report",
+      "label": "Rapport d'investigation (CONTEXTE, MÉTHODE, PREUVES, CONCLUSION, LIMITES)",
+      "type": "TEXT",
+      "required": true,
+      "minLength": 500
+    }
+  ]
+}

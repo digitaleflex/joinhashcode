@@ -115,6 +115,7 @@ export default async function MissionsPage() {
   let avgDelayMap: Record<string, number> = {}
   let weeklySubmission: Prisma.MissionSubmissionGetPayload<object> | null = null
   let hefMissions: HefMissionCard[] = []
+  let cyberLabs: HefMissionCard[] = []
 
   try {
     ;[
@@ -176,6 +177,24 @@ export default async function MissionsPage() {
     })
   } catch (error) {
     console.error("[MISSIONS_PAGE] HEF missions fetch failed:", error)
+  }
+
+  try {
+    cyberLabs = await prisma.mission.findMany({
+      where: { status: "PUBLISHED", deletedAt: null, tags: { has: "CYBER" } },
+      select: {
+        slug: true,
+        title: true,
+        shortDesc: true,
+        category: true,
+        xp: true,
+        missionLevel: true,
+        tags: true,
+      },
+      orderBy: { slug: "asc" },
+    })
+  } catch (error) {
+    console.error("[MISSIONS_PAGE] Cyber labs fetch failed:", error)
   }
 
   const featureFlags = getFeatureFlags();
@@ -244,6 +263,14 @@ export default async function MissionsPage() {
               </div>
             )}
 
+            <HefMissionsSection
+              missions={cyberLabs}
+              submissions={submissionsMap}
+              kicker="Cybersécurité · niveau N0"
+              title="Tes premiers labs d'analyste SOC"
+              description="Des labs gratuits pour débutants. Chaque lab validé après relecture devient une preuve sur ton profil."
+              fallbackCode="CYBER"
+            />
             <HefMissionsSection missions={hefMissions} submissions={submissionsMap} />
           
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
