@@ -31,7 +31,7 @@ Les identifiants de la CI sont des valeurs jetables. Le workflow ne se connecte 
 
 **Vitrine publique** (`playwright.public.config.ts`, `e2e/public-site.spec.ts`) : titre et proposition de l'accueil, les trois domaines sur `/programs`, navigation de l'accueil vers un domaine, FAQ, structure des pages publiques (À propos, Labs, Communauté, Talents), menu mobile à 390 px.
 
-**Authentification** (`playwright.auth.config.ts`, `e2e/auth-otp.spec.ts`) : un nouvel email reçoit un code, se connecte et **arrive sur l'onboarding** ; code invalide ; code expiré (aucun compte créé) ; un compte existant se reconnecte sans second profil ; les liens OAuth Google et GitHub sont initiés avec le bon callback ; parcours mobile sans débordement.
+**Authentification** (`playwright.auth.config.ts`, `e2e/auth-otp.spec.ts`, `e2e/auth-oauth.spec.ts`) : un nouvel email reçoit un code, se connecte et **arrive sur l'onboarding** ; code invalide ; code expiré (aucun compte créé) ; un compte existant se reconnecte sans second profil ; les liens OAuth Google et GitHub sont initiés avec le bon callback ; flux OAuth complet (Google + GitHub) avec providers mockés : nouvel utilisateur, utilisateur existant sans second profil, state invalide ; parcours mobile sans débordement.
 
 ## Ce que la CI ne couvre pas
 
