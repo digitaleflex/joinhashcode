@@ -31,7 +31,7 @@
 | 2 | **Bloc A** — vérifié zone par zone (ci-dessous) : 4 zones supprimées (sondage UX, Vivier connecté, API v1, API publique talent), les autres conservées, reportées au bloc B ou en attente de décision (`programme`/`paths`/`diplomas`) ou de contrôle en base (webhooks sortants) | ✅ 12/11 |
 | 3 | **Bloc B** — B1 quiz ✅ (suppression du code en attente des sessions, #475) · B2 ateliers ✅ (table en phase base de données, #476) · B3 relecture par un pair ✅ (essai manuel requis, #484) · reste : missions 01-03 (#471), gamification (#472), dashboard (#473) | 🔄 |
 | 4 | Backlog GitHub : 23 issues fermées, #436 fermée, #440 recadrée (voir B3 et #481). Restent #424, #442 et la note sur #417 | 🔄 |
-| 5 | Dépôts : geler `hashcode-learning-platform` et `hashcode-profiling-engine` (archivage = action humaine, #482) | ⬜ |
+| 5 | Dépôts : geler `hashcode-learning-platform` et `hashcode-profiling-engine` (archivage = action humaine, #482) | ✅ 16/11 |
 | 6 | **Construire** : #455 et #456 livrées sur `main` (PR #468) ; 5 labs cyber **rédigés** dans `DOCS/labs/`, à brancher (#479) | 🔄 |
 
 ## Bloc A — détail (vérifié zone par zone : liens entrants, données écrites, tests)
