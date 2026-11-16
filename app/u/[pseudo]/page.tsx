@@ -19,14 +19,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     select: { name: true, class: true } 
   });
 
-  if (!user) return { title: 'Agent Introuvable' };
+  if (!user) return { title: 'Membre introuvable' };
 
   const profile = (user.class || 'Bâtisseur').toUpperCase();
   const ogUrl = new URL('/api/og', APP_URL);
   ogUrl.searchParams.set('pseudo', pseudo);
 
   return {
-    title: `Dossier Agent: ${user.name} | HASHCODE`,
+    title: `Portfolio : ${user.name} | HASHCODE`,
     description: `Découvre le profil de ${user.name}, un ${profile} sur HASHCODE. Rejoins la nouvelle ère tech.`,
     openGraph: {
       images: [{ url: ogUrl.toString(), width: 1200, height: 630, alt: user.name }],
