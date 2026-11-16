@@ -33,7 +33,6 @@ import { getMemberNextStep } from "@/lib/next-step"
 import type { FirstAction } from "@/lib/first-action"
 import { UserProfile, DetailedMissionSubmission } from "@/lib/types"
 import type { Activity } from "@/components/landing/activity-feed"
-const ActivityFeed = dynamic(() => import("../landing/activity-feed").then((m) => m.ActivityFeed), { ssr: false })
 
 const PROFILE_CONFIGS: Record<string, { title: string, color: string, gradient: string, message: string }> = {
   builder: {
@@ -225,9 +224,6 @@ export function DashboardShell({
                     <MissionHistory submissions={fullSubmissions.filter((s) => s.status === "APPROVED")} />
                   </div>
 
-                  <div className="space-y-8" id="tour-feed">
-                    <ActivityFeed initialActivities={feedActivities} />
-                  </div>
                 </div>
 
                 {/* Bento Grid — only boxes with content */}
