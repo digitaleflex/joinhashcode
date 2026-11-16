@@ -3,7 +3,7 @@
 > **Figée jusqu'au 10/02/2027** (engagement de 90 jours, D-030). Elle ne change que par la règle
 > anti-pivot : une décision qui modifie la promesse, le domaine phare ou le périmètre doit citer au
 > moins 10 observations utilisateurs ou 5 entretiens employeurs, dans `DOCS/DECISIONS.md`.
-> Dernière mise à jour : 12/11/2026. L'ancienne vision est archivée dans `DOCS/archive/PRODUCT_VISION_2026-07.md`.
+> Dernière mise à jour : 16/11/2026. L'ancienne vision est archivée dans `DOCS/archive/PRODUCT_VISION_2026-07.md`.
 
 ## Mission
 Révéler le potentiel tech africain francophone en le transformant en **compétences prouvées**.

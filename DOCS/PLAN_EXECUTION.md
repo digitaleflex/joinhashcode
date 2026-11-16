@@ -1,5 +1,7 @@
 # PLAN_EXECUTION.md — Plan d'exécution détaillé 12 mois + dispositif d'agents
 
+> **Source de vérité pour l'état des issues = GitHub** (labels, statuts, assignees, milestones). Ce document est historique et descriptif ; en cas d'écart, GitHub prime. Issues citées ici (#378–#391 et suivantes) sont à vérifier dans GitHub avant toute planification.
+
 > **OBSOLÈTE — 12/11/2026.** Ce plan à 12 mois (direction unique cyber SOC/OSINT, D-014) a été abandonné le 31/10/2026
 > par D-024 ; ses issues d'exécution (#378 à #385) ont toutes été fermées en `not_planned`, puis D-030 a fixé un nouveau cadre :
 > une boucle unique et un engagement de 90 jours. Voir `DOCS/PRODUCT_VISION.md`, `DOCS/DECISIONS.md` (D-030) et

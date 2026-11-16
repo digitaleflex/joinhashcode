@@ -1,6 +1,6 @@
 # Audit — Issues restantes et backlog non tracké
 
-> Date : 2026-11-05
+> Date : 2026-11-16
 > Référence : `main@13c20aecb3db742608b2a439f7289b9ccbf802c4`
 > Sources : GitHub MCP read-only, code local, docs `DOCS/*`, `DOCS/specs/*`
 > Documents liés : `DOCS/WORKLOG_2026-11-05.md`, `DOCS/AUDIT_LAB_SUBMISSIONS.md`,

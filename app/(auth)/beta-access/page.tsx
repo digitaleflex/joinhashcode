@@ -33,7 +33,7 @@ export default function BetaAccessPage() {
       });
 
       if (response.ok) {
-        toast.success("Accès Habilité. Bienvenue Agent.");
+        toast.success("Accès habilité. Bienvenue.");
         router.refresh(); // Refresh to let middleware re-evaluate
         router.push("/onboarding");
       } else {
