@@ -7,10 +7,6 @@ const PROFILE_SELECT = {
   linkedinUrl: true,
   twitterUrl: true,
   portfolioUrl: true,
-  currentStreak: true,
-  longestStreak: true,
-  lastCheckinAt: true,
-  lastStreakDate: true,
 } as const;
 
 export async function collectUserData(userId: string) {
@@ -78,10 +74,6 @@ export async function collectUserData(userId: string) {
     linkedinUrl: raw.linkedinUrl ?? null,
     twitterUrl: raw.twitterUrl ?? null,
     portfolioUrl: raw.portfolioUrl ?? null,
-    currentStreak: raw.currentStreak ?? 0,
-    longestStreak: raw.longestStreak ?? 0,
-    lastCheckinAt: raw.lastCheckinAt ?? null,
-    lastStreakDate: raw.lastStreakDate ?? null,
   } : null
 
   return {

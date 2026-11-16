@@ -356,21 +356,7 @@ export function DossierView({
               {/* Referral widget — own profile only */}
               {!isPublic && <ReferralWidget />}
 
-              {featureFlags.badges !== false && (user.badges?.length > 0) && (
-              <div className="space-y-4">
-                   <p className="text-3xs sm:text-xs font-mono uppercase text-zinc-600 flex items-center gap-3">
-                       Badges & Distinctions
-                       <div className="h-px bg-white/5 flex-1" />
-                   </p>
-                   <div className="flex flex-wrap gap-2">
-                       {user.badges.map((badge: string) => (
-                           <Badge key={badge} className="bg-primary/20 text-primary border-primary/30 text-3xs font-black uppercase py-1 px-3 rounded-lg">
-                               {badge}
-                           </Badge>
-                       ))}
-                   </div>
-              </div>
-              )}
+              {/* Badges retirés (D-029) */}
           </div>
       </div>
     </div>
