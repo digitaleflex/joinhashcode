@@ -8,14 +8,12 @@ import { z } from "zod";
 import {
   getReviewCriteria,
   computeQualityLevel,
-  computeXp,
   getMissingRequiredCriteria,
 } from "@/lib/acceptance-criteria";
 import { triggerNotification } from "@/lib/qstash";
 import { logActivity } from "@/lib/activity-log";
 import { emailService } from "@/lib/email";
 import { reviewLimiterStrict, checkRateLimit } from "@/lib/ratelimit";
-import { triggerWebhooks } from "@/lib/webhooks";
 
 const reviewSchema = z.object({
   criteria: z.record(z.string(), z.boolean()),
@@ -73,7 +71,6 @@ export async function POST(
 
     if (allRequiredPassed || forceApprove) {
       const qualityLevel = computeQualityLevel(missionCriteria, criteria);
-      const xpAwarded = computeXp(submission.mission.xp, qualityLevel);
 
       // CORE missions: peer validation → pending admin confirmation (XP deferred)
       if (missionTier === "CORE") {
@@ -84,7 +81,7 @@ export async function POST(
           // Store computed quality/xp but defer awarding — admin confirms
           await tx.missionSubmission.update({
             where: { id: submissionId },
-            data: { status: "PENDING_ADMIN", xpAwarded, qualityLevel },
+            data: { status: "PENDING_ADMIN", qualityLevel },
           });
           await tx.user.update({
             where: { id: session.user.id },
@@ -136,24 +133,14 @@ export async function POST(
           console.error("[NOTIFICATION_ERROR]", error);
         }
         
-        triggerWebhooks(submission.missionId, "submission.approved", {
-          missionId: submission.missionId,
-          missionTitle: submission.mission.title,
-          submissionId,
-          submitterId: submission.userId,
-          submitterName: submission.user.name,
-          reviewerId: session.user.id,
-          qualityLevel,
-          status: "PENDING_ADMIN",
-          decidedAt: new Date().toISOString(),
-        }).catch(() => undefined);
+        
 
         logActivity({
           userId: session.user.id,
           action: "MISSION_APPROVED",
           entity: "mission_submission",
           entityId: submissionId,
-          metadata: { qualityLevel, xpAwarded, tier: "CORE", status: "PENDING_ADMIN" },
+          metadata: { qualityLevel, tier: "CORE", status: "PENDING_ADMIN" },
           request: req,
         });
 
@@ -167,7 +154,7 @@ export async function POST(
         });
         await tx.missionSubmission.update({
           where: { id: submissionId },
-          data: { status: "APPROVED", xpAwarded, qualityLevel },
+          data: { status: "APPROVED", qualityLevel },
         });
         await tx.user.update({
           where: { id: session.user.id },
@@ -201,24 +188,13 @@ export async function POST(
         action: "MISSION_APPROVED",
         entity: "mission_submission",
         entityId: submissionId,
-        metadata: { qualityLevel, xpAwarded, tier: missionTier },
+        metadata: { qualityLevel, tier: missionTier },
         request: req,
       });
 
-      triggerWebhooks(submission.missionId, "submission.approved", {
-        missionId: submission.missionId,
-        missionTitle: submission.mission.title,
-        submissionId,
-        submitterId: submission.userId,
-        submitterName: submission.user.name,
-        reviewerId: session.user.id,
-        qualityLevel,
-        xpAwarded,
-        status: "APPROVED",
-        decidedAt: new Date().toISOString(),
-      }).catch(() => undefined);
+      
 
-      return NextResponse.json({ success: true, qualityLevel, xpAwarded });
+      return NextResponse.json({ success: true, qualityLevel });
     }
 
     const revisionNotes = missingRequired.join("\n");
@@ -282,18 +258,7 @@ export async function POST(
       }
     }
 
-    triggerWebhooks(submission.missionId, "submission.rejected", {
-      missionId: submission.missionId,
-      missionTitle: submission.mission.title,
-      submissionId,
-      submitterId: submission.userId,
-      submitterName: submission.user.name,
-      reviewerId: session.user.id,
-      revisionCount: updatedSubmission.revisionCount,
-      feedback,
-      status: "NEEDS_REVISION",
-      decidedAt: new Date().toISOString(),
-    }).catch(() => undefined);
+    
 
     return NextResponse.json({ success: true, status: "NEEDS_REVISION", missingRequired });
   } catch (error: unknown) {

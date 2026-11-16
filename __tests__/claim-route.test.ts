@@ -21,7 +21,6 @@ vi.mock("@/lib/ratelimit", () => ({
   checkRateLimit: vi.fn(async () => ({ limited: false })),
 }))
 vi.mock("@/lib/activity-log", () => ({ logActivity: mocks.logActivity }))
-vi.mock("@/lib/webhooks", () => ({ triggerWebhooks: vi.fn(() => Promise.resolve()) }))
 
 import { POST } from "@/app/api/missions/[id]/claim/route"
 

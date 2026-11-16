@@ -59,8 +59,6 @@ export async function GET(req: Request) {
           createdAt: true,
           image: true,
           class: true,
-          level: true,
-          experience: true,
           banned: true,
         },
         orderBy: { createdAt: "desc" },
@@ -79,8 +77,6 @@ export async function GET(req: Request) {
       createdAt: u.createdAt,
       image: u.image,
       class: u.class,
-      level: u.level ?? 1,
-      experience: u.experience ?? 0,
       banned: u.banned ?? false,
     }))
 
