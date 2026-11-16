@@ -13,7 +13,7 @@ const baseURL = `http://localhost:${PORT}`;
  */
 export default defineConfig({
   testDir: "./e2e",
-  testMatch: ["auth-otp.spec.ts"],
+  testMatch: ["auth-otp.spec.ts", "auth-oauth.spec.ts"],
   fullyParallel: false,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 1 : 0,
