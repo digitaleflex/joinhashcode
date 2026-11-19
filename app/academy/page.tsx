@@ -4,10 +4,7 @@ import Link from "next/link";
 import {
   GraduationCap,
   BookOpen,
-  Compass,
-  Award,
   LayoutDashboard,
-  BadgeCheck,
   ArrowRight,
 } from "lucide-react";
 import { prisma } from "@/lib/prisma";
@@ -20,7 +17,7 @@ import { getRecommendedCourses } from "@/lib/academy/recommendations";
 export const metadata = {
   title: "Academy — HASHCODE",
   description:
-    "Cours, parcours structurés et certifications HASHCODE. Développe tes compétences pas à pas.",
+    "Cours HASHCODE. Développe tes compétences pas à pas avec la communauté.",
 };
 
 /* ── Helpers ───────────────────────────────────────────────── */
@@ -92,11 +89,11 @@ export default async function AcademyHubPage() {
             </span>
           </div>
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-black text-foreground tracking-tight leading-[1.05] text-balance break-words">
-            Apprends, pratique, <span className="text-primary">certifie-toi</span>.
+            Apprends, pratique, <span className="text-primary">progresse</span>.
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-medium leading-relaxed">
-            Cours structurés, parcours progressifs et certifications reconnues.
-            Construis tes compétences pas à pas avec la communauté HASHCODE.
+            Cours structurés pour progresser pas à pas.
+            Construis tes compétences avec la communauté HASHCODE.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Link
@@ -106,19 +103,13 @@ export default async function AcademyHubPage() {
               Explorer les cours
               <ArrowRight className="size-4" />
             </Link>
-            <Link
-              href="/academy/playground"
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-4 text-sm font-black text-foreground transition-colors hover:border-primary/40"
-            >
-              Ouvrir le Playground Python
-            </Link>
           </div>
         </div>
       </section>
 
       {/* ── Liens rapides ────────────────────────────────────── */}
       <section className="max-w-7xl mx-auto px-6 py-20">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <Link
             href="/academy/courses"
             className="group bg-card rounded-3xl border border-border p-8 hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 flex flex-col gap-4"
@@ -129,45 +120,6 @@ export default async function AcademyHubPage() {
             </h3>
             <p className="text-sm text-muted-foreground font-medium leading-relaxed">
               Parcours détaillés avec sections, ressources et quiz.
-            </p>
-          </Link>
-
-          <Link
-            href="/academy/programme"
-            className="group bg-card rounded-3xl border border-border p-8 hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 flex flex-col gap-4"
-          >
-            <Compass className="size-8 text-primary" />
-            <h3 className="text-lg font-black text-foreground group-hover:text-primary transition-colors">
-              Programme HEF
-            </h3>
-            <p className="text-sm text-muted-foreground font-medium leading-relaxed">
-              Le socle des ingénieurs : phases, piliers et progression.
-            </p>
-          </Link>
-
-          <Link
-            href="/academy/paths"
-            className="group bg-card rounded-3xl border border-border p-8 hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 flex flex-col gap-4"
-          >
-            <Compass className="size-8 text-primary" />
-            <h3 className="text-lg font-black text-foreground group-hover:text-primary transition-colors">
-              Parcours
-            </h3>
-            <p className="text-sm text-muted-foreground font-medium leading-relaxed">
-              Sentiers personnalisés selon tes objectifs et ton niveau.
-            </p>
-          </Link>
-
-          <Link
-            href="/academy/diplomas"
-            className="group bg-card rounded-3xl border border-border p-8 hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 flex flex-col gap-4"
-          >
-            <Award className="size-8 text-primary" />
-            <h3 className="text-lg font-black text-foreground group-hover:text-primary transition-colors">
-              Diplômes
-            </h3>
-            <p className="text-sm text-muted-foreground font-medium leading-relaxed">
-              Certifications officielles pour valider tes compétences.
             </p>
           </Link>
 
@@ -184,18 +136,6 @@ export default async function AcademyHubPage() {
             </p>
           </Link>
 
-          <Link
-            href="/academy/certificates"
-            className="group bg-card rounded-3xl border border-border p-8 hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 flex flex-col gap-4"
-          >
-            <BadgeCheck className="size-8 text-primary" />
-            <h3 className="text-lg font-black text-foreground group-hover:text-primary transition-colors">
-              Certificats
-            </h3>
-            <p className="text-sm text-muted-foreground font-medium leading-relaxed">
-              Tes attestations de réussite à partager.
-            </p>
-          </Link>
         </div>
       </section>
 
