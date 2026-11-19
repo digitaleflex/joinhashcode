@@ -9,34 +9,12 @@ import { logActivity } from "@/lib/activity-log";
 import { emailService } from "@/lib/email";
 import { z } from "zod";
 
-const ArtifactDecisionSchema = z.object({
-  key: z.string().min(1).max(80),
-  status: z.enum(["ACCEPTED", "REJECTED"]),
-  reviewerNote: z.string().max(500).optional().nullable(),
-});
-
 const UpdateSubmissionSchema = z.object({
   action: z.enum(["APPROVE", "NEEDS_REVISION", "REJECT"]),
   feedback: z.string().max(2000).optional(),
   qualityLevel: z.enum(["STANDARD", "GOOD", "EXEMPLARY"]).optional(),
   revisionNotes: z.string().max(2000).optional(),
-  artifacts: z.array(ArtifactDecisionSchema).max(20).optional(),
 });
-
-type ArtifactDecision = z.infer<typeof ArtifactDecisionSchema>;
-
-function requiredKeys(submissionSchema: unknown): Set<string> {
-  if (!Array.isArray(submissionSchema)) return new Set();
-  return new Set(
-    submissionSchema
-      .filter(
-        (item): item is Record<string, unknown> =>
-          Boolean(item) && typeof item === "object",
-      )
-      .filter((item) => item.required !== false && typeof item.key === "string")
-      .map((item) => item.key as string),
-  );
-}
 
 
 export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: string }) => {
@@ -165,7 +143,7 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
         metadata: {
           action: "NEEDS_REVISION",
           targetUserId: submission.userId,
-          rejectedArtifacts: rejectedLabels,
+          
         },
         request: req,
       });

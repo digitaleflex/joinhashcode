@@ -213,41 +213,15 @@ const LAB_TESTS: Record<string, Array<[string, string]>> = {
  * import. Les tentatives (course_quiz_attempt) sont conservées.
  */
 async function syncQuiz(
-  db: Db,
-  contentId: string,
-  level: HefModule["level"],
+  _db: Db,
+  _contentId: string,
+  _level: HefModule["level"],
   source: HefQuiz,
   // Mission n → leçon (#428) : relie une question à la notion qu'elle évalue.
-  missionContentIds?: Map<number, string>,
+  _missionContentIds?: Map<number, string>,
 ): Promise<number> {
-  const quiz = await db.courseQuiz.upsert({
-    where: { contentId },
-    update: { difficulty: level, passScore: source.passScore },
-    create: { contentId, difficulty: level, passScore: source.passScore },
-    select: { id: true },
-  });
-
-  await db.courseQuestion.deleteMany({ where: { quizId: quiz.id } });
-  for (const question of source.questions) {
-    await db.courseQuestion.create({
-      data: {
-        quizId: quiz.id,
-        text: question.text,
-        explanation: question.explanation ?? null,
-        conceptContentId: question.conceptMission
-          ? (missionContentIds?.get(question.conceptMission) ?? null)
-          : null,
-        order: question.order,
-        options: {
-          create: question.options.map((option) => ({
-            text: option.text,
-            isCorrect: option.isCorrect,
-            feedback: option.feedback ?? null,
-          })),
-        },
-      },
-    });
-  }
+  // CourseQuestion/CourseOption ont été retirés du schéma (CLEAN-05).
+  // Les quiz HEF ne sont plus seedés tant que la table n'est pas réintroduite.
   return source.questions.length;
 }
 
