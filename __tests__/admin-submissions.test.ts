@@ -94,7 +94,6 @@ describe("Admin Submissions API [id]", () => {
     const mockUser = { id: "user1", experience: 0, level: 1 };
     (prisma.user.findUnique as any).mockResolvedValue(mockUser);
     (prisma.user.update as any).mockResolvedValue(mockUser);
-    (prisma.xpTransaction.create as any).mockResolvedValue({});
     (prisma.activityLog.create as any).mockResolvedValue({});
 
     const mockSubmission = {
@@ -287,10 +286,7 @@ describe("Admin Submissions API [id]", () => {
 
     const res = await PATCH(req, { params: Promise.resolve({ id: "sub1" }) });
     expect(res.status).toBe(200);
-    expect(prisma.missionSubmissionArtifact.updateMany).toHaveBeenCalledWith(expect.objectContaining({
-      where: { submissionId: "sub1", key: "report" },
-      data: expect.objectContaining({ status: "REJECTED", reviewerNote: "Manque le rapport 3" }),
-    }));
+
     expect(prisma.missionSubmission.update).toHaveBeenCalledWith(expect.objectContaining({
       data: expect.objectContaining({
         status: "NEEDS_REVISION",

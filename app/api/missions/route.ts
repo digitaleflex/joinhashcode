@@ -9,7 +9,6 @@ import { z } from "zod";
 import { getCurrentCycleKey } from "@/lib/missions";
 import { triggerNotification } from "@/lib/qstash";
 import { emailService } from "@/lib/email";
-import type { Prisma } from "@/generated/prisma/client";
 import {
   ArtifactValidationError,
   parseSubmissionSchema,
@@ -115,29 +114,7 @@ async function submitMission(userId: string, input: z.infer<typeof submissionSch
       }
     });
 
-    if (artifactsToCreate) {
-      await tx.missionSubmissionArtifact.deleteMany({
-        where: { submissionId: submission.id },
-      });
-      await tx.missionSubmissionArtifact.createMany({
-        data: artifactsToCreate.map((artifact) => ({
-          submissionId: submission.id,
-          key: artifact.key,
-          type: artifact.type,
-          label:
-            typeof artifact.metadata?.label === "string"
-              ? artifact.metadata.label
-              : artifact.key,
-          value: artifact.value ?? null,
-          fileUrl: artifact.fileUrl ?? null,
-          fileName: artifact.fileName ?? null,
-          mimeType: artifact.mimeType ?? null,
-          size: artifact.size ?? null,
-          metadata: (artifact.metadata ?? undefined) as Prisma.InputJsonValue | undefined,
-          status: "SUBMITTED",
-        })),
-      });
-    }
+    // MissionSubmissionArtifact model removed (cleanup chantier 3) — artifacts no longer persisted.
 
     if (isAutoApproved) {
       await tx.user.update({

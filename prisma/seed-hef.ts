@@ -168,21 +168,8 @@ async function upsertSection(
   title: string,
   order: number,
 ): Promise<{ id: string }> {
-  const existing = await db.section.findFirst({
-    where: { courseId, title },
-    select: { id: true },
-  });
-  if (existing) {
-    return db.section.update({
-      where: { id: existing.id },
-      data: { order },
-      select: { id: true },
-    });
-  }
-  return db.section.create({
-    data: { courseId, title, order },
-    select: { id: true },
-  });
+  // Section model removed (cleanup chantier 3) — keep a stable id for content grouping.
+  return { id: courseId };
 }
 
 async function upsertContent(
