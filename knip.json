@@ -1,8 +1,6 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
   "entry": [
-    "proxy.ts",
-    "instrumentation.ts",
     "cluster.mjs",
     "app/**/{page,layout,route,loading,error,not-found,global-error,template,default,sitemap,robots,opengraph-image}.{ts,tsx}",
     "app/actions/**/*.ts",
@@ -15,9 +13,7 @@
   "project": [
     "**/*.{ts,tsx,mjs}"
   ],
-  "ignore": [
-    "generated/**"
-  ],
+  "ignore": [],
   "ignoreDependencies": [
     "@next/eslint-plugin-next",
     "@typescript-eslint/parser",
