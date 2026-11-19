@@ -34,7 +34,7 @@ const missionSchema = z.object({
   slug: z.string().min(1, "Le slug est requis"),
   category: z.string().min(1, "La catégorie est requise"),
   difficulty: z.coerce.number().min(1).max(5),
-  xp: z.coerce.number().min(0),
+
   missionLevel: z.string().optional(),
 });
 
@@ -53,7 +53,7 @@ export default function NewMissionPage() {
       slug: "",
       category: "BEYOND",
       difficulty: 1,
-      xp: 100,
+
       missionLevel: "INIT",
     },
   });

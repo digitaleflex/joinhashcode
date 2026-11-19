@@ -60,7 +60,7 @@ const missionSchema = z.object({
   slug: z.string().min(1, "Le slug est requis"),
   category: z.string().min(1, "La catégorie est requise"),
   difficulty: z.coerce.number().min(1).max(5),
-  xp: z.coerce.number().min(0),
+
   weightBuilder: z.coerce.number().min(0).max(1),
   weightCreator: z.coerce.number().min(0).max(1),
   weightStrategist: z.coerce.number().min(0).max(1),
@@ -153,7 +153,7 @@ export default function MissionDetailPage({ params }: { params: Promise<{ id: st
       slug: "",
       category: "BEYOND",
       difficulty: 1,
-      xp: 100,
+
       weightBuilder: 0.25,
       weightCreator: 0.25,
       weightStrategist: 0.25,

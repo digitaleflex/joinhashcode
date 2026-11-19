@@ -1316,7 +1316,6 @@ model Atelier {
   profile      String
   specializationId String
   specializationLabel String
-  xpReward     Int      @default(50)
   missionSlugs String[] @default([])
   pourquoi     String?  @db.Text
   isActive     Boolean  @default(true)

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { difficultyField, xpField, weightField } from "./common";
+import { difficultyField, weightField } from "./common";
 
 export const missionSchema = z.object({
   title: z.string().min(1),
@@ -8,7 +8,7 @@ export const missionSchema = z.object({
   slug: z.string().min(1),
   category: z.string().min(1),
   difficulty: difficultyField,
-  xp: xpField,
+
   weightBuilder: weightField,
   weightCreator: weightField,
   weightStrategist: weightField,

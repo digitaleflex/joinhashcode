@@ -170,7 +170,7 @@ export const PATCH = withAdminAuth(async (req, { userId: adminUserId }) => {
           action: "MISSION_APPROVED",
           entity: "mission_attempt",
           entityId: attemptId,
-          metadata: { missionSlug: mission.slug },
+          metadata: { missionSlug: attempt.mission.slug },
         });
 
         await triggerNotification({

@@ -17,6 +17,10 @@ declare module "better-auth" {
     strategistScore: number;
     catalystScore: number;
     missionsCompletedCount: number;
+    primaryDomain?: string | null;
+    domains?: string[];
+    tools?: string[];
+    dreamStatement?: string | null;
     lastCheckinAt?: Date | null;
     betaKeyId?: string | null;
     banned?: boolean | null;

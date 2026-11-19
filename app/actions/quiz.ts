@@ -155,7 +155,7 @@ export async function submitQuiz(rawData: unknown) {
       entityId: quizResult.id,
       metadata: {
         profileType: analysis.primary,
-        level: analysis.level,
+
         scores: analysis.scores,
         avgResponseTime: avgResponseTime,
       },
