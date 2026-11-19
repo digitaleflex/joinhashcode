@@ -240,6 +240,9 @@ importers:
       husky:
         specifier: ^9.1.7
         version: 9.1.7
+      jose:
+        specifier: ^6.2.3
+        version: 6.2.3
       jsdom:
         specifier: ^25.0.1
         version: 25.0.1
