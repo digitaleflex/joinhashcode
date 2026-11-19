@@ -7,7 +7,6 @@ import { getBetaKeyVerifiedEmailContent } from "./email-templates/beta-key-verif
 import { getOnboardingCompletedEmailContent } from "./email-templates/onboarding-completed";
 import { getMagicLinkEmailContent } from "./email-templates/magic-link";
 import { getOtpEmailContent } from "./email-templates/otp";
-import { getQuizResultsEmailContent } from "./email-templates/quiz-results";
 import { getMissionApprovedEmailContent } from "./email-templates/mission-approved";
 import { getDailyReminderEmailContent } from "./email-templates/daily-reminder";
 import { getReactivationEmailContent } from "./email-templates/reactivation";
@@ -120,12 +119,6 @@ export const emailService = {
       return { success: true, mocked: true };
     }
     const { subject, html, text } = getOtpEmailContent({ otp, type: _type });
-    return this._send({ to: email, subject, html, text });
-  },
-
-  async sendQuizResults({ email, name, profileType }: { email: string; name: string; profileType: string }) {
-    if (!resend) return { success: true, mocked: true };
-    const { subject, html, text } = getQuizResultsEmailContent({ name, profileType });
     return this._send({ to: email, subject, html, text });
   },
 

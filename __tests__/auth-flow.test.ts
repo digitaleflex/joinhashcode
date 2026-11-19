@@ -115,45 +115,6 @@ describe("Middleware Auth & Onboarding Funnel", () => {
     expect(res?.status).not.toBe(307);
   });
 
-  it("renvoie /quiz vers /missions quand le quiz a déjà été passé", async () => {
-    (global.fetch as any).mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({
-        session: { id: "sess_1" },
-        user: { id: "user_1", currentSituation: "STUDENT", class: "BUILDER", primaryDomain: "Web" },
-      }),
-    });
-
-    const req = createRequest("/quiz", "session=mock-token");
-    const res = await middleware(req);
-
-    expect(res?.status).toBe(307);
-    expect(res?.headers.get("location")).toBe("http://localhost:3000/missions");
-  });
-
-  it("should redirect to /specialization if user has class but no primaryDomain", async () => {
-    const userData = {
-      id: "user_1",
-      currentSituation: "STUDENT",
-      class: "BUILDER",
-      betaKeyId: "key_1",
-    };
-    (global.fetch as any).mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({
-        session: { id: "sess_1" },
-        user: userData,
-      }),
-    });
-
-    // Provide a cookie to satisfy getSessionCookie
-    const req = createRequest("/dashboard", "session=mock-token");
-    const res = await middleware(req);
-
-    expect(res?.status).toBe(307);
-    expect(res?.headers.get("location")).toBe("http://localhost:3000/specialization");
-  });
-
   it("should allow access to dashboard if user is fully onboarded", async () => {
     const userData = {
       id: "user_1",

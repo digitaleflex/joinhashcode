@@ -40,7 +40,7 @@ interface Submission {
     id: string
     name: string
     email: string
-    level: number
+    level?: number
   }
   mission: {
     title: string

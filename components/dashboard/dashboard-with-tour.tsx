@@ -9,7 +9,6 @@ import type { FirstAction } from "@/lib/first-action"
 
 export function DashboardWithTour({
   user,
-  quizResult,
   submissions,
   fullSubmissions,
   recommendedMissions,
@@ -18,7 +17,6 @@ export function DashboardWithTour({
   firstActionStatus,
 }: {
   user: UserProfile
-  quizResult: { profileType?: string | null } | null
   submissions?: Record<string, string>
   fullSubmissions?: DetailedMissionSubmission[]
   recommendedMissions?: Mission[]
@@ -32,7 +30,6 @@ export function DashboardWithTour({
     <TourProvider userId={user.id} featureFlag={tourEnabled}>
       <DashboardShell
         user={user}
-        quizResult={quizResult}
         submissions={submissions}
         fullSubmissions={fullSubmissions}
         recommendedMissions={recommendedMissions}

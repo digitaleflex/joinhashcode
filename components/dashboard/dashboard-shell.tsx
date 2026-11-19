@@ -62,7 +62,6 @@ const PROFILE_CONFIGS: Record<string, { title: string, color: string, gradient: 
 
 export function DashboardShell({
   user,
-  quizResult,
   recommendedMissions = [],
   fullSubmissions = [],
   featureFlags: _featureFlags = {},
@@ -70,7 +69,6 @@ export function DashboardShell({
   firstActionStatus = "not_started",
 }: {
   user: UserProfile,
-  quizResult: { profileType?: string | null } | null,
   submissions?: Record<string, string>,
   fullSubmissions?: DetailedMissionSubmission[],
   recommendedMissions?: Mission[],
@@ -78,7 +76,7 @@ export function DashboardShell({
   firstAction?: FirstAction,
   firstActionStatus?: "not_started" | "started" | "completed",
 }) {
-  const profile = useMemo(() => (user?.class || quizResult?.profileType || "unknown").toLowerCase(), [user?.class, quizResult?.profileType])
+  const profile = useMemo(() => (user?.class || "unknown").toLowerCase(), [user?.class])
   const config = useMemo(() => PROFILE_CONFIGS[profile] || PROFILE_CONFIGS.builder, [profile])
 
   const domainLabel = useMemo(() => {
