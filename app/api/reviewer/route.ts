@@ -20,8 +20,7 @@ export async function GET() {
     const pendingSubmissions = await prisma.missionSubmission.findMany({
       where: { status: "PENDING" },
       include: {
-        mission: { select: { id: true, title: true, category: true, xp: true, missionLevel: true, targetProfiles: true } },
-        user: { select: { id: true, name: true, pseudo: true, level: true } },
+        user: { select: { id: true, name: true, pseudo: true } },
       },
       orderBy: { createdAt: "asc" },
     });

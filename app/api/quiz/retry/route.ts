@@ -27,8 +27,6 @@ export async function POST(req: Request) {
         strategistScore: true,
         catalystScore: true,
         behavioralVibrancy: true,
-        level: true,
-        experience: true,
       },
     });
 
@@ -78,8 +76,6 @@ export async function POST(req: Request) {
           strategistScore: 0,
           catalystScore: 0,
           behavioralVibrancy: Prisma.DbNull,
-          level: 1,
-          experience: 0,
         },
       });
     });

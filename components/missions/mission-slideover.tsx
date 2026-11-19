@@ -18,8 +18,6 @@ interface SlideOverMission {
   title: string
   type?: string
   level?: number
-  xp?: number
-  xpReward?: number
   duration?: string
   shortDesc?: string
   description?: string

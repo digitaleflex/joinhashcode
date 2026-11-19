@@ -29,10 +29,10 @@ export async function collectUserData(userId: string) {
     prisma.missionSubmission.findMany({
       where: { userId },
       select: {
-        id: true, status: true, content: true, xpAwarded: true, qualityLevel: true,
+        id: true, status: true, content: true, qualityLevel: true,
         revisionCount: true, userDifficulty: true, userRating: true, userFeedback: true,
         improvementSuggestions: true, createdAt: true, updatedAt: true,
-        mission: { select: { title: true, category: true, xp: true, missionLevel: true } },
+        mission: { select: { title: true, category: true, missionLevel: true } },
       },
       orderBy: { createdAt: "desc" },
     }),

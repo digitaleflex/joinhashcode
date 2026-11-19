@@ -49,7 +49,6 @@ export async function GET(
         slug: mission.slug,
         category: mission.category,
         difficulty: mission.difficulty,
-        xp: mission.xp,
         weightBuilder: mission.weightBuilder,
         weightCreator: mission.weightCreator,
         weightStrategist: mission.weightStrategist,

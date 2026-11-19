@@ -87,7 +87,6 @@ interface MissionState {
   duration?: string | null;
   category?: string | null;
   missionLevel?: string | null;
-  xpReward?: number | null;
   maxScore?: number | null;
   steps: StepDTO[];
   attempt: AttemptDTO | null;

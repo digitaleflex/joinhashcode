@@ -32,8 +32,6 @@ type MissionsUserPayload = Prisma.UserGetPayload<{
         mission: { select: { slug: true } };
       };
     };
-    level: true;
-    experience: true;
   };
  }>;
 
@@ -140,8 +138,6 @@ export default async function MissionsPage() {
               mission: { select: { slug: true } },
             },
           },
-          level: true,
-          experience: true,
         }
       }),
       weeklyMissionQuery,
@@ -169,11 +165,10 @@ export default async function MissionsPage() {
         title: true,
         shortDesc: true,
         category: true,
-        xp: true,
         missionLevel: true,
         tags: true,
       },
-      orderBy: [{ category: "asc" }, { xp: "desc" }],
+      orderBy: [{ category: "asc" }, { difficulty: "desc" }],
     })
   } catch (error) {
     console.error("[MISSIONS_PAGE] HEF missions fetch failed:", error)
@@ -187,7 +182,6 @@ export default async function MissionsPage() {
         title: true,
         shortDesc: true,
         category: true,
-        xp: true,
         missionLevel: true,
         tags: true,
       },

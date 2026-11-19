@@ -38,7 +38,6 @@ export interface AnalysisResult {
   secondary: ProfileType;
   isHybrid: boolean;
   hybridLabel: string;
-  level: number;
   consistencyScore: number;
   suggestedChannels: Channel[];
   recommendedSpecializations: RecommendedSpecialization[];
@@ -145,7 +144,7 @@ export const analyzeQuizResults = (answers: string[], responseTimes: number[] = 
       secondary: "strategist",
       isHybrid: true,
       hybridLabel: "Profil non déterminé",
-      level: 1,
+    
       consistencyScore: 0,
       suggestedChannels: [],
       recommendedSpecializations: [],
@@ -186,8 +185,6 @@ export const analyzeQuizResults = (answers: string[], responseTimes: number[] = 
   const maxStdDev = Math.sqrt(maxVariance);
   const consistencyScore = maxStdDev > 0 ? stdDev / maxStdDev : 0;
 
-  const level = 1;
-
   // For hybrids, surface one channel from each dominant profile
   const channels = isHybrid
     ? [channelMap[primary][0], channelMap[secondary][0], channelMap[primary][1]]
@@ -212,7 +209,6 @@ export const analyzeQuizResults = (answers: string[], responseTimes: number[] = 
     secondary,
     isHybrid,
     hybridLabel,
-    level,
     consistencyScore,
     suggestedChannels: channels,
     recommendedSpecializations,

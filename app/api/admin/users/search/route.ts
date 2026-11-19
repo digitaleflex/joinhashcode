@@ -48,7 +48,6 @@ export async function GET(req: Request) {
           class: true,
           country: true,
           createdAt: true,
-          currentStreak: true,
         },
         orderBy: { createdAt: "desc" },
         take: limit,
@@ -65,7 +64,6 @@ export async function GET(req: Request) {
       class: u.class,
       country: u.country,
       createdAt: u.createdAt,
-      currentStreak: u.currentStreak ?? 0,
     }))
 
     return NextResponse.json({ users, total })

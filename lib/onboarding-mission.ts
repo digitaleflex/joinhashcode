@@ -93,7 +93,6 @@ export interface OnboardingMissionDef {
   shortDesc: string
   description: string
   duration: string
-  xpReward: number
   category: string
   difficulty: number
   missionLevel: string
@@ -121,7 +120,6 @@ export const ONBOARDING_MISSION: OnboardingMissionDef = {
   description:
     "Ton diagnostic est déjà fait — ici, tu le confirms et tu le complètes en quelques minutes. À la fin, ton profil HashCode officiel est généré. Chaque sous-mission peut être soumise indépendamment — pas de pression, tu reviens quand tu veux.",
   duration: "~15 minutes",
-  xpReward: 150,
   category: "INTRO",
   difficulty: 1,
   missionLevel: "INIT",

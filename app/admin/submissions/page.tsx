@@ -27,7 +27,6 @@ interface Submission {
   createdAt: string
   updatedAt: string
   qualityLevel: string | null
-  xpAwarded: number | null
   adminFeedback: string | null
   revisionNotes: string | null
   revisionCount: number
@@ -40,12 +39,11 @@ interface Submission {
     id: string
     name: string
     email: string
-    level: number
   }
   mission: {
     title: string
     category: string
-    xp: number
+    
     submissionMethod: string
     deliverables: string[]
     acceptanceCriteria?: string[]

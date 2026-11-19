@@ -164,12 +164,11 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
               cycleKey: "PERMANENT",
             },
           },
-          update: { status: "APPROVED", xpAwarded: mission.xp, reviewerType: "AUTO" },
+          update: { status: "APPROVED", reviewerType: "AUTO" },
           create: {
             userId: session.user.id,
             missionId: mission.id,
             status: "APPROVED",
-            xpAwarded: mission.xp,
             reviewerType: "AUTO",
           },
         });

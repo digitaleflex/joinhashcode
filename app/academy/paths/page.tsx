@@ -43,7 +43,6 @@ export default async function AcademyPathsPage() {
                     pillars: {
                         where: { isPublished: true },
                         orderBy: { order: "asc" as const },
-                        select: { id: true, level: true, title: true, slug: true, objective: true, concepts: true, project: true },
                     },
                 },
             },

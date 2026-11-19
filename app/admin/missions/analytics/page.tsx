@@ -50,7 +50,7 @@ async function getAnalytics(range: string) {
       select: {
         id: true,
         title: true,
-        submissions: { select: { id: true, createdAt: true, updatedAt: true, status: true, xpAwarded: true } },
+        submissions: { select: { id: true, createdAt: true, updatedAt: true, status: true } },
         attempts: { select: { id: true, createdAt: true, submittedAt: true, score: true, status: true } },
       },
       orderBy: { createdAt: "desc" },

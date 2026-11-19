@@ -26,8 +26,7 @@ export const GET = withAdminAuth(async (req) => {
     const attempt = await prisma.missionAttempt.findUnique({
       where: { id: attemptId },
       include: {
-        user: { select: { id: true, name: true, pseudo: true, email: true, image: true, class: true, level: true, currentSituation: true } },
-        mission: { select: { id: true, title: true, slug: true, xp: true, category: true, description: true, shortDesc: true } },
+        mission: { select: { id: true, title: true, slug: true, category: true, description: true, shortDesc: true } },
         reviewer: { select: { id: true, name: true, pseudo: true } },
         stepResponses: { orderBy: { stepOrder: "asc" } },
         reviewLogs: { orderBy: { createdAt: "asc" } },
@@ -102,7 +101,7 @@ export const PATCH = withAdminAuth(async (req, { userId: adminUserId }) => {
     const attempt = await prisma.missionAttempt.findUnique({
       where: { id: attemptId },
       include: {
-        mission: { select: { id: true, slug: true, title: true, xp: true } },
+        mission: { select: { id: true, slug: true, title: true } },
         user: { select: { id: true, email: true, name: true } },
         stepResponses: true,
       },
@@ -156,16 +155,14 @@ export const PATCH = withAdminAuth(async (req, { userId: adminUserId }) => {
         request: req,
       });
 
-      // XP & missionsCompletedCount dans une transaction atomique
-      const mission = attempt.mission;
-      if (mission.xp > 0) {
-        await prisma.$transaction(async (tx) => {
-          await tx.user.update({
-            where: { id: attempt.userId },
-            data: { missionsCompletedCount: { increment: 1 } },
-          });
+      // missionsCompletedCount
+
+      await prisma.$transaction(async (tx) => {
+        await tx.user.update({
+          where: { id: attempt.userId },
+          data: { missionsCompletedCount: { increment: 1 } },
         });
-      }
+      });
 
       after(async () => {
         logActivity({
@@ -173,7 +170,7 @@ export const PATCH = withAdminAuth(async (req, { userId: adminUserId }) => {
           action: "MISSION_APPROVED",
           entity: "mission_attempt",
           entityId: attemptId,
-          metadata: { missionSlug: mission.slug },
+          metadata: { missionSlug: attempt.mission.slug },
         });
 
         await triggerNotification({

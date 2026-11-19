@@ -19,7 +19,6 @@ interface SpecializationMission {
   missionId: string;
   order: number;
   prerequisites: string[];
-  xp: number;
 }
 
 interface Specialization {
@@ -137,7 +136,6 @@ export default function AdminParcoursPage() {
     missionId: "",
     order: 0,
     prerequisites: "",
-    xp: 200,
   });
 
   const fetchData = useCallback(async () => {
@@ -177,7 +175,6 @@ export default function AdminParcoursPage() {
       missionId: "",
       order: 0,
       prerequisites: "",
-      xp: 200,
     });
   };
 
@@ -217,7 +214,6 @@ export default function AdminParcoursPage() {
       missionId: missionForm.missionId,
       order: editingMissionIndex !== null ? editingMissionIndex : specForm.missions.length,
       prerequisites: missionForm.prerequisites.split(",").map((p) => p.trim()).filter(Boolean),
-      xp: missionForm.xp,
     };
 
     let newMissions = [...specForm.missions];
@@ -256,7 +252,6 @@ export default function AdminParcoursPage() {
       missionId: "",
       order: specForm.missions.length,
       prerequisites: "",
-      xp: 200,
     });
     setMissionDialogOpen(true);
   };
@@ -267,7 +262,6 @@ export default function AdminParcoursPage() {
       missionId: mission.missionId,
       order: mission.order,
       prerequisites: mission.prerequisites.join(", "),
-      xp: mission.xp,
     });
     setMissionDialogOpen(true);
   };
@@ -467,7 +461,6 @@ export default function AdminParcoursPage() {
                             </div>
                             <div className="flex items-center gap-2 text-zinc-400 font-mono text-sm">
                               <span>Ordre: {mission.order + 1}</span>
-                              <span className="text-primary">{mission.xp} XP</span>
                             </div>
                             <div className="flex items-center gap-1">
                               <Button
@@ -620,7 +613,6 @@ export default function AdminParcoursPage() {
               </div>
               <div className="space-y-2">
                 <Label className="font-mono text-xs">XP</Label>
-                <Input type="number" value={missionForm.xp} onChange={(e) => setMissionForm({ ...missionForm, xp: parseInt(e.target.value) })} />
               </div>
             </div>
             <div className="space-y-2">

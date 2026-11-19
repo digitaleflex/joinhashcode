@@ -36,7 +36,7 @@ interface AttemptRow {
   updatedAt: string;
   submittedAt: string | null;
   user: { id: string; name: string; pseudo: string | null; email: string; image: string | null; class: string | null; level: number };
-  mission: { id: string; title: string; slug: string; xp: number; category: string };
+  mission: { id: string; title: string; slug: string;  category: string };
   reviewer: { id: string; name: string; pseudo: string | null } | null;
   stepsCompleted: number;
   lastActivity: { createdAt: string; action: string } | null;

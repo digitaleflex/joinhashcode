@@ -17,7 +17,7 @@ export default async function FeedbackPage() {
   let dbUser: {
     id: string; name: string; email: string; image: string | null;
     class: string | null; role: string;
-    level: number; experience: number;
+  
   } | null = null;
 
   try {
@@ -30,8 +30,6 @@ export default async function FeedbackPage() {
           image: true,
           class: true,
           role: true,
-          level: true,
-          experience: true,
         }
       });
   } catch {

@@ -28,8 +28,6 @@ export default async function QuizPage() {
       memberNumber: true,
       class: true,
       createdAt: true,
-      level: true,
-      experience: true,
     },
   })
 
@@ -77,7 +75,7 @@ export default async function QuizPage() {
             </p>
           </div>
           <QuizWrapper
-            user={user ? { ...user, level: user.level ?? 1, experience: user.experience ?? 0 } : undefined}
+            user={user ?? undefined}
           />
         </div>
       </div>

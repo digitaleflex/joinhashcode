@@ -9,7 +9,6 @@ import { cn } from "@/lib/utils"
 interface ReferralData {
   referralCode: string
   referralCount: number
-  referrals: { id: string; name: string; pseudo: string; image: string; class: string; level: number; createdAt: string }[]
 }
 
 export function ReferralWidget() {

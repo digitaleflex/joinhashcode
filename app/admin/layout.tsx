@@ -20,7 +20,6 @@ export default async function AdminLayout({
     select: {
       id: true, name: true, email: true, image: true, role: true, pseudo: true,
       class: true,
-      level: true,
     },
   })
 

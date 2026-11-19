@@ -27,17 +27,9 @@ describe("MISSIONS data integrity", () => {
       expect(m.title).toBeTruthy();
       expect(m.shortDesc).toBeTruthy();
       expect(m.description).toBeTruthy();
-      expect(typeof m.xpReward).toBe("number");
-      expect(m.xpReward).toBeGreaterThan(0);
       expect(m.targetProfiles.length).toBeGreaterThan(0);
       expect(["INIT", "CORE", "PRO"]).toContain(m.missionLevel);
       expect(Array.isArray(m.requirements)).toBe(true);
-    }
-  });
-
-  it("should have positive XP rewards", () => {
-    for (const m of MISSIONS) {
-      expect(m.xpReward).toBeGreaterThanOrEqual(20);
     }
   });
 
@@ -70,12 +62,6 @@ describe("WEEKLY_CHALLENGES data integrity", () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 
-  it("should have valid XP rewards", () => {
-    for (const c of WEEKLY_CHALLENGES) {
-      expect(c.xp).toBeGreaterThan(0);
-      expect(typeof c.xp).toBe("number");
-    }
-  });
 });
 
 describe("getCurrentWeeklyChallenge", () => {

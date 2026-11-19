@@ -29,12 +29,8 @@ export default async function ReviewerSubmissionPage({ params }: PageProps) {
       image: true,
       role: true,
       class: true,
-      badges: true,
       currentSituation: true,
-      level: true,
-      experience: true,
       missionsCompletedCount: true,
-      currentStreak: true,
       lastCheckinAt: true,
     },
   })
@@ -44,7 +40,7 @@ export default async function ReviewerSubmissionPage({ params }: PageProps) {
     where: { id: submissionId },
     include: {
       mission: true,
-      user: { select: { id: true, name: true, pseudo: true, image: true, level: true } },
+      user: { select: { id: true, name: true, pseudo: true, image: true } },
       artifacts: true,
       reviews: { orderBy: { createdAt: "desc" }, take: 1 },
     },
@@ -63,13 +59,9 @@ export default async function ReviewerSubmissionPage({ params }: PageProps) {
     image: dbUser.image,
     role: dbUser.role,
     class: dbUser.class,
-    level: dbUser.level ?? 1,
-    experience: dbUser.experience ?? 0,
     missionsCompletedCount: dbUser.missionsCompletedCount ?? 0,
-    badges: dbUser.badges,
     currentSituation: dbUser.currentSituation,
     lastCheckin: dbUser.lastCheckinAt ?? null,
-    currentStreak: dbUser.currentStreak ?? 0,
   }
 
   const criteria = getReviewCriteria(submission.mission)

@@ -17,7 +17,7 @@ export interface Submission {
     id: string
     title: string
     category: string
-    xp: number
+    
     missionLevel: string | null
     targetProfiles: string[]
   }
@@ -26,7 +26,6 @@ export interface Submission {
     name: string
     pseudo: string | null
     image: string | null
-    level: number
   }
   createdAt: string
 }

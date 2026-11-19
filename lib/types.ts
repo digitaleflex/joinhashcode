@@ -72,8 +72,6 @@ export interface UserProfile {
 
   // Psychometric Data & Evolution
   class: string | null;
-  experience: number;
-  level: number;
   missionsCompletedCount: number;
   builderScore: number;
   creatorScore: number;
@@ -82,7 +80,6 @@ export interface UserProfile {
   j7Activated: boolean; // J+7 activation: validated >= 3 of 5 M01 sub-missions in 7 days
   behavioralVibrancy?: BehavioralVibrancy | Record<string, number> | null | unknown;
   lastCheckin: Date | string | null;
-  currentStreak: number;
 
   // Metadata
   memberNumber: number;
@@ -91,7 +88,6 @@ export interface UserProfile {
   referralCount: number;
   betaKeyId?: string | null;
   twoFactorEnabled?: boolean;
-  badges: string[];
   bio?: string | null;
   secondaryObjectives?: string[];
   currentFocus?: string[];
@@ -109,7 +105,6 @@ export interface DetailedMissionSubmission {
   content: string;
   createdAt: Date;
   updatedAt: Date;
-  xpAwarded?: number | null;
   adminFeedback?: string | null;
   qualityLevel?: "STANDARD" | "HIGH" | "EXEMPLARY" | null;
   mission: {

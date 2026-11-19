@@ -11,7 +11,6 @@ export interface Mission {
   title: string;
   description: string;
   shortDesc: string;
-  xpReward: number;
   requiredLevel: MissionLevel;
   targetLevel: MissionLevel;
   requirements: string[];
@@ -37,7 +36,6 @@ export interface WeeklyChallenge {
   id: string;
   title: string;
   shortDesc: string;
-  xp: number;
   type: MissionType;
   submissionMethod: Mission["submissionMethod"];
   targetProfiles: UserProfile[];

@@ -91,8 +91,6 @@ export const PATCH = withAdminAuth(async (req: Request) => {
               id: true,
               email: true,
               name: true,
-              experience: true,
-              level: true,
             },
           }
         }

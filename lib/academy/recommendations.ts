@@ -45,7 +45,6 @@ const SELECT = {
   slug: true,
   title: true,
   description: true,
-  level: true,
   averageRating: true,
   totalLearners: true,
   category: { select: { name: true } },

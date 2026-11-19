@@ -35,7 +35,6 @@ export async function GET() {
         pseudo: true,
         image: true,
         class: true,
-        level: true,
         createdAt: true,
       },
     });

@@ -39,8 +39,6 @@ async function submitMission(userId: string, input: z.infer<typeof submissionSch
       where: { id: userId },
       select: {
         id: true, email: true, name: true,
-        currentStreak: true,
-        level: true, experience: true, missionsCompletedCount: true,
       }
     }),
   ]);
@@ -111,7 +109,6 @@ async function submitMission(userId: string, input: z.infer<typeof submissionSch
         userFeedback: input.userFeedback,
         improvementSuggestions: input.improvementSuggestions,
         status: finalStatus,
-        xpAwarded: 0,
       }
     });
 
@@ -151,7 +148,6 @@ async function submitMission(userId: string, input: z.infer<typeof submissionSch
 
   const finalUser = await prisma.user.findUnique({
     where: { id: userId },
-    select: { experience: true, missionsCompletedCount: true }
   });
 
   if (finalUser && (finalUser.missionsCompletedCount ?? 0) === 1) {
@@ -197,7 +193,6 @@ export async function GET() {
         slug: true,
         category: true,
         difficulty: true,
-        xp: true,
         missionLevel: true,
         weightBuilder: true,
         weightCreator: true,

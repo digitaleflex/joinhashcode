@@ -29,7 +29,6 @@ export async function POST(
         slug: `${mission.slug}-copy`,
         category: mission.category,
         difficulty: mission.difficulty,
-        xp: mission.xp,
         weightBuilder: mission.weightBuilder,
         weightCreator: mission.weightCreator,
         weightStrategist: mission.weightStrategist,

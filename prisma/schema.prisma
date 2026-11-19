@@ -137,7 +137,6 @@ model User {
   updatedAt            DateTime
   class                String?   @map("profile_class")
   role                 String    @default("MEMBER")
-  badges               String[]
   behavioralVibrancy   Json?
   cardSignature        String?   @unique
   cardIssuedAt         DateTime?
@@ -173,11 +172,8 @@ model User {
   creatorScore         Int       @default(0)
   strategistScore      Int       @default(0)
   catalystScore        Int       @default(0)
-  level                  Int       @default(1)
-  experience             Int       @default(0)
   missionsCompletedCount Int       @default(0)
   reviewsCompleted       Int       @default(0)
-  currentStreak          Int       @default(0)
   longestStreak          Int       @default(0)
   lastCheckinAt          DateTime?
   lastStreakDate         DateTime?
@@ -451,7 +447,6 @@ model Mission {
   slug               String              @unique
   category           String
   difficulty         Int                 @default(1)
-  xp                 Int                 @default(100)
   weightBuilder      Float               @default(0)
   weightCreator      Float               @default(0)
   weightStrategist   Float               @default(0)
@@ -520,7 +515,6 @@ model MissionSubmission {
   cycleKey               String          @default("PERMANENT")
   status                 String          @default("PENDING")
   content                String?
-  xpAwarded              Int             @default(0)
   createdAt              DateTime        @default(now())
   updatedAt              DateTime        @updatedAt
   improvementSuggestions String?
@@ -1322,7 +1316,6 @@ model Atelier {
   profile      String
   specializationId String
   specializationLabel String
-  xpReward     Int      @default(50)
   missionSlugs String[] @default([])
   pourquoi     String?  @db.Text
   isActive     Boolean  @default(true)
