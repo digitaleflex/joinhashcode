@@ -1,13 +1,11 @@
 import { prisma } from "@/lib/prisma"
 import { notFound } from "next/navigation"
-import { questions } from "@/lib/questions"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { UserRowActions, type UserRowActionsProps } from "@/components/admin/UserRowActions"
 import { 
   ChevronLeft, 
-  BrainCircuit, 
   Target, 
   Zap, 
   BarChart3, 
@@ -35,10 +33,6 @@ export default async function UserDossierPage({ params }: PageProps) {
   const user = await prisma.user.findUnique({
     where: { id },
     include: {
-      quizResults: {
-        orderBy: { createdAt: 'desc' },
-        take: 1
-      },
       missionSubmissions: {
         include: { mission: true },
         orderBy: { createdAt: 'desc' }
@@ -56,9 +50,6 @@ export default async function UserDossierPage({ params }: PageProps) {
     take: 20,
   })
 
-  const quizResult = user.quizResults[0]
-  const answers = quizResult?.answers as Record<number, string> || {}
-  
   const blockerLabels: Record<string, string> = {
     skills: "Manque de compétences techniques",
     network: "Manque de visibilité / réseau",
@@ -322,85 +313,7 @@ export default async function UserDossierPage({ params }: PageProps) {
           </Card>
         </div>
 
-        {/* Right Column: Quiz Analysis */}
-        <div className="lg:col-span-2 space-y-8">
-          <Card className="bg-zinc-900/50 border-white/5">
-            <CardHeader className="flex flex-row items-center justify-between border-b border-white/5 mb-6 pb-6">
-              <div>
-                <CardTitle className="text-xl font-bold text-white flex items-center gap-3">
-                  <BrainCircuit className="h-6 w-6 text-primary" /> Analyse du Quiz Initial
-                </CardTitle>
-                <CardDescription className="text-zinc-500 font-mono text-xs mt-1 uppercase tracking-wider">
-                  {quizResult ? `Effectué le ${new Date(quizResult.createdAt).toLocaleDateString('fr-FR')}` : "Données non disponibles"}
-                </CardDescription>
-              </div>
-              {quizResult && (
-                <Badge variant="outline" className="font-mono text-xs bg-primary/10 text-primary border-primary/30">
-                  {Object.keys(answers).length} RÉPONSES
-                </Badge>
-              )}
-            </CardHeader>
-            <CardContent className="space-y-8">
-              {!quizResult ? (
-                <div className="py-20 text-center space-y-4">
-                  <div className="h-16 w-16 bg-white/5 rounded-full flex items-center justify-center mx-auto border border-white/10">
-                    <Target className="h-8 w-8 text-zinc-700" />
-                  </div>
-                  <p className="text-zinc-500 font-mono text-sm">Cet utilisateur n'a pas encore passé le quiz d'évolution.</p>
-                </div>
-              ) : (
-                <div className="space-y-10">
-                  {questions.map((q, idx) => {
-                    const userAnswerValue = answers[q.id]
-                    const selectedOption = q.options.find(o => o.value === userAnswerValue)
-                    
-                    return (
-                      <div key={q.id} className="space-y-4 relative pl-8 border-l border-white/5 last:border-0">
-                        <div className="absolute -left-[5px] top-1 h-2.5 w-2.5 rounded-full bg-zinc-800 border border-white/10" />
-                        <div className="space-y-1">
-                          <p className="text-xs font-mono text-zinc-600 uppercase tracking-wider">Question {idx + 1} · {q.type}</p>
-                          <h3 className="text-lg font-bold text-white leading-snug italic">&ldquo;{q.text}&rdquo;</h3>
-                        </div>
-                        
-                        <div className="grid gap-2">
-                          {q.options.map((opt, oIdx) => {
-                            const isUserChoice = opt.value === userAnswerValue
-                            const optColor = profileColors[opt.value.toLowerCase()] || "#fff"
-                            
-                            return (
-                              <div 
-                                key={oIdx}
-                                className={`
-                                  p-4 rounded-xl border transition-all flex items-center justify-between
-                                  ${isUserChoice 
-                                    ? "bg-zinc-800/80 border-white/10" 
-                                    : "bg-transparent border-white/[0.02] opacity-40"}
-                                `}
-                              >
-                                <span className={`text-sm ${isUserChoice ? "text-zinc-100 font-medium" : "text-zinc-500"}`}>
-                                  {opt.text}
-                                </span>
-                                {isUserChoice && (
-                                  <div className="flex items-center gap-2">
-                                    <span className="text-3xs font-mono uppercase tracking-wider font-bold" style={{ color: optColor }}>
-                                      +{q.weight * opt.score} {opt.value}
-                                    </span>
-                                    <div className="h-2 w-2 rounded-full" style={{ background: optColor }} />
-                                  </div>
-                                )}
-                              </div>
-                            )
-                          })}
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          {/* Missions History Card */}
+        {/* Missions History Card */}
           <Card className="bg-zinc-900/50 border-white/5">
             <CardHeader className="border-b border-white/5 mb-6 pb-6">
               <CardTitle className="text-xl font-bold text-white flex items-center gap-3">
@@ -487,7 +400,6 @@ export default async function UserDossierPage({ params }: PageProps) {
               )}
             </CardContent>
           </Card>
-        </div>
       </div>
     </div>
   )

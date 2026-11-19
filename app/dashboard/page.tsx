@@ -16,7 +16,6 @@ export default async function DashboardPage() {
   // ⚡ Perf: 3 requêtes parallèles avec select stricts au lieu d'un include massif.
   // Réduit le payload DB de 40–60% et supprime les nested includes profonds.
   let dbUser: UserProfile | null = null;
-  let quizResult: { profileType?: string | null } | null = null;
   let submissions: DetailedMissionSubmission[] = [];
   let firstActionStatus: "not_started" | "started" | "completed" = "not_started";
 
@@ -49,10 +48,6 @@ export default async function DashboardPage() {
           tools: true,
           badges: true,
           behavioralVibrancy: true,
-          builderScore: true,
-          creatorScore: true,
-          strategistScore: true,
-          catalystScore: true,
           lastCheckinAt: true,
           currentStreak: true,
           level: true,
@@ -60,10 +55,6 @@ export default async function DashboardPage() {
           missionsCompletedCount: true,
           referralCode: true,
           referralCount: true,
-          quizResults: {
-            orderBy: { createdAt: "desc" },
-            take: 1,
-          },
         },
       }),
       // Requête 2 : Soumissions (10 max, champs strictement nécessaires)
@@ -112,15 +103,10 @@ export default async function DashboardPage() {
       mainObjective: userData.mainObjective,
       country: userData.country,
       city: userData.city,
-      builderScore: userData.builderScore ?? 0,
-      creatorScore: userData.creatorScore ?? 0,
-      strategistScore: userData.strategistScore ?? 0,
-      catalystScore: userData.catalystScore ?? 0,
       lastCheckin: userData.lastCheckinAt ?? null,
       currentStreak: userData.currentStreak ?? 0,
     } as UserProfile;
 
-    quizResult = userData.quizResults[0] ?? null;
     firstActionStatus = userData.firstActionCompletedAt
       ? "completed"
       : userData.firstActionStartedAt
@@ -151,7 +137,6 @@ export default async function DashboardPage() {
       user={dbUser}
       firstAction={firstAction}
       firstActionStatus={firstActionStatus}
-      quizResult={quizResult}
       submissions={submissionsMap}
       fullSubmissions={submissions}
       featureFlags={featureFlags}
