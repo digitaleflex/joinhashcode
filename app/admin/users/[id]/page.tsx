@@ -6,7 +6,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { UserRowActions, type UserRowActionsProps } from "@/components/admin/UserRowActions"
 import { 
   ChevronLeft, 
-  BrainCircuit, 
   Target, 
   Zap, 
   BarChart3, 
@@ -34,10 +33,6 @@ export default async function UserDossierPage({ params }: PageProps) {
   const user = await prisma.user.findUnique({
     where: { id },
     include: {
-      quizResults: {
-        orderBy: { createdAt: 'desc' },
-        take: 1
-      },
       missionSubmissions: {
         include: { mission: true },
         orderBy: { createdAt: 'desc' }
@@ -55,9 +50,6 @@ export default async function UserDossierPage({ params }: PageProps) {
     take: 20,
   })
 
-  const quizResult = user.quizResults[0]
-  const answers = quizResult?.answers as Record<number, string> || {}
-  
   const blockerLabels: Record<string, string> = {
     skills: "Manque de compétences techniques",
     network: "Manque de visibilité / réseau",

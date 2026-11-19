@@ -30,8 +30,7 @@ Route groups live under `/app`. Le middleware `proxy.ts` applique le funnel suiv
 
 1. Pas de session → `/signin`
 2. Session sans `currentSituation` → `/onboarding`
-3. Onboarding terminé → `/dashboard`. **Le quiz n'est plus une étape** : `/quiz` reste accessible tant qu'il n'a pas été passé (`canTakeQuiz`) et redirige vers `/missions` ensuite.
-4. Seulement pour un membre qui a passé le quiz (`class`) mais n'a pas de `primaryDomain` → `/specialization`. Les autres choisissent leur domaine depuis la carte « première action » du dashboard.
+3. Onboarding terminé → `/dashboard`. Le quiz a été supprimé (CLEAN-04) ; le domaine est choisi depuis la carte « première action » du dashboard.
 
 Redirections historiques : `/squad*` → `/dashboard`, `/ateliers*` → `/missions` (ateliers fusionnés dans les Labs), `/beta-access` → `/onboarding`.
 
