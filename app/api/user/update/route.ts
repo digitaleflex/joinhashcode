@@ -126,8 +126,6 @@ export async function PATCH(req: Request) {
         linkedinUrl: true,
         bio: true,
         secondaryObjectives: true,
-        level: true,
-        experience: true,
       }
     });
 
@@ -138,8 +136,6 @@ export async function PATCH(req: Request) {
       name: updatedUser.name,
       email: updatedUser.email,
       image: updatedUser.image,
-      level: updatedUser.level ?? 1,
-      experience: updatedUser.experience ?? 0,
       class: updatedUser.class,
       role: updatedUser.role,
       pseudo: updatedUser.pseudo,

@@ -25,7 +25,6 @@ export default async function AdminHefPage() {
         title: true,
         isPublished: true,
         thumbnail: true,
-        pillar: { select: { level: true, slug: true } },
         sections: {
           select: {
             title: true,

@@ -21,8 +21,6 @@ interface QuizUser {
   name: string
   memberNumber: number | null
   class: string | null
-  level: number
-  experience: number
   createdAt: Date | string
 }
 

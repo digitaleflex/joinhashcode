@@ -15,7 +15,6 @@ export async function DELETE(req: Request) {
 
     const user = await prisma.user.findUnique({
       where: { id: session.user.id },
-      select: { email: true, name: true, memberNumber: true, level: true, missionsCompletedCount: true },
     });
 
     // Log before deletion — no PII in metadata (userId becomes null after delete via SetNull)
@@ -24,7 +23,7 @@ export async function DELETE(req: Request) {
       action: "ACCOUNT_DELETED",
       entity: "user",
       entityId: session.user.id,
-      metadata: { memberNumber: user?.memberNumber, level: user?.level },
+      metadata: { memberNumber: user?.memberNumber },
       request: req,
     });
 
@@ -112,7 +111,7 @@ export async function DELETE(req: Request) {
       action: "USER_DATA_PURGED",
       entity: "user",
       entityId: session.user.id,
-      metadata: { memberNumber: user?.memberNumber, level: user?.level, missionsCompletedCount: user?.missionsCompletedCount },
+      metadata: { memberNumber: user?.memberNumber, missionsCompletedCount: user?.missionsCompletedCount },
       request: req,
     });
 
@@ -132,7 +131,6 @@ export async function DELETE(req: Request) {
           deletedName: user.name,
           deletedEmail: user.email,
           memberNumber: user.memberNumber,
-          level: user.level ?? 1,
           missionsCount: user.missionsCompletedCount ?? 0,
         });
       }

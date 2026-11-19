@@ -121,19 +121,19 @@ async function exportUsersCsv(startDate: Date, endDate: Date): Promise<string> {
 async function exportMissionsCsv(startDate: Date, endDate: Date): Promise<string> {
   const submissions = await prisma.missionSubmission.findMany({
     where: { createdAt: { gte: startDate, lte: endDate } },
-    include: { mission: { select: { id: true, title: true, category: true, difficulty: true, xp: true } } },
+    include: { mission: { select: { id: true, title: true, category: true, difficulty: true } } },
     orderBy: { createdAt: "desc" },
   });
 
   const header = [
     "submissionId", "missionId", "missionTitle", "category", "difficulty",
-    "xpReward", "status", "xpAwarded", "submittedAt",
+    "status", "submittedAt",
   ];
 
   const rows = submissions.map((s) => [
     s.id, s.missionId, s.mission?.title ?? "", s.mission?.category ?? "",
-    s.mission?.difficulty ?? "", s.mission?.xp ?? "",
-    s.status, s.xpAwarded, s.createdAt,
+    s.mission?.difficulty ?? "",
+    s.status, s.createdAt,
   ]);
 
   return [header.map(escapeCSV).join(","), ...rows.map((r) => r.map(escapeCSV).join(","))].join("\n");

@@ -24,7 +24,6 @@ export const GET = withAdminAuth(async (req: Request) => {
       createdAt: true,
       updatedAt: true,
       qualityLevel: true,
-      xpAwarded: true,
       adminFeedback: true,
       revisionNotes: true,
       revisionCount: true,
@@ -33,7 +32,6 @@ export const GET = withAdminAuth(async (req: Request) => {
           id: true,
           name: true,
           email: true,
-          level: true,
         },
       },
       mission: {
@@ -41,7 +39,6 @@ export const GET = withAdminAuth(async (req: Request) => {
           id: true,
           title: true,
           category: true,
-          xp: true,
           missionLevel: true,
           submissionMethod: true,
           deliverables: true,
@@ -86,7 +83,6 @@ export const GET = withAdminAuth(async (req: Request) => {
         id: s.user.id,
         name: s.user.name,
         email: s.user.email,
-        level: s.user.level ?? 1,
       },
     }));
 

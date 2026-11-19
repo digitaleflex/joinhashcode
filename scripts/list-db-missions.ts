@@ -8,7 +8,6 @@ async function main() {
       title: true,
       slug: true,
       category: true,
-      xp: true,
       missionLevel: true,
       isWeeklyChallenge: true,
     },

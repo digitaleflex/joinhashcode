@@ -8,7 +8,6 @@ export interface Truth {
 
 export interface ProfileMission {
   title: string
-  xp: number
 }
 
 export interface SpecializationStep {
@@ -79,13 +78,13 @@ export const PROFILE_CONTENT: Record<ProfileType, ProfileContent> = {
       },
     ],
     unlockedMissions: [
-      { title: 'Construire et livrer un projet en 48h', xp: 50 },
-      { title: 'Documenter et publier ton code sur GitHub', xp: 30 },
+      { title: 'Construire et livrer un projet en 48h'},
+      { title: 'Documenter et publier ton code sur GitHub'},
     ],
     lockedMissions: [
-      { title: 'Collaborer avec un Stratège du Guild', xp: 60 },
-      { title: 'Présenter ton travail à la communauté', xp: 40 },
-      { title: 'Mentorer un Builder débutant', xp: 80 },
+      { title: 'Collaborer avec un Stratège du Guild'},
+      { title: 'Présenter ton travail à la communauté'},
+      { title: 'Mentorer un Builder débutant'},
     ],
     socialProof:
       "Des Builders comme toi ont livré leurs premiers projets et décroché leurs premiers clients depuis ce Guild.",
@@ -196,13 +195,13 @@ export const PROFILE_CONTENT: Record<ProfileType, ProfileContent> = {
       },
     ],
     unlockedMissions: [
-      { title: 'Publier un projet personnel en public', xp: 50 },
-      { title: 'Créer et partager ton premier design system', xp: 30 },
+      { title: 'Publier un projet personnel en public'},
+      { title: 'Créer et partager ton premier design system'},
     ],
     lockedMissions: [
-      { title: 'Co-créer avec un Builder du Guild', xp: 60 },
-      { title: 'Pitcher ta vision à la communauté', xp: 40 },
-      { title: 'Produire un projet de A à Z en 7 jours', xp: 80 },
+      { title: 'Co-créer avec un Builder du Guild'},
+      { title: 'Pitcher ta vision à la communauté'},
+      { title: 'Produire un projet de A à Z en 7 jours'},
     ],
     socialProof:
       "Des Créateurs du Guild ont publié leurs projets pour la première fois — et reçu des retours vrais, pas des likes vides.",
@@ -313,13 +312,13 @@ export const PROFILE_CONTENT: Record<ProfileType, ProfileContent> = {
       },
     ],
     unlockedMissions: [
-      { title: 'Produire une analyse produit complète', xp: 50 },
-      { title: 'Rédiger une roadmap pour un vrai projet', xp: 30 },
+      { title: 'Produire une analyse produit complète'},
+      { title: 'Rédiger une roadmap pour un vrai projet'},
     ],
     lockedMissions: [
-      { title: 'Mentorer un Builder du Guild', xp: 60 },
-      { title: 'Présenter ta stratégie à la communauté', xp: 40 },
-      { title: 'Diriger un projet de Guild de A à Z', xp: 100 },
+      { title: 'Mentorer un Builder du Guild'},
+      { title: 'Présenter ta stratégie à la communauté'},
+      { title: 'Diriger un projet de Guild de A à Z'},
     ],
     socialProof:
       "Des Stratèges du Guild ont rejoint des équipes qui avaient besoin exactement de leur façon de penser.",
@@ -430,13 +429,13 @@ export const PROFILE_CONTENT: Record<ProfileType, ProfileContent> = {
       },
     ],
     unlockedMissions: [
-      { title: 'Animer ta première session communautaire', xp: 50 },
-      { title: 'Recruter 3 membres actifs pour ton Guild', xp: 30 },
+      { title: 'Animer ta première session communautaire'},
+      { title: 'Recruter 3 membres actifs pour ton Guild'},
     ],
     lockedMissions: [
-      { title: 'Co-organiser un événement avec un Stratège', xp: 60 },
-      { title: "Lancer ton propre cercle d'apprentissage", xp: 40 },
-      { title: "Fédérer une équipe autour d'un projet commun", xp: 100 },
+      { title: 'Co-organiser un événement avec un Stratège'},
+      { title: "Lancer ton propre cercle d'apprentissage"},
+      { title: "Fédérer une équipe autour d'un projet commun"},
     ],
     socialProof:
       "Des Catalysts du Guild ont lancé leurs propres cercles d'apprentissage dans leurs villes.",

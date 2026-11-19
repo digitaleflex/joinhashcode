@@ -201,7 +201,6 @@ export default function MissionDetailPage({ params }: { params: Promise<{ id: st
         slug: found.slug,
         category: found.category,
         difficulty: found.difficulty,
-        xp: found.xp,
         weightBuilder: found.weightBuilder,
         weightCreator: found.weightCreator,
         weightStrategist: found.weightStrategist,

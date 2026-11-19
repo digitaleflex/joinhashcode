@@ -33,7 +33,7 @@ interface MissionRow {
   slug: string;
   category: string;
   difficulty: number;
-  xp: number;
+  
   missionLevel: string | null;
   status: string;
   isWeeklyChallenge: boolean;
@@ -288,9 +288,6 @@ export default function AdminMissionsPage() {
                       >
                         {mission.difficulty}/5
                       </Badge>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <span className="text-primary font-mono font-bold">{mission.xp} XP</span>
                     </TableCell>
                     <TableCell className="text-center">
                       <span className="text-zinc-400 font-mono text-sm">

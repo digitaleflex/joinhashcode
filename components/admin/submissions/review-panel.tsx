@@ -9,7 +9,6 @@ import { SubmissionContent } from "./submission-content"
 interface SubmissionUser {
   id: string
   name: string
-  level: number
 }
 
 interface SubmissionMission {

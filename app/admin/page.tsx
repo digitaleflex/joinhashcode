@@ -37,7 +37,7 @@ export default async function AdminPage() {
       prisma.user.findMany({
         orderBy: { createdAt: "desc" },
         take: 10,
-        select: { id: true, name: true, email: true, class: true, createdAt: true, country: true, level: true },
+        select: { id: true, name: true, email: true, class: true, createdAt: true, country: true },
       }),
       prisma.quizResult.groupBy({ by: ["profileType"], _count: { profileType: true } }),
     ]).then(([total, recent, byProfile]) => ({ total, recent, byProfile })),

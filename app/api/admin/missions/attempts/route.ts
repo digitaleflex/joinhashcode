@@ -54,8 +54,8 @@ export const GET = withAdminAuth(async (req) => {
         skip: (page - 1) * limit,
         take: limit,
         include: {
-          user: { select: { id: true, name: true, pseudo: true, email: true, image: true, class: true, level: true } },
-          mission: { select: { id: true, title: true, slug: true, xp: true, category: true } },
+          user: { select: { id: true, name: true, pseudo: true, email: true, image: true, class: true } },
+          mission: { select: { id: true, title: true, slug: true, category: true } },
           reviewer: { select: { id: true, name: true, pseudo: true } },
           stepResponses: { select: { status: true, stepOrder: true } },
           reviewLogs: { orderBy: { createdAt: "desc" }, take: 1, select: { createdAt: true, action: true } },

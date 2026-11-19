@@ -123,7 +123,7 @@ async function getMissionStats(startDate: Date, endDate: Date) {
     prisma.mission.count({ where: { status: "PUBLISHED" } }),
     prisma.missionSubmission.findMany({
       where: { createdAt: { gte: startDate, lte: endDate } },
-      select: { status: true, missionId: true, xpAwarded: true },
+      select: { status: true, missionId: true },
     }),
     prisma.missionSubmission.groupBy({
       by: ["status", "missionId"],
@@ -136,7 +136,7 @@ async function getMissionStats(startDate: Date, endDate: Date) {
       _count: true,
     }),
     prisma.mission.findMany({
-      select: { category: true, difficulty: true, id: true, submissions: { select: { status: true, xpAwarded: true } } },
+      select: { category: true, difficulty: true, id: true, submissions: { select: { status: true } } },
     }),
   ]);
 

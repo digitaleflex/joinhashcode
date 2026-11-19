@@ -19,8 +19,8 @@ interface ProfileContent {
   pain: string;
   painBold: string;
   truths: { icon: string; bold: string; rest: string }[];
-  unlockedMissions: { title: string; xp: number }[];
-  lockedMissions: { title: string; xp: number }[];
+  unlockedMissions: { title: string;  }[];
+  lockedMissions: { title: string;  }[];
   socialProof: string;
   whatsappText: string;
   ctaLabel: string;
@@ -55,8 +55,8 @@ export default function AdminContenusPage() {
     pain: "",
     painBold: "",
     truths: [{ icon: "", bold: "", rest: "" }, { icon: "", bold: "", rest: "" }, { icon: "", bold: "", rest: "" }],
-    unlockedMissions: [{ title: "", xp: 50 }, { title: "", xp: 30 }],
-    lockedMissions: [{ title: "", xp: 60 }, { title: "", xp: 40 }, { title: "", xp: 80 }],
+    unlockedMissions: [{ title: "" }, { title: "" }],
+    lockedMissions: [{ title: "" }, { title: "" }, { title: "" }],
     socialProof: "",
     whatsappText: "",
     ctaLabel: "",
@@ -90,8 +90,8 @@ export default function AdminContenusPage() {
       pain: "",
       painBold: "",
       truths: [{ icon: "", bold: "", rest: "" }, { icon: "", bold: "", rest: "" }, { icon: "", bold: "", rest: "" }],
-      unlockedMissions: [{ title: "", xp: 50 }, { title: "", xp: 30 }],
-      lockedMissions: [{ title: "", xp: 60 }, { title: "", xp: 40 }, { title: "", xp: 80 }],
+      unlockedMissions: [{ title: "" }, { title: "" }],
+      lockedMissions: [{ title: "" }, { title: "" }, { title: "" }],
       socialProof: "",
       whatsappText: "",
       ctaLabel: "",

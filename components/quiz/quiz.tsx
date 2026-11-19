@@ -19,8 +19,6 @@ interface QuizUser {
   name: string;
   memberNumber: number | null;
   class: string | null;
-  level: number;
-  experience: number;
   createdAt: Date | string;
 }
 
@@ -274,8 +272,6 @@ export function Quiz({ user }: QuizProps) {
           pseudo: user?.pseudo,
           name: user?.name,
           memberNumber: user?.memberNumber,
-          level: user?.level,
-          experience: user?.experience,
         }}
       />
     )

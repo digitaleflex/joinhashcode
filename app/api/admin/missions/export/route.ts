@@ -22,11 +22,10 @@ export async function GET(req: Request) {
         slug: true,
         status: true,
         category: true,
-        xp: true,
         createdAt: true,
         updatedAt: true,
         submissions: {
-          select: { id: true, status: true, xpAwarded: true },
+          select: { id: true, status: true },
         },
       },
     });
@@ -37,7 +36,6 @@ export async function GET(req: Request) {
       "slug",
       "status",
       "category",
-      "xp",
       "createdAt",
       "updatedAt",
       "submissionsCount",
@@ -66,7 +64,6 @@ export async function GET(req: Request) {
         escapeCSV(m.slug),
         m.status,
         escapeCSV(m.category),
-        String(m.xp),
         m.createdAt.toISOString(),
         m.updatedAt.toISOString(),
         String(m.submissions.length),
@@ -77,13 +74,7 @@ export async function GET(req: Request) {
           (s) => s.status === "APPROVED" || s.status === "APPROVED"
         );
         const rejected = m.submissions.filter((s) => s.status === "REJECTED");
-        const scored = m.submissions.filter((s) => s.xpAwarded > 0);
-        const avgScore =
-          scored.length > 0
-            ? (
-                scored.reduce((sum, s) => sum + s.xpAwarded, 0) / scored.length
-              ).toFixed(1)
-            : "0";
+        const avgScore = "0";
 
         base.push(
           avgScore,

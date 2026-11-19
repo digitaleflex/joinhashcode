@@ -149,17 +149,6 @@ export default async function MissionPreviewPage({
             </div>
           </div>
 
-          <div className="shrink-0 flex flex-col items-end justify-start">
-            <div className="text-xs font-mono text-zinc-500 uppercase mb-1">
-              Récompense
-            </div>
-            <div className="text-4xl sm:text-6xl md:text-7xl font-black font-mono text-primary leading-none">
-              +{mission.xp}
-            </div>
-            <div className="text-xs font-mono text-primary/60 uppercase mt-1">
-              XP
-            </div>
-          </div>
         </div>
 
         <div className="relative flex flex-wrap gap-6 mt-8">

@@ -32,14 +32,12 @@ async function main() {
   }
 
   // Sample courses
-  const courses = await prisma.course.findMany({ where: { isPublished: true }, select: { title: true, slug: true, level: true, instructorId: true } });
   console.log("\n📚 Cours publiés:");
   for (const c of courses) {
     console.log(`   - ${c.title} (${c.slug}) [${c.level}] instructor=${c.instructorId}`);
   }
 
   // Sample pillars
-  const pillars = await prisma.pillar.findMany({ where: { isPublished: true }, select: { title: true, level: true, slug: true, order: true } });
   console.log("\n🏛️ Piliers publiés:");
   for (const p of pillars) {
     console.log(`   - Niveau ${p.level}: ${p.title} (${p.slug}) order=${p.order}`);

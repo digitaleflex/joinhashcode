@@ -61,7 +61,6 @@ export default async function DossierPage({ searchParams }: PageProps) {
       createdAt: true,
       domains: true,
       tools: true,
-      badges: true,
       bio: true,
       currentSituation: true,
       technicalLevel: true,
@@ -73,9 +72,6 @@ export default async function DossierPage({ searchParams }: PageProps) {
       strategistScore: true,
       catalystScore: true,
       lastCheckinAt: true,
-      currentStreak: true,
-      level: true,
-      experience: true,
       missionsCompletedCount: true,
       referralCode: true,
       referralCount: true,
@@ -110,7 +106,6 @@ export default async function DossierPage({ searchParams }: PageProps) {
     createdAt: Date;
     domains: string[];
     tools: string[];
-    badges: string[];
     bio: string | null;
     currentSituation: string | null;
     technicalLevel: string | null;
@@ -122,9 +117,6 @@ export default async function DossierPage({ searchParams }: PageProps) {
     strategistScore: number;
     catalystScore: number;
     lastCheckinAt: Date | null;
-    currentStreak: number;
-    level: number;
-    experience: number;
     missionsCompletedCount: number;
     referralCode: string | null;
     referralCount: number;
@@ -143,8 +135,6 @@ export default async function DossierPage({ searchParams }: PageProps) {
   const user: UserProfile & { missionSubmissions: DetailedMissionSubmission[], activityLogs: Array<{ id: string; action: string; createdAt: Date }> } = {
     ...dbUser,
     bio: dbUser.bio,
-    level: dbUser.level ?? 1,
-    experience: dbUser.experience ?? 0,
     missionsCompletedCount: dbUser.missionsCompletedCount ?? 0,
     referralCode: dbUser.referralCode ?? null,
     referralCount: dbUser.referralCount ?? 0,
@@ -153,7 +143,6 @@ export default async function DossierPage({ searchParams }: PageProps) {
       strategistScore: dbUser.strategistScore ?? 0,
       catalystScore: dbUser.catalystScore ?? 0,
       lastCheckin: dbUser.lastCheckinAt ?? null,
-    currentStreak: dbUser.currentStreak ?? 0,
     j7Activated: false,
     missionSubmissions: dbUser.missionSubmissions as DetailedMissionSubmission[],
     activityLogs: dbUser.activityLogs,

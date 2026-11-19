@@ -24,7 +24,6 @@ interface SubmissionUser {
 interface SubmissionMission {
   title: string
   category: string
-  xp: number
   submissionMethod: string
   deliverables: string[]
 }
@@ -37,7 +36,6 @@ interface Submission {
   createdAt: string
   updatedAt: string
   qualityLevel: string | null
-  xpAwarded: number | null
   adminFeedback: string | null
   revisionNotes: string | null
   revisionCount: number
@@ -99,7 +97,6 @@ export function SubmissionsTable({ submissions, activeTab, processingId, onRevie
                     <Badge variant="outline" className="text-3xs uppercase tracking-tighter bg-primary/5 text-primary border-primary/20 font-mono">
                       {s.mission.category}
                     </Badge>
-                    <span className="text-xs text-[#B8FF3B] font-mono">+{s.mission.xp} XP</span>
                   </div>
                 </div>
               </TableCell>

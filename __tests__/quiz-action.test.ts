@@ -239,8 +239,6 @@ describe("Quiz Server Action", () => {
         catalystScore: expect.any(Number),
         behavioralVibrancy: expect.any(Object),
         lastHypothesisUpdate: expect.any(Date),
-        level: 1,
-        experience: 0,
       }),
     });
 

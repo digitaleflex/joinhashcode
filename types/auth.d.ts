@@ -1,6 +1,5 @@
 declare module "better-auth" {
   interface User {
-    level: number;
     experience: number;
     class?: string | null;
     role: string;

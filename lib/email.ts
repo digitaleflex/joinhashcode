@@ -230,12 +230,12 @@ export const emailService = {
     return this._send({ to: email, subject, html, text });
   },
 
-  async sendAdminAccountDeleted({ adminEmail, adminName, deletedName, deletedEmail, memberNumber, level, missionsCount }: { adminEmail: string; adminName: string; deletedName: string; deletedEmail: string; memberNumber?: number | null; level: number; missionsCount: number }) {
+  async sendAdminAccountDeleted({ adminEmail, adminName, deletedName, deletedEmail, memberNumber, missionsCount }: { adminEmail: string; adminName: string; deletedName: string; deletedEmail: string; memberNumber?: number | null; missionsCount: number }) {
     if (!resend) {
       warnEmailMissing("sendAdminAccountDeleted");
       return { success: true, mocked: true };
     }
-    const { subject, html, text } = getAdminAccountDeletedEmailContent({ adminName, deletedName, deletedEmail, memberNumber, level, missionsCount });
+    const { subject, html, text } = getAdminAccountDeletedEmailContent({ adminName, deletedName, deletedEmail, memberNumber, missionsCount });
     return this._send({ to: adminEmail, subject, html, text });
   },
 

@@ -138,7 +138,6 @@ export default async function UserDossierPage({ params }: PageProps) {
               </div>
               <CardTitle className="text-lg font-bold text-white tracking-tight">{user.name}</CardTitle>
               <CardDescription className="font-mono text-xs uppercase tracking-wider text-zinc-500 flex items-center justify-center gap-2 mt-1">
-                 {user.pseudo ? `@${user.pseudo}` : "ID inconnu"} · LVL {user.level ?? 1}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4 pt-4">

@@ -28,7 +28,6 @@ interface SubmissionRow {
   status: string;
   createdAt: string;
   updatedAt: string;
-  xpAwarded: number;
   userName: string | null;
   userEmail: string | null;
   missionTitle: string;
@@ -275,11 +274,6 @@ export default function ReviewDashboardPage() {
                       >
                         {sm.label}
                       </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <span className="text-primary font-mono text-sm font-bold">
-                        {s.xpAwarded || "—"}
-                      </span>
                     </TableCell>
                     <TableCell>
                       <span className="text-zinc-400 font-mono text-xs">

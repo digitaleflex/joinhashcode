@@ -33,7 +33,6 @@ const MISSION_PUBLIC_SELECT = {
   slug: true,
   category: true,
   difficulty: true,
-  xp: true,
   duration: true,
   missionLevel: true,
   targetProfiles: true,
@@ -184,7 +183,6 @@ const TALENT_PUBLIC_SELECT = {
   city: true,
   bio: true,
   tools: true,
-  level: true,
   missionsCompletedCount: true,
 } as const
 
@@ -199,7 +197,7 @@ export async function getPublicTalentsPreview(take = 6) {
         OR: [{ banned: { not: true } }, { banned: null }],
       },
       select: TALENT_PUBLIC_SELECT,
-      orderBy: [{ missionsCompletedCount: "desc" }, { level: "desc" }],
+      orderBy: [{ missionsCompletedCount: "desc" }],
       take,
     })
   )
