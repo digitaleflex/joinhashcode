@@ -55,17 +55,6 @@ export async function getPublicEvidence(userId: string): Promise<PublicEvidence[
           missionLevel: true,
         },
       },
-      artifacts: {
-        select: {
-          id: true,
-          type: true,
-          label: true,
-          fileUrl: true,
-          fileName: true,
-          mimeType: true,
-          status: true,
-        },
-      },
       reviews: {
         orderBy: { createdAt: "desc" },
         take: 1,
@@ -86,16 +75,7 @@ export async function getPublicEvidence(userId: string): Promise<PublicEvidence[
     status: "APPROVED" as const,
     qualityLevel: sub.qualityLevel as QualityLevel,
     validatedAt: sub.updatedAt,
-    artifacts: sub.artifacts
-      .filter((a) => a.status !== "REJECTED")
-      .map((a) => ({
-        id: a.id,
-        type: a.type,
-        label: a.label,
-        fileUrl: a.fileUrl,
-        fileName: a.fileName,
-        mimeType: a.mimeType,
-      })),
+    artifacts: [],
     review: sub.reviews[0]
       ? {
           feedback: sub.reviews[0].feedback,

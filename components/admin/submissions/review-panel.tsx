@@ -88,7 +88,7 @@ export function ReviewPanel({
   onClose,
 }: ReviewPanelProps) {
   const isProcessing = processingId === submission.id
-  const artifacts = submission.artifacts ?? []
+  const artifacts: any[] = []
   const criteria = getReviewCriteria(submission.mission)
   const rejectedCount = Object.values(artifactDecisions).filter(d => d.status === "REJECTED").length
 

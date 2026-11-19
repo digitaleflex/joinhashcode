@@ -17,13 +17,9 @@ async function main() {
     phase: await prisma.programPhase.count(),
     pillar: await prisma.pillar.count(),
     category: await prisma.category.count(),
-    tag: await prisma.tag.count(),
     course: await prisma.course.count(),
-    section: await prisma.section.count(),
     content: await prisma.content.count(),
     quiz: await prisma.courseQuiz.count(),
-    question: await prisma.courseQuestion.count(),
-    option: await prisma.courseOption.count(),
     badge: await prisma.badge.count(),
   };
   console.log("📊 Vérification en base :");

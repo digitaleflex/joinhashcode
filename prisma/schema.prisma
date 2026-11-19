@@ -45,11 +45,6 @@ enum ResourceType {
   ARTICLE
 }
 
-enum AIMessageRole {
-  USER
-  ASSISTANT
-  SYSTEM
-}
 
 enum NotificationType {
   REPLY_TO_TOPIC
@@ -208,44 +203,35 @@ model User {
   dailyCheckins     DailyCheckin[]
   missionSubmissions MissionSubmission[] @relation("SubmissionOwner")
   submissionsInReview MissionSubmission[] @relation("SubmissionReviewer")
-  reviewsGiven      MissionReview[]      @relation("ReviewsGiven")
+
   notifications     Notification[]
   sentNotifications Notification[]        @relation("NotificationActor")
   betaFeedbacks     BetaFeedback[]
   activityLogs      ActivityLog[]
   quizResults       QuizResult[]
-  uxPollResponses   UXPollResponse[]
+
   sessions          Session[]
   members           Member[]
   invitations       Invitation[]
-  joinRequests      JoinRequest[]
-  xpTransactions    XpTransaction[]
-  squadMessages     SquadMessage[]
+
   instructorCourses Course[]              @relation("CourseInstructor")
   enrollments       Enrollment[]
   progress          Progress[]
   quizAttempts      CourseQuizAttempt[]
   forumTopics       ForumTopic[]
   forumPosts        ForumPost[]
-  forumLikes        ForumLike[]
-  aiConversations   AIConversation[]
+
   certificates      Certificate[]
-  userBadges        UserBadge[]
-  blogPosts         BlogPost[]
+
   analyticsEvents   AnalyticsEvent[]
 
   missionAttempts       MissionAttempt[]      @relation("AttemptOwner")
   attemptsReviewed      MissionAttempt[]      @relation("AttemptReviewer")
   stepResponsesReviewed MissionStepResponse[] @relation("StepReviewer")
   reviewLogs            MissionReviewLog[]    @relation("TimelineActor")
-  profileV1             ProfileV1?
+
   missionAssignments    MissionAssignment[]
 
-  interventionAttendees InterventionAttendee[]
-  mentorProfile         MentorProfile?
-  mentorMatches         MentorMatch[]         @relation("MentorMatches")
-  menteeMatches         MentorMatch[]         @relation("MenteeMatches")
-  twoFactors            TwoFactor[]
 
   @@index([class])
   @@index([role])
@@ -263,21 +249,6 @@ model User {
 // The table is created by 20261031000000_fix_missing_tables_and_columns.
 // The model must exist in the Prisma client, otherwise Better Auth reports
 // SCHEMA_MISMATCH ("Missing tables twoFactor") and 2FA routes fail.
-model TwoFactor {
-  id                     String    @id
-  secret                 String
-  backupCodes            String
-  userId                 String
-  verified               Boolean   @default(true)
-  failedVerificationCount Int      @default(0)
-  lockedUntil            DateTime?
-  user                   User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([secret])
-  @@index([userId])
-  @@map("twoFactor")
-}
-
 // ============================================================
 // ORGANIZATION & MEMBER — fusion Community + reboot
 // ============================================================
@@ -304,26 +275,11 @@ model Organization {
   twoFactorSecret      String?
   twoFactorBackupCodes String?
   invitations       Invitation[]
-  joinRequests      JoinRequest[]
-  messages          SquadMessage[]
+
 
   @@index([isPrivate, cohesionScore(sort: Desc), streakCount(sort: Desc)])
   @@index([isPrivate, createdAt(sort: Desc)])
   @@map("organization")
-}
-
-model SquadMessage {
-  id             String       @id @default(cuid())
-  content        String       @db.Text
-  userId         String
-  organizationId String
-  createdAt      DateTime     @default(now())
-  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-
-  @@index([organizationId])
-  @@index([createdAt])
-  @@map("squad_message")
 }
 
 model Member {
@@ -538,8 +494,7 @@ model MissionSubmission {
   mission                Mission         @relation(fields: [missionId], references: [id], onDelete: Cascade)
   user                   User            @relation("SubmissionOwner", fields: [userId], references: [id], onDelete: Cascade)
   reviewer               User?           @relation("SubmissionReviewer", fields: [reviewerId], references: [id])
-  reviews                MissionReview[]
-  artifacts              MissionSubmissionArtifact[]
+
 
   @@unique([userId, missionId, cycleKey])
   @@index([status])
@@ -551,47 +506,6 @@ model MissionSubmission {
   @@index([userId, status])
   @@index([userId, createdAt(sort: Desc)])
   @@map("mission_submission")
-}
-
-model MissionSubmissionArtifact {
-  id           String            @id @default(cuid())
-  submissionId String
-  key          String
-  type         String
-  label        String
-  value        String?           @db.Text
-  fileUrl      String?
-  fileName     String?
-  mimeType     String?
-  size         Int?
-  metadata     Json?
-  status       String            @default("SUBMITTED")
-  reviewerNote String?
-  createdAt    DateTime          @default(now())
-  updatedAt    DateTime          @updatedAt
-  submission   MissionSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
-
-  @@unique([submissionId, key])
-  @@index([submissionId])
-  @@map("mission_submission_artifact")
-}
-
-model MissionReview {
-  id            String            @id @default(cuid())
-  submissionId  String
-  reviewerId    String?
-  criteria      Json
-  qualityLevel  String
-  feedback      String
-  revisionNotes String?
-  createdAt     DateTime          @default(now())
-  submission    MissionSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
-  reviewer      User?             @relation("ReviewsGiven", fields: [reviewerId], references: [id], onDelete: SetNull)
-
-  @@unique([submissionId, reviewerId])
-  @@index([submissionId])
-  @@index([reviewerId])
-  @@map("mission_review")
 }
 
 model ContactMessage {
@@ -611,21 +525,6 @@ model ContactMessage {
   @@map("contact_message")
 }
 
-model JoinRequest {
-  id             String       @id @default(cuid())
-  organizationId String
-  userId         String
-  status         String       @default("PENDING")
-  createdAt      DateTime     @default(now())
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  ipAddress      String?
-  userAgent      String?
-
-  @@unique([userId, organizationId])
-  @@map("join_request")
-}
-
 model BetaKey {
   id        String    @id @default(cuid())
   key       String    @unique
@@ -636,20 +535,6 @@ model BetaKey {
   updatedAt DateTime  @updatedAt
 
   @@map("beta_key")
-}
-
-model XpTransaction {
-  id        String   @id @default(cuid())
-  userId    String
-  amount    Int
-  reason    String
-  sourceId  String?
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@index([createdAt])
-  @@map("xp_transaction")
 }
 
 // ============================================================
@@ -682,19 +567,6 @@ model QuizFeedback {
   createdAt    DateTime   @default(now())
 
   @@map("quiz_feedback")
-}
-
-model UXPollResponse {
-  id              String   @id @default(cuid())
-  userId          String
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  prefersDarkMode Boolean  @default(true)
-  modernityRating Int
-  readabilityIssues String? @db.Text
-  createdAt       DateTime @default(now())
-
-  @@unique([userId])
-  @@map("ux_poll_response")
 }
 
 model BetaFeedback {
@@ -784,17 +656,17 @@ model Course {
   totalLearners   Int              @default(0)
   categoryId      String?
   category        Category?        @relation(fields: [categoryId], references: [id])
-  tags            Tag[]
+
   seoTitle        String?
   seoDescription  String?
   seoKeywords     String?
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
-  sections        Section[]
+
   enrollments     Enrollment[]
-  resources       Resource[]
+
   forum           Forum?
-  aiConversations AIConversation[]
+
   certificates    Certificate[]
   pillar          Pillar?
   missions        Mission[]
@@ -814,15 +686,6 @@ model Category {
   courses     Course[]
 
   @@map("category")
-}
-
-model Tag {
-  id      String   @id @default(cuid())
-  name    String   @unique
-  slug    String   @unique
-  courses Course[]
-
-  @@map("tag")
 }
 
 model Program {
@@ -887,22 +750,6 @@ model Pillar {
   @@map("pillar")
 }
 
-model Section {
-  id          String       @id @default(cuid())
-  title       String
-  order       Int
-  courseId    String
-  course      Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  contents    Content[]
-  forumTopics ForumTopic[]
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-
-  @@index([courseId])
-  @@index([courseId, order])
-  @@map("section")
-}
-
 model Content {
   id          String       @id @default(cuid())
   title       String
@@ -910,8 +757,7 @@ model Content {
   order       Int
   url         String?
   body        String?
-  sectionId   String
-  section     Section      @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  sectionId   String?
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   progress    Progress[]
@@ -919,7 +765,7 @@ model Content {
   mission     Mission?
   forumTopics ForumTopic[]
   // Questions de quiz dont l'explication renvoie vers cette leçon (#428).
-  conceptQuestions CourseQuestion[] @relation("QuestionConcept")
+
 
   @@unique([sectionId, order])
   @@index([sectionId])
@@ -966,45 +812,12 @@ model CourseQuiz {
   difficulty     CourseLevel   @default(BEGINNER)
   passScore      Int           @default(60)
   isAIGenerated  Boolean       @default(false)
-  questions      CourseQuestion[]
+
   attempts       CourseQuizAttempt[]
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
 
   @@map("quiz")
-}
-
-model CourseQuestion {
-  id          String        @id @default(cuid())
-  quizId      String
-  quiz        CourseQuiz    @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  text        String
-  // Pourquoi la bonne réponse est correcte (#428). Affichée après validation.
-  explanation String?
-  // Leçon du cours qui explique la notion (#428) : lien « Revoir la notion ».
-  conceptContentId String?
-  conceptContent   Content?      @relation("QuestionConcept", fields: [conceptContentId], references: [id], onDelete: SetNull)
-  order       Int           @default(0)
-  options     CourseOption[]
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-
-  @@index([quizId])
-  @@index([conceptContentId])
-  @@map("question")
-}
-
-model CourseOption {
-  id         String        @id @default(cuid())
-  questionId String
-  question   CourseQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  text       String
-  isCorrect  Boolean       @default(false)
-  // Pourquoi cette option est juste ou fausse (#428). Affiché après validation.
-  feedback   String?
-
-  @@index([questionId])
-  @@map("option")
 }
 
 model CourseQuizAttempt {
@@ -1020,22 +833,6 @@ model CourseQuizAttempt {
   @@index([userId])
   @@index([quizId])
   @@map("quiz_attempt")
-}
-
-model Resource {
-  id          String       @id @default(cuid())
-  courseId    String
-  course      Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  title       String
-  description String?
-  url         String
-  type        ResourceType @default(LINK)
-  image       String?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-
-  @@index([courseId])
-  @@map("resource")
 }
 
 model Forum {
@@ -1056,13 +853,12 @@ model ForumTopic {
   forumId   String
   forum     Forum       @relation(fields: [forumId], references: [id], onDelete: Cascade)
   sectionId String?
-  section   Section?    @relation(fields: [sectionId], references: [id])
   lessonId  String?
   lesson    Content?    @relation(fields: [lessonId], references: [id])
   authorId  String
   author    User        @relation(fields: [authorId], references: [id])
   posts     ForumPost[]
-  likes     ForumLike[]
+
   isPinned  Boolean     @default(false)
   isLocked  Boolean     @default(false)
   viewCount Int         @default(0)
@@ -1083,60 +879,13 @@ model ForumPost {
   topic     ForumTopic  @relation(fields: [topicId], references: [id], onDelete: Cascade)
   authorId  String
   author    User        @relation(fields: [authorId], references: [id])
-  likes     ForumLike[]
+
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
 
   @@index([topicId])
   @@index([authorId])
   @@map("forum_post")
-}
-
-model ForumLike {
-  id        String      @id @default(cuid())
-  userId    String
-  user      User        @relation(fields: [userId], references: [id])
-  topicId   String?
-  topic     ForumTopic? @relation(fields: [topicId], references: [id], onDelete: Cascade)
-  postId    String?
-  post      ForumPost?  @relation(fields: [postId], references: [id], onDelete: Cascade)
-  createdAt DateTime    @default(now())
-
-  @@unique([userId, topicId])
-  @@unique([userId, postId])
-  @@index([userId])
-  @@index([topicId])
-  @@index([postId])
-  @@map("forum_like")
-}
-
-model AIConversation {
-  id        String      @id @default(cuid())
-  userId    String
-  courseId  String
-  user      User        @relation(fields: [userId], references: [id])
-  course    Course      @relation(fields: [courseId], references: [id])
-  messages  AIMessage[]
-  title     String?
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-
-  @@unique([userId, courseId])
-  @@index([userId])
-  @@index([courseId])
-  @@map("ai_conversation")
-}
-
-model AIMessage {
-  id             String         @id @default(cuid())
-  conversationId String
-  conversation   AIConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  role           AIMessageRole
-  content        String
-  createdAt      DateTime       @default(now())
-
-  @@index([conversationId])
-  @@map("ai_message")
 }
 
 model Certificate {
@@ -1160,39 +909,10 @@ model Badge {
   description String?
   icon        String?
   xpRequired  Int         @default(0)
-  users       UserBadge[]
+
   createdAt   DateTime    @default(now())
 
   @@map("badge")
-}
-
-model UserBadge {
-  id        String   @id @default(cuid())
-  userId    String
-  badgeId   String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  badge     Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
-  unlockedAt DateTime @default(now())
-
-  @@unique([userId, badgeId])
-  @@map("user_badge")
-}
-
-model BlogPost {
-  id         String   @id @default(cuid())
-  title      String
-  slug       String   @unique
-  content    String   @db.Text
-  excerpt    String?
-  coverImage String?
-  authorId   String
-  author     User     @relation(fields: [authorId], references: [id])
-  published  Boolean  @default(false)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  @@index([authorId])
-  @@map("blog_post")
 }
 
 model MissionStep {
@@ -1232,7 +952,7 @@ model MissionAttempt {
   reviewer      User?                 @relation("AttemptReviewer", fields: [reviewerId], references: [id], onDelete: SetNull)
   stepResponses MissionStepResponse[]
   reviewLogs    MissionReviewLog[]
-  profileV1     ProfileV1?
+
 
   @@unique([userId, missionId])
   @@index([missionId])
@@ -1293,48 +1013,6 @@ model MissionAssignment {
   @@map("mission_assignment")
 }
 
-model ProfileV1 {
-  id             String          @id @default(cuid())
-  userId         String          @unique
-  attemptId      String?         @unique
-  data           Json
-  declaredSkills Json            @default("[]")
-  observed       Json            @default("{}")
-  demonstrated   Json            @default("[]")
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  attempt        MissionAttempt? @relation(fields: [attemptId], references: [id], onDelete: SetNull)
-
-  @@index([userId])
-  @@map("profile_v1")
-}
-
-model Atelier {
-  id           String   @id @default(cuid())
-  title        String
-  description  String   @db.Text
-  duration     String
-  order        Int      @default(0)
-  icon         String?
-  category     String
-  prerequisites String[] @default([])
-  profile      String
-  specializationId String
-  specializationLabel String
-  xpReward     Int      @default(50)
-  missionSlugs String[] @default([])
-  pourquoi     String?  @db.Text
-  isActive     Boolean  @default(true)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  @@index([profile])
-  @@index([category])
-  @@index([isActive, order])
-  @@map("atelier")
-}
-
 model ProfileContent {
   id                  String   @id @default(cuid())
   profile             String   @unique
@@ -1370,26 +1048,6 @@ model Specialization {
   @@map("specialization")
 }
 
-model KnowledgeArticle {
-  id          String   @id @default(cuid())
-  title       String
-  content     String   @db.Text
-  category    String
-  tags        String[] @default([])
-  visibility  String   @default("PRIVATE")
-  slug        String   @unique
-  authorId    String?
-  isPublished Boolean  @default(false)
-  publishedAt DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@index([category])
-  @@index([visibility])
-  @@index([isPublished, publishedAt])
-  @@map("knowledge_article")
-}
-
 model Intervention {
   id          String   @id @default(cuid())
   title       String
@@ -1405,68 +1063,9 @@ model Intervention {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   createdBy   String
-  attendees   InterventionAttendee[]
+
 
   @@index([date])
   @@index([status])
   @@map("intervention")
 }
-
-model InterventionAttendee {
-  id            String        @id @default(cuid())
-  interventionId String
-  intervention  Intervention  @relation(fields: [interventionId], references: [id], onDelete: Cascade)
-  userId        String
-  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  status        String        @default("REGISTERED")
-  registeredAt  DateTime      @default(now())
-  attendedAt    DateTime?
-  feedback      String?
-  rating        Int?
-
-  @@unique([interventionId, userId])
-  @@index([userId])
-  @@index([status])
-  @@map("intervention_attendee")
-}
-
-model MentorProfile {
-  id              String   @id @default(cuid())
-  userId          String   @unique
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  bio             String?  @db.Text
-  expertise       String[] @default([])
-  domains         String[] @default([])
-  maxMentees      Int      @default(3)
-  currentMentees  Int      @default(0)
-  isActive        Boolean  @default(true)
-  rating          Float    @default(0)
-  totalSessions   Int      @default(0)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-
-  @@index([isActive])
-  @@map("mentor_profile")
-}
-
-model MentorMatch {
-  id            String   @id @default(cuid())
-  mentorId      String
-  mentor        User     @relation("MentorMatches", fields: [mentorId], references: [id], onDelete: Cascade)
-  menteeId      String
-  mentee        User     @relation("MenteeMatches", fields: [menteeId], references: [id], onDelete: Cascade)
-  status        String   @default("PENDING")
-  matchedAt     DateTime @default(now())
-  startedAt     DateTime?
-  endedAt       DateTime?
-  notes         String?  @db.Text
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  @@unique([mentorId, menteeId])
-  @@index([mentorId])
-  @@index([menteeId])
-  @@index([status])
-  @@map("mentor_match")
-}
-

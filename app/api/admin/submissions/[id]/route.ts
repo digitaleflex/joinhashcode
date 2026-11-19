@@ -8,52 +8,14 @@ import { type QualityLevel } from "@/lib/acceptance-criteria";
 import { logActivity } from "@/lib/activity-log";
 import { emailService } from "@/lib/email";
 import { z } from "zod";
-import type { Prisma } from "@/generated/prisma/client";
-
-const ArtifactDecisionSchema = z.object({
-  key: z.string().min(1).max(80),
-  status: z.enum(["ACCEPTED", "REJECTED"]),
-  reviewerNote: z.string().max(500).optional().nullable(),
-});
 
 const UpdateSubmissionSchema = z.object({
   action: z.enum(["APPROVE", "NEEDS_REVISION", "REJECT"]),
   feedback: z.string().max(2000).optional(),
   qualityLevel: z.enum(["STANDARD", "GOOD", "EXEMPLARY"]).optional(),
   revisionNotes: z.string().max(2000).optional(),
-  artifacts: z.array(ArtifactDecisionSchema).max(20).optional(),
 });
 
-type ArtifactDecision = z.infer<typeof ArtifactDecisionSchema>;
-
-function requiredKeys(submissionSchema: unknown): Set<string> {
-  if (!Array.isArray(submissionSchema)) return new Set();
-  return new Set(
-    submissionSchema
-      .filter(
-        (item): item is Record<string, unknown> =>
-          Boolean(item) && typeof item === "object",
-      )
-      .filter((item) => item.required !== false && typeof item.key === "string")
-      .map((item) => item.key as string),
-  );
-}
-
-async function applyArtifactDecisions(
-  tx: Prisma.TransactionClient,
-  submissionId: string,
-  decisions: ArtifactDecision[],
-) {
-  for (const decision of decisions) {
-    await tx.missionSubmissionArtifact.updateMany({
-      where: { submissionId, key: decision.key },
-      data: {
-        status: decision.status,
-        reviewerNote: decision.reviewerNote ?? null,
-      },
-    });
-  }
-}
 
 export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: string }) => {
   try {
@@ -65,7 +27,7 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
       return NextResponse.json({ error: "Données invalides", issues: result.error.issues }, { status: 400 });
     }
 
-    const { action, feedback, qualityLevel, revisionNotes, artifacts: artifactDecisions } =
+    const { action, feedback, qualityLevel, revisionNotes } =
       result.data;
     const id = new URL(req.url).pathname.split("/").pop()!;
 
@@ -73,7 +35,6 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
       where: { id },
       include: {
         mission: true,
-        artifacts: true,
         user: {
           select: {
             id: true,
@@ -89,50 +50,7 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
       return NextResponse.json({ message: "Submission already processed" }, { status: 400 });
     }
 
-    const decisions = artifactDecisions ?? [];
-    const existingArtifacts = submission.artifacts ?? [];
-    if (decisions.length > 0) {
-      const knownKeys = new Set(existingArtifacts.map((a) => a.key));
-      const unknown = decisions.filter((d) => !knownKeys.has(d.key));
-      if (unknown.length > 0) {
-        return NextResponse.json(
-          { message: `Artefacts inconnus : ${unknown.map((d) => d.key).join(", ")}` },
-          { status: 400 },
-        );
-      }
-    }
-
-    const artifactStatusAfter = new Map(
-      existingArtifacts.map((a) => [a.key, a.status] as const),
-    );
-    for (const d of decisions) artifactStatusAfter.set(d.key, d.status);
-
-    if (action === "APPROVE") {
-      const required = requiredKeys(submission.mission.submissionSchema);
-      const rejectedRequired = [...required].filter(
-        (key) => artifactStatusAfter.get(key) === "REJECTED",
-      );
-      if (rejectedRequired.length > 0) {
-        return NextResponse.json(
-          {
-            message: `Impossible de valider : artefacts requis refusés (${rejectedRequired.join(", ")}).`,
-          },
-          { status: 400 },
-        );
-      }
-    }
-
-    const rejectedLabels =
-      action === "NEEDS_REVISION" && decisions.length > 0
-        ? existingArtifacts
-            .filter((a) => decisions.some((d) => d.key === a.key && d.status === "REJECTED"))
-            .map((a) => a.label)
-        : [];
-    const effectiveRevisionNotes =
-      revisionNotes ??
-      (rejectedLabels.length > 0
-        ? rejectedLabels.map((label) => `À reprendre : ${label}`).join("\n")
-        : undefined);
+    const effectiveRevisionNotes = revisionNotes;
 
     if (action === "APPROVE") {
       // For PENDING_ADMIN (peer-reviewed CORE missions), preserve the peer's quality assessment
@@ -141,9 +59,6 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
 
       // 1. Transaction atomique — status + artefacts + missionsCompletedCount
       await prisma.$transaction(async (tx) => {
-        if (decisions.length > 0) {
-          await applyArtifactDecisions(tx, id, decisions);
-        }
         await tx.missionSubmission.update({
           where: { id },
           data: { status: "APPROVED", qualityLevel: level, adminFeedback: feedback ?? null }
@@ -187,9 +102,6 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
 
     if (action === "NEEDS_REVISION") {
       await prisma.$transaction(async (tx) => {
-        if (decisions.length > 0) {
-          await applyArtifactDecisions(tx, id, decisions);
-        }
         await tx.missionSubmission.update({
           where: { id },
           data: {
@@ -231,7 +143,7 @@ export const PATCH = withAdminAuth(async (req: Request, { userId }: { userId: st
         metadata: {
           action: "NEEDS_REVISION",
           targetUserId: submission.userId,
-          rejectedArtifacts: rejectedLabels,
+          
         },
         request: req,
       });
