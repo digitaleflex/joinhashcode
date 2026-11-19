@@ -156,7 +156,7 @@ export const PATCH = withAdminAuth(async (req, { userId: adminUserId }) => {
       });
 
       // missionsCompletedCount
-      const mission = attempt.mission;
+
       await prisma.$transaction(async (tx) => {
         await tx.user.update({
           where: { id: attempt.userId },

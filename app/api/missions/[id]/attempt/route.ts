@@ -55,7 +55,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
         duration: def.duration,
         category: def.category,
         missionLevel: def.missionLevel,
-        xpReward: def.xpReward,
+
         steps: def.subMissions.map((s, i) => ({
           key: s.key,
           title: s.title,
@@ -154,7 +154,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
       duration: def.duration,
       category: def.category,
       missionLevel: def.missionLevel,
-      xpReward: def.xpReward,
+
       steps: serializedSteps,
       attempt: {
         id: attempt.id,

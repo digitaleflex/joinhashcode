@@ -31,18 +31,6 @@ async function main() {
     console.log(`   ${k}: ${v}`);
   }
 
-  // Sample courses
-  console.log("\n📚 Cours publiés:");
-  for (const c of courses) {
-    console.log(`   - ${c.title} (${c.slug}) [${c.level}] instructor=${c.instructorId}`);
-  }
-
-  // Sample pillars
-  console.log("\n🏛️ Piliers publiés:");
-  for (const p of pillars) {
-    console.log(`   - Niveau ${p.level}: ${p.title} (${p.slug}) order=${p.order}`);
-  }
-
   // Sample contents
   const contents = await prisma.content.findMany({ select: { title: true, type: true, order: true } });
   console.log("\n📝 Contents (aperçu):");

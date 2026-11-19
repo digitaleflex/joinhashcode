@@ -95,12 +95,6 @@ describe("analyzeQuizResults", () => {
     expect(resultSpread.consistencyScore).toBeGreaterThanOrEqual(0)
   })
 
-  it("always returns level 1", () => {
-    const answers = questions.map(() => "builder")
-    const result = analyzeQuizResults(answers, [])
-    expect(result.level).toBe(1)
-  })
-
   it("returns secondary different from primary in non-hybrid case", () => {
     const answers = questions.map(() => "builder")
     const result = analyzeQuizResults(answers, [])

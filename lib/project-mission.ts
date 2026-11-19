@@ -11,7 +11,6 @@ export const PROJECT_MISSION: OnboardingMissionDef = {
   description:
     "Chaque idée commence par une intuition. Cette mission va t'aider à transformer cette intuition en un projet réfléchi, réaliste et défendable : problème réel, hypothèses vérifiables, stratégie d'exécution et preuves de progression.",
   duration: "3-5 jours",
-  xpReward: 250,
   category: "BUSINESS",
   difficulty: 2,
   missionLevel: "CORE",

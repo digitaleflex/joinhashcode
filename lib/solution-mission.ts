@@ -11,7 +11,6 @@ export const SOLUTION_MISSION: OnboardingMissionDef = {
   description:
     "Une idée analysée reste une hypothèse. Cette mission va te faire passer d'un problème identifié à une solution concrète : reformulation, compréhension utilisateur, conception, prototype V1, tests utilisateurs, itération vers un prototype V2. Tu démontreras ta capacité à comprendre → concevoir → tester → apprendre → améliorer.",
   duration: "5-7 jours",
-  xpReward: 350,
   category: "PRODUCT",
   difficulty: 3,
   missionLevel: "CORE",
