@@ -108,7 +108,7 @@
     "jsdom": "^25.0.1",
     "knip": "^6.16.1",
     "lint-staged": "^17.0.7",
-    "postcss": "^8.5.26",
+    "postcss": "^8.5.33",
     "prisma": "^7.9.1",
     "sharp": "^0.35.5",
     "tailwindcss": "^4.2.0",
